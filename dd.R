@@ -1,0 +1,146 @@
+# dd--------------------------------
+dd <- function(df){
+  using("plyr", "dplyr", "stringr", "purrr", "tibble", "lubridate", "gdata")
+  "%ni%" <- Negate("%in%")
+  dd.1 <- cbind(sapply(df, class))
+
+  dd.1 <- cbind.data.frame(class = dd.1, is.na = colSums(sapply(df, is.na)))
+
+  dd.1 %>%
+    mutate(class = sapply(class,function(x) paste(unlist(x),collapse=""))) %>%
+    mutate(class = gsub("labelled", "", class)) %>%
+    mutate(variable = rownames(dd.1)) %>%
+    mutate(na_pct = paste0(format(round(is.na / nrow(df) *100, 1), nsmall=1), "%")) %>%
+    dplyr::select(variable, class, na_pct) -> dd.1
+
+  # Create numeric values
+  dd.1 %>%
+    filter(class=="numeric"|class=="integer") %>%
+    dplyr::select(variable) %>%
+    unlist()  -> var_num
+
+  colMax <- function(data) sapply(data, max, na.rm = TRUE)
+  colMin <- function(data) sapply(data, min, na.rm = TRUE)
+  colMed <- function(data) sapply(data, median, na.rm = TRUE)
+
+  values_num <- NULL
+  if(identical(var_num, character(0))==F){
+  cbind.data.frame(variable = var_num,
+    mean = colMeans(df[var_num], na.rm = TRUE),
+    median = colMed(df[var_num]),
+    min = colMin(df[var_num]),
+    max = colMax(df[var_num])) %>%
+
+    mutate(values = paste("Mean:", format(round(mean, 1), nsmall=1),
+                          "Median:", format(round(median, 1), nsmall=1),
+                          "Range:", format(round(min, 1), nsmall=1), "to", format(round(max, 1), nsmall=1))) %>%
+    dplyr::select(variable, values) -> values_num}
+
+  # Create date values
+  dd.1 %>%
+    filter(class=="Date") %>%
+    dplyr::select(variable) %>%
+    unlist()   -> var_date
+
+
+  values_date <- NULL
+  if(identical(var_date, character(0))==F){
+    df %>%
+      dplyr::select(var_date) %>%
+      as.tibble() %>%
+      summarise(variable = var_date,
+                min = dmy(as.Date(colMin(.))),
+                max = dmy(as.Date(colMax(.))))  %>%
+
+      mutate(values = paste("Range:", min, "to", max)) %>%
+      dplyr::select(variable, values) -> values_dates}
+
+  # Create logic values
+  dd.1 %>%
+    filter(class=="logical") %>%
+    dplyr::select(variable) %>%
+    unlist()   -> var_logic
+
+  colList <- function(data) sapply(data, function(x) c(x[1:10]))
+
+  values_logic <- NULL
+  if(identical(var_logic, character(0))==F){
+
+    df %>%
+      dplyr::select(var_logic) %>%
+      colList() %>%
+      as.tibble() %>%
+      summarise(variable = colnames(.),
+                values = as.list(.)) %>%
+      mutate(values = as.character(values)) %>%
+      mutate(values = gsub("\\(|\\]","",values)) %>%
+      mutate(values = substr(values, 2, nchar(values))) %>%
+      mutate(values = gsub(')',"",values)) %>%
+      mutate(values = gsub(", NA","",values)) %>%
+
+      select(variable, values) -> values_logic}
+
+  # Create character values
+  dd.1 %>%
+    filter(class=="character"|class=="String") %>%
+    dplyr::select(variable) %>%
+    unlist()   -> var_char
+
+  colUnique <- function(data) lapply(data, function(x) gsub(", NA", "",
+                                                            paste0(length(unique(x)),
+                                                                   " Unique: ",
+                                                                   paste(sort(unique(x)[1:10]), collapse=", "))))
+
+  values_char <- NULL
+  if(identical(var_char, character(0))==F){
+
+  df %>%
+      dplyr::select(var_char) %>%
+      colUnique() %>%
+      as.tibble() %>% t() %>% as.data.frame() %>%
+      rownames_to_column(., var="variable") %>%
+      mutate(values = as.character(V1)) %>%
+      mutate(values = ifelse(str_split_fixed(values, " ", 2)[1]==(str_count(values, ",")+2),
+                             paste0(values, ", NA"),
+                             values)) %>%
+      select(variable, values) -> values_char}
+
+  # Create factor values
+  dd.1 %>%
+    filter(class=="factor"|class=="orderedfactor") %>%
+    dplyr::select(variable) %>%
+    unlist() %>%  as.vector() -> var_fact
+
+  colLevels <- function(data) lapply(data, function(x) gsub(", NA", "", paste0(length(levels(x))," Levels: ", paste(levels(x)[1:10], collapse=", "))))
+
+    values_fact <- NULL
+  if(identical(var_fact, character(0))==F){
+
+    df %>%
+      dplyr::select(var_fact) %>%
+      colLevels() %>%
+      as.tibble() %>% t() %>% as.data.frame() %>%
+      rownames_to_column(., var="variable") %>%
+      select(variable, values="V1") -> values_fact}
+
+  df.values <- rbind.data.frame(values_fact, values_char, values_date, values_num)
+
+  dd.out <- merge.data.frame(dd.1, df.values, by="variable")
+
+  dd.1 %>%
+    filter(variable %ni% dd.out$variable) -> dd_class
+
+  if(nrow(dd_class)!=0){
+
+    dd_class %>%
+      mutate(values = "Class not supported") -> dd_class
+
+   dd.out <- rbind.data.frame(dd.out, dd_class)}
+
+  dd.out %>%
+    mutate(variable = reorder.factor(variable, new.order=colnames(df))) %>%
+    arrange(variable) -> dd.out
+
+  View(dd.out)
+
+  return(dd.out)}
