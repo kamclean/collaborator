@@ -1,6 +1,11 @@
 # dd--------------------------------
-dd <- function(df){
-  using("plyr", "dplyr", "stringr", "purrr", "tibble", "lubridate", "gdata")
+data_dict <- function(df){
+  require("dplyr")
+  require("stringr")
+  require("purrr")
+  require("tibble")
+  require("lubridate")
+  require("gdata")
   "%ni%" <- Negate("%in%")
   dd.1 <- cbind(sapply(df, class))
 
