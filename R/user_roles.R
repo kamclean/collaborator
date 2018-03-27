@@ -23,7 +23,7 @@ user_roles <- function(redcap_project_uri, redcap_project_token, role_users_exam
     dplyr::select(-role) %>%
     colnames() -> colnames_rights
 
-  merge.data.frame(im.user_current,role_rights,by=colnames_rights) %>%
+  merge.data.frame(user_current,role_rights,by=colnames_rights) %>%
     dplyr::select(role, username:data_access_group_id, design:forms) %>%
     arrange(role) -> role_users_project
 
