@@ -2,7 +2,6 @@ Package: collaborator
 Title: Scalable multi-centre research using REDCap
 Version: 0.0.0.9000
 Authors@R:
-    
 Description: A cluster of functions to help facilitate administration of
     multi-centre research using REDCap (Research Electronic Data Capture). It
     allows automatic allocation of users within a project to data access groups
