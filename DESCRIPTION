@@ -1,7 +1,7 @@
 Package: collaborator
 Title: Scalable multi-centre research using REDCap
 Version: 0.0.0.9000
-Authors@R: c(person("Kenneth", "McLean", email = "k.a.mclean at ed.ac.uk", role = c("cre","aut")),person("Riinu", "Ots", email = "r.ots at ed.ac.uk", role = c("cre","aut")))
+Authors@R: person("Kenneth", "McLean", email = "k.a.mclean at ed.ac.uk", role = c("cre","aut")),person("Riinu", "Ots", email = "r.ots at ed.ac.uk", role = c("cre","aut"))
 Author: 
 Maintainer: 
 Description: A cluster of functions to help facilitate administration of
