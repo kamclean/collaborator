@@ -1,9 +1,18 @@
 Package: collaborator
-Title: What the Package Does (one line, title case)
+Title: Facilitates multi-centre research using REDCap
 Version: 0.0.0.9000
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+Authors@R: c(person("Kenneth", "McLean", email = "k.a.mclean at ed.ac.uk", role = c("cre","aut")),
+             person("Riinu", "Ots", email = "r.ots at ed.ac.uk", role = c("cre","aut")))
+Description: A cluster of functions to help facilitate administration of multi-centre research using REDCap (Research Electronic Data Capture).
 Depends: R (>= 3.3.1)
-License: What license is it under?
+Imports: plyr,
+  dplyr,
+  stringr,
+  purrr,
+  tibble,
+  lubridate,
+  gdata
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
+
