@@ -1,9 +1,9 @@
 Package: collaborator
 Title: Facilitates multi-centre research using REDCap
 Version: 0.0.0.9000
-Authors@R: c(person("Kenneth", "McLean", email = "k.a.mclean at ed.ac.uk", role = c("cre","aut")),
-             person("Riinu", "Ots", email = "r.ots at ed.ac.uk", role = c("cre","aut")))
-Description: A cluster of functions to help facilitate administration of multi-centre research using REDCap (Research Electronic Data Capture).
+Authors@R: c(person("Kenneth", "McLean", email = "k.a.mclean at ed.ac.uk", role = c("cre","aut")), person("Riinu", "Ots", email = "r.ots at ed.ac.uk", role = c("cre","aut")))
+Description: A cluster of functions to help facilitate administration of multi-centre research
+  using REDCap (Research Electronic Data Capture).
 Depends: R (>= 3.3.1)
 Imports: plyr,
   dplyr,
