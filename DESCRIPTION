@@ -1,22 +1,25 @@
 Package: collaborator
 Title: Scalable multi-centre research using REDCap
 Version: 0.0.0.9000
-Authors@R:
+Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
 Description: A cluster of functions to help facilitate administration of
     multi-centre research using REDCap (Research Electronic Data Capture). It
     allows automatic allocation of users within a project to data access groups
     with appropriate user rights, and supplies several functions to support
     this. It also contains functions which allow the easy creation of reports
     (e.g. of missing data), authorship lists, and sharable data dictionaries.
-  
 Depends: R (>= 3.3.1)
-Imports: plyr,
-  dplyr,
-  stringr,
-  purrr,
-  tibble,
+Imports: dplyr,
+  gdata,
+  jsonlite,
   lubridate,
-  gdata
+  purrr,
+  RCurl,
+  readr,
+  stringi,
+  stringr,
+  tibble,
+  tidyr
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

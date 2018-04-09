@@ -17,8 +17,16 @@ user_roles_n <- function(redcap_project_uri, redcap_project_token, users_ignore)
   user_current %>%
     filter(username %ni% users_ignore) %>%
     dplyr::select(-c(username:data_access_group_id)) %>%
-    unique() -> unique_roles
+    unique() %>%
+    cbind.data.frame(., role = c(1:nrow(.))) %>%
+    left_join(user_current, ., by =  colnames(user_current)[which(colnames(user_current)=="design"):which(colnames(user_current)=="forms")]) %>%
+    select(role, everything())%>%
+    arrange(role) -> unique_roles_full
 
-  print(paste0("There are ", nrow(unique_roles), " unique roles in this redcap project"))
+  unique_roles_full %>%
+    group_by(role) %>%
+    dplyr::summarise(username = head(username)[1]) -> unique_roles_examples
 
-  return(nrow(unique_roles))}
+  print(paste0("There are ", nrow(unique_roles_example), " unique roles in this redcap project"))
+
+  return(list(full = unique_roles_full, examples = unique_roles_examples))}
