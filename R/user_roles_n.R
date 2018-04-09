@@ -1,7 +1,7 @@
 # user_roles_n-----------------------------
 # Use: To count the number of unique roles on the redcap project
 # users_ignore = Vector of usernames to be excluded (e.g. those with unique rights)) - if none then enter as "".
-user_roles_n <- function(redcap_project_uri, redcap_project_token, users_ignore){
+user_roles_n <- function(redcap_project_uri, redcap_project_token, users_ignore = ""){
   # Load required packages
   require("dplyr")
   require("readr")
@@ -27,6 +27,6 @@ user_roles_n <- function(redcap_project_uri, redcap_project_token, users_ignore)
     group_by(role) %>%
     dplyr::summarise(username = head(username)[1]) -> unique_roles_examples
 
-  print(paste0("There are ", nrow(unique_roles_example), " unique roles in this redcap project"))
+  print(paste0("There are ", nrow(unique_roles_examples), " unique roles in this redcap project"))
 
   return(list(full = unique_roles_full, examples = unique_roles_examples))}
