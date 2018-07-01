@@ -1,4 +1,13 @@
-# dd--------------------------------
+# data_dict--------------------------------
+
+# Documentation
+#' Generate a data dictionary.
+#' @description Used to generate an easily sharable data dictionary for an R dataframe. This supports the following classes: numeric, integer, logical, Date, character, String, factor, orderedfactor.
+#'
+#' @param df Dataframe.
+#' @return Dataframe with 4 columns: variable (variable name), class (variable class), na_pct (the percentage of data which is NA for that variable), and values (an appropriate summary for the variable class).
+
+# Function:
 data_dict <- function(df){
   require("dplyr")
   require("stringr")

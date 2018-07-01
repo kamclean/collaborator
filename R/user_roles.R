@@ -1,8 +1,13 @@
 # user_roles-----------------------------
-# Use: To assign a role name to current redcap users based on the example users given in role_users_example.
-# Note: The number of roles should match the output from user_roles_n
-# role_users_example = A dataframe with 2 columns: role (specifiying the name of the role), and username (the username with the desired rights to be associated with the role).
+# Documentation
+#' Assign named roles to REDCap users
+#' @description Used to assign a role name to current redcap users based on the example users given in role_users_example. Note: The number of roles should match the output from user_roles_n.
+#' @param redcap_project_uri URI (Uniform Resource Identifier) for the REDCap instance.
+#' @param redcap_project_token API (Application Programming Interface) for the REDCap project.
+#' @param role_users_example Dataframe with 2 columns: role (specifiying the name of the role), and username (the username with the desired rights to be associated with the role).
+#' @return Dataframe of REDCap project users with an additional "role" column.
 
+# Function:
 user_roles <- function(redcap_project_uri, redcap_project_token, role_users_example){
   # Load required packages
   require("dplyr")

@@ -1,11 +1,16 @@
 # user_assign-------------------------
-# Use: To assign users to data access groups on a redcap project with the same user rights as a current user (role). This can add new users or edit existing ones
-# role = "[username of user with the desired rights]"
-# users.df = Dataframe containing at least 2 columns (username, data_access_group)
+# Documentation
+#' Used to assign users to data access groups on a redcap project.
+#' @description Used to assign users to data access groups on a redcap project with the same user rights as a current user (role). This can add new users or edit existing ones.
 
-# Sources of errors:
-#  1. DAG has not been added on REDCap
-#  2. Username is not in an acceptable format (e.g. contains spaces, unavaliable characters, etc)
+#' @param redcap_project_uri URI (Uniform Resource Identifier) for the REDCap instance.
+#' @param redcap_project_token API (Application Programming Interface) for the REDCap project.
+#' @param users.df Dataframe containing at least 2 columns (username, data_access_group)
+#' @param role Username of user with the desired user rights
+#' @return None (user rights uploaded directly into REDCap - user acccounts are still required to be entered manually)
+#' @details # Sources of errors: (i) DAG has not been added on REDCap (this must be done prior to users being assigned). (ii) Username is not in an acceptable format (e.g. contains spaces, unavaliable characters, etc)
+
+# Function:
 user_assign <- function(redcap_project_uri, redcap_project_token, users.df, role){
   # Load required packages
   require("dplyr")

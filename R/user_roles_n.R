@@ -1,13 +1,20 @@
 # user_roles_n-----------------------------
-# Use: To count the number of unique roles on the redcap project
-# users_ignore = Vector of usernames to be excluded (e.g. those with unique rights)) - if none then enter as "".
+# Documentation
+#' Identifies unique REDCap user roles
+#' @description Used to count the number of unique roles (e.g. unique combinations of user rights) on the REDCap project. Note: this replaces the function of roles on the user rights page of the REDCap.
+#' @param redcap_project_uri URI (Uniform Resource Identifier) for the REDCap instance.
+#' @param redcap_project_token API (Application Programming Interface) for the REDCap project.
+#' @param users_ignore Vector of usernames to be excluded (e.g. those with unique rights). Default is none (e.g. "").
+#' @return Nested dataframe of (i) Dataframe of all users numbered by unique role. (ii) Dataframe of each role with an example user with those user rights.
+
+# Function:
 user_roles_n <- function(redcap_project_uri, redcap_project_token, users_ignore = ""){
   # Load required packages
   require("dplyr")
   require("readr")
   require("RCurl")
 
-  postForm(
+    postForm(
     uri=redcap_project_uri,
     token= redcap_project_token,
     content='user',
@@ -15,11 +22,11 @@ user_roles_n <- function(redcap_project_uri, redcap_project_token, users_ignore 
     read_csv() -> user_current
 
   user_current %>%
-    filter(username %ni% users_ignore) %>%
     dplyr::select(-c(username:data_access_group_id)) %>%
     unique() %>%
     cbind.data.frame(., role = c(1:nrow(.))) %>%
     left_join(user_current, ., by =  colnames(user_current)[which(colnames(user_current)=="design"):which(colnames(user_current)=="forms")]) %>%
+    filter(username %ni% users_ignore) %>%
     select(role, everything())%>%
     arrange(role) -> unique_roles_full
 

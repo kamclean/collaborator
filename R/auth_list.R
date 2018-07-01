@@ -1,14 +1,16 @@
 # report_auth-----------------------------------------
-# Use: To generate an authorship list for all users
-# df = a dataframe of at least 2 columns (name, group) for all users requiring authorship
-# Note: name should be the full name of the person, and group could be the centre which they partcipated at
-# subdivision = The colname of an additional variable in df by which to subdivide authorship. This could be a role (e.g. collaborator and validator) or region/country.
 
-# name_sep = The character which will separate names (the default is ",")
-# group_brachet = The brachets which will surround group (the default is "()")
-# group_sep = The character which will separate groups (the default is ";")
+# Documentation
+#' Generate a formatted authorship list.
+#' @description Used to generate a formatted authorship list for all users by group (the group the user belongs to e.g. the centre which they participated at). Optional subdivisions can be created to stratify users and groups. This could be a role (e.g. collaborator and validator) or region/country.
+#' @param df Dataframe of at least 2 columns: "name" and "group".
+#' @param name_sep Character(s) which will separate names within the group (the default is ",").
+#' @param group_brachet Character(s) bracheting the group (the default is "()").
+#' @param group_sep Character(s) which will separate the groups (the default is ";").
+#' @param subdivision Column name of an additional variable in the dataframe by which to subdivide authorship (the default is NULL).
+#' @return Generates a text file ("auth_out.txt").
 
-# Output: Includes a file("auth_out.txt") saved in the working directory, and a copy printed in the console.
+# Function:
 report_auth <- function(df, name_sep = ",", group_brachet = "()",group_sep = ";", subdivision = NULL){
   require("dplyr")
   require("stringr")
