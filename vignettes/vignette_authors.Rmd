@@ -27,6 +27,7 @@ Example dataframe (`data_author`):
 ```{r, warning=FALSE, message=FALSE}
 devtools::install_github("kamclean/collaborator", ref = "development")
 library(collaborator)
+
 data_author <- data(data_author)
 head(data_author, n=6) # Please note all names have been randomly generated
 
