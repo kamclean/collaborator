@@ -14,6 +14,7 @@ Depends: R (>= 3.3.1)
 Imports: dplyr,
   gdata,
   jsonlite,
+  knitr,
   lubridate,
   purrr,
   RCurl,
@@ -26,3 +27,6 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
+Suggests: knitr,
+    rmarkdown
+VignetteBuilder: knitr

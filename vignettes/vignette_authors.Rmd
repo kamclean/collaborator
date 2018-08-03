@@ -1,0 +1,87 @@
+library(readr);library(dplyr)
+data_author <- read_csv("~/collaborator/data_author.csv")
+data_author %>%
+  select("name" = full_name, "group"=location, country) -> data_author
+View(report_auth(data_author, subdivision = "country")
+
+
+---
+title: "Generating Authorship Lists"
+author: "Kenneth McLean"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Generating and formatting authorship lists for multi-centre research projects can be a challenging data wrangling task. In the case of collaborative research projects, there can be thousands of collaborators across hundreds of sites with a variety of [roles](https://doi.org/10.1016/j.ijsu.2017.12.019). 
+
+The `report_auth()` function aims to simplify this process by providing a 
+
+## Installation
+# install.packages("devtools")
+
+
+## Requirements
+In order for the `report_auth()` function to operate as intended, we must first create a dataframe of all authors/collabrators containing at least 1 column: "name".
+
+Example dataframe (`data_author`):
+```{r, warning=FALSE, message=FALSE}
+devtools::install_github("kamclean/collaborator", ref = "development")
+library(collaborator)
+load(data_author)
+head(data_author, n=6) # Please note all names have been randomly generated
+
+```
+
+## Main Features
+### (1) Basic Function
+At it's most basic, `report_auth()` can produce a formatted list of a column of names.
+```{r, warning=FALSE, message=FALSE}
+
+report_auth(data_author) # Please note all names have been randomly generated
+
+```
+
+### (2) Grouping and subdivision of names
+
+These names can be further grouped by another column in the dataframe:
+```{r, warning=FALSE, message=FALSE}
+
+report_auth(data_author, group = "group")
+
+```
+
+Or can be subdivided by another column in the dataframe:
+```{r, warning=FALSE, message=FALSE}
+
+report_auth(data_author, subdivision = "country")
+
+```
+
+Or groups can be further subdivided (for example by region/country, or by role)
+```{r, warning=FALSE, message=FALSE}
+
+report_auth(data_author, group="group", subdivision = "country")
+
+```
+
+### (3) Formatting
+Clear and consistant formatting of authorship lists allows the contributions and afficilations of each collaborator/author to be represented. Within `report_auth()`, names are usually separated by a comma (","), with groups separated by a semicolon (";"). Furthermore the name of groups are separated by round brackets ("()"). However, there is a degree of inbuilt flexibility to facilitate customisation.
+
+
+```{r, warning=FALSE, message=FALSE}
+
+report_auth(data_author, group="group", subdivision = "country",
+            name_sep = " +", group_brachet = "[}",group_sep = " -")
+
+```
