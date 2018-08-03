@@ -9,6 +9,6 @@
 #'   \item{country}{example list of countries}
 #'   ...
 #' }
-#' @name diamonds
+#' @name data_author
 #' @usage data(data_author)
 "data_author"
