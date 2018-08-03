@@ -22,12 +22,12 @@ The `report_auth()` function aims to simplify this process by providing a
 
 ## Requirements
 In order for the `report_auth()` function to operate as intended, we must first create a dataframe of all authors/collabrators containing at least 1 column: "name".
-
+data_author <- NULL
 Example dataframe (`data_author`):
 ```{r, warning=FALSE, message=FALSE}
 devtools::install_github("kamclean/collaborator", ref = "development")
 library(collaborator)
-data_author <- load(data_author)
+data_author <- data(data_author)
 head(data_author, n=6) # Please note all names have been randomly generated
 
 ```

@@ -11,4 +11,5 @@
 #' }
 #' @name data_author
 #' @usage data(data_author)
+#' @source "~collaborator/data/data_author.rds"
 "data_author"
