@@ -10,5 +10,5 @@
 #'   ...
 #' }
 #' @name diamonds
-#' @usage data(diamonds)
+#' @usage data(data_author)
 "data_author"

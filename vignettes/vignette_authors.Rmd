@@ -1,10 +1,3 @@
-library(readr);library(dplyr)
-data_author <- read_csv("~/collaborator/data_author.csv")
-data_author %>%
-  select("name" = full_name, "group"=location, country) -> data_author
-View(report_auth(data_author, subdivision = "country")
-
-
 ---
 title: "Generating Authorship Lists"
 author: "Kenneth McLean"
@@ -27,10 +20,6 @@ Generating and formatting authorship lists for multi-centre research projects ca
 
 The `report_auth()` function aims to simplify this process by providing a 
 
-## Installation
-# install.packages("devtools")
-
-
 ## Requirements
 In order for the `report_auth()` function to operate as intended, we must first create a dataframe of all authors/collabrators containing at least 1 column: "name".
 
@@ -38,7 +27,7 @@ Example dataframe (`data_author`):
 ```{r, warning=FALSE, message=FALSE}
 devtools::install_github("kamclean/collaborator", ref = "development")
 library(collaborator)
-load(data_author)
+data_author <- load(data_author)
 head(data_author, n=6) # Please note all names have been randomly generated
 
 ```
