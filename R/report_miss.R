@@ -8,7 +8,7 @@
 #' @return Nested dataframe with a summary of missing data at the redcap_data_access_group level and the record level.
 
 # Function:
-report_data_miss <- function(redcap_project_uri, redcap_project_token, var_exclude = ""){
+report_miss <- function(redcap_project_uri, redcap_project_token, var_exclude = ""){
   # Prepare dataset----------------
   # Load functions / packages
   "%ni%" <- Negate("%in%")
@@ -98,7 +98,6 @@ report_data_miss <- function(redcap_project_uri, redcap_project_token, var_exclu
   df_datdic %>%
     filter(is.na(branch_logic)==F) -> redcap_dd_branch
 
-
   # B. Convert to present (""), missing ("M") or appropriately missing ("NA") based on branching logic
   for(i in 1:nrow(redcap_dd_branch)) {
     x <- ifelse(eval(parse(text=eval(redcap_dd_branch$branch_logic[[i]])))==F,
@@ -144,6 +143,6 @@ report_data_miss <- function(redcap_project_uri, redcap_project_token, var_exclu
     dplyr::mutate(cen_miss_pct = paste0(format(round(cen_miss_prop*100, 1), nsmall=1),"%")) -> data_missing_cen
 
   # Create output
-  data_missing <- list("data_missing_cen" = data_missing_cen,"data_missing_pt" = data_missing_pt)
+  data_missing <- list("data_missing_dag" = data_missing_cen,"data_missing_record" = data_missing_pt)
 
   return(data_missing)}

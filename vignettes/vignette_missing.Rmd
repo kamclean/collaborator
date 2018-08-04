@@ -1,6 +1,6 @@
 ---
-title: "Vignette Title"
-author: "Vignette Author"
+title: "Generating Missing Data Reports"
+author: "Kenneth McLean"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -16,50 +16,40 @@ knitr::opts_chunk$set(
 )
 ```
 
-Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The `html_vignette` output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The `html_vignette` format:
+Ensuring high levels of completeness within research projects is an important task for ensuring the highest quality dataset for subsequent analyses. However, determining what data is missing within a REDCap project, particularly accounting for appropriately missing data (such as in the case of unfufilled branching logic) can be a challenging and time-consuming task to produce in real-time. 
 
-- Never uses retina figures
-- Has a smaller default figure size
-- Uses a custom CSS stylesheet instead of the default Twitter Bootstrap style
+The `report_miss()` function is designed to easily produce a high quality and informative report of missing data at a data_access_group and individual record level. This report highlights all missing data within a REDCap project (delineating between appropriately missing and true missing data), while removing all other data (so this can be shared in line with duties of data protection).
 
-## Vignette Info
+## Requirements:
+The `report_miss()` function is designed to be simple from the point of use - the only requirements are a valid URI (Uniform Resource Identifier) and API (Application Programming Interface) for the REDCap project.
 
-Note the various macros within the `vignette` section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette.
+Any variable can be excluded from the output using the "var_exclude" parameter. 
 
-## Styles
+Limitations:
+- This function has not yet been tested on REDCap projects with multiple events.
 
-The `html_vignette` template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows:
+## Output:
+### Record level report
+Example of a record level report of missing data. This not only quantifies the missing data within the record, but also highlights it's location within the dataset.
 
-    output: 
-      rmarkdown::html_vignette:
-        css: mystyles.css
+- "NA" fields represent appropriately missing data (e.g. secondary to unfufilled branching logic). Therefore, these are excluded from the missing data count entirely.
 
-## Figures
+- "M" fields represent 'true' missing data (which may require follow up), and so all counts of missing data are based these.
 
-The figure sizes have been customised so that you can easily put two images side-by-side. 
+```{r, warning=FALSE, message=FALSE}
+devtools::install_github("kamclean/collaborator", ref = "development")
+library(collaborator)
 
-```{r, fig.show='hold'}
-plot(1:10)
-plot(10:1)
+example_data_miss_record <- data(example_data_miss_record)
+
 ```
 
-You can enable figure captions by `fig_caption: yes` in YAML:
 
-    output:
-      rmarkdown::html_vignette:
-        fig_caption: yes
 
-Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
+### Data access group level report
+Example of a data access group (DAG) level report of missing data (summarising missing data for all records within the DAG).
 
-## More Examples
+```{r, warning=FALSE, message=FALSE}
+example_data_miss_dag <- data(example_data_miss_dag)
 
-You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
-
-```{r, echo=FALSE, results='asis'}
-knitr::kable(head(mtcars, 10))
 ```
-
-Also a quote using `>`:
-
-> "He who gives up [code] safety for [code] speed deserves neither."
-([via](https://twitter.com/hadleywickham/status/504368538874703872))
