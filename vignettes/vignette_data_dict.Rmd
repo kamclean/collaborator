@@ -1,6 +1,6 @@
 ---
-title: "Vignette Title"
-author: "Vignette Author"
+title: "Generating a Simple, Easily-shareable Data Dictionary"
+author: "Kenneth McLean"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -16,50 +16,40 @@ knitr::opts_chunk$set(
 )
 ```
 
-Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The `html_vignette` output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The `html_vignette` format:
+The function `data_dict()` can be used to generate an easily sharable and informative data dictionary for an R dataframe. Unlike the `str()` function typically used to display the internal structure of dataframes in R, this produces a dataframe alongside summarising information relevent to the class of variable, and the proportion of missing data (NA) within each variable.
 
-- Never uses retina figures
-- Has a smaller default figure size
-- Uses a custom CSS stylesheet instead of the default Twitter Bootstrap style
+## Requirements
+The `data_dict()` function can be applied to any dataframe object. At present, it supports the following classes (other classes will be shown as "Class not supported" in the values column):
+- Numeric, integer.
+- Logical.
+- Date.
+- Character, String.
+- Factor, orderedfactor.
 
-## Vignette Info
+Example dataframe (`example_data_dict`):
+```{r, warning=FALSE, message=FALSE}
+devtools::install_github("kamclean/collaborator", ref = "development")
+library(collaborator)
 
-Note the various macros within the `vignette` section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette.
+example_data_dict <- data(example_data_dict)
+head(example_data_dict, n=5) # Please note data is not based on real patients
 
-## Styles
-
-The `html_vignette` template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows:
-
-    output: 
-      rmarkdown::html_vignette:
-        css: mystyles.css
-
-## Figures
-
-The figure sizes have been customised so that you can easily put two images side-by-side. 
-
-```{r, fig.show='hold'}
-plot(1:10)
-plot(10:1)
 ```
 
-You can enable figure captions by `fig_caption: yes` in YAML:
+## Main Features
+### Output
+The `data_dict()` function produces a dataframe which identifies the class, summarised values, and proportion of missing data for each variable in the original dataframe.
 
-    output:
-      rmarkdown::html_vignette:
-        fig_caption: yes
+The output can be easily converted to a csv file and exported for sharing.
 
-Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
+```{r, warning=FALSE, message=FALSE}
+data_dict(example_data_dict)
 
-## More Examples
-
-You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
-
-```{r, echo=FALSE, results='asis'}
-knitr::kable(head(mtcars, 10))
 ```
 
-Also a quote using `>`:
 
-> "He who gives up [code] safety for [code] speed deserves neither."
-([via](https://twitter.com/hadleywickham/status/504368538874703872))
+Any variable can be excluded from the output using the "var_exclude" parameter. Through summarising the variables, data should not be linkable to individual patients (bar in the circumstance where variable(s) contain a direct patient identifer e.g. Community Health Index (CHI) Number, hospital numbers, etc).
+
+```{r, warning=FALSE, message=FALSE}
+data_dict(example_data_dict, var_exclude = "id_num")
+```

@@ -18,44 +18,34 @@ knitr::opts_chunk$set(
 
 Management of user rights in REDCap becomes increasingly laborious as the scale of the research project expands (e.g. with the number of users, and the number of data access groups). However, at present, REDCap does not inherently support mass-upload directly to the user rights module of a project. 
 
-## Vignette Info
+## Exploration of current users
+1. Use `user_roles_n()` to count the number of unique user "roles" within the REDcap Project. There are 3 outputs:
+ - A string stating "There are n unique roles in this redcap project".
+ - A nested dataframe of
+  - $full: A dataframe of all user rights of the redcap project (with an additional column called "role" which numbers users 1:n according to their unique role).
+  - $examples: A dataframe of each role (1:n) and an example username with those rights (can be used as input for the `user_roles()` function).
 
-Note the various macros within the `vignette` section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette.
+2. 
 
-## Styles
 
-The `html_vignette` template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows:
 
-    output: 
-      rmarkdown::html_vignette:
-        css: mystyles.css
-
-## Figures
-
-The figure sizes have been customised so that you can easily put two images side-by-side. 
-
-```{r, fig.show='hold'}
-plot(1:10)
-plot(10:1)
+```{r, warning=FALSE, message=FALSE}
+data(output_user_roles_n)
 ```
 
-You can enable figure captions by `fig_caption: yes` in YAML:
+im_role$examples
 
-    output:
-      rmarkdown::html_vignette:
-        fig_caption: yes
+im_role_examples <- im_role$example %>%
+   dplyr::mutate(role = factor(role,
+                       levels=c(1:nrow(im_role$example)),
+                       labels=c("admin", "committee", "collaborator", "validator", NA))) %>%
+  dplyr::mutate(role = as.character(role))
 
-Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
 
-## More Examples
+im_role_users <- user_roles(redcap_project_uri = url_bmhredcap,
+                            redcap_project_token = token_projectdata,
+                            role_users_example = im_role_examples)
+table(im_role_users$role)
 
-You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
 
-```{r, echo=FALSE, results='asis'}
-knitr::kable(head(mtcars, 10))
-```
-
-Also a quote using `>`:
-
-> "He who gives up [code] safety for [code] speed deserves neither."
-([via](https://twitter.com/hadleywickham/status/504368538874703872))
+## Exploration of current users
