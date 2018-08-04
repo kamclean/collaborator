@@ -155,6 +155,4 @@ data_dict <- function(df, var_exclude=""){
     arrange(variable) %>%
     select(variable, class, values, na_pct) -> dd.out
 
-  View(dd.out)
-
   return(dd.out)}

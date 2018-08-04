@@ -31,7 +31,7 @@ Example dataframe (`example_data_dict`):
 devtools::install_github("kamclean/collaborator", ref = "development")
 library(collaborator)
 
-example_data_dict <- data(example_data_dict)
+example_data_dict <- collaborator::example_data_dict
 head(example_data_dict, n=5) # Please note data is not based on real patients
 
 ```
