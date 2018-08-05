@@ -4,10 +4,12 @@
 \alias{data_dict}
 \title{Generate a data dictionary.}
 \usage{
-data_dict(df)
+data_dict(df, var_exclude = "")
 }
 \arguments{
 \item{df}{Dataframe.}
+
+\item{var_exclude}{Vector of names of variables that are desired to be excluded from the data dictionary (the default is "" e.g. none).}
 }
 \value{
 Dataframe with 4 columns: variable (variable name), class (variable class), na_pct (the percentage of data which is NA for that variable), and values (an appropriate summary for the variable class).
