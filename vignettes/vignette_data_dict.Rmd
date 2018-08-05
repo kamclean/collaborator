@@ -25,7 +25,7 @@ The `data_dict()` function can be applied to any dataframe object. At present, i
 - Date.
 - Character, String.
 - Factor, orderedfactor.
-
+example_data_dict <- 
 Example dataframe (`example_data_dict`):
 ```{r, warning=FALSE, message=FALSE}
 devtools::install_github("kamclean/collaborator", ref = "development")
@@ -43,6 +43,7 @@ The `data_dict()` function produces a dataframe which identifies the class, summ
 The output can be easily converted to a csv file and exported for sharing.
 
 ```{r, warning=FALSE, message=FALSE}
+library(collaborator)
 data_dict(example_data_dict)
 
 ```
@@ -51,5 +52,6 @@ data_dict(example_data_dict)
 Any variable can be excluded from the output using the "var_exclude" parameter. Through summarising the variables, data should not be linkable to individual patients (bar in the circumstance where variable(s) contain a direct patient identifer e.g. Community Health Index (CHI) Number, hospital numbers, etc).
 
 ```{r, warning=FALSE, message=FALSE}
+library(collaborator)
 data_dict(example_data_dict, var_exclude = "id_num")
 ```
