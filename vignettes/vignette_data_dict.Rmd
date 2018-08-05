@@ -25,7 +25,7 @@ The `data_dict()` function can be applied to any dataframe object. At present, i
 - Date.
 - Character, String.
 - Factor, orderedfactor.
-example_data_dict <- 
+
 Example dataframe (`example_data_dict`):
 ```{r, warning=FALSE, message=FALSE}
 devtools::install_github("kamclean/collaborator", ref = "development")
