@@ -25,10 +25,9 @@ In order for the `report_auth()` function to operate as intended, we must first 
 collaborator::data_author
 Example dataframe (`data_author`):
 ```{r, warning=FALSE, message=FALSE}
-devtools::install_github("kamclean/collaborator", ref = "development")
 library(collaborator)
 
-data_author <- data(data_author)
+data_author <- collaborator::example_report_author
 head(data_author, n=6) # Please note all names have been randomly generated
 
 ```
@@ -47,7 +46,7 @@ report_auth(data_author) # Please note all names have been randomly generated
 These names can be further grouped by another column in the dataframe:
 ```{r, warning=FALSE, message=FALSE}
 
-report_auth(data_author, group = "group")
+report_auth(data_author, group = "hospital")
 
 ```
 
@@ -61,7 +60,7 @@ report_auth(data_author, subdivision = "country")
 Or groups can be further subdivided (for example by region/country, or by role)
 ```{r, warning=FALSE, message=FALSE}
 
-report_auth(data_author, group="group", subdivision = "country")
+report_auth(data_author, group="hospital", subdivision = "country")
 
 ```
 
@@ -71,7 +70,7 @@ Clear and consistant formatting of authorship lists allows the contributions and
 
 ```{r, warning=FALSE, message=FALSE}
 
-report_auth(data_author, group="group", subdivision = "country",
+report_auth(data_author, group="hospital", subdivision = "country",
             name_sep = " +", group_brachet = "[}",group_sep = " -")
 
 ```

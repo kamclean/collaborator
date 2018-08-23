@@ -10,14 +10,15 @@
 #' @param group_brachet Character(s) bracheting the group (the default is "()").
 #' @param group_sep Character(s) which will separate the groups (the default is ";").
 #' @return Generates a text file ("auth_out.txt").
+#' @export
 
-# Function:
 report_auth <- function(df, group = NULL, subdivision = NULL,
                         name_sep = ",", group_brachet = "()",group_sep = ";"){
   require("dplyr")
   require("stringr")
   require("stringi")
   require("tibble")
+  require("readr")
 
   group_brachet_L = substr(group_brachet, 1, 1)
   group_brachet_R = substr(group_brachet, 2, 2)
@@ -31,7 +32,7 @@ report_auth <- function(df, group = NULL, subdivision = NULL,
 
   if(is.null(group)==FALSE&is.null(subdivision)==TRUE){
     auth_out <- df %>%
-      mutate(subdivision = pull(df, group)) %>%
+      mutate(group = pull(df, group)) %>%
 
       group_by(group) %>%
 

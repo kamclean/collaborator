@@ -6,6 +6,7 @@
 #' @param redcap_project_token API (Application Programming Interface) for the REDCap project.
 #' @param users_ignore Vector of usernames to be excluded (e.g. those with unique rights). Default is none (e.g. "").
 #' @return Nested dataframe of (i) Dataframe of all users numbered by unique role. (ii) Dataframe of each role with an example user with those user rights.
+#' @export
 
 # Function:
 user_roles_n <- function(redcap_project_uri, redcap_project_token, users_ignore = ""){

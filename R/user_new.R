@@ -8,6 +8,7 @@
 #' @param user_all.df Dataframe of all users containing at least 1 column ("username")
 #' @param users_exception = Vector of any usernames to be excluded.
 #' @return Original dataframe containing only usernames not yet allocated to the REDCap project
+#' @export
 
 # Function:
 user_new <- function(redcap_project_uri, redcap_project_token, user_all.df, users_exception){

@@ -7,6 +7,8 @@
 #' @param df Dataframe.
 #' @param var_exclude Vector of names of variables that are desired to be excluded from the data dictionary (the default is "" e.g. none).
 #' @return Dataframe with 4 columns: variable (variable name), class (variable class), na_pct (the percentage of data which is NA for that variable), and values (an appropriate summary for the variable class).
+#' @export
+
 
 # Function:
 data_dict <- function(df, var_exclude=""){

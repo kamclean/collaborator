@@ -9,6 +9,7 @@
 #' @param role Username of user with the desired user rights
 #' @return None (user rights uploaded directly into REDCap - user acccounts are still required to be entered manually)
 #' @details # Sources of errors: (i) DAG has not been added on REDCap (this must be done prior to users being assigned). (ii) Username is not in an acceptable format (e.g. contains spaces, unavaliable characters, etc)
+#' @export
 
 # Function:
 user_assign <- function(redcap_project_uri, redcap_project_token, users.df, role){

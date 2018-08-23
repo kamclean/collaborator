@@ -4,7 +4,8 @@
 \alias{user_new}
 \title{Generates a dataframe of all new users}
 \usage{
-user_new(redcap_project_uri, redcap_project_token, user_all.df, users_exception)
+user_new(redcap_project_uri, redcap_project_token, user_all.df,
+  users_exception)
 }
 \arguments{
 \item{redcap_project_uri}{URI (Uniform Resource Identifier) for the REDCap instance.}

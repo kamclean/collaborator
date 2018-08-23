@@ -7,6 +7,7 @@
 #' @param users.df Dataframe containing at least 2 columns (username, data_access_group)
 #' @param users_exception Vector of usernames to be excluded from comparison (e.g. users who should have access to the whole dataset (dag = NA) or are associated with multiple DAGs in users.df).
 #' @return Nested dataframe of (i) Dataframe of all users numbered by unique role. (ii) Dataframe of each role with an example user with those user rights.
+#' @export
 
 # Function:
 user_validate <- function(redcap_project_uri, redcap_project_token, users.df, users_exception){

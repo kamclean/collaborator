@@ -6,6 +6,7 @@
 #' @param redcap_project_token API (Application Programming Interface) for the REDCap project.
 #' @param var_exclude Vector of names of variables that are desired to be excluded from the missing data count (the default is "" e.g. none).
 #' @return Nested dataframe with a summary of missing data at the redcap_data_access_group level and the record level.
+#' @export
 
 # Function:
 report_miss <- function(redcap_project_uri, redcap_project_token, var_exclude = ""){
