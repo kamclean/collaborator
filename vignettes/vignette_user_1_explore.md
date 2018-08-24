@@ -10,8 +10,8 @@ within REDCap, this is not currently exportable alongside user rights
 using the REDCap API. The following functions provide methods to count /
 explore / apply user roles to exported REDCap user rights of a project.
 
-`user_roles_n()`
-----------------
+1. `user_roles_n()`
+-------------------
 
 Use `user_roles_n()` to count the number of unique user “roles” within
 the REDcap Project (e.g. the number of unique combinations of user
@@ -19,9 +19,10 @@ rights).
 
 There are 3 outputs from `user_roles_n()`:
 
-### a). A string stating “There are n unique roles in this redcap project”.
+**a). A string stating “There are n unique roles in this redcap
+project”.**
 
-### b). A nested dataframe of:
+**b). A nested dataframe of:**
 
 **i). $full:** A dataframe of all user rights of the redcap project
 (with an additional column called “role” which numbers users 1:n

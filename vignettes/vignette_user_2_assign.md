@@ -20,8 +20,8 @@ project.
 The aim of the following vignetee is to describe a workflow by which
 users can be easily automatically assigned within a REDCap project
 
-1. Assign new user rights
--------------------------
+Assign new user rights
+----------------------
 
 The automatic assignment of user rights and allocation to data access
 groups (DAG) has several important advantages over the manual method:
@@ -300,8 +300,8 @@ b). *Users do not have the appropriate rights*:
     uploaded correctly (see [Redcap User Management: 1. Explore Current
     Users](https://github.com/kamclean/collaborator/blob/master/vignettes/vignette_user_1_explore.Rmd)).
 
-2. Edit current user rights
----------------------------
+Edit current user rights
+------------------------
 
 The downside to automatic user allocation using this method is that
 “user roles” cannot be assigned from outwith REDCap. Therefore, should
