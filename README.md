@@ -20,12 +20,12 @@ It is recommended that this package is used together with `tidyverse` packages.
 Vignettes
 ---------
 
-[Redcap User Management: 1. Explore Current Users](https://github.com/kamclean/collaborator/blob/master/vignettes/vignette_user_1_explore.Rmd)
+[Redcap User Management: 1. Explore Current Users](https://github.com/kamclean/collaborator/blob/master/vignettes/vignette_user_1_explore.md)
 
-[Redcap User Management: 2. Automatically Assign User Rights](https://github.com/kamclean/collaborator/blob/master/vignettes/vignette_user_2_assign.Rmd)
+[Redcap User Management: 2. Automatically Assign User Rights](https://github.com/kamclean/collaborator/blob/master/vignettes/vignette_user_2_assign.md)
 
-[Generating Authorship Lists](https://github.com/kamclean/collaborator/blob/master/vignettes/vignette_authors.Rmd)
+[Generating Authorship Lists](https://github.com/kamclean/collaborator/blob/master/vignettes/vignette_authors.md)
 
-[Generating Missing Data Reports](https://github.com/kamclean/collaborator/blob/master/vignettes/vignette_missing.Rmd)
+[Generating Missing Data Reports](https://github.com/kamclean/collaborator/blob/master/vignettes/vignette_missing.md)
 
-[Generating a Simple, Easily-Shareable Data Dictionary](https://github.com/kamclean/collaborator/blob/master/vignettes/vignette_data_dict.Rmd)
+[Generating a Simple, Easily-Shareable Data Dictionary](https://github.com/kamclean/collaborator/blob/master/vignettes/vignette_data_dict.md)
