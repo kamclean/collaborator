@@ -34,9 +34,11 @@ Example of a record level report of missing data. This not only quantifies the m
 - "NA" fields represent appropriately missing data (e.g. secondary to unfufilled branching logic). Therefore, these are excluded from the missing data count entirely.
 
 - "M" fields represent 'true' missing data (which may require follow up), and so all counts of missing data are based these.
+View(example_data_miss_record)
 
 ```{r, warning=FALSE, message=FALSE}
-knitr::kable(collaborator::example_data_miss_pt)
+View(collaborator::example_data_miss_record)
+knitr::kable(collaborator::example_data_miss_record)
 
 
 ```
