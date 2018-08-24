@@ -14,7 +14,9 @@ knitr::opts_chunk$set(
   collapse = FALSE)
 ```
 
-Management of user rights in REDCap becomes increasingly laborious as the scale of the research project expands (e.g. with the number of users, and the number of data access groups). However, at present, REDCap does not directly support mass-upload directly to the user rights module of a project. 
+Management of user rights in REDCap becomes increasingly laborious as the scale of the research project expands (e.g. with the number of users, and the number of data access groups).
+
+However, while "role name" is an incredibly useful user management tool within REDCap, this is not currently exportable alongside user rights using the REDCap API. The following functions provide methods to count / explore / apply user roles to exported REDCap user rights of a project.
 
 # Exploration of current users
 ## 1. user_roles_n()
@@ -27,38 +29,47 @@ There are 3 outputs from `user_roles_n()`:
   
 ```{r, warning=FALSE, message=FALSE}
 # Example output from user_roles_n()
-collaborator::example_user_roles_n_full %>%
-  data() %>%
-  knitr::kable()
+user_roles_n_full <- collaborator::example_user_roles_n_full
 
+knitr::kable(user_roles_n_full)
+  
 ```
 
   b). $examples: A dataframe of each role (1:n) and an example username with those rights (can be used as input for the `user_roles()` function).
 
 ```{r, warning=FALSE, message=FALSE}
-collaborator::example_user_roles_n_eg %>%
-  data() %>%
-  knitr::kable()
+user_roles_n_eg <- collaborator::example_user_roles_n_eg
+
+knitr::kable(user_roles_n_eg)
 ```
 
 
 ## 2. user_roles()
+### Set-up input `role_users_example` dataframe
+This can be created de novo, or the `user_roles_n()` $example output can be used. It is suggested that user-friendly labels are applied instead of the original numbering of unique roles.
 
-### s
+```{r, warning=FALSE, message=FALSE}
+user_roles_n_eg <- collaborator::example_user_roles_n_eg
 
-im_role$examples
+user_roles_n_eg %>%
+  dplyr::mutate(role = factor(role,
+                       levels=c(1:nrow(user_roles_n_eg)),
+                       labels=c("administrator", "committee", "collaborator", "validator"))) %>%
+  dplyr::mutate(role = as.character(role)) %>%
+  knitr::kable()
 
-im_role_examples <- im_role$example %>%
-   dplyr::mutate(role = factor(role,
-                       levels=c(1:nrow(im_role$example)),
-                       labels=c("admin", "committee", "collaborator", "validator", NA))) %>%
-  dplyr::mutate(role = as.character(role))
+```
+### Usage of `user_roles()`
+Use `user_roles()` to apply named roles to all users according to example users with those rights. E.g. In the example data above, everyone with the same user rights as the example collaborator "a_barker" will be assigned the "collaborator" role.
 
+This allows further analyses to be done using roles which are not currently possible within REDCap (e.g. tables, plots, etc), and can be used to subsequently automatically upload and allocate user rights (see [Redcap User Management: 2. Assign User Rights](https://github.com/kamclean/collaborator/blob/master/vignettes/vignette_user_2_assign.Rmd))
 
-im_role_users <- user_roles(redcap_project_uri = url_bmhredcap,
-                            redcap_project_token = token_projectdata,
-                            role_users_example = im_role_examples)
-table(im_role_users$role)
+```{r, warning=FALSE, message=FALSE}
+user_roles_full <- collaborator::example_user_roles_full
+
+table(user_roles_full$role) %>%
+  knitr::kable()
+```
 
 ## 3. Validate current users
 
