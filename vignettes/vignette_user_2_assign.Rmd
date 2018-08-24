@@ -28,6 +28,7 @@ Management of user rights in REDCap becomes increasingly laborious as the scale 
 The aim of the following vignetee is to describe a workflow by which users can be easily automatically assigned within a REDCap project
 
 # 1. Assign new user rights
+
 The automatic assignment of user rights and allocation to data access groups (DAG) has several important advantages over the manual method:
 
 - Once set-up, it involves a fraction of the time and labour (compared to doing so manually), and can be easily repeated using R.  This enables multicentre research using REDCap to become easily scalable irrespective of the number of users and number of data access groups.
@@ -96,6 +97,7 @@ b). *Users do not have the appropriate rights*:
 
 
 # 2. Edit current user rights
+
 The downside to automatic user allocation using this method is that "user roles" cannot be assigned from outwith REDCap. Therefore, should the user rights of the group need to be edited afterwards it is *highly recommended* to be done via re-application of this method (otherwise each individual users would need to be allocated to a role (and then edited), or their rights would need to manually edited individually).
 
 This can be achieved via the following steps:
