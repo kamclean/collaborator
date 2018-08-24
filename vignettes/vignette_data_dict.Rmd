@@ -18,11 +18,12 @@ The function `data_dict()` can be used to generate an easily sharable and inform
 
 ## Requirements
 The `data_dict()` function can be applied to any dataframe object. At present, it supports the following classes (other classes will be shown as "Class not supported" in the values column):
-- Numeric, integer.
-- Logical.
-- Date.
-- Character, String.
-- Factor, orderedfactor.
+
+* Numeric, integer.
+* Logical.
+* Date.
+* Character, String.
+* Factor, orderedfactor.
 
 Example dataframe (`example_data_dict`):
 ```{r, warning=FALSE, message=FALSE}
@@ -46,9 +47,11 @@ knitr::kable(data_dict(data))
 ```
 
 
-Any variable can be excluded from the output using the "var_exclude" parameter. Through summarising the variables, data should not be linkable to individual patients (bar in the circumstance where variable(s) contain a direct patient identifer e.g. Community Health Index (CHI) Number, hospital numbers, etc).
+Through summarising the variables, data will not necessarily be linkable to individual patients (bar in the circumstance where variable(s) contain a direct patient identifer e.g. Community Health Index (CHI) Number, hospital numbers, etc).
+
+However, should any variable(s) (such as a direct patient identifer) be desireable to exclude from the output, this can be achieved using the "var_exclude" parameter. 
 
 ```{r, warning=FALSE, message=FALSE}
 library(collaborator)
-knitr::kable(data_dict(data, var_exclude = "id_num"))
+knitr::kable(data_dict(data, var_exclude = c("id_num","sex")))
 ```

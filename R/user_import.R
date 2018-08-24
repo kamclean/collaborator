@@ -1,7 +1,7 @@
 # user_import-----------------------------------------
 
 # Documentation
-#' Generate a csv file that can be used to upload new user accounts to REDCap directly (via control centre)
+#' Generate a csv file to upload new user accounts to REDCap
 #' @description Used to generate a csv file that can be used to upload new user accounts to REDCap directly (via control centre). This requires a dataframe of at least 4 mandatory columns (corresponding to: username, first name, last name, and email address) and 4 optional columns (corresponding to: institution, sponser, expiration, comments). All optional columns will be blank unless otherwise specified.
 #' @param df Dataframe of at least 4 mandatory columns (corresponding to: username, first name, last name, and email address) and 4 optional columns (corresponding to: institution, sponser, expiration, comments).
 #' @param username Column name (Mandatory) which corresponds to "Username".
@@ -10,8 +10,8 @@
 #' @param email Column name (Mandatory) which corresponds to "Email address".
 #' @param institution Column name (Optional/Recommended) which corresponds to "Institution ID". Can be used to record the data_access_group / centre of the user.
 #' @param sponser Column name (Optional) which corresponds to "Sponsor username".
-#' @param expiration Column name (Optional) which corresponds to "Expiration"). Must be in YYYY-MM-DD HH:MM or MM/DD/YYYY HH:MM format.
-#' @param comments Column name (Optional) which corresponds to "Comments").
+#' @param expiration Column name (Optional) which corresponds to "Expiration". Must be in YYYY-MM-DD HH:MM or MM/DD/YYYY HH:MM format.
+#' @param comments Column name (Optional) which corresponds to "Comments".
 #' @return Returns a csv file for upload ("user.import_[date generated].csv"), and a dataframe.
 #' @export
 

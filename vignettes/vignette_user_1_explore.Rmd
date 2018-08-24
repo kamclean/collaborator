@@ -20,31 +20,25 @@ Management of user rights in REDCap becomes increasingly laborious as the scale 
 ## 1. user_roles_n()
 Use `user_roles_n()` to count the number of unique user "roles" within the REDcap Project (e.g. the number of unique combinations of user rights).
 
-```{r, warning=FALSE, message=FALSE}
-user_roles_n(redcap_project_uri,
-             redcap_project_token,
-             users_ignore = "")
-
-knitr::kable(data(user_roles_n_full))
-```
-
 There are 3 outputs from `user_roles_n()`:
  1. A string stating "There are n unique roles in this redcap project".
  2. A nested dataframe of:
   a). $full: A dataframe of all user rights of the redcap project (with an additional column called "role" which numbers users 1:n according to their unique role).
   
 ```{r, warning=FALSE, message=FALSE}
-user_roles_n_full <- collaborator::example_user_roles_n_full
+# Example output from user_roles_n()
+collaborator::example_user_roles_n_full %>%
+  data() %>%
+  knitr::kable()
 
-knitr::kable(data(user_roles_n_full))
 ```
 
   b). $examples: A dataframe of each role (1:n) and an example username with those rights (can be used as input for the `user_roles()` function).
 
 ```{r, warning=FALSE, message=FALSE}
-user_roles_n_eg <- collaborator::example_user_roles_n_eg
-
-knitr::kable(data(user_roles_n_eg))
+collaborator::example_user_roles_n_eg %>%
+  data() %>%
+  knitr::kable()
 ```
 
 
@@ -66,17 +60,5 @@ im_role_users <- user_roles(redcap_project_uri = url_bmhredcap,
                             role_users_example = im_role_examples)
 table(im_role_users$role)
 
-## 3. user_new
-
-# Assign user access
-## 1. Assign new user rights
-
-## 2. Edit current user rights
-
-
-
-# Validate current users
-## 1. Assign new user rights
-
-## 2. Edit current user rights
+## 3. Validate current users
 

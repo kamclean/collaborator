@@ -2,33 +2,33 @@
 % Please edit documentation in R/user_import.R
 \name{user_import}
 \alias{user_import}
-\title{Generate a csv file that can be used to upload new user accounts to REDCap directly (via control centre)}
+\title{Generate a csv file to upload new user accounts to REDCap}
 \usage{
 user_import(df, username, first_name, last_name, email, institution = "",
   sponser = "", expiration = "", comments = "")
 }
 \arguments{
-\item{df}{Dataframe of at least 4 mandatory columns (corresponding to: username, first name, last name, and email address) and 4 optional columns (corresponding to: institution, sponser, expiration, comments). All optional columns will be blank unless otherwise specified.}
+\item{df}{Dataframe of at least 4 mandatory columns (corresponding to: username, first name, last name, and email address) and 4 optional columns (corresponding to: institution, sponser, expiration, comments).}
 
-\item{username}{Mandatory variable (corresponds to "Username").}
+\item{username}{Column name (Mandatory) which corresponds to "Username".}
 
-\item{first_name}{Mandatory variable (corresponds to "First name").}
+\item{first_name}{Column name (Mandatory) which corresponds to "First name".}
 
-\item{last_name}{Mandatory variable (corresponds to "Last name").}
+\item{last_name}{Column name (Mandatory) which corresponds to "Last name".}
 
-\item{email}{Mandatory variable (corresponds to "Email address").}
+\item{email}{Column name (Mandatory) which corresponds to "Email address".}
 
-\item{institution}{Optional variable which is recommended to record the data_access_group / centre of the user (corresponds to "Institution ID").}
+\item{institution}{Column name (Optional/Recommended) which corresponds to "Institution ID". Can be used to record the data_access_group / centre of the user.}
 
-\item{sponser}{Optional variable (corresponds to "Sponsor username").}
+\item{sponser}{Column name (Optional) which corresponds to "Sponsor username".}
 
-\item{expiration}{Optional variable (corresponds to "Expiration"). Must be in YYYY-MM-DD HH:MM or MM/DD/YYYY HH:MM format}
+\item{expiration}{Column name (Optional) which corresponds to "Expiration". Must be in YYYY-MM-DD HH:MM or MM/DD/YYYY HH:MM format.}
 
-\item{comments}{Optional variable (corresponds to "Comments").}
+\item{comments}{Column name (Optional) which corresponds to "Comments".}
 }
 \value{
-Returns a dataframe and csv file for upload ("user.import_[date generated].csv").
+Returns a csv file for upload ("user.import_[date generated].csv"), and a dataframe.
 }
 \description{
-Us
+Used to generate a csv file that can be used to upload new user accounts to REDCap directly (via control centre). This requires a dataframe of at least 4 mandatory columns (corresponding to: username, first name, last name, and email address) and 4 optional columns (corresponding to: institution, sponser, expiration, comments). All optional columns will be blank unless otherwise specified.
 }

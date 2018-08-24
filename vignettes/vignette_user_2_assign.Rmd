@@ -1,6 +1,6 @@
 ---
 title: "Redcap User Management Workflow"
-author: "Kenneth McLean"
+author: c("Kenneth McLean", "Riinu Ots")
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
