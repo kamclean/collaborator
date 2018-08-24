@@ -10,9 +10,6 @@ within REDCap, this is not currently exportable alongside user rights
 using the REDCap API. The following functions provide methods to count /
 explore / apply user roles to exported REDCap user rights of a project.
 
-Exploration of current users
-============================
-
 1. user\_roles\_n()
 -------------------
 
@@ -22,13 +19,13 @@ rights).
 
 There are 3 outputs from `user_roles_n()`:
 
-1.  A string stating “There are n unique roles in this redcap project”.
+### a). A string stating “There are n unique roles in this redcap project”.
 
-2.  A nested dataframe of:
+### b). A nested dataframe of:
 
-a). $full: A dataframe of all user rights of the redcap project (with an
-additional column called “role” which numbers users 1:n according to
-their unique role).
+**i). $full:** A dataframe of all user rights of the redcap project
+(with an additional column called “role” which numbers users 1:n
+according to their unique role).
 
     # Example output from user_roles_n()
     user_roles_n_full <- collaborator::example_user_roles_n_full # please note all names are randomly generated
@@ -602,8 +599,8 @@ their unique role).
 </tbody>
 </table>
 
-b). $examples: A dataframe of each role (1:n) and an example username
-with those rights (can be used as input for the `user_roles()`
+**ii). $examples:** A dataframe of each role (1:n) and an example
+username with those rights (can be used as input for the `user_roles()`
 function).
 
     user_roles_n_eg <- collaborator::example_user_roles_n_eg
@@ -640,7 +637,7 @@ function).
 2. user\_roles()
 ----------------
 
-### Set-up input `role_users_example` dataframe
+### a). Set-up input `role_users_example` dataframe
 
 This can be created de novo, or the `user_roles_n()` $example output can
 be used. It is recommended that user-friendly labels are applied instead
@@ -683,7 +680,7 @@ of the original numbering of unique roles.
 </tbody>
 </table>
 
-### Usage of `user_roles()`
+### b). Usage of `user_roles()`
 
 Use `user_roles()` to apply named roles to all users according to
 example users with those rights. E.g. In the example above, everyone
@@ -738,7 +735,7 @@ useful tool whether user rights are allocated manually, or
 
 The output from `user_validate()` is 3 nested dataframes:
 
-### 1. `$forms_na`
+### a). `$forms_na`
 
 The unallocation of form rights is a possible error during automatic
 assignment of user rights. **In this case these users will have view and
@@ -755,7 +752,7 @@ edit rights to all forms (within their DAG) on the REDCap project**.
     is comfirmed with the changed names of the forms, this error should
     disappear.
 
-### 2. `$dag_unallocated`
+### b). `$dag_unallocated`
 
 The unallocation of data access groups is a common error during manual
 assignment of user rights. **In this case these users will be able to
@@ -769,7 +766,7 @@ access all records (within their form rights) in the REDCap project**.
     project. It is recommended that in this case these users are
     excluded using `users_exception`.
 
-### 3. `$dag_incorrect`
+### c). `$dag_incorrect`
 
 The incorrect allocation of data access groups is a common error during
 manual assignment of user rights. **In this case these users will have

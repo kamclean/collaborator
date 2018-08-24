@@ -21,7 +21,7 @@ The aim of the following vignetee is to describe a workflow by which
 users can be easily automatically assigned within a REDCap project
 
 1. Assign new user rights
-=========================
+-------------------------
 
 The automatic assignment of user rights and allocation to data access
 groups (DAG) has several important advantages over the manual method:
@@ -45,8 +45,7 @@ role” on REDCap).
 The assignment of new user rights can be achieved via the following
 steps:
 
-a). `user_new()`
-----------------
+### a). `user_new()`
 
 The `user_new()` function can be used to compare a dataframe of all
 users to those currently allocated on REDCap to determine any new users
@@ -55,8 +54,7 @@ requiring assigned (ignoring those listed in `users_exception`).
 These new users can then be uploaded to REDCap using `user_import()` and
 `user_assign()`.
 
-b). `user_import()`
--------------------
+### b). `user_import()`
 
 REDCap user accounts cannot be generated via R at present, and need to
 be manually uploaded at present (however there is capability to bulk
@@ -246,8 +244,7 @@ All optional columns will be blank unless otherwise specified.
 </tbody>
 </table>
 
-c). `user_assign()`
--------------------
+### c). `user_assign()`
 
 This can be achieved via the following steps:
 
@@ -304,7 +301,7 @@ b). *Users do not have the appropriate rights*:
     Users](https://github.com/kamclean/collaborator/blob/master/vignettes/vignette_user_1_explore.Rmd)).
 
 2. Edit current user rights
-===========================
+---------------------------
 
 The downside to automatic user allocation using this method is that
 “user roles” cannot be assigned from outwith REDCap. Therefore, should

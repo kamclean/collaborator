@@ -19,17 +19,16 @@ Management of user rights in REDCap becomes increasingly laborious as the scale 
 
 However, while "role name" is an incredibly useful user management tool within REDCap, this is not currently exportable alongside user rights using the REDCap API. The following functions provide methods to count / explore / apply user roles to exported REDCap user rights of a project.
 
-# Exploration of current users
 ## 1. user_roles_n()
 Use `user_roles_n()` to count the number of unique user "roles" within the REDcap Project (e.g. the number of unique combinations of user rights).
 
 There are 3 outputs from `user_roles_n()`:
 
- 1. A string stating "There are n unique roles in this redcap project".
+### a). A string stating "There are n unique roles in this redcap project".
  
- 2. A nested dataframe of:
+### b). A nested dataframe of:
   
-  a). $full: A dataframe of all user rights of the redcap project (with an additional column called "role" which numbers users 1:n according to their unique role).
+  **i). $full:** A dataframe of all user rights of the redcap project (with an additional column called "role" which numbers users 1:n according to their unique role).
   
 ```{r, warning=FALSE, message=FALSE}
 # Example output from user_roles_n()
@@ -40,7 +39,7 @@ knitr::kable(user_roles_n_full)
 ```
 
   
-  b). $examples: A dataframe of each role (1:n) and an example username with those rights (can be used as input for the `user_roles()` function).
+  **ii). $examples:** A dataframe of each role (1:n) and an example username with those rights (can be used as input for the `user_roles()` function).
 
 ```{r, warning=FALSE, message=FALSE}
 user_roles_n_eg <- collaborator::example_user_roles_n_eg
@@ -50,7 +49,7 @@ knitr::kable(user_roles_n_eg)
 
 
 ## 2. user_roles()
-### Set-up input `role_users_example` dataframe
+### a). Set-up input `role_users_example` dataframe
 This can be created de novo, or the `user_roles_n()` $example output can be used. It is recommended that user-friendly labels are applied instead of the original numbering of unique roles.
 
 ```{r, warning=FALSE, message=FALSE}
@@ -66,7 +65,7 @@ user_roles_n_eg %>%
 
 ```
 
-### Usage of `user_roles()`
+### b). Usage of `user_roles()`
 Use `user_roles()` to apply named roles to all users according to example users with those rights. E.g. In the example above, everyone with the same user rights as the example collaborator "a_barker" will be assigned the "collaborator" role.
 
 This allows further analyses to be done using roles which are not currently possible within REDCap (e.g. tables, plots, etc), and can be used to subsequently automatically upload and allocate user rights (see [Redcap User Management: 2. Assign User Rights](https://github.com/kamclean/collaborator/blob/master/vignettes/vignette_user_2_assign.Rmd))
@@ -83,7 +82,7 @@ Use `user_validate()` to explore the rights of current users, and identify signf
 
 The output from `user_validate()` is 3 nested dataframes:
 
-### 1. `$forms_na`
+### a). `$forms_na`
 The unallocation of form rights is a possible error during automatic assignment of user rights. **In this case these users will have view and edit rights to all forms (within their DAG) on the REDCap project**.
  
   - The `$forms_na` output will highlight the individual users currently on REDCap with NA recorded for their form rights (e.g. ability to access data collection instruments).
@@ -91,7 +90,7 @@ The unallocation of form rights is a possible error during automatic assignment 
  - This can occur in the specific circumstance where REDCap user "role names" are being used, and the name of a data collection instrument is changed **after** the "role name" is created but **without** editing and saving the existing user role on REDCap. Once this role is comfirmed with the changed names of the forms, this error should disappear.
  
 
-### 2. `$dag_unallocated`
+### b). `$dag_unallocated`
 The unallocation of data access groups is a common error during manual assignment of user rights. **In this case these users will be able to access all records (within their form rights) in the REDCap project**.
   
   - The `$dag_unallocated` output will highlight the individual users currently on REDCap with NA recorded for their DAG.
@@ -99,7 +98,7 @@ The unallocation of data access groups is a common error during manual assignmen
   - However, not all unallocated DAGS are "incorrect" - some users (e.g. administrators) may require to view any records on the project. It is recommended that in this case these users are excluded using `users_exception`.
 
 
-### 3. `$dag_incorrect`
+### c). `$dag_incorrect`
 The incorrect allocation of data access groups is a common error during manual assignment of user rights. **In this case these users will have access to and be able to upload records within another DAG in the REDCap project**.
  
   - This uses the `users.df` input (which must contain at least 2 columns: `username` and `data_access_group`) and compares this to the current users on REDCap.
