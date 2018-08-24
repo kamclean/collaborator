@@ -1,5 +1,5 @@
 ---
-title: "Redcap User Management Workflow"
+title: "Redcap User Management: 1. Explore Current Users"
 author: "Kenneth McLean"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette

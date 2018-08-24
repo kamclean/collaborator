@@ -1,5 +1,5 @@
 ---
-title: "Redcap User Management Workflow"
+title: "Redcap User Management: 2. Assign User Rights"
 author:
  - "Kenneth McLean"
  - "Riinu Ots"
