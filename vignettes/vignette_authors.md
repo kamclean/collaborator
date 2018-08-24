@@ -1,4 +1,4 @@
-Collabrator: Generating Authorship Lists
+Collaborator: Generating Authorship Lists
 ========================================
 
 Generating and formatting authorship lists for multi-centre research
