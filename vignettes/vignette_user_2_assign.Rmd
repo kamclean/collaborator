@@ -4,7 +4,7 @@ author:
  - "Kenneth McLean"
  - "Riinu Ots"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output: md_document
 vignette: >
   %\VignetteIndexEntry{Vignette Title}
   %\VignetteEngine{knitr::rmarkdown}
@@ -15,8 +15,9 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = FALSE)
 ```
+# Collaborator: Redcap User Management 2. Automatically Assign User Rights
 
-To be able to use a REDCap project, two components are required:
+To be able to use a REDCap project, there are two prerequisites:
 
 1. **User account** - This username allows the user to log onto the REDCap instance.
 

@@ -2,7 +2,7 @@
 title: "Generating Missing Data Reports"
 author: "Kenneth McLean"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output: md_document
 vignette: >
   %\VignetteIndexEntry{Vignette Title}
   %\VignetteEngine{knitr::rmarkdown}
@@ -13,6 +13,7 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = FALSE)
 ```
+# Collaborator: Generating Missing Data Reports
 
 Ensuring high levels of completeness within research projects is an important task for ensuring the highest quality dataset for subsequent analyses. However, determining what data is missing within a REDCap project, particularly accounting for appropriately missing data (such as in the case of unfufilled branching logic) can be a challenging and time-consuming task to produce in real-time. 
 

@@ -1,3 +1,6 @@
+Collabrator: Generating Authorship Lists
+========================================
+
 Generating and formatting authorship lists for multi-centre research
 projects can be a challenging data wrangling task. In the case of
 collaborative research projects, there can be thousands of collaborators
