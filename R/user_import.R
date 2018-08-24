@@ -21,23 +21,29 @@ user_import <- function(df, username, first_name, last_name, email,
   require("readr")
   require("dplyr")
 
-df %>%
-  mutate(username = pull(df, username),
-         first_name = pull(df, first_name),
-         last_name = pull(df, last_name),
-         email = pull(df, email),
-         institution = ifelse(institution=="", "", dplyr::select(df, institution)),
-         sponser = ifelse(sponser=="", "", dplyr::select(df, sponser)),
-         expiration = ifelse(expiration=="", "", dplyr::select(df, expiration)),
-         comments = ifelse(comments=="", "", dplyr::select(df, comments))) %>%
-  dplyr::select("Username" = username,
-                "First name" = first_name,
-                "Last name" = last_name,
-                "Email address" = email,
-                "Institution ID" = institution,
-                "Sponsor username" = sponser,
-                "Expiration" = expiration,
-                "Comments" = comments) -> user_import_df
+  df %>%
+  dplyr::mutate(col_blank = "") -> df
+
+  df %>%
+  dplyr::mutate(var_username = pull(df, username),
+                var_first_name = pull(df, first_name),
+                var_last_name = pull(df, last_name),
+                var_email = pull(df, email)) %>%
+
+  dplyr::mutate(var_institution = cbind(dplyr::pull(df, ifelse(institution!="", institution, col_blank))),
+                var_sponser = cbind(dplyr::pull(df, ifelse(sponser!="", sponser, col_blank))),
+                var_expiration = cbind(dplyr::pull(df, ifelse(expiration!="", expiration, col_blank))),
+                var_comments = cbind(dplyr::pull(df, ifelse(comments!="", comments, col_blank)))) %>%
+
+  dplyr::select("Username" = var_username,
+                "First name" = var_first_name,
+                "Last name" = var_last_name,
+                "Email address" = var_email,
+                "Institution ID" = var_institution,
+                "Sponsor username" = var_sponser,
+                "Expiration" = var_expiration,
+                "Comments" = var_comments) -> user_import_df
+
 user_import_df %>%
   write_csv(path=paste0("user.import_",paste0(Sys.Date(), ".csv")))
 
