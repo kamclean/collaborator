@@ -10,8 +10,8 @@ within REDCap, this is not currently exportable alongside user rights
 using the REDCap API. The following functions provide methods to count /
 explore / apply user roles to exported REDCap user rights of a project.
 
-1. `user_roles_n()`
--------------------
+`user_roles_n()`
+----------------
 
 Use `user_roles_n()` to count the number of unique user “roles” within
 the REDcap Project (e.g. the number of unique combinations of user
