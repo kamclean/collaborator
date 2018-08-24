@@ -11,7 +11,7 @@ report_miss(redcap_project_uri, redcap_project_token, var_exclude = "")
 
 \item{redcap_project_token}{API (Application Programming Interface) for the REDCap project.}
 
-\item{var_exclude}{Vector of names of variables that are desired to be excluded from the missing data count (the default is "" e.g. none).}
+\item{var_exclude}{Vector of names of variables that are desired to be excluded from the missing data count (the default is "." e.g. none).}
 }
 \value{
 Nested dataframe with a summary of missing data at the redcap_data_access_group level and the record level.
