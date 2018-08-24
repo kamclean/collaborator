@@ -38,7 +38,7 @@ Example of a record level report of missing data. This not only quantifies the m
 ```{r, warning=FALSE, message=FALSE}
 library(collaborator)
 
-knitr::kable(data(example_data_miss_record))
+knitr::kable(collaborator::example_data_miss_record)
 
 ```
 
@@ -48,6 +48,6 @@ knitr::kable(data(example_data_miss_record))
 Example of a data access group (DAG) level report of missing data (summarising missing data for all records within the DAG).
 
 ```{r, warning=FALSE, message=FALSE}
-knitr::kable(data(example_data_miss_dag))
+knitr::kable(collaborator::example_data_miss_dag)
 
 ```
