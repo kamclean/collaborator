@@ -1,5 +1,5 @@
 ---
-title: "Redcap User Management: 2. Assign User Rights"
+title: "Redcap User Management: 2. Automatically Assign User Rights"
 author:
  - "Kenneth McLean"
  - "Riinu Ots"
