@@ -17,8 +17,8 @@ user_validate(redcap_project_uri, redcap_project_token, users.df,
 \item{users_exception}{Vector of usernames to be excluded from comparison (e.g. users who should have access to the whole dataset (dag = NA) or are associated with multiple DAGs in users.df).}
 }
 \value{
-Nested dataframe of (i) Dataframe of all users numbered by unique role. (ii) Dataframe of each role with an example user with those user rights.
+Nested dataframe of (i) Users with NA access rights to forms (ii) Users with an unallocated DAG (iii). Users with an incorrect DAG.
 }
 \description{
-Used to check all users have been appropriately (dag_unallocated)and correctly (dag_incorrect) allocated to a DAG, and that all user forms rights have been uploaded correctly. Note: if NA, this will default to view & edit access for all forms.
+Used to check all users have been appropriately (dag_unallocated) and correctly (dag_incorrect) allocated to a DAG, and that all user forms rights have been uploaded correctly. Note: if NA, this will default to view & edit access for all forms.
 }
