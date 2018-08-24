@@ -19,7 +19,7 @@ Management of user rights in REDCap becomes increasingly laborious as the scale 
 
 However, while "role name" is an incredibly useful user management tool within REDCap, this is not currently exportable alongside user rights using the REDCap API. The following functions provide methods to count / explore / apply user roles to exported REDCap user rights of a project.
 
-## 1. user_roles_n()
+## `user_roles_n()`
 Use `user_roles_n()` to count the number of unique user "roles" within the REDcap Project (e.g. the number of unique combinations of user rights).
 
 There are 3 outputs from `user_roles_n()`:
@@ -48,7 +48,7 @@ knitr::kable(user_roles_n_eg)
 ```
 
 
-## 2. user_roles()
+## `user_roles()`
 ### a). Set-up input `role_users_example` dataframe
 This can be created de novo, or the `user_roles_n()` $example output can be used. It is recommended that user-friendly labels are applied instead of the original numbering of unique roles.
 
@@ -77,7 +77,7 @@ table(user_roles_full$role) %>%
   knitr::kable()
 ```
 
-## 3. user_validate()
+## `user_validate()`
 Use `user_validate()` to explore the rights of current users, and identify signficant errors in assignment of user rights. This is a useful tool whether user rights are allocated manually, or [automatically](https://github.com/kamclean/collaborator/blob/master/vignettes/vignette_user_2_assign.Rmd).
 
 The output from `user_validate()` is 3 nested dataframes:

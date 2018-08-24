@@ -10,8 +10,8 @@ within REDCap, this is not currently exportable alongside user rights
 using the REDCap API. The following functions provide methods to count /
 explore / apply user roles to exported REDCap user rights of a project.
 
-1. user\_roles\_n()
--------------------
+`user_roles_n()`
+----------------
 
 Use `user_roles_n()` to count the number of unique user “roles” within
 the REDcap Project (e.g. the number of unique combinations of user
@@ -634,8 +634,8 @@ function).
 </tbody>
 </table>
 
-2. user\_roles()
-----------------
+`user_roles()`
+--------------
 
 ### a). Set-up input `role_users_example` dataframe
 
@@ -725,8 +725,8 @@ Rights](https://github.com/kamclean/collaborator/blob/master/vignettes/vignette_
 </tbody>
 </table>
 
-3. user\_validate()
--------------------
+`user_validate()`
+-----------------
 
 Use `user_validate()` to explore the rights of current users, and
 identify signficant errors in assignment of user rights. This is a
