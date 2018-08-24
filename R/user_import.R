@@ -26,10 +26,10 @@ df %>%
          first_name = pull(df, first_name),
          last_name = pull(df, last_name),
          email = pull(df, email),
-         institution = pull(df, institution),
-         sponser = pull(df, sponser),
-         expiration = pull(df, expiration),
-         comments = pull(df, comments)) %>%
+         institution = ifelse(institution=="", "", pull(df, institution)),
+         sponser = ifelse(institution=="", "", pull(df, sponser)),
+         expiration = ifelse(institution=="", "", pull(df, expiration)),
+         comments = ifelse(institution=="", "", pull(df, comments))) %>%
   dplyr::select("Username" = username,
                 "First name" = first_name,
                 "Last name" = last_name,
