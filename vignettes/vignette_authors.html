@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Kenneth McLean" />
+
+<meta name="date" content="2018-08-24" />
+
+<title>Generating Authorship Lists</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#header {
+text-align: center;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Generating Authorship Lists</h1>
+<h4 class="author"><em>Kenneth McLean</em></h4>
+<h4 class="date"><em>2018-08-24</em></h4>
+
+
+
+<p>Generating and formatting authorship lists for multi-centre research projects can be a challenging data wrangling task. In the case of collaborative research projects, there can be thousands of collaborators across hundreds of sites with a variety of <a href="https://doi.org/10.1016/j.ijsu.2017.12.019">roles</a>.</p>
+<p>The <code>report_auth()</code> function aims to simplify this process by providing an easy method to complile a fully formatted authorship list with inbuilt flexibility in how these are presented.</p>
+<div id="requirements" class="section level2">
+<h2>Requirements</h2>
+<p>In order for the <code>report_auth()</code> function to operate as intended, we must first create a dataframe of all authors/collaborators containing at least 1 column: “name”.</p>
+<p>Example dataframe (<code>data_author</code>):</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(collaborator)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">data_author &lt;-<span class="st"> </span>collaborator<span class="op">::</span>example_report_author</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw">head</span>(data_author, <span class="dt">n=</span><span class="dv">6</span>) <span class="co"># Please note all names have been randomly generated</span></a></code></pre></div>
+<pre><code>## # A tibble: 6 x 3
+##   name       hospital   country 
+##   &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;   
+## 1 Almond S   hospital N England 
+## 2 Andersen J hospital E Scotland
+## 3 Ashton A   hospital L England 
+## 4 Avila E    hospital C Scotland
+## 5 Ayala N    hospital Q England 
+## 6 Barker S   hospital D Scotland</code></pre>
+</div>
+<div id="main-features" class="section level2">
+<h2>Main Features</h2>
+<div id="basic-function" class="section level3">
+<h3>(1) Basic Function</h3>
+<p>At it’s most basic, <code>report_auth()</code> can produce a formatted list of a column of names.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">report_auth</span>(data_author) <span class="co"># Please note all names have been randomly generated</span></a></code></pre></div>
+<pre><code>## Almond S, Andersen J, Ashton A, Avila E, Ayala N, Barker S, Beech J, Berry A, Bowen P, Bradford J, Cameron G, Cantrell G, Carlson F, Carrillo J, Cervantes S, Chamberlain H, Chan K, Chung L, Clifford K, Conley M, Cullen F, Dalby D, Dean O, Dodson D, Downes A, Duffy L, Ellwood M, Erickson K, Fenton U, Ferry A, Finney R, Flores R, Fox B, Francis F, Frazier U, Fuentes A, Galindo C, Gardiner F, Gibbons H, Gould C, Halliday S, Hanna L, Hardy E, Herman K, Hicks A, Hodge M, Holder C, Hollis S, Houston M, Huff J, Jensen L, Kane K, Kearns U, Keenan L, Kent M, Knights G, Lees S, Lennon J, Livingston F, Mackie L, Marks H, Michael P, Mooney A, Morin Y, Moses S, Mustafa W, Nicholson L, Ochoa A, O'Doherty H, Olsen H, O'Neill L, Owens I, Paine R, Patrick S, Petty O, Phillips A, Pitt A, Plant N, Prosser E, Randolph T, Richmond S, Riddle C, Riggs M, Rojas E, Rossi P, Rowe P, Saunders R, Skinner I, Smart F, Stokes P, Villa Z, Wall R, Wardle A, Werner R, Whitfield A, Whitney M, William C, Woods B, Wynn J, Yang K.</code></pre>
+</div>
+<div id="grouping-and-subdivision-of-names" class="section level3">
+<h3>(2) Grouping and subdivision of names</h3>
+<p>These names can be further grouped by another column in the dataframe:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">report_auth</span>(data_author, <span class="dt">group =</span> <span class="st">&quot;hospital&quot;</span>)</a></code></pre></div>
+<pre><code>## Berry A, Chan K, Gould C, Jensen L (hospital A);  Clifford K, Kearns U, Livingston F, Rojas E (hospital B);  Avila E, Cullen F, Hanna L, O'Neill L (hospital C);  Barker S, Gibbons H, Kent M (hospital D);  Andersen J, Cameron G, Dodson D, Downes A, Erickson K, Francis F, Lees S, Moses S, Saunders R (hospital E);  Dalby D, Houston M, Morin Y, Stokes P (hospital F);  Chamberlain H, Fox B, Keenan L, Mackie L, Plant N (hospital G);  Galindo C, Michael P, Prosser E (hospital H);  Bradford J, Flores R, Mooney A, O'Doherty H, Werner R (hospital I);  Dean O, Fuentes A, Hardy E, Herman K, Ochoa A, Pitt A, Skinner I, Wynn J (hospital J);  Hicks A, Holder C, Phillips A, Richmond S, Whitfield A (hospital K);  Ashton A, William C (hospital L);  Carlson F (hospital M);  Almond S, Beech J, Ferry A, Lennon J, Smart F (hospital N);  Halliday S, Riggs M, Rossi P, Wardle A, Whitney M (hospital O);  Bowen P, Carrillo J, Fenton U, Kane K, Knights G, Riddle C (hospital P);  Ayala N, Conley M, Ellwood M, Hollis S, Mustafa W, Olsen H, Wall R (hospital Q);  Finney R, Frazier U, Paine R, Patrick S, Petty O, Villa Z (hospital R);  Cantrell G, Huff J, Rowe P, Woods B, Yang K (hospital S);  Hodge M, Owens I (hospital T);  Cervantes S, Marks H, Nicholson L (hospital U);  Chung L, Duffy L, Gardiner F, Randolph T (hospital V).</code></pre>
+<p>Or can be subdivided by another column in the dataframe:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">report_auth</span>(data_author, <span class="dt">subdivision =</span> <span class="st">&quot;country&quot;</span>)</a></code></pre></div>
+<pre><code>## England: Almond S, Ashton A, Ayala N, Beech J, Bowen P, Bradford J, Carlson F, Carrillo J, Chamberlain H, Conley M, Dalby D, Dean O, Ellwood M, Fenton U, Ferry A, Flores R, Fox B, Fuentes A, Galindo C, Halliday S, Hardy E, Herman K, Hicks A, Holder C, Hollis S, Houston M, Kane K, Keenan L, Knights G, Lennon J, Mackie L, Michael P, Mooney A, Morin Y, Mustafa W, Ochoa A, O'Doherty H, Olsen H, Phillips A, Pitt A, Plant N, Prosser E, Richmond S, Riddle C, Riggs M, Rossi P, Skinner I, Smart F, Stokes P, Wall R, Wardle A, Werner R, Whitfield A, Whitney M, William C, Wynn J.
+## 
+## Northern Ireland: Cervantes S, Chung L, Duffy L, Gardiner F, Hodge M, Marks H, Nicholson L, Owens I, Randolph T.
+## 
+## Scotland: Andersen J, Avila E, Barker S, Berry A, Cameron G, Chan K, Clifford K, Cullen F, Dodson D, Downes A, Erickson K, Francis F, Gibbons H, Gould C, Hanna L, Jensen L, Kearns U, Kent M, Lees S, Livingston F, Moses S, O'Neill L, Rojas E, Saunders R.
+## 
+## Wales: Cantrell G, Finney R, Frazier U, Huff J, Paine R, Patrick S, Petty O, Rowe P, Villa Z, Woods B, Yang K.</code></pre>
+<p>Or groups can be further subdivided (for example by region/country, or by role)</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">report_auth</span>(data_author, <span class="dt">group=</span><span class="st">&quot;hospital&quot;</span>, <span class="dt">subdivision =</span> <span class="st">&quot;country&quot;</span>)</a></code></pre></div>
+<pre><code>## England: Dalby D, Houston M, Morin Y, Stokes P (hospital F);  Chamberlain H, Fox B, Keenan L, Mackie L, Plant N (hospital G);  Galindo C, Michael P, Prosser E (hospital H);  Bradford J, Flores R, Mooney A, O'Doherty H, Werner R (hospital I);  Dean O, Fuentes A, Hardy E, Herman K, Ochoa A, Pitt A, Skinner I, Wynn J (hospital J);  Hicks A, Holder C, Phillips A, Richmond S, Whitfield A (hospital K);  Ashton A, William C (hospital L);  Carlson F (hospital M);  Almond S, Beech J, Ferry A, Lennon J, Smart F (hospital N);  Halliday S, Riggs M, Rossi P, Wardle A, Whitney M (hospital O);  Bowen P, Carrillo J, Fenton U, Kane K, Knights G, Riddle C (hospital P);  Ayala N, Conley M, Ellwood M, Hollis S, Mustafa W, Olsen H, Wall R (hospital Q).
+## 
+## Northern Ireland: Hodge M, Owens I (hospital T);  Cervantes S, Marks H, Nicholson L (hospital U);  Chung L, Duffy L, Gardiner F, Randolph T (hospital V).
+## 
+## Scotland: Berry A, Chan K, Gould C, Jensen L (hospital A);  Clifford K, Kearns U, Livingston F, Rojas E (hospital B);  Avila E, Cullen F, Hanna L, O'Neill L (hospital C);  Barker S, Gibbons H, Kent M (hospital D);  Andersen J, Cameron G, Dodson D, Downes A, Erickson K, Francis F, Lees S, Moses S, Saunders R (hospital E).
+## 
+## Wales: Finney R, Frazier U, Paine R, Patrick S, Petty O, Villa Z (hospital R);  Cantrell G, Huff J, Rowe P, Woods B, Yang K (hospital S).</code></pre>
+</div>
+<div id="formatting" class="section level3">
+<h3>(3) Formatting</h3>
+<p>Clear and consistant formatting of authorship lists allows the contributions and afficilations of each collaborator/author to be represented. Within <code>report_auth()</code>, names are usually separated by a comma (“,”), with groups separated by a semicolon (“;”). Furthermore the name of groups are separated by round brackets (“()”). However, there is a degree of inbuilt flexibility to facilitate customisation.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">report_auth</span>(data_author, <span class="dt">group=</span><span class="st">&quot;hospital&quot;</span>, <span class="dt">subdivision =</span> <span class="st">&quot;country&quot;</span>,</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">            <span class="dt">name_sep =</span> <span class="st">&quot; +&quot;</span>, <span class="dt">group_brachet =</span> <span class="st">&quot;[}&quot;</span>,<span class="dt">group_sep =</span> <span class="st">&quot; -&quot;</span>)</a></code></pre></div>
+<pre><code>## England: Dalby D + Houston M + Morin Y + Stokes P [hospital F} -  Chamberlain H + Fox B + Keenan L + Mackie L + Plant N [hospital G} -  Galindo C + Michael P + Prosser E [hospital H} -  Bradford J + Flores R + Mooney A + O'Doherty H + Werner R [hospital I} -  Dean O + Fuentes A + Hardy E + Herman K + Ochoa A + Pitt A + Skinner I + Wynn J [hospital J} -  Hicks A + Holder C + Phillips A + Richmond S + Whitfield A [hospital K} -  Ashton A + William C [hospital L} -  Carlson F [hospital M} -  Almond S + Beech J + Ferry A + Lennon J + Smart F [hospital N} -  Halliday S + Riggs M + Rossi P + Wardle A + Whitney M [hospital O} -  Bowen P + Carrillo J + Fenton U + Kane K + Knights G + Riddle C [hospital P} -  Ayala N + Conley M + Ellwood M + Hollis S + Mustafa W + Olsen H + Wall R [hospital Q}.
+## 
+## Northern Ireland: Hodge M + Owens I [hospital T} -  Cervantes S + Marks H + Nicholson L [hospital U} -  Chung L + Duffy L + Gardiner F + Randolph T [hospital V}.
+## 
+## Scotland: Berry A + Chan K + Gould C + Jensen L [hospital A} -  Clifford K + Kearns U + Livingston F + Rojas E [hospital B} -  Avila E + Cullen F + Hanna L + O'Neill L [hospital C} -  Barker S + Gibbons H + Kent M [hospital D} -  Andersen J + Cameron G + Dodson D + Downes A + Erickson K + Francis F + Lees S + Moses S + Saunders R [hospital E}.
+## 
+## Wales: Finney R + Frazier U + Paine R + Patrick S + Petty O + Villa Z [hospital R} -  Cantrell G + Huff J + Rowe P + Woods B + Yang K [hospital S}.</code></pre>
+</div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

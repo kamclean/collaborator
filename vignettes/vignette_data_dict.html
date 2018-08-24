@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Kenneth McLean" />
+
+<meta name="date" content="2018-08-24" />
+
+<title>Generating a Simple, Easily-Shareable Data Dictionary</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#header {
+text-align: center;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Generating a Simple, Easily-Shareable Data Dictionary</h1>
+<h4 class="author"><em>Kenneth McLean</em></h4>
+<h4 class="date"><em>2018-08-24</em></h4>
+
+
+
+<p>The function <code>data_dict()</code> can be used to generate an easily sharable and informative data dictionary for an R dataframe. Unlike the <code>str()</code> function typically used to display the internal structure of dataframes in R, this produces a dataframe alongside summarising information relevant to the class of variable, and the proportion of missing data (NA) within each variable.</p>
+<div id="requirements" class="section level2">
+<h2>Requirements</h2>
+<p>The <code>data_dict()</code> function can be applied to any dataframe object. At present, it supports the following classes (other classes will be shown as “Class not supported” in the values column):</p>
+<ul>
+<li>Numeric, integer.</li>
+<li>Logical.</li>
+<li>Date.</li>
+<li>Character, String.</li>
+<li>Factor, orderedfactor.</li>
+</ul>
+<p>Example dataframe (<code>example_data_dict</code>):</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(collaborator)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">data &lt;-<span class="st"> </span>collaborator<span class="op">::</span>example_data_dict</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">knitr<span class="op">::</span><span class="kw">kable</span>(<span class="kw">head</span>(data, <span class="dt">n=</span><span class="dv">5</span>)) <span class="co"># Please note data is not based on real patients</span></a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">id_num</th>
+<th align="right">age</th>
+<th align="left">sex</th>
+<th align="left">ASA_grade</th>
+<th align="left">cvd_tf</th>
+<th align="left">cvd_yn</th>
+<th align="left">adm_date</th>
+<th align="left">op_date</th>
+<th align="left">op_urgency</th>
+<th align="left">op_procedure_code</th>
+<th align="left">follow_up</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="right">45</td>
+<td align="left">male</td>
+<td align="left">I</td>
+<td align="left">TRUE</td>
+<td align="left">yes</td>
+<td align="left">2018-07-29</td>
+<td align="left">2018-08-01</td>
+<td align="left">elective</td>
+<td align="left">0D9J00Z</td>
+<td align="left">yes</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="right">23</td>
+<td align="left">female</td>
+<td align="left">II</td>
+<td align="left">TRUE</td>
+<td align="left">yes</td>
+<td align="left">2018-07-30</td>
+<td align="left">2018-08-02</td>
+<td align="left">elective</td>
+<td align="left">0D9J0ZZ</td>
+<td align="left">no</td>
+</tr>
+<tr class="odd">
+<td align="left">3</td>
+<td align="right">76</td>
+<td align="left">female</td>
+<td align="left">II</td>
+<td align="left">TRUE</td>
+<td align="left">yes</td>
+<td align="left">2018-07-30</td>
+<td align="left">2018-08-02</td>
+<td align="left">elective</td>
+<td align="left">0D9J40Z</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">4</td>
+<td align="right">54</td>
+<td align="left">female</td>
+<td align="left">IV</td>
+<td align="left">TRUE</td>
+<td align="left">yes</td>
+<td align="left">2018-07-31</td>
+<td align="left">2018-08-03</td>
+<td align="left">emergency</td>
+<td align="left">0D9J4ZZ</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">5</td>
+<td align="right">32</td>
+<td align="left">female</td>
+<td align="left">III</td>
+<td align="left">FALSE</td>
+<td align="left">no</td>
+<td align="left">2018-08-01</td>
+<td align="left">2018-08-04</td>
+<td align="left">elective</td>
+<td align="left">0DQJ0ZZ</td>
+<td align="left">yes</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="main-features" class="section level2">
+<h2>Main Features</h2>
+<div id="output" class="section level3">
+<h3>Output</h3>
+<p>The <code>data_dict()</code> function produces a dataframe which identifies the class, summarised values, and proportion of missing data for each variable in the original dataframe.</p>
+<p>The output can be easily converted to a csv file and exported for sharing.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">library</span>(collaborator)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">knitr<span class="op">::</span><span class="kw">kable</span>(<span class="kw">data_dict</span>(data))</a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">variable</th>
+<th align="left">class</th>
+<th align="left">values</th>
+<th align="left">na_pct</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">id_num</td>
+<td align="left">character</td>
+<td align="left">20 Unique: 1, 10, 2, 3, 4, 5, 6, 7, 8, 9</td>
+<td align="left">0.0%</td>
+</tr>
+<tr class="even">
+<td align="left">age</td>
+<td align="left">numeric</td>
+<td align="left">Mean: 50.7 Median: 49.5 Range: 22.0 to 79.0</td>
+<td align="left">0.0%</td>
+</tr>
+<tr class="odd">
+<td align="left">sex</td>
+<td align="left">factor</td>
+<td align="left">2 Levels: female, male</td>
+<td align="left">0.0%</td>
+</tr>
+<tr class="even">
+<td align="left">ASA_grade</td>
+<td align="left">orderedfactor</td>
+<td align="left">5 Levels: I, II, III, IV, V</td>
+<td align="left">15.0%</td>
+</tr>
+<tr class="odd">
+<td align="left">cvd_tf</td>
+<td align="left">logical</td>
+<td align="left">TRUE, TRUE, TRUE, TRUE, FALSE, FALSE, TRUE, TRUE, FALSE, TRUE</td>
+<td align="left">0.0%</td>
+</tr>
+<tr class="even">
+<td align="left">cvd_yn</td>
+<td align="left">factor</td>
+<td align="left">2 Levels: no, yes</td>
+<td align="left">0.0%</td>
+</tr>
+<tr class="odd">
+<td align="left">adm_date</td>
+<td align="left">Date</td>
+<td align="left">Range: 2018-07-29 to 2018-08-11</td>
+<td align="left">0.0%</td>
+</tr>
+<tr class="even">
+<td align="left">op_date</td>
+<td align="left">Date</td>
+<td align="left">Range: 2018-08-01 to 2018-08-14</td>
+<td align="left">0.0%</td>
+</tr>
+<tr class="odd">
+<td align="left">op_urgency</td>
+<td align="left">factor</td>
+<td align="left">2 Levels: elective, emergency</td>
+<td align="left">0.0%</td>
+</tr>
+<tr class="even">
+<td align="left">op_procedure_code</td>
+<td align="left">character</td>
+<td align="left">20 Unique: 0D9J00Z, 0D9J0ZZ, 0D9J40Z, 0D9J4ZZ, 0DQJ0ZZ, 0DQJ4ZZ, 0DTJ0ZZ, 0DTJ4ZZ, 0F140D3, 0F140D5</td>
+<td align="left">0.0%</td>
+</tr>
+<tr class="odd">
+<td align="left">follow_up</td>
+<td align="left">factor</td>
+<td align="left">2 Levels: no, yes</td>
+<td align="left">45.0%</td>
+</tr>
+</tbody>
+</table>
+<p>Through summarising the variables, data will not necessarily be linkable to individual patients (bar in the circumstance where variable(s) contain a direct patient identifer e.g. Community Health Index (CHI) Number, hospital numbers, etc).</p>
+<p>However, should any variable(s) (such as a direct patient identifer) be desireable to exclude from the output, this can be achieved using the “var_exclude” parameter.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">library</span>(collaborator)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">knitr<span class="op">::</span><span class="kw">kable</span>(<span class="kw">data_dict</span>(data, <span class="dt">var_exclude =</span> <span class="kw">c</span>(<span class="st">&quot;id_num&quot;</span>,<span class="st">&quot;sex&quot;</span>)))</a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">variable</th>
+<th align="left">class</th>
+<th align="left">values</th>
+<th align="left">na_pct</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">age</td>
+<td align="left">numeric</td>
+<td align="left">Mean: 50.7 Median: 49.5 Range: 22.0 to 79.0</td>
+<td align="left">0.0%</td>
+</tr>
+<tr class="even">
+<td align="left">ASA_grade</td>
+<td align="left">orderedfactor</td>
+<td align="left">5 Levels: I, II, III, IV, V</td>
+<td align="left">15.0%</td>
+</tr>
+<tr class="odd">
+<td align="left">cvd_tf</td>
+<td align="left">logical</td>
+<td align="left">TRUE, TRUE, TRUE, TRUE, FALSE, FALSE, TRUE, TRUE, FALSE, TRUE</td>
+<td align="left">0.0%</td>
+</tr>
+<tr class="even">
+<td align="left">cvd_yn</td>
+<td align="left">factor</td>
+<td align="left">2 Levels: no, yes</td>
+<td align="left">0.0%</td>
+</tr>
+<tr class="odd">
+<td align="left">adm_date</td>
+<td align="left">Date</td>
+<td align="left">Range: 2018-07-29 to 2018-08-11</td>
+<td align="left">0.0%</td>
+</tr>
+<tr class="even">
+<td align="left">op_date</td>
+<td align="left">Date</td>
+<td align="left">Range: 2018-08-01 to 2018-08-14</td>
+<td align="left">0.0%</td>
+</tr>
+<tr class="odd">
+<td align="left">op_urgency</td>
+<td align="left">factor</td>
+<td align="left">2 Levels: elective, emergency</td>
+<td align="left">0.0%</td>
+</tr>
+<tr class="even">
+<td align="left">op_procedure_code</td>
+<td align="left">character</td>
+<td align="left">20 Unique: 0D9J00Z, 0D9J0ZZ, 0D9J40Z, 0D9J4ZZ, 0DQJ0ZZ, 0DQJ4ZZ, 0DTJ0ZZ, 0DTJ4ZZ, 0F140D3, 0F140D5</td>
+<td align="left">0.0%</td>
+</tr>
+<tr class="odd">
+<td align="left">follow_up</td>
+<td align="left">factor</td>
+<td align="left">2 Levels: no, yes</td>
+<td align="left">45.0%</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
