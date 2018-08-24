@@ -39,14 +39,15 @@ It requires a dataframe of at least 4 mandatory columns (corresponding to: usern
 ```{r, warning=FALSE, message=FALSE}
 library(dplyr)
 # Example output from user_roles_n()
-data_user_import <- collaborator::example_user_roles_n_full # please note all names are randomly generated
+data_user_import <- collaborator::example_user_roles_n_full %>% # please note all names are randomly generated
+  select(username, email, firstname, lastname, data_access_group)
+
 user_import(df = data_user_import,
             username = "username", first_name = "firstname", last_name = "lastname",
             email = "email", institution = "data_access_group") %>%
   knitr::kable()
 
 ```
-
 
 
 ### c). 'user_assign()'
