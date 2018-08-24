@@ -4,7 +4,7 @@
 #' @description Used to generate a report of record-level + redcap_data_access_group-level missing data within a REDCap project (which accounts for branching logic in the dataframe).
 #' @param redcap_project_uri URI (Uniform Resource Identifier) for the REDCap instance.
 #' @param redcap_project_token API (Application Programming Interface) for the REDCap project.
-#' @param var_exclude Vector of names of variables that are desired to be excluded from the missing data count (the default is "" e.g. none).
+#' @param var_exclude Vector of names of variables that are desired to be excluded from the missing data count (the default is "." e.g. none).
 #' @return Nested dataframe with a summary of missing data at the redcap_data_access_group level and the record level.
 #' @export
 
@@ -99,14 +99,14 @@ report_miss <- function(redcap_project_uri, redcap_project_token, var_exclude = 
   df_datdic %>%
     filter(is.na(branch_logic)==F) -> redcap_dd_branch
 
-  # B. Convert to present (""), missing ("M") or appropriately missing ("NA") based on branching logic
+  # B. Convert to present ("."), missing ("M") or appropriately missing ("NA") based on branching logic
   for(i in 1:nrow(redcap_dd_branch)) {
     x <- ifelse(eval(parse(text=eval(redcap_dd_branch$branch_logic[[i]])))==F,
                 NA, # if the if the branching logic has not been fufilled then NA
                 ifelse(is.na(eval(parse(text=paste0("df_project$",
                                                     eval(redcap_dd_branch$variable[[i]])))))& # if the question hasn't been answered
                          eval(parse(text=eval(redcap_dd_branch$branch_logic[[i]]))), # and if the branching logic is fufilled or
-                       "M", ""))
+                       "M", "."))
     df_project[eval(redcap_dd_branch$variable[[i]])] <- x}
 
   # 2. Non-branching variables
@@ -114,10 +114,10 @@ report_miss <- function(redcap_project_uri, redcap_project_token, var_exclude = 
   df_datdic %>%
     filter(is.na(branch_logic)==T) -> redcap_dd_nobranch
 
-  # B. Replace with  present ("") or missing ("M") based on NA status
+  # B. Replace with  present (".") or missing ("M") based on NA status
   df_project %>%
     mutate_at(colnames(df_project)[colnames(df_project) %in% redcap_dd_nobranch$variable],
-              funs(replace(., is.na(.)==F, ""))) %>%
+              funs(replace(., is.na(.)==F, "."))) %>%
     mutate_at(colnames(df_project)[colnames(df_project) %in% redcap_dd_nobranch$variable],
               funs(replace(., is.na(.)==T, "M"))) -> data_missing_pt
 
@@ -130,15 +130,15 @@ report_miss <- function(redcap_project_uri, redcap_project_token, var_exclude = 
     dplyr::mutate(fields_n = ncol(select(., -one_of("record_id", "redcap_data_access_group", "miss_n", "fields_n")))-fields_n) %>%
     dplyr::mutate(miss_prop = miss_n/fields_n) %>%
     dplyr::mutate(miss_pct = paste0(format(round(miss_prop*100, 1), nsmall=1),"%"),
-                  miss_95 = ifelse((1-miss_prop)<0.95, "Yes", "No")) %>%
-    dplyr::select(record_id, redcap_data_access_group, miss_n:miss_95, everything()) -> data_missing_pt
+                  miss_5 = ifelse((1-miss_prop)<0.95, "Yes", "No")) %>%
+    dplyr::select(record_id, redcap_data_access_group, miss_n:miss_5, everything()) -> data_missing_pt
 
   # Centre-level
   data_missing_pt %>%
-    dplyr::select(redcap_data_access_group, miss_n, fields_n, miss_95) %>%
+    dplyr::select(redcap_data_access_group, miss_n, fields_n, miss_5) %>%
     as.tibble() %>%
     group_by(redcap_data_access_group) %>%
-    dplyr::summarise(n_pt = n(), n_pt95 = sum(miss_95=="Yes"),
+    dplyr::summarise(n_pt = n(), n_pt5 = sum(miss_5=="Yes"),
                      cen_miss_n = sum(miss_n), cen_field_n = sum(fields_n)) %>%
     dplyr::mutate(cen_miss_prop = cen_miss_n/cen_field_n) %>%
     dplyr::mutate(cen_miss_pct = paste0(format(round(cen_miss_prop*100, 1), nsmall=1),"%")) -> data_missing_cen

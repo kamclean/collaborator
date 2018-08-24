@@ -38,6 +38,18 @@ Example of a record level report of missing data. This not only
 quantifies the missing data within the record, but also highlights it’s
 location within the dataset.
 
+**1. Record level summary**
+
+-   `miss_n` is the number of missing data fields (“M”).
+-   `fields_n` is the number of all data fields (excluding appropriately
+    missing data).
+-   `miss_prop` / `miss_pct` are respective proportions and percentages
+    of data that are missing for each record.
+-   `miss_5` is a binary variable indicating if the variable has &gt;5%
+    missing data (&lt;95% completeness).
+
+**2. Missing data locations (column 8 onwards)**
+
 -   “NA” fields represent appropriately missing data (e.g. secondary to
     unfufilled branching logic). Therefore, these are excluded from the
     missing data count entirely.
@@ -927,6 +939,18 @@ location within the dataset.
 
 Example of a data access group (DAG) level report of missing data
 (summarising missing data for all records within the DAG).
+
+-   `n_pt` is the number of patients within the data\_access\_group.
+-   `n_pt5` is the number of patients with &gt;5% missing data (&lt;95%
+    completeness).
+-   `cen_miss_n` is the number of missing data fields (“M”) within the
+    data\_access\_group.
+-   `fields_n` is the number of all data fields within the
+    data\_access\_group (excluding appropriately missing data).
+-   `cen_miss_prop` / `cen_miss_pct` are respective proportions and
+    percentages of data that are missing for each data\_access\_group.
+
+<!-- -->
 
     knitr::kable(collaborator::example_data_miss_dag)
 
