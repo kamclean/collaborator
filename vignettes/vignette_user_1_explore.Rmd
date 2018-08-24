@@ -1,0 +1,82 @@
+---
+title: "Redcap User Management Workflow"
+author: "Kenneth McLean"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = FALSE)
+```
+
+Management of user rights in REDCap becomes increasingly laborious as the scale of the research project expands (e.g. with the number of users, and the number of data access groups). However, at present, REDCap does not directly support mass-upload directly to the user rights module of a project. 
+
+# Exploration of current users
+## 1. user_roles_n()
+Use `user_roles_n()` to count the number of unique user "roles" within the REDcap Project (e.g. the number of unique combinations of user rights).
+
+```{r, warning=FALSE, message=FALSE}
+user_roles_n(redcap_project_uri,
+             redcap_project_token,
+             users_ignore = "")
+
+knitr::kable(data(user_roles_n_full))
+```
+
+There are 3 outputs from `user_roles_n()`:
+ 1. A string stating "There are n unique roles in this redcap project".
+ 2. A nested dataframe of:
+  a). $full: A dataframe of all user rights of the redcap project (with an additional column called "role" which numbers users 1:n according to their unique role).
+  
+```{r, warning=FALSE, message=FALSE}
+user_roles_n_full <- collaborator::example_user_roles_n_full
+
+knitr::kable(data(user_roles_n_full))
+```
+
+  b). $examples: A dataframe of each role (1:n) and an example username with those rights (can be used as input for the `user_roles()` function).
+
+```{r, warning=FALSE, message=FALSE}
+user_roles_n_eg <- collaborator::example_user_roles_n_eg
+
+knitr::kable(data(user_roles_n_eg))
+```
+
+
+## 2. user_roles()
+
+### s
+
+im_role$examples
+
+im_role_examples <- im_role$example %>%
+   dplyr::mutate(role = factor(role,
+                       levels=c(1:nrow(im_role$example)),
+                       labels=c("admin", "committee", "collaborator", "validator", NA))) %>%
+  dplyr::mutate(role = as.character(role))
+
+
+im_role_users <- user_roles(redcap_project_uri = url_bmhredcap,
+                            redcap_project_token = token_projectdata,
+                            role_users_example = im_role_examples)
+table(im_role_users$role)
+
+## 3. user_new
+
+# Assign user access
+## 1. Assign new user rights
+
+## 2. Edit current user rights
+
+
+
+# Validate current users
+## 1. Assign new user rights
+
+## 2. Edit current user rights
+

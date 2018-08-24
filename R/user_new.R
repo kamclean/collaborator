@@ -18,7 +18,6 @@ user_new <- function(redcap_project_uri, redcap_project_token, user_all.df, user
   require("RCurl")
   "%ni%" <- Negate("%in%")
 
-
   postForm(
     uri=redcap_project_uri,
     token= redcap_project_token,

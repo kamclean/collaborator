@@ -1,5 +1,5 @@
 ---
-title: "Generating a Simple, Easily-shareable Data Dictionary"
+title: "Generating a Simple, Easily-Shareable Data Dictionary"
 author: "Kenneth McLean"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -11,12 +11,10 @@ vignette: >
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
+  collapse = TRUE)
 ```
 
-The function `data_dict()` can be used to generate an easily sharable and informative data dictionary for an R dataframe. Unlike the `str()` function typically used to display the internal structure of dataframes in R, this produces a dataframe alongside summarising information relevent to the class of variable, and the proportion of missing data (NA) within each variable.
+The function `data_dict()` can be used to generate an easily sharable and informative data dictionary for an R dataframe. Unlike the `str()` function typically used to display the internal structure of dataframes in R, this produces a dataframe alongside summarising information relevant to the class of variable, and the proportion of missing data (NA) within each variable.
 
 ## Requirements
 The `data_dict()` function can be applied to any dataframe object. At present, it supports the following classes (other classes will be shown as "Class not supported" in the values column):
@@ -28,11 +26,10 @@ The `data_dict()` function can be applied to any dataframe object. At present, i
 
 Example dataframe (`example_data_dict`):
 ```{r, warning=FALSE, message=FALSE}
-devtools::install_github("kamclean/collaborator", ref = "development")
 library(collaborator)
 
-example_data_dict <- collaborator::example_data_dict
-head(example_data_dict, n=5) # Please note data is not based on real patients
+data <- collaborator::example_data_dict
+knitr::kable(head(data, n=5)) # Please note data is not based on real patients
 
 ```
 
@@ -44,7 +41,7 @@ The output can be easily converted to a csv file and exported for sharing.
 
 ```{r, warning=FALSE, message=FALSE}
 library(collaborator)
-data_dict(example_data_dict)
+knitr::kable(data_dict(data))
 
 ```
 
@@ -53,5 +50,5 @@ Any variable can be excluded from the output using the "var_exclude" parameter. 
 
 ```{r, warning=FALSE, message=FALSE}
 library(collaborator)
-data_dict(example_data_dict, var_exclude = "id_num")
+knitr::kable(data_dict(data, var_exclude = "id_num"))
 ```

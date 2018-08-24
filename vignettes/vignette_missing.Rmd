@@ -11,9 +11,7 @@ vignette: >
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
+  collapse = FALSE)
 ```
 
 Ensuring high levels of completeness within research projects is an important task for ensuring the highest quality dataset for subsequent analyses. However, determining what data is missing within a REDCap project, particularly accounting for appropriately missing data (such as in the case of unfufilled branching logic) can be a challenging and time-consuming task to produce in real-time. 
@@ -37,10 +35,9 @@ Example of a record level report of missing data. This not only quantifies the m
 - "M" fields represent 'true' missing data (which may require follow up), and so all counts of missing data are based these.
 
 ```{r, warning=FALSE, message=FALSE}
-devtools::install_github("kamclean/collaborator", ref = "development")
 library(collaborator)
 
-example_data_miss_record <- data(example_data_miss_record)
+knitr::kable(data(example_data_miss_record))
 
 ```
 
@@ -50,6 +47,6 @@ example_data_miss_record <- data(example_data_miss_record)
 Example of a data access group (DAG) level report of missing data (summarising missing data for all records within the DAG).
 
 ```{r, warning=FALSE, message=FALSE}
-example_data_miss_dag <- data(example_data_miss_dag)
+knitr::kable(data(example_data_miss_dag))
 
 ```

@@ -1,0 +1,30 @@
+---
+title: "Redcap User Management Workflow"
+author: "Kenneth McLean"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = FALSE)
+```
+
+Management of user rights in REDCap becomes increasingly laborious as the scale of the research project expands (e.g. with the number of users, and the number of data access groups). However, at present, REDCap does not directly support mass-upload directly to the user rights module of a project.
+
+# Assign user access
+## 1. Assign new user rights
+
+## 2. Edit current user rights
+
+
+
+# Validate current users
+## 1. Assign new user rights
+
+## 2. Edit current user rights
+
