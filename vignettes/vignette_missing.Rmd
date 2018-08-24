@@ -36,9 +36,8 @@ Example of a record level report of missing data. This not only quantifies the m
 - "M" fields represent 'true' missing data (which may require follow up), and so all counts of missing data are based these.
 
 ```{r, warning=FALSE, message=FALSE}
-library(collaborator)
+knitr::kable(collaborator::example_data_miss_pt)
 
-knitr::kable(collaborator::example_data_miss_record)
 
 ```
 
