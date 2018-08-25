@@ -8,8 +8,8 @@
 #' @param var_exclude Vector of names of variables that are desired to be excluded from the data dictionary (the default is "" e.g. none).
 #' @return Dataframe with 4 columns: variable (variable name), class (variable class), na_pct (the percentage of data which is NA for that variable), and values (an appropriate summary for the variable class).
 #' @export
-
-
+df <- im.user_all
+var_exclude = ""
 # Function:
 data_dict <- function(df, var_exclude=""){
   require("dplyr")
@@ -22,22 +22,29 @@ data_dict <- function(df, var_exclude=""){
   "%ni%" <- Negate("%in%")
 
   df.2 <- df %>%
-    select(colnames(.)[colnames(df) %ni% c(var_exclude)])
+    dplyr::select(colnames(.)[colnames(df) %ni% c(var_exclude)])
 
   dd.1 <- cbind(sapply(df.2, class))
 
   dd.1 <- cbind.data.frame(class = dd.1, is.na = colSums(sapply(df.2, is.na)))
 
   dd.1 %>%
-    mutate(class = sapply(class,function(x) paste(unlist(x),collapse=""))) %>%
-    mutate(class = gsub("labelled", "", class)) %>%
-    mutate(variable = rownames(dd.1)) %>%
-    mutate(na_pct = paste0(format(round(is.na / nrow(df.2) *100, 1), nsmall=1), "%")) %>%
+    dplyr::mutate(class = sapply(class,function(x) paste(unlist(x),collapse=""))) %>%
+    dplyr::mutate(class = gsub("labelled", "", class)) %>%
+    dplyr::mutate(variable = rownames(dd.1)) %>%
+    dplyr::mutate(na_pct = paste0(format(round(is.na / nrow(df.2) *100, 1), nsmall=1), "%")) %>%
     dplyr::select(variable, class, na_pct) -> dd.1
+
+  # Set values_class as NULL
+  values_num   <- NULL
+  values_date  <- NULL
+  values_logic <- NULL
+  values_char  <- NULL
+  values_fact  <- NULL
 
   # Create numeric values
   dd.1 %>%
-    filter(class=="numeric"|class=="integer") %>%
+    dplyr::filter(class=="numeric"|class=="integer") %>%
     dplyr::select(variable) %>%
     unlist()  -> var_num
 
@@ -45,7 +52,6 @@ data_dict <- function(df, var_exclude=""){
   colMin <- function(data) sapply(data, min, na.rm = TRUE)
   colMed <- function(data) sapply(data, median, na.rm = TRUE)
 
-  values_num <- NULL
   if(identical(var_num, character(0))==F){
   cbind.data.frame(variable = var_num,
     mean = colMeans(df.2[var_num], na.rm = TRUE),
@@ -53,28 +59,28 @@ data_dict <- function(df, var_exclude=""){
     min = colMin(df.2[var_num]),
     max = colMax(df.2[var_num])) %>%
 
-    mutate(values = paste("Mean:", format(round(mean, 1), nsmall=1),
-                          "Median:", format(round(median, 1), nsmall=1),
-                          "Range:", format(round(min, 1), nsmall=1), "to", format(round(max, 1), nsmall=1))) %>%
+      dplyr::mutate(values = paste("Mean:", format(round(mean, 1), nsmall=1),
+                                   "Median:", format(round(median, 1), nsmall=1),
+                                   "Range:", format(round(min, 1), nsmall=1), "to", format(round(max, 1), nsmall=1))) %>%
     dplyr::select(variable, values) -> values_num}
 
   # Create date values
   dd.1 %>%
-    filter(class=="Date") %>%
+    dplyr::filter(class=="Date") %>%
     dplyr::select(variable) %>%
     unlist()   -> var_date
 
 
   if(identical(var_date, character(0))==F){
     cbind.data.frame(variable = var_date,
-                     min = ymd(as.Date(colMin(select(df.2, var_date)), origin=lubridate::origin)),
-                     max = ymd(as.Date(colMax(select(df.2, var_date)), origin=lubridate::origin))) %>%
-      mutate(values = paste("Range:", min, "to", max)) %>%
+                     min = lubridate::ymd(as.Date(colMin(select(df.2, var_date)), origin=lubridate::origin)),
+                     max = lubridate::ymd(as.Date(colMax(select(df.2, var_date)), origin=lubridate::origin))) %>%
+      dplyr::mutate(values = paste("Range: ", min, "to", max)) %>%
       dplyr::select(variable, values) -> values_date}
 
   # Create logic values
   dd.1 %>%
-    filter(class=="logical") %>%
+    dplyr::filter(class=="logical") %>%
     dplyr::select(variable) %>%
     unlist()   -> var_logic
 
@@ -85,14 +91,14 @@ data_dict <- function(df, var_exclude=""){
     df.2 %>%
       dplyr::select(var_logic) %>%
       colList() %>%
-      as.tibble() %>%
-      summarise(variable = var_logic,
-                values = as.list(.)) %>%
-      mutate(values = as.character(values)) %>%
-      mutate(values = gsub("\\(|\\]","",values)) %>%
-      mutate(values = substr(values, 2, nchar(values))) %>%
-      mutate(values = gsub(')',"",values)) %>%
-      mutate(values = gsub(", NA","",values)) %>%
+      tibble::as_tibble() %>%
+      dplyr::summarise(variable = var_logic,
+                       values = as.list(.)) %>%
+      dplyr::mutate(values = as.character(values)) %>%
+      dplyr::mutate(values = gsub("\\(|\\]","",values)) %>%
+      dplyr::mutate(values = substr(values, 2, nchar(values))) %>%
+      dplyr::mutate(values = gsub(')',"",values)) %>%
+      dplyr::mutate(values = gsub(", NA","",values)) %>%
 
       select(variable, values) -> values_logic}
 
@@ -113,7 +119,7 @@ data_dict <- function(df, var_exclude=""){
       dplyr::select(var_char) %>%
       colUnique() %>%
       cbind(variable = var_char, .) %>%
-      as_tibble()  %>%
+      tibble::as_tibble()  %>%
       mutate(variable = as.character(variable),
              values = as.character(.)) %>%
       mutate(values = ifelse(str_split_fixed(values, " ", 2)[1]==(str_count(values, ",")+2),
@@ -138,7 +144,11 @@ data_dict <- function(df, var_exclude=""){
       rownames_to_column(., var="variable") %>%
       select(variable, values="V1") -> values_fact}
 
-  df.values <- rbind.data.frame(values_fact, values_char,values_logic, values_date, values_num)
+  df.values <- rbind.data.frame(values_fact,
+                                values_char,
+                                values_logic,
+                                values_date,
+                                values_num)
 
   dd.out <- merge.data.frame(dd.1, df.values, by="variable")
 
