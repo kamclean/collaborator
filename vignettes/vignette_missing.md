@@ -5,7 +5,7 @@ Ensuring high levels of completeness within research projects is an
 important task for ensuring the highest quality dataset for subsequent
 analyses. However, determining what data is missing within a REDCap
 project, particularly accounting for appropriately missing data (such as
-in the case of unfufilled branching logic) can be a challenging and
+in the case of unfulfilled branching logic) can be a challenging and
 time-consuming task to produce in real-time.
 
 The `report_miss()` function is designed to easily produce a high
@@ -51,7 +51,7 @@ location within the dataset.
 **2. Missing data locations (column 8 onwards)**
 
 -   “NA” fields represent appropriately missing data (e.g. secondary to
-    unfufilled branching logic). Therefore, these are excluded from the
+    unfulfilled branching logic). Therefore, these are excluded from the
     missing data count entirely.
 
 -   “M” fields represent ‘true’ missing data (which may require follow

@@ -1,5 +1,5 @@
-Collabrator: Generating a Simple, Easily-Shareable Data Dictionary
-==================================================================
+Collaborator: Generating a Simple, Easily-Shareable Data Dictionary
+===================================================================
 
 The function `data_dict()` can be used to generate an easily sharable
 and informative data dictionary for an R dataframe. Unlike the `str()`
@@ -209,11 +209,11 @@ sharing.
 
 Through summarising the variables, data will not necessarily be linkable
 to individual patients (bar in the circumstance where variable(s)
-contain a direct patient identifer e.g. Community Health Index (CHI)
+contain a direct patient identifier e.g. Community Health Index (CHI)
 Number, hospital numbers, etc).
 
-However, should any variable(s) (such as a direct patient identifer) be
-desireable to exclude from the output, this can be achieved using the
+However, should any variable(s) (such as a direct patient identifier) be
+desirable to exclude from the output, this can be achieved using the
 “var\_exclude” parameter.
 
     library(collaborator)

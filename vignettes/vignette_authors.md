@@ -8,8 +8,8 @@ across hundreds of sites with a variety of
 [roles](https://doi.org/10.1016/j.ijsu.2017.12.019).
 
 The `report_auth()` function aims to simplify this process by providing
-an easy method to complile a fully formatted authorship list with
-inbuilt flexibility in how these are presented.
+an easy method to compile a fully formatted authorship list with inbuilt
+flexibility in how these are presented.
 
 Requirements
 ------------
@@ -25,13 +25,15 @@ Example dataframe (`data_author`):
     data_author <- collaborator::example_report_author
     head(data_author, n=6) # Please note all names have been randomly generated
 
-    ##         name   hospital  country
-    ## 1   Almond S hospital N  England
+    ## # A tibble: 6 x 3
+    ##   name       hospital   country 
+    ##   <chr>      <chr>      <chr>   
+    ## 1 Almond S   hospital N England 
     ## 2 Andersen J hospital E Scotland
-    ## 3   Ashton A hospital L  England
-    ## 4    Avila E hospital C Scotland
-    ## 5    Ayala N hospital Q  England
-    ## 6   Barker S hospital D Scotland
+    ## 3 Ashton A   hospital L England 
+    ## 4 Avila E    hospital C Scotland
+    ## 5 Ayala N    hospital Q England 
+    ## 6 Barker S   hospital D Scotland
 
 Main Features
 -------------
@@ -80,8 +82,8 @@ by role)
 
 ### (3) Formatting
 
-Clear and consistant formatting of authorship lists allows the
-contributions and afficilations of each collaborator/author to be
+Clear and consistent formatting of authorship lists allows the
+contributions and affiliations of each collaborator/author to be
 represented. Within `report_auth()`, names are usually separated by a
 comma (“,”), with groups separated by a semicolon (“;”). Furthermore the
 name of groups are separated by round brackets (“()”). However, there is

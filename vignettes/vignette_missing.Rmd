@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 ```
 # Collaborator: Generating Missing Data Reports
 
-Ensuring high levels of completeness within research projects is an important task for ensuring the highest quality dataset for subsequent analyses. However, determining what data is missing within a REDCap project, particularly accounting for appropriately missing data (such as in the case of unfufilled branching logic) can be a challenging and time-consuming task to produce in real-time. 
+Ensuring high levels of completeness within research projects is an important task for ensuring the highest quality dataset for subsequent analyses. However, determining what data is missing within a REDCap project, particularly accounting for appropriately missing data (such as in the case of unfulfilled branching logic) can be a challenging and time-consuming task to produce in real-time. 
 
 The `report_miss()` function is designed to easily produce a high quality and informative report of missing data at a data_access_group and individual record level. This report highlights all missing data within a REDCap project (delineating between appropriately missing and true missing data), while removing all other data (so this can be shared in line with duties of data protection).
 
@@ -40,7 +40,7 @@ Example of a record level report of missing data. This not only quantifies the m
  
 **2. Missing data locations (column 8 onwards)**
 
-- "NA" fields represent appropriately missing data (e.g. secondary to unfufilled branching logic). Therefore, these are excluded from the missing data count entirely.
+- "NA" fields represent appropriately missing data (e.g. secondary to unfulfilled branching logic). Therefore, these are excluded from the missing data count entirely.
 
 - "M" fields represent 'true' missing data (which may require follow up), and so all counts of missing data are based these.
 

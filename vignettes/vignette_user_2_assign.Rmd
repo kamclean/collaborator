@@ -25,7 +25,7 @@ To be able to use a REDCap project, there are two prerequisites:
 
 Management of user rights in REDCap becomes increasingly laborious as the scale of the research project expands (e.g. with the number of users, and the number of data access groups). However, at present, REDCap does not directly support mass-allocation of user rights within a project.
 
-The aim of the following vignetee is to describe a workflow by which users can be easily automatically assigned within a REDCap project
+The aim of the following vignette is to describe a workflow by which users can be easily automatically assigned within a REDCap project
 
 ## Assign new user rights
 
@@ -33,7 +33,7 @@ The automatic assignment of user rights and allocation to data access groups (DA
 
 - Once set-up, it involves a fraction of the time and labour (compared to doing so manually), and can be easily repeated using R.  This enables multicentre research using REDCap to become easily scalable irrespective of the number of users and number of data access groups.
 
-- It signficantly reduces allocation errors (e.g. users being allocated to incorrect DAGs).
+- It significantly reduces allocation errors (e.g. users being allocated to incorrect DAGs).
 
 However, the downside using this method is that "user roles" cannot be assigned from outwith REDCap. Therefore, each user is automatically allocated their rights on an individual basis. This has implications that this method must be used throughout the lifespan of the project to edit current user rights (rather than simply editing those of the "user role" on REDCap).
 
@@ -47,15 +47,16 @@ These new users can then be uploaded to REDCap using `user_import()` and `user_a
 ### b). `user_import()`
 REDCap user accounts cannot be generated via R at present, and need to be manually uploaded at present (however there is capability to bulk upload via a csv file). This function can be used to generate the csv file in the exact format required for direct upload via the control centre.
 
-It requires a dataframe of at least 4 mandatory columns (corresponding to: username, first name, last name, and email address) and 4 optional columns (corresponding to: institution, sponser, expiration, comments). All optional columns will be blank unless otherwise specified.
+It requires a dataframe of at least 4 mandatory columns (corresponding to: username, first name, last name, and email address) and 4 optional columns (corresponding to: institution, sponsor, expiration, comments). All optional columns will be blank unless otherwise specified.
 
 ```{r, warning=FALSE, message=FALSE}
-library(dplyr)
+library(collaborator);library(dplyr)
+
 # Example output from user_roles_n()
 data_user_import <- collaborator::example_user_roles_n_full %>%
   select(username, email, firstname, lastname, data_access_group) # please note all names are randomly generated
 
-collaborator::user_import(df = data_user_import,
+user_import(df = data_user_import,
             username = "username", first_name = "firstname", last_name = "lastname",
             email = "email", institution = "data_access_group") %>%
   knitr::kable()
@@ -106,7 +107,7 @@ This can be achieved via the following steps:
  
  - The easiest method to achieve this is from within REDCap - a new user should either be allocated with the desired rights, or an existing user should be selected and their user rights amended as appropriate.
  
- - Alternatively this can be modified once exported to R, however this requires a clear understanding of how user rights are recorded in REDCap.
+ - Alternatively, this can be modified once exported to R however this requires a clear understanding of how user rights are recorded within REDCap.
 
 **2. Apply `user_assign()`:**
  

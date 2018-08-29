@@ -14,7 +14,7 @@ explore / apply user roles to exported REDCap user rights of a project.
 ----------------
 
 Use `user_roles_n()` to count the number of unique user “roles” within
-the REDcap Project (e.g. the number of unique combinations of user
+the REDCap Project (e.g. the number of unique combinations of user
 rights).
 
 There are 3 outputs from `user_roles_n()`:
@@ -730,7 +730,7 @@ Rights](https://github.com/kamclean/collaborator/blob/master/vignettes/vignette_
 -----------------
 
 Use `user_validate()` to explore the rights of current users, and
-identify signficant errors in assignment of user rights. This is a
+identify significant errors in assignment of user rights. This is a
 useful tool whether user rights are allocated manually, or
 [automatically](https://github.com/kamclean/collaborator/blob/master/vignettes/vignette_user_2_assign.Rmd).
 
@@ -738,9 +738,9 @@ The output from `user_validate()` is 3 nested dataframes:
 
 ### a). `$forms_na`
 
-The unallocation of form rights is a possible error during automatic
-assignment of user rights. **In this case these users will have view and
-edit rights to all forms (within their DAG) on the REDCap project**.
+Unallocated form rights is a possible error during automatic assignment
+of user rights. **In this case these users will have view and edit
+rights to all forms (within their DAG) on the REDCap project**.
 
 -   The `$forms_na` output will highlight the individual users currently
     on REDCap with NA recorded for their form rights (e.g. ability to
@@ -750,12 +750,12 @@ edit rights to all forms (within their DAG) on the REDCap project**.
     names” are being used, and the name of a data collection instrument
     is changed **after** the “role name” is created but **without**
     editing and saving the existing user role on REDCap. Once this role
-    is comfirmed with the changed names of the forms, this error should
+    is confirmed with the changed names of the forms, this error should
     disappear.
 
 ### b). `$dag_unallocated`
 
-The unallocation of data access groups is a common error during manual
+Unallocated data access groups is a common error during manual
 assignment of user rights. **In this case these users will be able to
 access all records (within their form rights) in the REDCap project**.
 
@@ -782,7 +782,7 @@ project**.
     discrepancies in the DAGs recorded so that these can be corrected.
 
 -   However, not all discrepancies are “incorrect” - some users may be
-    particpating within multiple DAGs and so will be highlighted. It is
+    participating within multiple DAGs and so will be highlighted. It is
     recommended that in this case these users are either excluded using
     `users_exception` or have separate usernames created for each DAG
     (recommended).

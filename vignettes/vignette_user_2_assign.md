@@ -17,7 +17,7 @@ users, and the number of data access groups). However, at present,
 REDCap does not directly support mass-allocation of user rights within a
 project.
 
-The aim of the following vignetee is to describe a workflow by which
+The aim of the following vignette is to describe a workflow by which
 users can be easily automatically assigned within a REDCap project
 
 Assign new user rights
@@ -32,7 +32,7 @@ groups (DAG) has several important advantages over the manual method:
     irrespective of the number of users and number of data access
     groups.
 
--   It signficantly reduces allocation errors (e.g. users being
+-   It significantly reduces allocation errors (e.g. users being
     allocated to incorrect DAGs).
 
 However, the downside using this method is that “user roles” cannot be
@@ -64,15 +64,16 @@ centre.
 
 It requires a dataframe of at least 4 mandatory columns (corresponding
 to: username, first name, last name, and email address) and 4 optional
-columns (corresponding to: institution, sponser, expiration, comments).
+columns (corresponding to: institution, sponsor, expiration, comments).
 All optional columns will be blank unless otherwise specified.
 
-    library(dplyr)
+    library(collaborator);library(dplyr)
+
     # Example output from user_roles_n()
     data_user_import <- collaborator::example_user_roles_n_full %>%
       select(username, email, firstname, lastname, data_access_group) # please note all names are randomly generated
 
-    collaborator::user_import(df = data_user_import,
+    user_import(df = data_user_import,
                 username = "username", first_name = "firstname", last_name = "lastname",
                 email = "email", institution = "data_access_group") %>%
       knitr::kable()
@@ -319,9 +320,9 @@ This can be achieved via the following steps:
     existing user should be selected and their user rights amended as
     appropriate.
 
--   Alternatively this can be modified once exported to R, however this
-    requires a clear understanding of how user rights are recorded in
-    REDCap.
+-   Alternatively, this can be modified once exported to R however this
+    requires a clear understanding of how user rights are recorded
+    within REDCap.
 
 **2. Apply `user_assign()`:**
 
