@@ -59,7 +59,7 @@ report_auth <- function(df, group = NULL, subdivision = NULL,
 
        dplyr::mutate(auth_out_sd = paste0(subdivision, ": ", auth_out))
 
-     readr::write_file(auth_out$auth_out_sd, file="auth_out.txt")}
+     readr::write_file(auth_out$auth_out_sd, path="auth_out.txt")}
 
   if(is.null(group)==FALSE&is.null(subdivision)==FALSE){
     auth_out <- df %>%
@@ -82,6 +82,6 @@ report_auth <- function(df, group = NULL, subdivision = NULL,
 
       dplyr::mutate(auth_out_sd = paste0(subdivision, ": ", auth_out))
 
-    write(auth_out$auth_out_sd, file="auth_out.txt")}
+    write(auth_out$auth_out_sd, path="auth_out.txt")}
 
   return(cat(readr::read_file("auth_out.txt")))}
