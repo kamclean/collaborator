@@ -10,6 +10,7 @@
 #' @param group_brachet Character(s) bracheting the group (the default is "()").
 #' @param group_sep Character(s) which will separate the groups (the default is ";").
 #' @importFrom dplyr filter mutate arrange select summarise group_by pull
+#' @importFrom magrittr "%>%"
 #' @importFrom stringi stri_replace_last_fixed
 #' @importFrom readr write_file
 #' @return Generates a text file ("auth_out.txt").
