@@ -7,17 +7,15 @@
 #' @param df Dataframe.
 #' @param var_exclude Vector of names of variables that are desired to be excluded from the data dictionary (the default is "" e.g. none).
 #' @return Dataframe with 4 columns: variable (variable name), class (variable class), na_pct (the percentage of data which is NA for that variable), and values (an appropriate summary for the variable class).
+#' @importFrom dplyr filter mutate arrange select summarise
+#' @importFrom tibble as_tibble rownames_to_column
+#' @importFrom stringr str_count str_split_fixed
+#' @importFrom lubridate ymd origin
+#' @importFrom gdata reorder.factor
 #' @export
-df <- im.user_all
-var_exclude = ""
+
 # Function:
 data_dict <- function(df, var_exclude=""){
-  require("dplyr")
-  require("stringr")
-  require("purrr")
-  require("tibble")
-  require("lubridate")
-  require("gdata")
 
   "%ni%" <- Negate("%in%")
 
@@ -120,9 +118,9 @@ data_dict <- function(df, var_exclude=""){
       colUnique() %>%
       cbind(variable = var_char, .) %>%
       tibble::as_tibble()  %>%
-      mutate(variable = as.character(variable),
+      dplyr::mutate(variable = as.character(variable),
              values = as.character(.)) %>%
-      mutate(values = ifelse(str_split_fixed(values, " ", 2)[1]==(str_count(values, ",")+2),
+      dplyr::mutate(values = ifelse(stringr::str_split_fixed(values, " ", 2)[1]==(stringr::str_count(values, ",")+2),
                              paste0(values, ", NA"),
                              values)) %>%
       select(variable, values) -> values_char}
@@ -140,9 +138,9 @@ data_dict <- function(df, var_exclude=""){
     df.2 %>%
       dplyr::select(var_fact) %>%
       colLevels() %>%
-      as.tibble() %>% t() %>% as.data.frame() %>%
-      rownames_to_column(., var="variable") %>%
-      select(variable, values="V1") -> values_fact}
+      tibble::as.tibble() %>% t() %>% as.data.frame() %>%
+      tibble::rownames_to_column(., var="variable") %>%
+      dplyr::select(variable, values="V1") -> values_fact}
 
   df.values <- rbind.data.frame(values_fact,
                                 values_char,
@@ -153,18 +151,18 @@ data_dict <- function(df, var_exclude=""){
   dd.out <- merge.data.frame(dd.1, df.values, by="variable")
 
   dd.1 %>%
-    filter(variable %ni% dd.out$variable) -> dd_class
+    dplyr::filter(variable %ni% dd.out$variable) -> dd_class
 
   if(nrow(dd_class)!=0){
 
     dd_class %>%
-      mutate(values = "Class not supported") -> dd_class
+      dplyr::mutate(values = "Class not supported") -> dd_class
 
    dd.out <- rbind.data.frame(dd.out, dd_class)}
 
   dd.out %>%
-    mutate(variable = reorder.factor(variable, new.order=colnames(df.2))) %>%
-    arrange(variable) %>%
-    select(variable, class, values, na_pct) -> dd.out
+    dplyr::mutate(variable = gdata::reorder.factor(variable, new.order=colnames(df.2))) %>%
+    dplyr::arrange(variable) %>%
+    dplyr::select(variable, class, values, na_pct) -> dd.out
 
   return(dd.out)}
