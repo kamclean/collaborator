@@ -19,6 +19,7 @@ It is recommended that this package is used together with `tidyverse` packages.
 
 Vignettes
 ---------
+[Redcap Summary Data](https://github.com/kamclean/collaborator/blob/master/vignettes/vignette_summary.md)
 
 [Redcap User Management: 1. Explore Current Users](https://github.com/kamclean/collaborator/blob/master/vignettes/vignette_user_1_explore.md)
 
