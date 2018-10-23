@@ -12,8 +12,10 @@ vignette: >
 ---
 
 ```{r setup, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = FALSE)
+knitr::opts_chunk$set(collapse = FALSE)
+  
+redcap_project_uri = "https://redcap.cir.ed.ac.uk/redcap_v8.4.5/API/"
+redcap_project_token = "582D6629348CB3AED679BCADE20969DA"
 ```
 # Collaborator: Redcap User Management 2. Automatically Assign User Rights
 
@@ -53,7 +55,7 @@ It requires a dataframe of at least 4 mandatory columns (corresponding to: usern
 library(collaborator);library(dplyr)
 
 # Example output from user_roles_n()
-data_user_import <- collaborator::example_user_roles_n_full %>%
+data_user_import <- user_roles_n(redcap_project_uri, redcap_project_token)$full %>%
   select(username, email, firstname, lastname, data_access_group) # please note all names are randomly generated
 
 user_import(df = data_user_import,

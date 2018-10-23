@@ -70,8 +70,10 @@ All optional columns will be blank unless otherwise specified.
     library(collaborator);library(dplyr)
 
     # Example output from user_roles_n()
-    data_user_import <- collaborator::example_user_roles_n_full %>%
+    data_user_import <- user_roles_n(redcap_project_uri, redcap_project_token)$full %>%
       select(username, email, firstname, lastname, data_access_group) # please note all names are randomly generated
+
+    ## [1] "There are 3 unique roles in this redcap project"
 
     user_import(df = data_user_import,
                 username = "username", first_name = "firstname", last_name = "lastname",
@@ -93,11 +95,271 @@ All optional columns will be blank unless otherwise specified.
 </thead>
 <tbody>
 <tr class="odd">
+<td style="text-align: left;">a_barker</td>
+<td style="text-align: left;">Aleesha</td>
+<td style="text-align: left;">Barker</td>
+<td style="text-align: left;"><a href="mailto:a_barker@email.com">a_barker@email.com</a></td>
+<td style="text-align: left;">hospital_a</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">a_hicks</td>
+<td style="text-align: left;">Alyssa</td>
+<td style="text-align: left;">Hicks</td>
+<td style="text-align: left;"><a href="mailto:a_hicks@email.com">a_hicks@email.com</a></td>
+<td style="text-align: left;">hospital_e</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">a_lees</td>
+<td style="text-align: left;">Aleesha</td>
+<td style="text-align: left;">Lees</td>
+<td style="text-align: left;"><a href="mailto:a_lees@email.com">a_lees@email.com</a></td>
+<td style="text-align: left;">hospital_g</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">a_nicholson</td>
+<td style="text-align: left;">Alyssa</td>
+<td style="text-align: left;">Nicholson</td>
+<td style="text-align: left;"><a href="mailto:a_nicholson@email.com">a_nicholson@email.com</a></td>
+<td style="text-align: left;">hospital_i</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">c_avila</td>
+<td style="text-align: left;">Chanice</td>
+<td style="text-align: left;">Avila</td>
+<td style="text-align: left;"><a href="mailto:c_avila@email.com">c_avila@email.com</a></td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">c_gould</td>
+<td style="text-align: left;">Chanice</td>
+<td style="text-align: left;">Gould</td>
+<td style="text-align: left;"><a href="mailto:c_gould@email.com">c_gould@email.com</a></td>
+<td style="text-align: left;">hospital_b</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">c_kent</td>
+<td style="text-align: left;">Chanice</td>
+<td style="text-align: left;">Kent</td>
+<td style="text-align: left;"><a href="mailto:c_kent@email.com">c_kent@email.com</a></td>
+<td style="text-align: left;">hospital_f</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">c_michael</td>
+<td style="text-align: left;">Chanice</td>
+<td style="text-align: left;">Michael</td>
+<td style="text-align: left;"><a href="mailto:c_michael@email.com">c_michael@email.com</a></td>
+<td style="text-align: left;">hospital_h</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;">f_almond</td>
 <td style="text-align: left;">Fleur</td>
 <td style="text-align: left;">Almond</td>
 <td style="text-align: left;"><a href="mailto:f_almond@email.com">f_almond@email.com</a></td>
 <td style="text-align: left;">NA</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">f_galindo</td>
+<td style="text-align: left;">Fleur</td>
+<td style="text-align: left;">Galindo</td>
+<td style="text-align: left;"><a href="mailto:f_galindo@email.com">f_galindo@email.com</a></td>
+<td style="text-align: left;">hospital_a</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">f_livingston</td>
+<td style="text-align: left;">Fleur</td>
+<td style="text-align: left;">Livingston</td>
+<td style="text-align: left;"><a href="mailto:f_livingston@email.com">f_livingston@email.com</a></td>
+<td style="text-align: left;">hospital_g</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">h_herman</td>
+<td style="text-align: left;">Hailie</td>
+<td style="text-align: left;">Herman</td>
+<td style="text-align: left;"><a href="mailto:h_herman@email.com">h_herman@email.com</a></td>
+<td style="text-align: left;">hospital_d</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">h_mustafa</td>
+<td style="text-align: left;">Hailie</td>
+<td style="text-align: left;">Mustafa</td>
+<td style="text-align: left;"><a href="mailto:h_mustafa@email.com">h_mustafa@email.com</a></td>
+<td style="text-align: left;">hospital_i</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">k_ashton</td>
+<td style="text-align: left;">Kester</td>
+<td style="text-align: left;">Ashton</td>
+<td style="text-align: left;"><a href="mailto:k_ashton@email.com">k_ashton@email.com</a></td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">k_gibbons</td>
+<td style="text-align: left;">Kester</td>
+<td style="text-align: left;">Gibbons</td>
+<td style="text-align: left;"><a href="mailto:k_gibbons@email.com">k_gibbons@email.com</a></td>
+<td style="text-align: left;">hospital_b</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">k_marks</td>
+<td style="text-align: left;">Kester</td>
+<td style="text-align: left;">Marks</td>
+<td style="text-align: left;"><a href="mailto:k_marks@email.com">k_marks@email.com</a></td>
+<td style="text-align: left;">hospital_h</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">l_cervantes</td>
+<td style="text-align: left;">Leroy</td>
+<td style="text-align: left;">Cervantes</td>
+<td style="text-align: left;"><a href="mailto:l_cervantes@email.com">l_cervantes@email.com</a></td>
+<td style="text-align: left;">hospital_a</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">l_jensen</td>
+<td style="text-align: left;">Leroy</td>
+<td style="text-align: left;">Jensen</td>
+<td style="text-align: left;"><a href="mailto:l_jensen@email.com">l_jensen@email.com</a></td>
+<td style="text-align: left;">hospital_e</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">l_paine</td>
+<td style="text-align: left;">Leroy</td>
+<td style="text-align: left;">Paine</td>
+<td style="text-align: left;"><a href="mailto:l_paine@email.com">l_paine@email.com</a></td>
+<td style="text-align: left;">hospital_j</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">m_owens</td>
+<td style="text-align: left;">Martha</td>
+<td style="text-align: left;">Owens</td>
+<td style="text-align: left;"><a href="mailto:m_owens@email.com">m_owens@email.com</a></td>
+<td style="text-align: left;">hospital_j</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">r_bradford</td>
+<td style="text-align: left;">Ralph</td>
+<td style="text-align: left;">Bradford</td>
+<td style="text-align: left;"><a href="mailto:r_bradford@email.com">r_bradford@email.com</a></td>
+<td style="text-align: left;">hospital_c</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">r_hodge</td>
+<td style="text-align: left;">Ralph</td>
+<td style="text-align: left;">Hodge</td>
+<td style="text-align: left;"><a href="mailto:r_hodge@email.com">r_hodge@email.com</a></td>
+<td style="text-align: left;">hospital_f</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">r_ochoa</td>
+<td style="text-align: left;">Ralph</td>
+<td style="text-align: left;">Ochoa</td>
+<td style="text-align: left;"><a href="mailto:r_ochoa@email.com">r_ochoa@email.com</a></td>
+<td style="text-align: left;">hospital_i</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">s_ayala</td>
+<td style="text-align: left;">Samiha</td>
+<td style="text-align: left;">Ayala</td>
+<td style="text-align: left;"><a href="mailto:s_ayala@email.com">s_ayala@email.com</a></td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">s_beech</td>
+<td style="text-align: left;">Shanelle</td>
+<td style="text-align: left;">Beech</td>
+<td style="text-align: left;"><a href="mailto:s_beech@email.com">s_beech@email.com</a></td>
+<td style="text-align: left;">hospital_b</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">s_hardy</td>
+<td style="text-align: left;">Shanelle</td>
+<td style="text-align: left;">Hardy</td>
+<td style="text-align: left;"><a href="mailto:s_hardy@email.com">s_hardy@email.com</a></td>
+<td style="text-align: left;">hospital_d</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">s_moses</td>
+<td style="text-align: left;">Shanelle</td>
+<td style="text-align: left;">Moses</td>
+<td style="text-align: left;"><a href="mailto:s_moses@email.com">s_moses@email.com</a></td>
+<td style="text-align: left;">hospital_h</td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
@@ -113,81 +375,61 @@ All optional columns will be blank unless otherwise specified.
 <td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">k_ashton</td>
-<td style="text-align: left;">Kester</td>
-<td style="text-align: left;">Ashton</td>
-<td style="text-align: left;"><a href="mailto:k_ashton@email.com">k_ashton@email.com</a></td>
-<td style="text-align: left;">NA</td>
+<td style="text-align: left;">y_holder</td>
+<td style="text-align: left;">Yara</td>
+<td style="text-align: left;">Holder</td>
+<td style="text-align: left;"><a href="mailto:y_holder@email.com">y_holder@email.com</a></td>
+<td style="text-align: left;">hospital_e</td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">c_avila</td>
-<td style="text-align: left;">Chanice</td>
-<td style="text-align: left;">Avila</td>
-<td style="text-align: left;"><a href="mailto:c_avila@email.com">c_avila@email.com</a></td>
-<td style="text-align: left;">NA</td>
+<td style="text-align: left;">y_mackie</td>
+<td style="text-align: left;">Yaseen</td>
+<td style="text-align: left;">Mackie</td>
+<td style="text-align: left;"><a href="mailto:y_mackie@email.com">y_mackie@email.com</a></td>
+<td style="text-align: left;">hospital_g</td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">s_ayala</td>
-<td style="text-align: left;">Samiha</td>
-<td style="text-align: left;">Ayala</td>
-<td style="text-align: left;"><a href="mailto:s_ayala@email.com">s_ayala@email.com</a></td>
+<td style="text-align: left;">y_o’doherty</td>
 <td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_j</td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">a_barker</td>
+<td style="text-align: left;">y_odoherty</td>
+<td style="text-align: left;">Yara</td>
+<td style="text-align: left;">O’Doherty</td>
+<td style="text-align: left;"><a href="mailto:y_odoherty@email.com">y_odoherty@email.com</a></td>
+<td style="text-align: left;">hospital_j</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">a_hanna</td>
 <td style="text-align: left;">Aleesha</td>
-<td style="text-align: left;">Barker</td>
-<td style="text-align: left;"><a href="mailto:a_barker@email.com">a_barker@email.com</a></td>
-<td style="text-align: left;">hospital_A</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">s_beech</td>
-<td style="text-align: left;">Shanelle</td>
-<td style="text-align: left;">Beech</td>
-<td style="text-align: left;"><a href="mailto:s_beech@email.com">s_beech@email.com</a></td>
-<td style="text-align: left;">hospital_B</td>
+<td style="text-align: left;">Hanna</td>
+<td style="text-align: left;"><a href="mailto:a_hanna@email.com">a_hanna@email.com</a></td>
+<td style="text-align: left;">hospital_d</td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">h_berry</td>
-<td style="text-align: left;">Hailie</td>
-<td style="text-align: left;">Berry</td>
-<td style="text-align: left;"><a href="mailto:h_berry@email.com">h_berry@email.com</a></td>
-<td style="text-align: left;">hospital_B</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">a_bowen</td>
-<td style="text-align: left;">Alyssa</td>
-<td style="text-align: left;">Bowen</td>
-<td style="text-align: left;"><a href="mailto:a_bowen@email.com">a_bowen@email.com</a></td>
-<td style="text-align: left;">hospital_C</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">r_bradford</td>
-<td style="text-align: left;">Ralph</td>
-<td style="text-align: left;">Bradford</td>
-<td style="text-align: left;"><a href="mailto:r_bradford@email.com">r_bradford@email.com</a></td>
-<td style="text-align: left;">hospital_C</td>
+<td style="text-align: left;">s_knights</td>
+<td style="text-align: left;">Samiha</td>
+<td style="text-align: left;">Knights</td>
+<td style="text-align: left;"><a href="mailto:s_knights@email.com">s_knights@email.com</a></td>
+<td style="text-align: left;">hospital_f</td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
@@ -197,47 +439,17 @@ All optional columns will be blank unless otherwise specified.
 <td style="text-align: left;">Yara</td>
 <td style="text-align: left;">Cameron</td>
 <td style="text-align: left;"><a href="mailto:y_cameron@email.com">y_cameron@email.com</a></td>
-<td style="text-align: left;">hospital_D</td>
+<td style="text-align: left;">hospital_c</td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">m_cantrell</td>
-<td style="text-align: left;">Meg</td>
-<td style="text-align: left;">Cantrell</td>
-<td style="text-align: left;"><a href="mailto:m_cantrell@email.com">m_cantrell@email.com</a></td>
-<td style="text-align: left;">hospital_D</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">a_carlson</td>
-<td style="text-align: left;">Ayomide</td>
-<td style="text-align: left;">Carlson</td>
-<td style="text-align: left;"><a href="mailto:a_carlson@email.com">a_carlson@email.com</a></td>
-<td style="text-align: left;">hospital_A</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">m_carrillo</td>
-<td style="text-align: left;">Martha</td>
-<td style="text-align: left;">Carrillo</td>
-<td style="text-align: left;"><a href="mailto:m_carrillo@email.com">m_carrillo@email.com</a></td>
-<td style="text-align: left;">hospital_B</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">l_cervantes</td>
-<td style="text-align: left;">Leroy</td>
-<td style="text-align: left;">Cervantes</td>
-<td style="text-align: left;"><a href="mailto:l_cervantes@email.com">l_cervantes@email.com</a></td>
-<td style="text-align: left;">hospital_D</td>
+<td style="text-align: left;">kmclean</td>
+<td style="text-align: left;">Kenneth</td>
+<td style="text-align: left;">McLean</td>
+<td style="text-align: left;"><a href="mailto:mcleankaca@gmail.com">mcleankaca@gmail.com</a></td>
+<td style="text-align: left;">NA</td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
