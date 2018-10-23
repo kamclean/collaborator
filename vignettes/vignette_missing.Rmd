@@ -48,7 +48,8 @@ Example of a record level report of missing data. This not only quantifies the m
 - "M" fields represent 'true' missing data (which may require follow up), and so all counts of missing data are based these.
 
 ```{r, warning=FALSE, message=FALSE}
-report_miss(redcap_project_uri,redcap_project_token)$data_missing_record
+report_miss(redcap_project_uri,redcap_project_token)$data_missing_record %>%
+  knitr::kable()
 
 ```
 
@@ -63,5 +64,6 @@ Example of a data access group (DAG) level report of missing data (summarising m
  - `cen_miss_prop` / `cen_miss_pct` are respective proportions and percentages of data that are missing for each data_access_group.
  
 ```{r, warning=FALSE, message=FALSE}
-report_miss(redcap_project_uri,redcap_project_token)$data_missing_dag
+report_miss(redcap_project_uri,redcap_project_token)$data_missing_dag %>%
+  knitr::kable()
 ```

@@ -69,10 +69,33 @@ using `record_exclude` or in DAGs removed using `dag_exclude`).
 
 <!-- -->
 
-    redcap_sum(redcap_project_uri, redcap_project_token, centre_sum = F) 
+    redcap_sum(redcap_project_uri, redcap_project_token, centre_sum = F)  %>%
+      knitr::kable()
 
-    ##   n_record_all n_record_com prop_com pct_com n_dag n_users last_update
-    ## 1           50           26     0.52   52.0%     8      30 23-Oct-2018
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: right;">n_record_all</th>
+<th style="text-align: right;">n_record_com</th>
+<th style="text-align: right;">prop_com</th>
+<th style="text-align: left;">pct_com</th>
+<th style="text-align: right;">n_dag</th>
+<th style="text-align: right;">n_users</th>
+<th style="text-align: left;">last_update</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">26</td>
+<td style="text-align: right;">0.52</td>
+<td style="text-align: left;">52.0%</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: left;">23-Oct-2018</td>
+</tr>
+</tbody>
+</table>
 
 ### (2) Centre summary data
 
@@ -87,21 +110,114 @@ This will produce a dataframe of the same summary data as outlined above
 **grouped by each DAG instead** (minus any DAGs removed using
 `dag_exclude`).
 
-    redcap_sum(redcap_project_uri, redcap_project_token, centre_sum = T)$dag_all
+    redcap_sum(redcap_project_uri, redcap_project_token, centre_sum = T)$dag_all %>%
+      knitr::kable()
 
-    ## # A tibble: 10 x 7
-    ##    dag        record_all record_com prop_com pct_com user_all last_update
-    ##    <chr>           <dbl>      <dbl>    <dbl> <chr>      <int> <chr>      
-    ##  1 hospital_a         10          5    0.5   50.0%          3 23-Oct-2018
-    ##  2 hospital_e          9          6    0.667 66.7%          3 23-Oct-2018
-    ##  3 hospital_g          7          4    0.571 57.1%          3 23-Oct-2018
-    ##  4 hospital_b          6          3    0.5   50.0%          3 23-Oct-2018
-    ##  5 hospital_f          6          3    0.5   50.0%          3 23-Oct-2018
-    ##  6 hospital_h          6          2    0.333 33.3%          3 23-Oct-2018
-    ##  7 hospital_d          4          1    0.25  25.0%          3 23-Oct-2018
-    ##  8 hospital_c          2          2    1     100.0%         2 23-Oct-2018
-    ##  9 hospital_i          0         NA   NA     <NA>           3 23-Oct-2018
-    ## 10 hospital_j          0         NA   NA     <NA>           4 23-Oct-2018
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">dag</th>
+<th style="text-align: right;">record_all</th>
+<th style="text-align: right;">record_com</th>
+<th style="text-align: right;">prop_com</th>
+<th style="text-align: left;">pct_com</th>
+<th style="text-align: right;">user_all</th>
+<th style="text-align: left;">last_update</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">hospital_a</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0.5000000</td>
+<td style="text-align: left;">50.0%</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">23-Oct-2018</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hospital_e</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0.6666667</td>
+<td style="text-align: left;">66.7%</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">23-Oct-2018</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hospital_g</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.5714286</td>
+<td style="text-align: left;">57.1%</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">23-Oct-2018</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hospital_b</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.5000000</td>
+<td style="text-align: left;">50.0%</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">23-Oct-2018</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hospital_f</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.5000000</td>
+<td style="text-align: left;">50.0%</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">23-Oct-2018</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hospital_h</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0.3333333</td>
+<td style="text-align: left;">33.3%</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">23-Oct-2018</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hospital_d</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.2500000</td>
+<td style="text-align: left;">25.0%</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">23-Oct-2018</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hospital_c</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1.0000000</td>
+<td style="text-align: left;">100.0%</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">23-Oct-2018</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hospital_i</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">23-Oct-2018</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hospital_j</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">23-Oct-2018</td>
+</tr>
+</tbody>
+</table>
 
 #### 2. `$dag_nodata` Output
 
@@ -110,13 +226,42 @@ REDCap project, but no data uploaded to REDCap. This may be useful for
 the purposes of targeting encouragement to upload data, or establishing
 authorship on any research output.
 
-    redcap_sum(redcap_project_uri, redcap_project_token, centre_sum = T)$dag_nodata
+    redcap_sum(redcap_project_uri, redcap_project_token, centre_sum = T)$dag_nodata %>%
+      knitr::kable()
 
-    ## # A tibble: 2 x 7
-    ##   dag        record_all record_com prop_com pct_com user_all last_update
-    ##   <chr>           <dbl>      <dbl>    <dbl> <chr>      <int> <chr>      
-    ## 1 hospital_i          0         NA       NA <NA>           3 23-Oct-2018
-    ## 2 hospital_j          0         NA       NA <NA>           4 23-Oct-2018
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">dag</th>
+<th style="text-align: right;">record_all</th>
+<th style="text-align: right;">record_com</th>
+<th style="text-align: right;">prop_com</th>
+<th style="text-align: left;">pct_com</th>
+<th style="text-align: right;">user_all</th>
+<th style="text-align: left;">last_update</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">hospital_i</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">23-Oct-2018</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hospital_j</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">23-Oct-2018</td>
+</tr>
+</tbody>
+</table>
 
 #### 3. `$dag_incom` Output
 
@@ -125,18 +270,87 @@ definition of completeness customisable as discussed above). This may be
 useful for the purposes of follow up regarding (essential) missing data
 at each of these DAGs.
 
-    redcap_sum(redcap_project_uri, redcap_project_token, centre_sum = T)$dag_incom
+    redcap_sum(redcap_project_uri, redcap_project_token, centre_sum = T)$dag_incom %>%
+      knitr::kable()
 
-    ## # A tibble: 7 x 7
-    ##   dag        record_all record_com prop_com pct_com user_all last_update
-    ##   <chr>           <dbl>      <dbl>    <dbl> <chr>      <int> <chr>      
-    ## 1 hospital_a         10          5    0.5   50.0%          3 23-Oct-2018
-    ## 2 hospital_e          9          6    0.667 66.7%          3 23-Oct-2018
-    ## 3 hospital_g          7          4    0.571 57.1%          3 23-Oct-2018
-    ## 4 hospital_b          6          3    0.5   50.0%          3 23-Oct-2018
-    ## 5 hospital_f          6          3    0.5   50.0%          3 23-Oct-2018
-    ## 6 hospital_h          6          2    0.333 33.3%          3 23-Oct-2018
-    ## 7 hospital_d          4          1    0.25  25.0%          3 23-Oct-2018
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">dag</th>
+<th style="text-align: right;">record_all</th>
+<th style="text-align: right;">record_com</th>
+<th style="text-align: right;">prop_com</th>
+<th style="text-align: left;">pct_com</th>
+<th style="text-align: right;">user_all</th>
+<th style="text-align: left;">last_update</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">hospital_a</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0.5000000</td>
+<td style="text-align: left;">50.0%</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">23-Oct-2018</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hospital_e</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0.6666667</td>
+<td style="text-align: left;">66.7%</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">23-Oct-2018</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hospital_g</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.5714286</td>
+<td style="text-align: left;">57.1%</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">23-Oct-2018</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hospital_b</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.5000000</td>
+<td style="text-align: left;">50.0%</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">23-Oct-2018</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hospital_f</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.5000000</td>
+<td style="text-align: left;">50.0%</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">23-Oct-2018</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hospital_h</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0.3333333</td>
+<td style="text-align: left;">33.3%</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">23-Oct-2018</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hospital_d</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.2500000</td>
+<td style="text-align: left;">25.0%</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">23-Oct-2018</td>
+</tr>
+</tbody>
+</table>
 
 #### 4. `$dag_top_n` Output
 
@@ -145,13 +359,36 @@ overall (the number of DAGs listed is defined by `n_top_dag` with top 10
 DAG being default). This may be useful for the purposes of publicity
 surrounding the project.
 
-    redcap_sum(redcap_project_uri, redcap_project_token, centre_sum = T, n_top_dag = 5)$dag_top_n
+    redcap_sum(redcap_project_uri, redcap_project_token, centre_sum = T, n_top_dag = 5)$dag_top_n %>%
+      knitr::kable()
 
-    ## # A tibble: 5 x 2
-    ##   top_n_dag  record_all
-    ##   <chr>           <dbl>
-    ## 1 hospital_a         10
-    ## 2 hospital_e          9
-    ## 3 hospital_g          7
-    ## 4 hospital_b          6
-    ## 5 hospital_f          6
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">top_n_dag</th>
+<th style="text-align: right;">record_all</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">hospital_a</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hospital_e</td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hospital_g</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hospital_b</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hospital_f</td>
+<td style="text-align: right;">6</td>
+</tr>
+</tbody>
+</table>

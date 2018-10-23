@@ -52,7 +52,8 @@ At it's most basic, `redcap_sum()` can produce an overall summary of current dat
  - `last_update` is the date which the summary data was generated on. 
  
 ```{r, warning=FALSE, message=FALSE}
-redcap_sum(redcap_project_uri, redcap_project_token, centre_sum = F) 
+redcap_sum(redcap_project_uri, redcap_project_token, centre_sum = F)  %>%
+  knitr::kable()
 
 ```
 
@@ -64,7 +65,8 @@ However, more granular summary data on each DAG can also be obtained using the s
 This will produce a dataframe of the same summary data as outlined above **grouped by each DAG instead** (minus any DAGs removed using `dag_exclude`).
 
 ```{r, warning=FALSE, message=FALSE}
-redcap_sum(redcap_project_uri, redcap_project_token, centre_sum = T)$dag_all
+redcap_sum(redcap_project_uri, redcap_project_token, centre_sum = T)$dag_all %>%
+  knitr::kable()
 
 ```
 
@@ -72,7 +74,8 @@ redcap_sum(redcap_project_uri, redcap_project_token, centre_sum = T)$dag_all
 This will produce a dataframe of all DAG with users assigned on the REDCap project, but no data uploaded to REDCap. This may be useful for the purposes of targeting encouragement to upload data, or establishing authorship on any research output. 
 
 ```{r, warning=FALSE, message=FALSE}
-redcap_sum(redcap_project_uri, redcap_project_token, centre_sum = T)$dag_nodata
+redcap_sum(redcap_project_uri, redcap_project_token, centre_sum = T)$dag_nodata %>%
+  knitr::kable()
 
 ```
 
@@ -81,7 +84,8 @@ redcap_sum(redcap_project_uri, redcap_project_token, centre_sum = T)$dag_nodata
 This will produce a dataframe of all DAG with incomplete records (the definition of completeness customisable as discussed above). This may be useful for the purposes of follow up regarding (essential) missing data at each of these DAGs. 
 
 ```{r, warning=FALSE, message=FALSE}
-redcap_sum(redcap_project_uri, redcap_project_token, centre_sum = T)$dag_incom
+redcap_sum(redcap_project_uri, redcap_project_token, centre_sum = T)$dag_incom %>%
+  knitr::kable()
 
 ```
 
@@ -92,6 +96,7 @@ This will produce a dataframe of the DAGs with the most records uploaded overall
 
 
 ```{r, warning=FALSE, message=FALSE}
-redcap_sum(redcap_project_uri, redcap_project_token, centre_sum = T, n_top_dag = 5)$dag_top_n
+redcap_sum(redcap_project_uri, redcap_project_token, centre_sum = T, n_top_dag = 5)$dag_top_n %>%
+  knitr::kable()
 
 ```
