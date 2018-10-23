@@ -10,8 +10,10 @@ vignette: >
 ---
 
 ```{r setup, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = FALSE)
+knitr::opts_chunk$set(collapse = FALSE)
+library(collaborator);library(dplyr)
+redcap_project_uri = "https://redcap.cir.ed.ac.uk/redcap_v8.4.5/API/"
+redcap_project_token = "582D6629348CB3AED679BCADE20969DA"
 ```
 # Collaborator: Redcap User Management 1. Explore Current Users
 
@@ -32,9 +34,9 @@ There are 3 outputs from `user_roles_n()`:
   
 ```{r, warning=FALSE, message=FALSE}
 # Example output from user_roles_n()
-user_roles_n_full <- collaborator::example_user_roles_n_full # please note all names are randomly generated
+user_roles_n_full <- user_roles_n(redcap_project_uri, redcap_project_token)$full # please note all names are randomly generated
 
-knitr::kable(user_roles_n_full)
+user_roles_n_full
   
 ```
 
@@ -42,9 +44,9 @@ knitr::kable(user_roles_n_full)
   **ii). $examples:** A dataframe of each role (1:n) and an example username with those rights (can be used as input for the `user_roles()` function).
 
 ```{r, warning=FALSE, message=FALSE}
-user_roles_n_eg <- collaborator::example_user_roles_n_eg
+user_roles_n_eg <- user_roles_n(redcap_project_uri, redcap_project_token)$examples
 
-knitr::kable(user_roles_n_eg)
+user_roles_n_eg
 ```
 
 
@@ -54,27 +56,29 @@ This can be created de novo, or the `user_roles_n()` $example output can be used
 
 ```{r, warning=FALSE, message=FALSE}
 library(dplyr)
-user_roles_n_eg <- collaborator::example_user_roles_n_eg
-
-user_roles_n_eg %>%
+user_role_examples <- user_roles_n_eg %>%
   dplyr::mutate(role = factor(role,
-                       levels=c(1:nrow(user_roles_n_eg)),
-                       labels=c("administrator", "committee", "collaborator", "validator"))) %>%
-  dplyr::mutate(role = as.character(role)) %>%
-  knitr::kable()
+                       levels=c(1:nrow(.)),
+                       labels=c("collaborator","validator", "administrator"))) %>%
+  dplyr::mutate(role = as.character(role))
+
+user_role_examples
 
 ```
 
 ### b). Usage of `user_roles()`
 Use `user_roles()` to apply named roles to all users according to example users with those rights. E.g. In the example above, everyone with the same user rights as the example collaborator "a_barker" will be assigned the "collaborator" role.
 
+
+```{r, warning=FALSE, message=FALSE}
+user_roles_full <- user_roles(redcap_project_uri, redcap_project_token, user_role_examples)
+user_roles_full
+```
+
 This allows further analyses to be done using roles which are not currently possible within REDCap (e.g. tables, plots, etc), and can be used to subsequently automatically upload and allocate user rights (see [Redcap User Management: 2. Assign User Rights](https://github.com/kamclean/collaborator/blob/master/vignettes/vignette_user_2_assign.Rmd))
 
 ```{r, warning=FALSE, message=FALSE}
-user_roles_full <- collaborator::example_user_roles_full
-
-table(user_roles_full$role) %>%
-  knitr::kable()
+table(user_roles_full$role)
 ```
 
 ## `user_validate()`
@@ -82,27 +86,47 @@ Use `user_validate()` to explore the rights of current users, and identify signi
 
 The output from `user_validate()` is 3 nested dataframes:
 
-### a). `$forms_na`
-Unallocated form rights is a possible error during automatic assignment of user rights. **In this case these users will have view and edit rights to all forms (within their DAG) on the REDCap project**.
- 
-  - The `$forms_na` output will highlight the individual users currently on REDCap with NA recorded for their form rights (e.g. ability to access data collection instruments).
+```{r, warning=FALSE, message=FALSE}
+user_validate_out <- user_validate(redcap_project_uri, redcap_project_token,
+              users.df = collaborator::example_df_user, users_exception = c("kmclean"))
+```
 
- - This can occur in the specific circumstance where REDCap user "role names" are being used, and the name of a data collection instrument is changed **after** the "role name" is created but **without** editing and saving the existing user role on REDCap. Once this role is confirmed with the changed names of the forms, this error should disappear.
- 
 
-### b). `$dag_unallocated`
+### a). `$dag_unallocated`
 Unallocated data access groups is a common error during manual assignment of user rights. **In this case these users will be able to access all records (within their form rights) in the REDCap project**.
-  
+
+```{r, warning=FALSE, message=FALSE}
+user_validate_out$dag_unallocated
+
+```
+
   - The `$dag_unallocated` output will highlight the individual users currently on REDCap with NA recorded for their DAG.
   
   - However, not all unallocated DAGS are "incorrect" - some users (e.g. administrators) may require to view any records on the project. It is recommended that in this case these users are excluded using `users_exception`.
 
 
-### c). `$dag_incorrect`
+### b). `$dag_incorrect`
 The incorrect allocation of data access groups is a common error during manual assignment of user rights. **In this case these users will have access to and be able to upload records within another DAG in the REDCap project**.
  
+```{r, warning=FALSE, message=FALSE}
+user_validate_out$dag_incorrect
+
+```
+
   - This uses the `users.df` input (which must contain at least 2 columns: `username` and `data_access_group`) and compares this to the current users on REDCap.
   
    - The `$dag_incorrect` output will highlight the individual users with discrepancies in the DAGs recorded so that these can be corrected. 
    
    - However, not all discrepancies are "incorrect" - some users may be participating within multiple DAGs and so will be highlighted. It is recommended that in this case these users are either excluded using `users_exception` or have separate usernames created for each DAG (recommended).
+
+### c). `$forms_na`
+Unallocated form rights is a possible error during automatic assignment of user rights. **In this case these users will have view and edit rights to all forms (within their DAG) on the REDCap project**.
+ 
+```{r, warning=FALSE, message=FALSE}
+user_validate_out$forms_na
+
+```
+
+  - The `$forms_na` output will highlight the individual users currently on REDCap with NA recorded for their form rights (e.g. ability to access data collection instruments).
+
+ - This can occur in the specific circumstance where REDCap user "role names" are being used, and the name of a data collection instrument is changed **after** the "role name" is created but **without** editing and saving the existing user role on REDCap. Once this role is confirmed with the changed names of the forms, this error should disappear.

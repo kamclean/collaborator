@@ -10,8 +10,11 @@ vignette: >
 ---
 
 ```{r setup, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = FALSE)
+knitr::opts_chunk$set(collapse = FALSE)
+
+library(collaborator);library(dplyr)
+redcap_project_uri = "https://redcap.cir.ed.ac.uk/redcap_v8.4.5/API/"
+redcap_project_token = "582D6629348CB3AED679BCADE20969DA"
 ```
 # Collaborator: Generating Missing Data Reports
 
@@ -45,7 +48,7 @@ Example of a record level report of missing data. This not only quantifies the m
 - "M" fields represent 'true' missing data (which may require follow up), and so all counts of missing data are based these.
 
 ```{r, warning=FALSE, message=FALSE}
-knitr::kable(collaborator::example_data_miss_record)
+report_miss(redcap_project_uri,redcap_project_token)$data_missing_record
 
 ```
 
@@ -60,6 +63,5 @@ Example of a data access group (DAG) level report of missing data (summarising m
  - `cen_miss_prop` / `cen_miss_pct` are respective proportions and percentages of data that are missing for each data_access_group.
  
 ```{r, warning=FALSE, message=FALSE}
-knitr::kable(collaborator::example_data_miss_dag)
-
+report_miss(redcap_project_uri,redcap_project_token)$data_missing_dag
 ```

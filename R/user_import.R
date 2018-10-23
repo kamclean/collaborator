@@ -12,14 +12,14 @@
 #' @param sponser Column name (Optional) which corresponds to "Sponsor username".
 #' @param expiration Column name (Optional) which corresponds to "Expiration". Must be in YYYY-MM-DD HH:MM or MM/DD/YYYY HH:MM format.
 #' @param comments Column name (Optional) which corresponds to "Comments".
+#' @importFrom dplyr filter mutate select summarise group_by ungroup
+#' @importFrom readr write_csv
 #' @return Returns a csv file for upload ("user.import_[date generated].csv"), and a dataframe.
 #' @export
 
 # Function
 user_import <- function(df, username, first_name, last_name, email,
                         institution = "", sponser="", expiration="", comments=""){
-  require("readr")
-  require("dplyr")
 
   df %>%
   dplyr::mutate(col_blank = "") -> df
@@ -45,6 +45,6 @@ user_import <- function(df, username, first_name, last_name, email,
                 "Comments" = var_comments) -> user_import_df
 
 user_import_df %>%
-  write_csv(path=paste0("user.import_",paste0(Sys.Date(), ".csv")))
+  readr::write_csv(path=paste0("user.import_",paste0(Sys.Date(), ".csv")))
 
 return(user_import_df)}
