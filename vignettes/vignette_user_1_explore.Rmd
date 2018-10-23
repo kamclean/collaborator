@@ -88,7 +88,9 @@ The output from `user_validate()` is 3 nested dataframes:
 
 ```{r, warning=FALSE, message=FALSE}
 user_validate_out <- user_validate(redcap_project_uri, redcap_project_token,
-              users.df = collaborator::example_dfuser, users_exception = c("kmclean"))
+              users.df = collaborator::example_df_user, users_exception = c("kmclean"))
+
+
 ```
 
 
