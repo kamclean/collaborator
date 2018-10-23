@@ -4,15 +4,15 @@
 \alias{user_validate}
 \title{Validates users have been allocated correctly}
 \usage{
-user_validate(redcap_project_uri, redcap_project_token, users.df,
-  users_exception)
+user_validate(redcap_project_uri, redcap_project_token, users.df = "",
+  users_exception = "")
 }
 \arguments{
 \item{redcap_project_uri}{URI (Uniform Resource Identifier) for the REDCap instance.}
 
 \item{redcap_project_token}{API (Application Programming Interface) for the REDCap project.}
 
-\item{users.df}{Dataframe containing at least 2 columns (username, data_access_group)}
+\item{users.df}{Optional dataframe containing at least 2 columns (username, data_access_group) used to evaluate incorrect DAG}
 
 \item{users_exception}{Vector of usernames to be excluded from comparison (e.g. users who should have access to the whole dataset (dag = NA) or are associated with multiple DAGs in users.df).}
 }

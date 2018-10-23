@@ -49,6 +49,7 @@ Example of a record level report of missing data. This not only quantifies the m
 
 ```{r, warning=FALSE, message=FALSE}
 report_miss(redcap_project_uri,redcap_project_token)$data_missing_record %>%
+  head(., 15) %>% # first 15 records
   knitr::kable()
 
 ```
