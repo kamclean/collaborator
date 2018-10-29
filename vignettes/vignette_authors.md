@@ -23,17 +23,69 @@ Example dataframe (`data_author`):
     library(collaborator)
 
     data_author <- collaborator::example_report_author
-    head(data_author, n=6) # Please note all names have been randomly generated
+    knitr::kable(head(data_author, n=10)) # Please note all names have been randomly generated
 
-    ## # A tibble: 6 x 3
-    ##   name       hospital   country 
-    ##   <chr>      <chr>      <chr>   
-    ## 1 Almond S   hospital N England 
-    ## 2 Andersen J hospital E Scotland
-    ## 3 Ashton A   hospital L England 
-    ## 4 Avila E    hospital C Scotland
-    ## 5 Ayala N    hospital Q England 
-    ## 6 Barker S   hospital D Scotland
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">name</th>
+<th style="text-align: left;">hospital</th>
+<th style="text-align: left;">country</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Almond S</td>
+<td style="text-align: left;">hospital N</td>
+<td style="text-align: left;">England</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Andersen J</td>
+<td style="text-align: left;">hospital E</td>
+<td style="text-align: left;">Scotland</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ashton A</td>
+<td style="text-align: left;">hospital L</td>
+<td style="text-align: left;">England</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Avila E</td>
+<td style="text-align: left;">hospital C</td>
+<td style="text-align: left;">Scotland</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ayala N</td>
+<td style="text-align: left;">hospital Q</td>
+<td style="text-align: left;">England</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Barker S</td>
+<td style="text-align: left;">hospital D</td>
+<td style="text-align: left;">Scotland</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Beech J</td>
+<td style="text-align: left;">hospital N</td>
+<td style="text-align: left;">England</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Berry A</td>
+<td style="text-align: left;">hospital A</td>
+<td style="text-align: left;">Scotland</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Bowen P</td>
+<td style="text-align: left;">hospital P</td>
+<td style="text-align: left;">England</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Bradford J</td>
+<td style="text-align: left;">hospital I</td>
+<td style="text-align: left;">England</td>
+</tr>
+</tbody>
+</table>
 
 Main Features
 -------------
@@ -70,7 +122,9 @@ Or can be subdivided by another column in the dataframe:
 Or groups can be further subdivided (for example by region/country, or
 by role)
 
-    report_auth(data_author, group="hospital", subdivision = "country")
+    report_auth(data_author,
+                group = "hospital",
+                subdivision = "country")
 
     ## England: Dalby D, Houston M, Morin Y, Stokes P (hospital F);  Chamberlain H, Fox B, Keenan L, Mackie L, Plant N (hospital G);  Galindo C, Michael P, Prosser E (hospital H);  Bradford J, Flores R, Mooney A, O'Doherty H, Werner R (hospital I);  Dean O, Fuentes A, Hardy E, Herman K, Ochoa A, Pitt A, Skinner I, Wynn J (hospital J);  Hicks A, Holder C, Phillips A, Richmond S, Whitfield A (hospital K);  Ashton A, William C (hospital L);  Carlson F (hospital M);  Almond S, Beech J, Ferry A, Lennon J, Smart F (hospital N);  Halliday S, Riggs M, Rossi P, Wardle A, Whitney M (hospital O);  Bowen P, Carrillo J, Fenton U, Kane K, Knights G, Riddle C (hospital P);  Ayala N, Conley M, Ellwood M, Hollis S, Mustafa W, Olsen H, Wall R (hospital Q).
     ## 

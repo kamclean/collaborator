@@ -69,6 +69,7 @@ user_assign <- function(redcap_project_uri, redcap_project_token, users.df, role
     substr(., 17, nchar(.[1])) -> user_rights
 
   users.df = users.df  %>%
+    dplyr::mutate(data_access_group = ifelse(is.na(data_access_group)==T, "", data_access_group)) %>%
     dplyr::mutate(json = paste0("[{\"username\" :\"", username,
                          "\",\"data_access_group\":\"", data_access_group,
                          "\",", user_rights))

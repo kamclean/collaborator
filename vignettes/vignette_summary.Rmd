@@ -28,10 +28,10 @@ The `redcap_sum()` function is designed to easily produce high quality and infor
 The `redcap_sum()` function is designed to be simple from the point of use - the only requirements are a valid URI (Uniform Resource Identifier) and API (Application Programming Interface) for the REDCap project.
 
 However, this is intended to have a high degree of customisability to fit the needs of a variety of projects. For example, Being able to easily:
- - Exclude individual records (`record_exclude`) or whole data access groups (`dag_exclude`) from the record count (e.g. records or DAGs that were found to be ineligible).
- - Exclude users (`user_exclude`) from the total REDCap user count (e.g. administrator user accounts).
- - Define variables that should contribute towards evaluation of data completeness. This can be achieved by either excluding  (`var_exclude`), or specifying certain variables (`var_complete`).
-  - Generation of summary data by DAG unless `centre_sum` is specified as FALSE (default `centre_sum=T`) 
+- Exclude individual records (`record_exclude`) or whole data access groups (`dag_exclude`) from the record count (e.g. records or DAGs that were found to be ineligible).
+- Exclude users (`user_exclude`) from the total REDCap user count (e.g. administrator user accounts).
+- Define variables that should contribute towards evaluation of data completeness. This can be achieved by either excluding  (`var_exclude`), or specifying certain variables (`var_complete`).
+- Generation of summary data by DAG unless `centre_sum` is specified as FALSE (default `centre_sum=T`) 
 
 Limitations:
 - This function has not yet been tested on REDCap projects with multiple events.
@@ -39,17 +39,17 @@ Limitations:
 ## Main Features
 ### (1) Basic Function
 At it's most basic, `redcap_sum()` can produce an overall summary of current data on the REDCap project:
- - `n_record_all` is the number of all records currently on the REDCap project (minus any records removed using `record_exclude` or in DAGs removed using `dag_exclude`).
+- `n_record_all` is the number of all records currently on the REDCap project (minus any records removed using `record_exclude` or in DAGs removed using `dag_exclude`).
  
- - `n_record_com` is the number of all complete records currently on the REDCap project (minus any records removed using `record_exclude` or in DAGs removed using `dag_exclude`), with no missing data across the record (unless certain data fields are either excluded (`var_exclude`) or specified (`var_complete`)).
+- `n_record_com` is the number of all complete records currently on the REDCap project (minus any records removed using `record_exclude` or in DAGs removed using `dag_exclude`), with no missing data across the record (unless certain data fields are either excluded (`var_exclude`) or specified (`var_complete`)).
  
- - `prop_com` /`pct_com` is the respective proportion and percentage of complete records in the project.
+- `prop_com` /`pct_com` is the respective proportion and percentage of complete records in the project.
  
- - `n_dag` is the number of data access groups (DAGs) for all records currently on the REDCap project (minus any records removed using `record_exclude` or in DAGs removed using `dag_exclude`).
+- `n_dag` is the number of data access groups (DAGs) for all records currently on the REDCap project (minus any records removed using `record_exclude` or in DAGs removed using `dag_exclude`).
  
- - `n_users` is the number of users on the REDCap project (minus any users in DAGs removed using `dag_exclude`). Note all users not assigned to a DAG will automatically be excluded.
+- `n_users` is the number of users on the REDCap project (minus any users in DAGs removed using `dag_exclude`). Note all users not assigned to a DAG will automatically be excluded.
  
- - `last_update` is the date which the summary data was generated on. 
+- `last_update` is the date which the summary data was generated on. 
  
 ```{r, warning=FALSE, message=FALSE}
 redcap_sum(redcap_project_uri, redcap_project_token, centre_sum = F)  %>%

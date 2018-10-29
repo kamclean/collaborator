@@ -10,8 +10,8 @@ vignette: >
 ---
 
 ```{r setup, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = FALSE)
+knitr::opts_chunk$set(collapse = FALSE)
+  
 ```
 # Collaborator: Generating Authorship Lists
 
@@ -27,7 +27,7 @@ Example dataframe (`data_author`):
 library(collaborator)
 
 data_author <- collaborator::example_report_author
-head(data_author, n=6) # Please note all names have been randomly generated
+knitr::kable(head(data_author, n=10)) # Please note all names have been randomly generated
 
 ```
 
@@ -59,7 +59,9 @@ report_auth(data_author, subdivision = "country")
 Or groups can be further subdivided (for example by region/country, or by role)
 ```{r, warning=FALSE, message=FALSE}
 
-report_auth(data_author, group="hospital", subdivision = "country")
+report_auth(data_author,
+            group = "hospital",
+            subdivision = "country")
 
 ```
 
