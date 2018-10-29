@@ -1,7 +1,9 @@
-collaborator
+collaboratoR
 ==========
 
-The `collaborator` package provides functions which help facilitate administration of multi-centre research using R and the [REDCap](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2700030/) (Research Electronic Data Capture) application. These functions have been developed and utilised within several collaborative research projects from [Student Audit and Research in Surgery (STARSurg)](https://www.starsurg.org), [EuroSurg](http://www.eurosurg.org), and [West Midlands Research Collaborative (WMRC)](http://www.wmresearch.org.uk).
+<img src="man/figures/collaborator_logo.png" align="right" width="159" height="174"/>
+
+The `collaboratoR` package provides functions which help facilitate administration of multi-centre research using R and the [REDCap](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2700030/) (Research Electronic Data Capture) application. These functions have been developed and utilised within several collaborative research projects from [Student Audit and Research in Surgery (STARSurg)](https://www.starsurg.org), [EuroSurg](http://www.eurosurg.org), and [West Midlands Research Collaborative (WMRC)](http://www.wmresearch.org.uk).
 
 All functions have been developed with the aim of being applicable to a broad range of REDCap projects. Any suggestions for further functions are welcome, however these would need to be aligned with this aim.
 
