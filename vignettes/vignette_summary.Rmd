@@ -28,12 +28,17 @@ The `redcap_sum()` function is designed to easily produce high quality and infor
 The `redcap_sum()` function is designed to be simple from the point of use - the only requirements are a valid URI (Uniform Resource Identifier) and API (Application Programming Interface) for the REDCap project.
 
 However, this is intended to have a high degree of customisability to fit the needs of a variety of projects. For example, Being able to easily:
+
 - Exclude individual records (`record_exclude`) or whole data access groups (`dag_exclude`) from the record count (e.g. records or DAGs that were found to be ineligible).
+
 - Exclude users (`user_exclude`) from the total REDCap user count (e.g. administrator user accounts).
+
 - Define variables that should contribute towards evaluation of data completeness. This can be achieved by either excluding  (`var_exclude`), or specifying certain variables (`var_complete`).
+
 - Generation of summary data by DAG unless `centre_sum` is specified as FALSE (default `centre_sum=T`) 
 
 Limitations:
+
 - This function has not yet been tested on REDCap projects with multiple events.
 
 ## Main Features

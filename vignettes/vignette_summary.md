@@ -25,18 +25,26 @@ project.
 
 However, this is intended to have a high degree of customisability to
 fit the needs of a variety of projects. For example, Being able to
-easily: - Exclude individual records (`record_exclude`) or whole data
-access groups (`dag_exclude`) from the record count (e.g. records or
-DAGs that were found to be ineligible). - Exclude users (`user_exclude`)
-from the total REDCap user count (e.g. administrator user accounts). -
-Define variables that should contribute towards evaluation of data
-completeness. This can be achieved by either excluding (`var_exclude`),
-or specifying certain variables (`var_complete`). - Generation of
-summary data by DAG unless `centre_sum` is specified as FALSE (default
-`centre_sum=T`)
+easily:
 
-Limitations: - This function has not yet been tested on REDCap projects
-with multiple events.
+-   Exclude individual records (`record_exclude`) or whole data access
+    groups (`dag_exclude`) from the record count (e.g. records or DAGs
+    that were found to be ineligible).
+
+-   Exclude users (`user_exclude`) from the total REDCap user count
+    (e.g. administrator user accounts).
+
+-   Define variables that should contribute towards evaluation of data
+    completeness. This can be achieved by either excluding
+    (`var_exclude`), or specifying certain variables (`var_complete`).
+
+-   Generation of summary data by DAG unless `centre_sum` is specified
+    as FALSE (default `centre_sum=T`)
+
+Limitations:
+
+-   This function has not yet been tested on REDCap projects with
+    multiple events.
 
 Main Features
 -------------
@@ -92,7 +100,7 @@ using `record_exclude` or in DAGs removed using `dag_exclude`).
 <td style="text-align: left;">52.0%</td>
 <td style="text-align: right;">8</td>
 <td style="text-align: right;">30</td>
-<td style="text-align: left;">29-Oct-2018</td>
+<td style="text-align: left;">7-Nov-2018</td>
 </tr>
 </tbody>
 </table>
@@ -133,7 +141,7 @@ This will produce a dataframe of the same summary data as outlined above
 <td style="text-align: right;">0.5000000</td>
 <td style="text-align: left;">50.0%</td>
 <td style="text-align: right;">3</td>
-<td style="text-align: left;">29-Oct-2018</td>
+<td style="text-align: left;">7-Nov-2018</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">hospital_e</td>
@@ -142,7 +150,7 @@ This will produce a dataframe of the same summary data as outlined above
 <td style="text-align: right;">0.6666667</td>
 <td style="text-align: left;">66.7%</td>
 <td style="text-align: right;">3</td>
-<td style="text-align: left;">29-Oct-2018</td>
+<td style="text-align: left;">7-Nov-2018</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">hospital_g</td>
@@ -151,7 +159,7 @@ This will produce a dataframe of the same summary data as outlined above
 <td style="text-align: right;">0.5714286</td>
 <td style="text-align: left;">57.1%</td>
 <td style="text-align: right;">3</td>
-<td style="text-align: left;">29-Oct-2018</td>
+<td style="text-align: left;">7-Nov-2018</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">hospital_b</td>
@@ -160,7 +168,7 @@ This will produce a dataframe of the same summary data as outlined above
 <td style="text-align: right;">0.5000000</td>
 <td style="text-align: left;">50.0%</td>
 <td style="text-align: right;">3</td>
-<td style="text-align: left;">29-Oct-2018</td>
+<td style="text-align: left;">7-Nov-2018</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">hospital_f</td>
@@ -169,7 +177,7 @@ This will produce a dataframe of the same summary data as outlined above
 <td style="text-align: right;">0.5000000</td>
 <td style="text-align: left;">50.0%</td>
 <td style="text-align: right;">3</td>
-<td style="text-align: left;">29-Oct-2018</td>
+<td style="text-align: left;">7-Nov-2018</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">hospital_h</td>
@@ -178,7 +186,7 @@ This will produce a dataframe of the same summary data as outlined above
 <td style="text-align: right;">0.3333333</td>
 <td style="text-align: left;">33.3%</td>
 <td style="text-align: right;">3</td>
-<td style="text-align: left;">29-Oct-2018</td>
+<td style="text-align: left;">7-Nov-2018</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">hospital_d</td>
@@ -187,7 +195,7 @@ This will produce a dataframe of the same summary data as outlined above
 <td style="text-align: right;">0.2500000</td>
 <td style="text-align: left;">25.0%</td>
 <td style="text-align: right;">3</td>
-<td style="text-align: left;">29-Oct-2018</td>
+<td style="text-align: left;">7-Nov-2018</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">hospital_c</td>
@@ -196,7 +204,7 @@ This will produce a dataframe of the same summary data as outlined above
 <td style="text-align: right;">1.0000000</td>
 <td style="text-align: left;">100.0%</td>
 <td style="text-align: right;">2</td>
-<td style="text-align: left;">29-Oct-2018</td>
+<td style="text-align: left;">7-Nov-2018</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">hospital_i</td>
@@ -205,7 +213,7 @@ This will produce a dataframe of the same summary data as outlined above
 <td style="text-align: right;">NA</td>
 <td style="text-align: left;">NA</td>
 <td style="text-align: right;">3</td>
-<td style="text-align: left;">29-Oct-2018</td>
+<td style="text-align: left;">7-Nov-2018</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">hospital_j</td>
@@ -214,7 +222,7 @@ This will produce a dataframe of the same summary data as outlined above
 <td style="text-align: right;">NA</td>
 <td style="text-align: left;">NA</td>
 <td style="text-align: right;">4</td>
-<td style="text-align: left;">29-Oct-2018</td>
+<td style="text-align: left;">7-Nov-2018</td>
 </tr>
 </tbody>
 </table>
@@ -249,7 +257,7 @@ authorship on any research output.
 <td style="text-align: right;">NA</td>
 <td style="text-align: left;">NA</td>
 <td style="text-align: right;">3</td>
-<td style="text-align: left;">29-Oct-2018</td>
+<td style="text-align: left;">7-Nov-2018</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">hospital_j</td>
@@ -258,7 +266,7 @@ authorship on any research output.
 <td style="text-align: right;">NA</td>
 <td style="text-align: left;">NA</td>
 <td style="text-align: right;">4</td>
-<td style="text-align: left;">29-Oct-2018</td>
+<td style="text-align: left;">7-Nov-2018</td>
 </tr>
 </tbody>
 </table>
@@ -293,7 +301,7 @@ at each of these DAGs.
 <td style="text-align: right;">0.5000000</td>
 <td style="text-align: left;">50.0%</td>
 <td style="text-align: right;">3</td>
-<td style="text-align: left;">29-Oct-2018</td>
+<td style="text-align: left;">7-Nov-2018</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">hospital_e</td>
@@ -302,7 +310,7 @@ at each of these DAGs.
 <td style="text-align: right;">0.6666667</td>
 <td style="text-align: left;">66.7%</td>
 <td style="text-align: right;">3</td>
-<td style="text-align: left;">29-Oct-2018</td>
+<td style="text-align: left;">7-Nov-2018</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">hospital_g</td>
@@ -311,7 +319,7 @@ at each of these DAGs.
 <td style="text-align: right;">0.5714286</td>
 <td style="text-align: left;">57.1%</td>
 <td style="text-align: right;">3</td>
-<td style="text-align: left;">29-Oct-2018</td>
+<td style="text-align: left;">7-Nov-2018</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">hospital_b</td>
@@ -320,7 +328,7 @@ at each of these DAGs.
 <td style="text-align: right;">0.5000000</td>
 <td style="text-align: left;">50.0%</td>
 <td style="text-align: right;">3</td>
-<td style="text-align: left;">29-Oct-2018</td>
+<td style="text-align: left;">7-Nov-2018</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">hospital_f</td>
@@ -329,7 +337,7 @@ at each of these DAGs.
 <td style="text-align: right;">0.5000000</td>
 <td style="text-align: left;">50.0%</td>
 <td style="text-align: right;">3</td>
-<td style="text-align: left;">29-Oct-2018</td>
+<td style="text-align: left;">7-Nov-2018</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">hospital_h</td>
@@ -338,7 +346,7 @@ at each of these DAGs.
 <td style="text-align: right;">0.3333333</td>
 <td style="text-align: left;">33.3%</td>
 <td style="text-align: right;">3</td>
-<td style="text-align: left;">29-Oct-2018</td>
+<td style="text-align: left;">7-Nov-2018</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">hospital_d</td>
@@ -347,7 +355,7 @@ at each of these DAGs.
 <td style="text-align: right;">0.2500000</td>
 <td style="text-align: left;">25.0%</td>
 <td style="text-align: right;">3</td>
-<td style="text-align: left;">29-Oct-2018</td>
+<td style="text-align: left;">7-Nov-2018</td>
 </tr>
 </tbody>
 </table>
