@@ -10,8 +10,9 @@ vignette: >
 ---
 
 ```{r setup, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE)
+knitr::opts_chunk$set(collapse = TRUE)
+library(collaborator); library(dplyr)
+  
 ```
 # Collaborator: Generating a Simple, Easily-Shareable Data Dictionary
 
@@ -44,9 +45,10 @@ The `data_dict()` function produces a dataframe which identifies the class, summ
 The output can be easily converted to a spreadsheet file (e.g. csv file) and exported for sharing.
 
 ```{r, warning=FALSE, message=FALSE}
-library(collaborator)
-data_dict(data)
 
+data_dict(data) %>%
+  knitr::kable()
+  
 ```
 
 

@@ -33,32 +33,1309 @@ according to their unique role).
 
     ## [1] "There are 3 unique roles in this redcap project"
 
-    user_roles_n_full
+    knitr::kable(user_roles_n_full)
 
-    ## # A tibble: 36 x 33
-    ##     role username  email    firstname lastname expiration data_access_gro…
-    ##    <int> <chr>     <chr>    <chr>     <chr>    <chr>      <chr>           
-    ##  1     1 a_barker  a_barke… Aleesha   Barker   <NA>       hospital_a      
-    ##  2     1 a_hicks   a_hicks… Alyssa    Hicks    <NA>       hospital_e      
-    ##  3     1 a_lees    a_lees@… Aleesha   Lees     <NA>       hospital_g      
-    ##  4     1 a_nichol… a_nicho… Alyssa    Nichols… <NA>       hospital_i      
-    ##  5     1 c_avila   c_avila… Chanice   Avila    <NA>       <NA>            
-    ##  6     1 c_gould   c_gould… Chanice   Gould    <NA>       hospital_b      
-    ##  7     1 c_kent    c_kent@… Chanice   Kent     <NA>       hospital_f      
-    ##  8     1 c_michael c_micha… Chanice   Michael  <NA>       hospital_h      
-    ##  9     1 f_almond  f_almon… Fleur     Almond   <NA>       <NA>            
-    ## 10     1 f_galindo f_galin… Fleur     Galindo  <NA>       hospital_a      
-    ## # ... with 26 more rows, and 26 more variables:
-    ## #   data_access_group_id <int>, design <int>, user_rights <int>,
-    ## #   data_access_groups <int>, data_export <int>, reports <int>,
-    ## #   stats_and_charts <int>, manage_survey_participants <int>,
-    ## #   calendar <int>, data_import_tool <int>, data_comparison_tool <int>,
-    ## #   logging <int>, file_repository <int>, data_quality_create <int>,
-    ## #   data_quality_execute <int>, api_export <int>, api_import <int>,
-    ## #   mobile_app <int>, mobile_app_download_data <int>, record_create <int>,
-    ## #   record_rename <int>, record_delete <int>,
-    ## #   lock_records_all_forms <int>, lock_records <int>,
-    ## #   lock_records_customization <int>, forms <chr>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: right;">role</th>
+<th style="text-align: left;">username</th>
+<th style="text-align: left;">email</th>
+<th style="text-align: left;">firstname</th>
+<th style="text-align: left;">lastname</th>
+<th style="text-align: left;">expiration</th>
+<th style="text-align: left;">data_access_group</th>
+<th style="text-align: right;">data_access_group_id</th>
+<th style="text-align: right;">design</th>
+<th style="text-align: right;">user_rights</th>
+<th style="text-align: right;">data_access_groups</th>
+<th style="text-align: right;">data_export</th>
+<th style="text-align: right;">reports</th>
+<th style="text-align: right;">stats_and_charts</th>
+<th style="text-align: right;">manage_survey_participants</th>
+<th style="text-align: right;">calendar</th>
+<th style="text-align: right;">data_import_tool</th>
+<th style="text-align: right;">data_comparison_tool</th>
+<th style="text-align: right;">logging</th>
+<th style="text-align: right;">file_repository</th>
+<th style="text-align: right;">data_quality_create</th>
+<th style="text-align: right;">data_quality_execute</th>
+<th style="text-align: right;">api_export</th>
+<th style="text-align: right;">api_import</th>
+<th style="text-align: right;">mobile_app</th>
+<th style="text-align: right;">mobile_app_download_data</th>
+<th style="text-align: right;">record_create</th>
+<th style="text-align: right;">record_rename</th>
+<th style="text-align: right;">record_delete</th>
+<th style="text-align: right;">lock_records_all_forms</th>
+<th style="text-align: right;">lock_records</th>
+<th style="text-align: right;">lock_records_customization</th>
+<th style="text-align: left;">forms</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">a_barker</td>
+<td style="text-align: left;"><a href="mailto:a_barker@email.com">a_barker@email.com</a></td>
+<td style="text-align: left;">Aleesha</td>
+<td style="text-align: left;">Barker</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_a</td>
+<td style="text-align: right;">4117</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">a_hicks</td>
+<td style="text-align: left;"><a href="mailto:a_hicks@email.com">a_hicks@email.com</a></td>
+<td style="text-align: left;">Alyssa</td>
+<td style="text-align: left;">Hicks</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_e</td>
+<td style="text-align: right;">4121</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">a_lees</td>
+<td style="text-align: left;"><a href="mailto:a_lees@email.com">a_lees@email.com</a></td>
+<td style="text-align: left;">Aleesha</td>
+<td style="text-align: left;">Lees</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_g</td>
+<td style="text-align: right;">4123</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">a_nicholson</td>
+<td style="text-align: left;"><a href="mailto:a_nicholson@email.com">a_nicholson@email.com</a></td>
+<td style="text-align: left;">Alyssa</td>
+<td style="text-align: left;">Nicholson</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_i</td>
+<td style="text-align: right;">4125</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">c_avila</td>
+<td style="text-align: left;"><a href="mailto:c_avila@email.com">c_avila@email.com</a></td>
+<td style="text-align: left;">Chanice</td>
+<td style="text-align: left;">Avila</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">c_gould</td>
+<td style="text-align: left;"><a href="mailto:c_gould@email.com">c_gould@email.com</a></td>
+<td style="text-align: left;">Chanice</td>
+<td style="text-align: left;">Gould</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_b</td>
+<td style="text-align: right;">4118</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">c_kent</td>
+<td style="text-align: left;"><a href="mailto:c_kent@email.com">c_kent@email.com</a></td>
+<td style="text-align: left;">Chanice</td>
+<td style="text-align: left;">Kent</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_f</td>
+<td style="text-align: right;">4122</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">c_michael</td>
+<td style="text-align: left;"><a href="mailto:c_michael@email.com">c_michael@email.com</a></td>
+<td style="text-align: left;">Chanice</td>
+<td style="text-align: left;">Michael</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_h</td>
+<td style="text-align: right;">4124</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">f_almond</td>
+<td style="text-align: left;"><a href="mailto:f_almond@email.com">f_almond@email.com</a></td>
+<td style="text-align: left;">Fleur</td>
+<td style="text-align: left;">Almond</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">f_galindo</td>
+<td style="text-align: left;"><a href="mailto:f_galindo@email.com">f_galindo@email.com</a></td>
+<td style="text-align: left;">Fleur</td>
+<td style="text-align: left;">Galindo</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_a</td>
+<td style="text-align: right;">4117</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">f_livingston</td>
+<td style="text-align: left;"><a href="mailto:f_livingston@email.com">f_livingston@email.com</a></td>
+<td style="text-align: left;">Fleur</td>
+<td style="text-align: left;">Livingston</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_g</td>
+<td style="text-align: right;">4123</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">h_herman</td>
+<td style="text-align: left;"><a href="mailto:h_herman@email.com">h_herman@email.com</a></td>
+<td style="text-align: left;">Hailie</td>
+<td style="text-align: left;">Herman</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_d</td>
+<td style="text-align: right;">4120</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">h_mustafa</td>
+<td style="text-align: left;"><a href="mailto:h_mustafa@email.com">h_mustafa@email.com</a></td>
+<td style="text-align: left;">Hailie</td>
+<td style="text-align: left;">Mustafa</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_i</td>
+<td style="text-align: right;">4125</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">k_ashton</td>
+<td style="text-align: left;"><a href="mailto:k_ashton@email.com">k_ashton@email.com</a></td>
+<td style="text-align: left;">Kester</td>
+<td style="text-align: left;">Ashton</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">k_gibbons</td>
+<td style="text-align: left;"><a href="mailto:k_gibbons@email.com">k_gibbons@email.com</a></td>
+<td style="text-align: left;">Kester</td>
+<td style="text-align: left;">Gibbons</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_b</td>
+<td style="text-align: right;">4118</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">k_marks</td>
+<td style="text-align: left;"><a href="mailto:k_marks@email.com">k_marks@email.com</a></td>
+<td style="text-align: left;">Kester</td>
+<td style="text-align: left;">Marks</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_h</td>
+<td style="text-align: right;">4124</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">l_cervantes</td>
+<td style="text-align: left;"><a href="mailto:l_cervantes@email.com">l_cervantes@email.com</a></td>
+<td style="text-align: left;">Leroy</td>
+<td style="text-align: left;">Cervantes</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_a</td>
+<td style="text-align: right;">4117</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">l_jensen</td>
+<td style="text-align: left;"><a href="mailto:l_jensen@email.com">l_jensen@email.com</a></td>
+<td style="text-align: left;">Leroy</td>
+<td style="text-align: left;">Jensen</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_e</td>
+<td style="text-align: right;">4121</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">l_paine</td>
+<td style="text-align: left;"><a href="mailto:l_paine@email.com">l_paine@email.com</a></td>
+<td style="text-align: left;">Leroy</td>
+<td style="text-align: left;">Paine</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_j</td>
+<td style="text-align: right;">4126</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">m_owens</td>
+<td style="text-align: left;"><a href="mailto:m_owens@email.com">m_owens@email.com</a></td>
+<td style="text-align: left;">Martha</td>
+<td style="text-align: left;">Owens</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_j</td>
+<td style="text-align: right;">4126</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">r_bradford</td>
+<td style="text-align: left;"><a href="mailto:r_bradford@email.com">r_bradford@email.com</a></td>
+<td style="text-align: left;">Ralph</td>
+<td style="text-align: left;">Bradford</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_c</td>
+<td style="text-align: right;">4119</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">r_hodge</td>
+<td style="text-align: left;"><a href="mailto:r_hodge@email.com">r_hodge@email.com</a></td>
+<td style="text-align: left;">Ralph</td>
+<td style="text-align: left;">Hodge</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_f</td>
+<td style="text-align: right;">4122</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">r_ochoa</td>
+<td style="text-align: left;"><a href="mailto:r_ochoa@email.com">r_ochoa@email.com</a></td>
+<td style="text-align: left;">Ralph</td>
+<td style="text-align: left;">Ochoa</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_i</td>
+<td style="text-align: right;">4125</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">s_ayala</td>
+<td style="text-align: left;"><a href="mailto:s_ayala@email.com">s_ayala@email.com</a></td>
+<td style="text-align: left;">Samiha</td>
+<td style="text-align: left;">Ayala</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">s_beech</td>
+<td style="text-align: left;"><a href="mailto:s_beech@email.com">s_beech@email.com</a></td>
+<td style="text-align: left;">Shanelle</td>
+<td style="text-align: left;">Beech</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_b</td>
+<td style="text-align: right;">4118</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">s_hardy</td>
+<td style="text-align: left;"><a href="mailto:s_hardy@email.com">s_hardy@email.com</a></td>
+<td style="text-align: left;">Shanelle</td>
+<td style="text-align: left;">Hardy</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_d</td>
+<td style="text-align: right;">4120</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">s_moses</td>
+<td style="text-align: left;"><a href="mailto:s_moses@email.com">s_moses@email.com</a></td>
+<td style="text-align: left;">Shanelle</td>
+<td style="text-align: left;">Moses</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_h</td>
+<td style="text-align: right;">4124</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">y_andersen</td>
+<td style="text-align: left;"><a href="mailto:y_andersen@email.com">y_andersen@email.com</a></td>
+<td style="text-align: left;">Yaseen</td>
+<td style="text-align: left;">Andersen</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">y_holder</td>
+<td style="text-align: left;"><a href="mailto:y_holder@email.com">y_holder@email.com</a></td>
+<td style="text-align: left;">Yara</td>
+<td style="text-align: left;">Holder</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_e</td>
+<td style="text-align: right;">4121</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">y_mackie</td>
+<td style="text-align: left;"><a href="mailto:y_mackie@email.com">y_mackie@email.com</a></td>
+<td style="text-align: left;">Yaseen</td>
+<td style="text-align: left;">Mackie</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_g</td>
+<td style="text-align: right;">4123</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">y_o’doherty</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_j</td>
+<td style="text-align: right;">4126</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">y_odoherty</td>
+<td style="text-align: left;"><a href="mailto:y_odoherty@email.com">y_odoherty@email.com</a></td>
+<td style="text-align: left;">Yara</td>
+<td style="text-align: left;">O’Doherty</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_j</td>
+<td style="text-align: right;">4126</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">a_hanna</td>
+<td style="text-align: left;"><a href="mailto:a_hanna@email.com">a_hanna@email.com</a></td>
+<td style="text-align: left;">Aleesha</td>
+<td style="text-align: left;">Hanna</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_d</td>
+<td style="text-align: right;">4120</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:2" class="uri">data:2</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">s_knights</td>
+<td style="text-align: left;"><a href="mailto:s_knights@email.com">s_knights@email.com</a></td>
+<td style="text-align: left;">Samiha</td>
+<td style="text-align: left;">Knights</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_f</td>
+<td style="text-align: right;">4122</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:2" class="uri">data:2</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">y_cameron</td>
+<td style="text-align: left;"><a href="mailto:y_cameron@email.com">y_cameron@email.com</a></td>
+<td style="text-align: left;">Yara</td>
+<td style="text-align: left;">Cameron</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_c</td>
+<td style="text-align: right;">4119</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:2" class="uri">data:2</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">kmclean</td>
+<td style="text-align: left;"><a href="mailto:mcleankaca@gmail.com">mcleankaca@gmail.com</a></td>
+<td style="text-align: left;">Kenneth</td>
+<td style="text-align: left;">McLean</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+</tbody>
+</table>
 
 **ii). $examples:** A dataframe of each role (1:n) and an example
 username with those rights (can be used as input for the `user_roles()`
@@ -68,14 +1345,30 @@ function).
 
     ## [1] "There are 3 unique roles in this redcap project"
 
-    user_roles_n_eg
+    knitr::kable(user_roles_n_eg)
 
-    ## # A tibble: 3 x 2
-    ##    role username
-    ##   <int> <chr>   
-    ## 1     1 a_barker
-    ## 2     2 a_hanna 
-    ## 3     3 kmclean
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: right;">role</th>
+<th style="text-align: left;">username</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">a_barker</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">a_hanna</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">kmclean</td>
+</tr>
+</tbody>
+</table>
 
 `user_roles()`
 --------------
@@ -93,14 +1386,30 @@ of the original numbering of unique roles.
                            labels=c("collaborator","validator", "administrator"))) %>%
       dplyr::mutate(role = as.character(role))
 
-    user_role_examples
+    knitr::kable(user_role_examples)
 
-    ## # A tibble: 3 x 2
-    ##   role          username
-    ##   <chr>         <chr>   
-    ## 1 collaborator  a_barker
-    ## 2 validator     a_hanna 
-    ## 3 administrator kmclean
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">role</th>
+<th style="text-align: left;">username</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">a_barker</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">validator</td>
+<td style="text-align: left;">a_hanna</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">administrator</td>
+<td style="text-align: left;">kmclean</td>
+</tr>
+</tbody>
+</table>
 
 ### b). Usage of `user_roles()`
 
@@ -110,341 +1419,1310 @@ with the same user rights as the example collaborator “a\_barker” will
 be assigned the “collaborator” role.
 
     user_roles_full <- user_roles(redcap_project_uri, redcap_project_token, user_role_examples)
-    user_roles_full
 
-    ##             role     username                  email firstname   lastname
-    ## 1  administrator      kmclean   mcleankaca@gmail.com   Kenneth     McLean
-    ## 2   collaborator     a_barker     a_barker@email.com   Aleesha     Barker
-    ## 3   collaborator     k_ashton     k_ashton@email.com    Kester     Ashton
-    ## 4   collaborator      a_hicks      a_hicks@email.com    Alyssa      Hicks
-    ## 5   collaborator       a_lees       a_lees@email.com   Aleesha       Lees
-    ## 6   collaborator  a_nicholson  a_nicholson@email.com    Alyssa  Nicholson
-    ## 7   collaborator      c_avila      c_avila@email.com   Chanice      Avila
-    ## 8   collaborator      c_gould      c_gould@email.com   Chanice      Gould
-    ## 9   collaborator       c_kent       c_kent@email.com   Chanice       Kent
-    ## 10  collaborator    c_michael    c_michael@email.com   Chanice    Michael
-    ## 11  collaborator     f_almond     f_almond@email.com     Fleur     Almond
-    ## 12  collaborator    f_galindo    f_galindo@email.com     Fleur    Galindo
-    ## 13  collaborator f_livingston f_livingston@email.com     Fleur Livingston
-    ## 14  collaborator     h_herman     h_herman@email.com    Hailie     Herman
-    ## 15  collaborator    h_mustafa    h_mustafa@email.com    Hailie    Mustafa
-    ## 16  collaborator      s_hardy      s_hardy@email.com  Shanelle      Hardy
-    ## 17  collaborator    k_gibbons    k_gibbons@email.com    Kester    Gibbons
-    ## 18  collaborator      k_marks      k_marks@email.com    Kester      Marks
-    ## 19  collaborator   y_andersen   y_andersen@email.com    Yaseen   Andersen
-    ## 20  collaborator  l_cervantes  l_cervantes@email.com     Leroy  Cervantes
-    ## 21  collaborator     l_jensen     l_jensen@email.com     Leroy     Jensen
-    ## 22  collaborator      l_paine      l_paine@email.com     Leroy      Paine
-    ## 23  collaborator      m_owens      m_owens@email.com    Martha      Owens
-    ## 24  collaborator   r_bradford   r_bradford@email.com     Ralph   Bradford
-    ## 25  collaborator      r_hodge      r_hodge@email.com     Ralph      Hodge
-    ## 26  collaborator      r_ochoa      r_ochoa@email.com     Ralph      Ochoa
-    ## 27  collaborator      s_ayala      s_ayala@email.com    Samiha      Ayala
-    ## 28  collaborator      s_beech      s_beech@email.com  Shanelle      Beech
-    ## 29  collaborator   y_odoherty   y_odoherty@email.com      Yara  O'Doherty
-    ## 30  collaborator     y_holder     y_holder@email.com      Yara     Holder
-    ## 31  collaborator      s_moses      s_moses@email.com  Shanelle      Moses
-    ## 32  collaborator  y_o'doherty                   <NA>      <NA>       <NA>
-    ## 33  collaborator     y_mackie     y_mackie@email.com    Yaseen     Mackie
-    ## 34     validator      a_hanna      a_hanna@email.com   Aleesha      Hanna
-    ## 35     validator    s_knights    s_knights@email.com    Samiha    Knights
-    ## 36     validator    y_cameron    y_cameron@email.com      Yara    Cameron
-    ##    expiration data_access_group data_access_group_id design user_rights
-    ## 1        <NA>              <NA>                   NA      1           1
-    ## 2        <NA>        hospital_a                 4117      0           0
-    ## 3        <NA>              <NA>                   NA      0           0
-    ## 4        <NA>        hospital_e                 4121      0           0
-    ## 5        <NA>        hospital_g                 4123      0           0
-    ## 6        <NA>        hospital_i                 4125      0           0
-    ## 7        <NA>              <NA>                   NA      0           0
-    ## 8        <NA>        hospital_b                 4118      0           0
-    ## 9        <NA>        hospital_f                 4122      0           0
-    ## 10       <NA>        hospital_h                 4124      0           0
-    ## 11       <NA>              <NA>                   NA      0           0
-    ## 12       <NA>        hospital_a                 4117      0           0
-    ## 13       <NA>        hospital_g                 4123      0           0
-    ## 14       <NA>        hospital_d                 4120      0           0
-    ## 15       <NA>        hospital_i                 4125      0           0
-    ## 16       <NA>        hospital_d                 4120      0           0
-    ## 17       <NA>        hospital_b                 4118      0           0
-    ## 18       <NA>        hospital_h                 4124      0           0
-    ## 19       <NA>              <NA>                   NA      0           0
-    ## 20       <NA>        hospital_a                 4117      0           0
-    ## 21       <NA>        hospital_e                 4121      0           0
-    ## 22       <NA>        hospital_j                 4126      0           0
-    ## 23       <NA>        hospital_j                 4126      0           0
-    ## 24       <NA>        hospital_c                 4119      0           0
-    ## 25       <NA>        hospital_f                 4122      0           0
-    ## 26       <NA>        hospital_i                 4125      0           0
-    ## 27       <NA>              <NA>                   NA      0           0
-    ## 28       <NA>        hospital_b                 4118      0           0
-    ## 29       <NA>        hospital_j                 4126      0           0
-    ## 30       <NA>        hospital_e                 4121      0           0
-    ## 31       <NA>        hospital_h                 4124      0           0
-    ## 32       <NA>        hospital_j                 4126      0           0
-    ## 33       <NA>        hospital_g                 4123      0           0
-    ## 34       <NA>        hospital_d                 4120      0           0
-    ## 35       <NA>        hospital_f                 4122      0           0
-    ## 36       <NA>        hospital_c                 4119      0           0
-    ##    data_access_groups data_export reports stats_and_charts
-    ## 1                   1           1       1                1
-    ## 2                   0           2       1                1
-    ## 3                   0           2       1                1
-    ## 4                   0           2       1                1
-    ## 5                   0           2       1                1
-    ## 6                   0           2       1                1
-    ## 7                   0           2       1                1
-    ## 8                   0           2       1                1
-    ## 9                   0           2       1                1
-    ## 10                  0           2       1                1
-    ## 11                  0           2       1                1
-    ## 12                  0           2       1                1
-    ## 13                  0           2       1                1
-    ## 14                  0           2       1                1
-    ## 15                  0           2       1                1
-    ## 16                  0           2       1                1
-    ## 17                  0           2       1                1
-    ## 18                  0           2       1                1
-    ## 19                  0           2       1                1
-    ## 20                  0           2       1                1
-    ## 21                  0           2       1                1
-    ## 22                  0           2       1                1
-    ## 23                  0           2       1                1
-    ## 24                  0           2       1                1
-    ## 25                  0           2       1                1
-    ## 26                  0           2       1                1
-    ## 27                  0           2       1                1
-    ## 28                  0           2       1                1
-    ## 29                  0           2       1                1
-    ## 30                  0           2       1                1
-    ## 31                  0           2       1                1
-    ## 32                  0           2       1                1
-    ## 33                  0           2       1                1
-    ## 34                  0           2       1                1
-    ## 35                  0           2       1                1
-    ## 36                  0           2       1                1
-    ##    manage_survey_participants calendar data_import_tool
-    ## 1                           1        1                1
-    ## 2                           1        1                0
-    ## 3                           1        1                0
-    ## 4                           1        1                0
-    ## 5                           1        1                0
-    ## 6                           1        1                0
-    ## 7                           1        1                0
-    ## 8                           1        1                0
-    ## 9                           1        1                0
-    ## 10                          1        1                0
-    ## 11                          1        1                0
-    ## 12                          1        1                0
-    ## 13                          1        1                0
-    ## 14                          1        1                0
-    ## 15                          1        1                0
-    ## 16                          1        1                0
-    ## 17                          1        1                0
-    ## 18                          1        1                0
-    ## 19                          1        1                0
-    ## 20                          1        1                0
-    ## 21                          1        1                0
-    ## 22                          1        1                0
-    ## 23                          1        1                0
-    ## 24                          1        1                0
-    ## 25                          1        1                0
-    ## 26                          1        1                0
-    ## 27                          1        1                0
-    ## 28                          1        1                0
-    ## 29                          1        1                0
-    ## 30                          1        1                0
-    ## 31                          1        1                0
-    ## 32                          1        1                0
-    ## 33                          1        1                0
-    ## 34                          1        1                0
-    ## 35                          1        1                0
-    ## 36                          1        1                0
-    ##    data_comparison_tool logging file_repository data_quality_create
-    ## 1                     1       1               1                   1
-    ## 2                     0       0               1                   0
-    ## 3                     0       0               1                   0
-    ## 4                     0       0               1                   0
-    ## 5                     0       0               1                   0
-    ## 6                     0       0               1                   0
-    ## 7                     0       0               1                   0
-    ## 8                     0       0               1                   0
-    ## 9                     0       0               1                   0
-    ## 10                    0       0               1                   0
-    ## 11                    0       0               1                   0
-    ## 12                    0       0               1                   0
-    ## 13                    0       0               1                   0
-    ## 14                    0       0               1                   0
-    ## 15                    0       0               1                   0
-    ## 16                    0       0               1                   0
-    ## 17                    0       0               1                   0
-    ## 18                    0       0               1                   0
-    ## 19                    0       0               1                   0
-    ## 20                    0       0               1                   0
-    ## 21                    0       0               1                   0
-    ## 22                    0       0               1                   0
-    ## 23                    0       0               1                   0
-    ## 24                    0       0               1                   0
-    ## 25                    0       0               1                   0
-    ## 26                    0       0               1                   0
-    ## 27                    0       0               1                   0
-    ## 28                    0       0               1                   0
-    ## 29                    0       0               1                   0
-    ## 30                    0       0               1                   0
-    ## 31                    0       0               1                   0
-    ## 32                    0       0               1                   0
-    ## 33                    0       0               1                   0
-    ## 34                    0       0               1                   0
-    ## 35                    0       0               1                   0
-    ## 36                    0       0               1                   0
-    ##    data_quality_execute api_export api_import mobile_app
-    ## 1                     1          1          1          1
-    ## 2                     0          0          0          0
-    ## 3                     0          0          0          0
-    ## 4                     0          0          0          0
-    ## 5                     0          0          0          0
-    ## 6                     0          0          0          0
-    ## 7                     0          0          0          0
-    ## 8                     0          0          0          0
-    ## 9                     0          0          0          0
-    ## 10                    0          0          0          0
-    ## 11                    0          0          0          0
-    ## 12                    0          0          0          0
-    ## 13                    0          0          0          0
-    ## 14                    0          0          0          0
-    ## 15                    0          0          0          0
-    ## 16                    0          0          0          0
-    ## 17                    0          0          0          0
-    ## 18                    0          0          0          0
-    ## 19                    0          0          0          0
-    ## 20                    0          0          0          0
-    ## 21                    0          0          0          0
-    ## 22                    0          0          0          0
-    ## 23                    0          0          0          0
-    ## 24                    0          0          0          0
-    ## 25                    0          0          0          0
-    ## 26                    0          0          0          0
-    ## 27                    0          0          0          0
-    ## 28                    0          0          0          0
-    ## 29                    0          0          0          0
-    ## 30                    0          0          0          0
-    ## 31                    0          0          0          0
-    ## 32                    0          0          0          0
-    ## 33                    0          0          0          0
-    ## 34                    0          0          0          0
-    ## 35                    0          0          0          0
-    ## 36                    0          0          0          0
-    ##    mobile_app_download_data record_create record_rename record_delete
-    ## 1                         1             1             0             0
-    ## 2                         0             1             0             0
-    ## 3                         0             1             0             0
-    ## 4                         0             1             0             0
-    ## 5                         0             1             0             0
-    ## 6                         0             1             0             0
-    ## 7                         0             1             0             0
-    ## 8                         0             1             0             0
-    ## 9                         0             1             0             0
-    ## 10                        0             1             0             0
-    ## 11                        0             1             0             0
-    ## 12                        0             1             0             0
-    ## 13                        0             1             0             0
-    ## 14                        0             1             0             0
-    ## 15                        0             1             0             0
-    ## 16                        0             1             0             0
-    ## 17                        0             1             0             0
-    ## 18                        0             1             0             0
-    ## 19                        0             1             0             0
-    ## 20                        0             1             0             0
-    ## 21                        0             1             0             0
-    ## 22                        0             1             0             0
-    ## 23                        0             1             0             0
-    ## 24                        0             1             0             0
-    ## 25                        0             1             0             0
-    ## 26                        0             1             0             0
-    ## 27                        0             1             0             0
-    ## 28                        0             1             0             0
-    ## 29                        0             1             0             0
-    ## 30                        0             1             0             0
-    ## 31                        0             1             0             0
-    ## 32                        0             1             0             0
-    ## 33                        0             1             0             0
-    ## 34                        0             0             0             0
-    ## 35                        0             0             0             0
-    ## 36                        0             0             0             0
-    ##    lock_records_all_forms lock_records lock_records_customization
-    ## 1                       0            0                          0
-    ## 2                       0            0                          0
-    ## 3                       0            0                          0
-    ## 4                       0            0                          0
-    ## 5                       0            0                          0
-    ## 6                       0            0                          0
-    ## 7                       0            0                          0
-    ## 8                       0            0                          0
-    ## 9                       0            0                          0
-    ## 10                      0            0                          0
-    ## 11                      0            0                          0
-    ## 12                      0            0                          0
-    ## 13                      0            0                          0
-    ## 14                      0            0                          0
-    ## 15                      0            0                          0
-    ## 16                      0            0                          0
-    ## 17                      0            0                          0
-    ## 18                      0            0                          0
-    ## 19                      0            0                          0
-    ## 20                      0            0                          0
-    ## 21                      0            0                          0
-    ## 22                      0            0                          0
-    ## 23                      0            0                          0
-    ## 24                      0            0                          0
-    ## 25                      0            0                          0
-    ## 26                      0            0                          0
-    ## 27                      0            0                          0
-    ## 28                      0            0                          0
-    ## 29                      0            0                          0
-    ## 30                      0            0                          0
-    ## 31                      0            0                          0
-    ## 32                      0            0                          0
-    ## 33                      0            0                          0
-    ## 34                      0            0                          0
-    ## 35                      0            0                          0
-    ## 36                      0            0                          0
-    ##             forms
-    ## 1  example_data:1
-    ## 2  example_data:1
-    ## 3  example_data:1
-    ## 4  example_data:1
-    ## 5  example_data:1
-    ## 6  example_data:1
-    ## 7  example_data:1
-    ## 8  example_data:1
-    ## 9  example_data:1
-    ## 10 example_data:1
-    ## 11 example_data:1
-    ## 12 example_data:1
-    ## 13 example_data:1
-    ## 14 example_data:1
-    ## 15 example_data:1
-    ## 16 example_data:1
-    ## 17 example_data:1
-    ## 18 example_data:1
-    ## 19 example_data:1
-    ## 20 example_data:1
-    ## 21 example_data:1
-    ## 22 example_data:1
-    ## 23 example_data:1
-    ## 24 example_data:1
-    ## 25 example_data:1
-    ## 26 example_data:1
-    ## 27 example_data:1
-    ## 28 example_data:1
-    ## 29 example_data:1
-    ## 30 example_data:1
-    ## 31 example_data:1
-    ## 32 example_data:1
-    ## 33 example_data:1
-    ## 34 example_data:2
-    ## 35 example_data:2
-    ## 36 example_data:2
+    knitr::kable(user_roles_full)
+
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">role</th>
+<th style="text-align: left;">username</th>
+<th style="text-align: left;">email</th>
+<th style="text-align: left;">firstname</th>
+<th style="text-align: left;">lastname</th>
+<th style="text-align: left;">expiration</th>
+<th style="text-align: left;">data_access_group</th>
+<th style="text-align: right;">data_access_group_id</th>
+<th style="text-align: right;">design</th>
+<th style="text-align: right;">user_rights</th>
+<th style="text-align: right;">data_access_groups</th>
+<th style="text-align: right;">data_export</th>
+<th style="text-align: right;">reports</th>
+<th style="text-align: right;">stats_and_charts</th>
+<th style="text-align: right;">manage_survey_participants</th>
+<th style="text-align: right;">calendar</th>
+<th style="text-align: right;">data_import_tool</th>
+<th style="text-align: right;">data_comparison_tool</th>
+<th style="text-align: right;">logging</th>
+<th style="text-align: right;">file_repository</th>
+<th style="text-align: right;">data_quality_create</th>
+<th style="text-align: right;">data_quality_execute</th>
+<th style="text-align: right;">api_export</th>
+<th style="text-align: right;">api_import</th>
+<th style="text-align: right;">mobile_app</th>
+<th style="text-align: right;">mobile_app_download_data</th>
+<th style="text-align: right;">record_create</th>
+<th style="text-align: right;">record_rename</th>
+<th style="text-align: right;">record_delete</th>
+<th style="text-align: right;">lock_records_all_forms</th>
+<th style="text-align: right;">lock_records</th>
+<th style="text-align: right;">lock_records_customization</th>
+<th style="text-align: left;">forms</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">administrator</td>
+<td style="text-align: left;">kmclean</td>
+<td style="text-align: left;"><a href="mailto:mcleankaca@gmail.com">mcleankaca@gmail.com</a></td>
+<td style="text-align: left;">Kenneth</td>
+<td style="text-align: left;">McLean</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">a_barker</td>
+<td style="text-align: left;"><a href="mailto:a_barker@email.com">a_barker@email.com</a></td>
+<td style="text-align: left;">Aleesha</td>
+<td style="text-align: left;">Barker</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_a</td>
+<td style="text-align: right;">4117</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">k_ashton</td>
+<td style="text-align: left;"><a href="mailto:k_ashton@email.com">k_ashton@email.com</a></td>
+<td style="text-align: left;">Kester</td>
+<td style="text-align: left;">Ashton</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">a_hicks</td>
+<td style="text-align: left;"><a href="mailto:a_hicks@email.com">a_hicks@email.com</a></td>
+<td style="text-align: left;">Alyssa</td>
+<td style="text-align: left;">Hicks</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_e</td>
+<td style="text-align: right;">4121</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">a_lees</td>
+<td style="text-align: left;"><a href="mailto:a_lees@email.com">a_lees@email.com</a></td>
+<td style="text-align: left;">Aleesha</td>
+<td style="text-align: left;">Lees</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_g</td>
+<td style="text-align: right;">4123</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">a_nicholson</td>
+<td style="text-align: left;"><a href="mailto:a_nicholson@email.com">a_nicholson@email.com</a></td>
+<td style="text-align: left;">Alyssa</td>
+<td style="text-align: left;">Nicholson</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_i</td>
+<td style="text-align: right;">4125</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">c_avila</td>
+<td style="text-align: left;"><a href="mailto:c_avila@email.com">c_avila@email.com</a></td>
+<td style="text-align: left;">Chanice</td>
+<td style="text-align: left;">Avila</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">c_gould</td>
+<td style="text-align: left;"><a href="mailto:c_gould@email.com">c_gould@email.com</a></td>
+<td style="text-align: left;">Chanice</td>
+<td style="text-align: left;">Gould</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_b</td>
+<td style="text-align: right;">4118</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">c_kent</td>
+<td style="text-align: left;"><a href="mailto:c_kent@email.com">c_kent@email.com</a></td>
+<td style="text-align: left;">Chanice</td>
+<td style="text-align: left;">Kent</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_f</td>
+<td style="text-align: right;">4122</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">c_michael</td>
+<td style="text-align: left;"><a href="mailto:c_michael@email.com">c_michael@email.com</a></td>
+<td style="text-align: left;">Chanice</td>
+<td style="text-align: left;">Michael</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_h</td>
+<td style="text-align: right;">4124</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">f_almond</td>
+<td style="text-align: left;"><a href="mailto:f_almond@email.com">f_almond@email.com</a></td>
+<td style="text-align: left;">Fleur</td>
+<td style="text-align: left;">Almond</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">f_galindo</td>
+<td style="text-align: left;"><a href="mailto:f_galindo@email.com">f_galindo@email.com</a></td>
+<td style="text-align: left;">Fleur</td>
+<td style="text-align: left;">Galindo</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_a</td>
+<td style="text-align: right;">4117</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">f_livingston</td>
+<td style="text-align: left;"><a href="mailto:f_livingston@email.com">f_livingston@email.com</a></td>
+<td style="text-align: left;">Fleur</td>
+<td style="text-align: left;">Livingston</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_g</td>
+<td style="text-align: right;">4123</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">h_herman</td>
+<td style="text-align: left;"><a href="mailto:h_herman@email.com">h_herman@email.com</a></td>
+<td style="text-align: left;">Hailie</td>
+<td style="text-align: left;">Herman</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_d</td>
+<td style="text-align: right;">4120</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">h_mustafa</td>
+<td style="text-align: left;"><a href="mailto:h_mustafa@email.com">h_mustafa@email.com</a></td>
+<td style="text-align: left;">Hailie</td>
+<td style="text-align: left;">Mustafa</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_i</td>
+<td style="text-align: right;">4125</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">s_hardy</td>
+<td style="text-align: left;"><a href="mailto:s_hardy@email.com">s_hardy@email.com</a></td>
+<td style="text-align: left;">Shanelle</td>
+<td style="text-align: left;">Hardy</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_d</td>
+<td style="text-align: right;">4120</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">k_gibbons</td>
+<td style="text-align: left;"><a href="mailto:k_gibbons@email.com">k_gibbons@email.com</a></td>
+<td style="text-align: left;">Kester</td>
+<td style="text-align: left;">Gibbons</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_b</td>
+<td style="text-align: right;">4118</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">k_marks</td>
+<td style="text-align: left;"><a href="mailto:k_marks@email.com">k_marks@email.com</a></td>
+<td style="text-align: left;">Kester</td>
+<td style="text-align: left;">Marks</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_h</td>
+<td style="text-align: right;">4124</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">y_andersen</td>
+<td style="text-align: left;"><a href="mailto:y_andersen@email.com">y_andersen@email.com</a></td>
+<td style="text-align: left;">Yaseen</td>
+<td style="text-align: left;">Andersen</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">l_cervantes</td>
+<td style="text-align: left;"><a href="mailto:l_cervantes@email.com">l_cervantes@email.com</a></td>
+<td style="text-align: left;">Leroy</td>
+<td style="text-align: left;">Cervantes</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_a</td>
+<td style="text-align: right;">4117</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">l_jensen</td>
+<td style="text-align: left;"><a href="mailto:l_jensen@email.com">l_jensen@email.com</a></td>
+<td style="text-align: left;">Leroy</td>
+<td style="text-align: left;">Jensen</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_e</td>
+<td style="text-align: right;">4121</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">l_paine</td>
+<td style="text-align: left;"><a href="mailto:l_paine@email.com">l_paine@email.com</a></td>
+<td style="text-align: left;">Leroy</td>
+<td style="text-align: left;">Paine</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_j</td>
+<td style="text-align: right;">4126</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">m_owens</td>
+<td style="text-align: left;"><a href="mailto:m_owens@email.com">m_owens@email.com</a></td>
+<td style="text-align: left;">Martha</td>
+<td style="text-align: left;">Owens</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_j</td>
+<td style="text-align: right;">4126</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">r_bradford</td>
+<td style="text-align: left;"><a href="mailto:r_bradford@email.com">r_bradford@email.com</a></td>
+<td style="text-align: left;">Ralph</td>
+<td style="text-align: left;">Bradford</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_c</td>
+<td style="text-align: right;">4119</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">r_hodge</td>
+<td style="text-align: left;"><a href="mailto:r_hodge@email.com">r_hodge@email.com</a></td>
+<td style="text-align: left;">Ralph</td>
+<td style="text-align: left;">Hodge</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_f</td>
+<td style="text-align: right;">4122</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">r_ochoa</td>
+<td style="text-align: left;"><a href="mailto:r_ochoa@email.com">r_ochoa@email.com</a></td>
+<td style="text-align: left;">Ralph</td>
+<td style="text-align: left;">Ochoa</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_i</td>
+<td style="text-align: right;">4125</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">s_ayala</td>
+<td style="text-align: left;"><a href="mailto:s_ayala@email.com">s_ayala@email.com</a></td>
+<td style="text-align: left;">Samiha</td>
+<td style="text-align: left;">Ayala</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">s_beech</td>
+<td style="text-align: left;"><a href="mailto:s_beech@email.com">s_beech@email.com</a></td>
+<td style="text-align: left;">Shanelle</td>
+<td style="text-align: left;">Beech</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_b</td>
+<td style="text-align: right;">4118</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">y_odoherty</td>
+<td style="text-align: left;"><a href="mailto:y_odoherty@email.com">y_odoherty@email.com</a></td>
+<td style="text-align: left;">Yara</td>
+<td style="text-align: left;">O’Doherty</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_j</td>
+<td style="text-align: right;">4126</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">y_holder</td>
+<td style="text-align: left;"><a href="mailto:y_holder@email.com">y_holder@email.com</a></td>
+<td style="text-align: left;">Yara</td>
+<td style="text-align: left;">Holder</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_e</td>
+<td style="text-align: right;">4121</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">s_moses</td>
+<td style="text-align: left;"><a href="mailto:s_moses@email.com">s_moses@email.com</a></td>
+<td style="text-align: left;">Shanelle</td>
+<td style="text-align: left;">Moses</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_h</td>
+<td style="text-align: right;">4124</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">y_o’doherty</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_j</td>
+<td style="text-align: right;">4126</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">y_mackie</td>
+<td style="text-align: left;"><a href="mailto:y_mackie@email.com">y_mackie@email.com</a></td>
+<td style="text-align: left;">Yaseen</td>
+<td style="text-align: left;">Mackie</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_g</td>
+<td style="text-align: right;">4123</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:1" class="uri">data:1</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">validator</td>
+<td style="text-align: left;">a_hanna</td>
+<td style="text-align: left;"><a href="mailto:a_hanna@email.com">a_hanna@email.com</a></td>
+<td style="text-align: left;">Aleesha</td>
+<td style="text-align: left;">Hanna</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_d</td>
+<td style="text-align: right;">4120</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:2" class="uri">data:2</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">validator</td>
+<td style="text-align: left;">s_knights</td>
+<td style="text-align: left;"><a href="mailto:s_knights@email.com">s_knights@email.com</a></td>
+<td style="text-align: left;">Samiha</td>
+<td style="text-align: left;">Knights</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_f</td>
+<td style="text-align: right;">4122</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:2" class="uri">data:2</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">validator</td>
+<td style="text-align: left;">y_cameron</td>
+<td style="text-align: left;"><a href="mailto:y_cameron@email.com">y_cameron@email.com</a></td>
+<td style="text-align: left;">Yara</td>
+<td style="text-align: left;">Cameron</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">hospital_c</td>
+<td style="text-align: right;">4119</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">example_<a href="data:2" class="uri">data:2</a></td>
+</tr>
+</tbody>
+</table>
 
 This allows further analyses to be done using roles which are not
 currently possible within REDCap (e.g. tables, plots, etc), and can be
@@ -477,16 +2755,38 @@ Unallocated data access groups is a common error during manual
 assignment of user rights. **In this case these users will be able to
 access all records (within their form rights) in the REDCap project**.
 
-    user_validate_out$dag_unallocated
+    knitr::kable(user_validate_out$dag_unallocated)
 
-    ## # A tibble: 5 x 2
-    ##   username   data_access_group
-    ##   <chr>      <chr>            
-    ## 1 c_avila    <NA>             
-    ## 2 f_almond   <NA>             
-    ## 3 k_ashton   <NA>             
-    ## 4 s_ayala    <NA>             
-    ## 5 y_andersen <NA>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">username</th>
+<th style="text-align: left;">data_access_group</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">c_avila</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">f_almond</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">k_ashton</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">s_ayala</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">y_andersen</td>
+<td style="text-align: left;">NA</td>
+</tr>
+</tbody>
+</table>
 
 -   The `$dag_unallocated` output will highlight the individual users
     currently on REDCap with NA recorded for their DAG.
@@ -503,15 +2803,39 @@ manual assignment of user rights. **In this case these users will have
 access to and be able to upload records within another DAG in the REDCap
 project**.
 
-    user_validate_out$dag_incorrect
+    knitr::kable(user_validate_out$dag_incorrect)
 
-    ## # A tibble: 4 x 3
-    ##   username  DAG_user_new DAG_user_current
-    ##   <chr>     <chr>        <chr>           
-    ## 1 a_lees    hospital_h   hospital_g      
-    ## 2 r_hodge   hospital_i   hospital_f      
-    ## 3 s_hardy   hospital_e   hospital_d      
-    ## 4 y_cameron hospital_d   hospital_c
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">username</th>
+<th style="text-align: left;">DAG_user_new</th>
+<th style="text-align: left;">DAG_user_current</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">a_lees</td>
+<td style="text-align: left;">hospital_h</td>
+<td style="text-align: left;">hospital_g</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">r_hodge</td>
+<td style="text-align: left;">hospital_i</td>
+<td style="text-align: left;">hospital_f</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">s_hardy</td>
+<td style="text-align: left;">hospital_e</td>
+<td style="text-align: left;">hospital_d</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">y_cameron</td>
+<td style="text-align: left;">hospital_d</td>
+<td style="text-align: left;">hospital_c</td>
+</tr>
+</tbody>
+</table>
 
 -   This uses the `users.df` input (which must contain at least 2
     columns: `username` and `data_access_group`) and compares this to
@@ -532,11 +2856,9 @@ Unallocated form rights is a possible error during automatic assignment
 of user rights. **In this case these users will have view and edit
 rights to all forms (within their DAG) on the REDCap project**.
 
-    user_validate_out$forms_na
+    knitr::kable(user_validate_out$forms_na)
 
-    ## # A tibble: 0 x 3
-    ## # ... with 3 variables: username <chr>, data_access_group <chr>,
-    ## #   forms <chr>
+username data\_access\_group forms ——— —————— ——
 
 -   The `$forms_na` output will highlight the individual users currently
     on REDCap with NA recorded for their form rights (e.g. ability to

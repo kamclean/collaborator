@@ -24,7 +24,7 @@ Identifier) and API (Application Programming Interface) for the REDCap
 project.
 
 However, this is intended to have a high degree of customisability to
-fit the needs of a variety of projects. For example, Being able to
+fit the needs of a variety of projects. For example, being able to
 easily:
 
 -   Exclude individual records (`record_exclude`) or whole data access

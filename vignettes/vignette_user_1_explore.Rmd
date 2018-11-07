@@ -36,7 +36,7 @@ There are 3 outputs from `user_roles_n()`:
 # Example output from user_roles_n()
 user_roles_n_full <- user_roles_n(redcap_project_uri, redcap_project_token)$full # please note all names are randomly generated
 
-user_roles_n_full
+knitr::kable(user_roles_n_full)
   
 ```
 
@@ -46,7 +46,7 @@ user_roles_n_full
 ```{r, warning=FALSE, message=FALSE}
 user_roles_n_eg <- user_roles_n(redcap_project_uri, redcap_project_token)$examples
 
-user_roles_n_eg
+knitr::kable(user_roles_n_eg)
 ```
 
 
@@ -62,8 +62,7 @@ user_role_examples <- user_roles_n_eg %>%
                        labels=c("collaborator","validator", "administrator"))) %>%
   dplyr::mutate(role = as.character(role))
 
-user_role_examples
-
+knitr::kable(user_role_examples)
 ```
 
 ### b). Usage of `user_roles()`
@@ -72,7 +71,9 @@ Use `user_roles()` to apply named roles to all users according to example users 
 
 ```{r, warning=FALSE, message=FALSE}
 user_roles_full <- user_roles(redcap_project_uri, redcap_project_token, user_role_examples)
-user_roles_full
+
+knitr::kable(user_roles_full)
+
 ```
 
 This allows further analyses to be done using roles which are not currently possible within REDCap (e.g. tables, plots, etc), and can be used to subsequently automatically upload and allocate user rights (see [Redcap User Management: 2. Assign User Rights](https://github.com/kamclean/collaborator/blob/master/vignettes/vignette_user_2_assign.Rmd))
@@ -96,7 +97,7 @@ user_validate_out <- user_validate(redcap_project_uri, redcap_project_token,
 Unallocated data access groups is a common error during manual assignment of user rights. **In this case these users will be able to access all records (within their form rights) in the REDCap project**.
 
 ```{r, warning=FALSE, message=FALSE}
-user_validate_out$dag_unallocated
+knitr::kable(user_validate_out$dag_unallocated)
 
 ```
 
@@ -109,8 +110,7 @@ user_validate_out$dag_unallocated
 The incorrect allocation of data access groups is a common error during manual assignment of user rights. **In this case these users will have access to and be able to upload records within another DAG in the REDCap project**.
  
 ```{r, warning=FALSE, message=FALSE}
-user_validate_out$dag_incorrect
-
+knitr::kable(user_validate_out$dag_incorrect)
 ```
 
   - This uses the `users.df` input (which must contain at least 2 columns: `username` and `data_access_group`) and compares this to the current users on REDCap.
@@ -123,7 +123,8 @@ user_validate_out$dag_incorrect
 Unallocated form rights is a possible error during automatic assignment of user rights. **In this case these users will have view and edit rights to all forms (within their DAG) on the REDCap project**.
  
 ```{r, warning=FALSE, message=FALSE}
-user_validate_out$forms_na
+
+knitr::kable(user_validate_out$forms_na)
 
 ```
 
