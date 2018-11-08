@@ -1,0 +1,8 @@
+England: Dalby D + Houston M + Morin Y + Stokes P [hospital F} -  Chamberlain H + Fox B + Keenan L + Mackie L + Plant N [hospital G} -  Galindo C + Michael P + Prosser E [hospital H} -  Bradford J + Flores R + Mooney A + O'Doherty H + Werner R [hospital I} -  Dean O + Fuentes A + Hardy E + Herman K + Ochoa A + Pitt A + Skinner I + Wynn J [hospital J} -  Hicks A + Holder C + Phillips A + Richmond S + Whitfield A [hospital K} -  Ashton A + William C [hospital L} -  Carlson F [hospital M} -  Almond S + Beech J + Ferry A + Lennon J + Smart F [hospital N} -  Halliday S + Riggs M + Rossi P + Wardle A + Whitney M [hospital O} -  Bowen P + Carrillo J + Fenton U + Kane K + Knights G + Riddle C [hospital P} -  Ayala N + Conley M + Ellwood M + Hollis S + Mustafa W + Olsen H + Wall R [hospital Q}.
+
+Northern Ireland: Hodge M + Owens I [hospital T} -  Cervantes S + Marks H + Nicholson L [hospital U} -  Chung L + Duffy L + Gardiner F + Randolph T [hospital V}.
+
+Scotland: Berry A + Chan K + Gould C + Jensen L [hospital A} -  Clifford K + Kearns U + Livingston F + Rojas E [hospital B} -  Avila E + Cullen F + Hanna L + O'Neill L [hospital C} -  Barker S + Gibbons H + Kent M [hospital D} -  Andersen J + Cameron G + Dodson D + Downes A + Erickson K + Francis F + Lees S + Moses S + Saunders R [hospital E}.
+
+Wales: Finney R + Frazier U + Paine R + Patrick S + Petty O + Villa Z [hospital R} -  Cantrell G + Huff J + Rowe P + Woods B + Yang K [hospital S}.
+
