@@ -4,7 +4,7 @@ author:
  - "Kenneth McLean"
  - "Riinu Ots"
 date: "`r Sys.Date()`"
-output: md_document
+output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Vignette Title}
   %\VignetteEngine{knitr::rmarkdown}
