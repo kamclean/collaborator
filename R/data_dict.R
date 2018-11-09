@@ -13,6 +13,8 @@
 #' @importFrom stringr str_count str_split_fixed
 #' @importFrom lubridate ymd origin
 #' @importFrom gdata reorder.factor
+#' @importFrom stats median
+#' @importFrom utils head
 #' @export
 
 # Function:
@@ -49,7 +51,7 @@ data_dict <- function(df, var_exclude=""){
 
   colMax <- function(data) sapply(data, max, na.rm = TRUE)
   colMin <- function(data) sapply(data, min, na.rm = TRUE)
-  colMed <- function(data) sapply(data, median, na.rm = TRUE)
+  colMed <- function(data) sapply(data, stats::median, na.rm = TRUE)
 
   if(identical(var_num, character(0))==F){
   cbind.data.frame(variable = var_num,
