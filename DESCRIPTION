@@ -22,7 +22,6 @@ Imports: dplyr,
   stringi,
   stringr,
   tibble,
-  finalfit,
   tidyr
 License: GPL-3
 Encoding: UTF-8
