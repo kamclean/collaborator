@@ -22,6 +22,7 @@ Imports: dplyr,
   stringi,
   stringr,
   tibble,
+  finalfit,
   tidyr
 License: GPL-3
 Encoding: UTF-8
@@ -29,6 +30,5 @@ LazyData: true
 RoxygenNote: 6.1.0
 Suggests: knitr,
     rmarkdown,
-    testthat,
-    finalfit
+    testthat
 VignetteBuilder: knitr
