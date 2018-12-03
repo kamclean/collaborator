@@ -97,7 +97,7 @@ location within the dataset.
 <td style="text-align: left;">hospital_a</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">16</td>
-<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000000</td>
 <td style="text-align: left;">0.0%</td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">.</td>
@@ -122,7 +122,7 @@ location within the dataset.
 <td style="text-align: left;">hospital_a</td>
 <td style="text-align: right;">2</td>
 <td style="text-align: right;">16</td>
-<td style="text-align: right;">0.1250</td>
+<td style="text-align: right;">0.1250000</td>
 <td style="text-align: left;">12.5%</td>
 <td style="text-align: left;">Yes</td>
 <td style="text-align: left;">.</td>
@@ -147,7 +147,7 @@ location within the dataset.
 <td style="text-align: left;">hospital_a</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">16</td>
-<td style="text-align: right;">0.0625</td>
+<td style="text-align: right;">0.0625000</td>
 <td style="text-align: left;">6.2%</td>
 <td style="text-align: left;">Yes</td>
 <td style="text-align: left;">.</td>
@@ -172,7 +172,7 @@ location within the dataset.
 <td style="text-align: left;">hospital_a</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">16</td>
-<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000000</td>
 <td style="text-align: left;">0.0%</td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">.</td>
@@ -195,11 +195,11 @@ location within the dataset.
 <tr class="odd">
 <td style="text-align: left;">5</td>
 <td style="text-align: left;">hospital_a</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">16</td>
-<td style="text-align: right;">0.1250</td>
-<td style="text-align: left;">12.5%</td>
-<td style="text-align: left;">Yes</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: left;">0.0%</td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">.</td>
 <td style="text-align: left;">.</td>
 <td style="text-align: left;">.</td>
@@ -214,17 +214,17 @@ location within the dataset.
 <td style="text-align: left;">.</td>
 <td style="text-align: left;">.</td>
 <td style="text-align: left;">.</td>
-<td style="text-align: left;">M</td>
-<td style="text-align: left;">M</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">6</td>
 <td style="text-align: left;">hospital_a</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">16</td>
-<td style="text-align: right;">0.1250</td>
-<td style="text-align: left;">12.5%</td>
-<td style="text-align: left;">Yes</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: left;">0.0%</td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">.</td>
 <td style="text-align: left;">.</td>
 <td style="text-align: left;">.</td>
@@ -239,15 +239,15 @@ location within the dataset.
 <td style="text-align: left;">.</td>
 <td style="text-align: left;">.</td>
 <td style="text-align: left;">.</td>
-<td style="text-align: left;">M</td>
-<td style="text-align: left;">M</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">7</td>
 <td style="text-align: left;">hospital_a</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">16</td>
-<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000000</td>
 <td style="text-align: left;">0.0%</td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">.</td>
@@ -272,7 +272,7 @@ location within the dataset.
 <td style="text-align: left;">hospital_a</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">16</td>
-<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000000</td>
 <td style="text-align: left;">0.0%</td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">.</td>
@@ -295,11 +295,11 @@ location within the dataset.
 <tr class="odd">
 <td style="text-align: left;">9</td>
 <td style="text-align: left;">hospital_a</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">16</td>
-<td style="text-align: right;">0.1250</td>
-<td style="text-align: left;">12.5%</td>
-<td style="text-align: left;">Yes</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: left;">0.0%</td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">.</td>
 <td style="text-align: left;">.</td>
 <td style="text-align: left;">.</td>
@@ -314,15 +314,15 @@ location within the dataset.
 <td style="text-align: left;">.</td>
 <td style="text-align: left;">.</td>
 <td style="text-align: left;">.</td>
-<td style="text-align: left;">M</td>
-<td style="text-align: left;">M</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">10</td>
 <td style="text-align: left;">hospital_a</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">16</td>
-<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000000</td>
 <td style="text-align: left;">0.0%</td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">.</td>
@@ -347,7 +347,7 @@ location within the dataset.
 <td style="text-align: left;">hospital_b</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">16</td>
-<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000000</td>
 <td style="text-align: left;">0.0%</td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">.</td>
@@ -370,10 +370,10 @@ location within the dataset.
 <tr class="even">
 <td style="text-align: left;">12</td>
 <td style="text-align: left;">hospital_b</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">16</td>
-<td style="text-align: right;">0.2500</td>
-<td style="text-align: left;">25.0%</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">0.1428571</td>
+<td style="text-align: left;">14.3%</td>
 <td style="text-align: left;">Yes</td>
 <td style="text-align: left;">.</td>
 <td style="text-align: left;">M</td>
@@ -389,17 +389,17 @@ location within the dataset.
 <td style="text-align: left;">.</td>
 <td style="text-align: left;">.</td>
 <td style="text-align: left;">.</td>
-<td style="text-align: left;">M</td>
-<td style="text-align: left;">M</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">13</td>
 <td style="text-align: left;">hospital_b</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">16</td>
-<td style="text-align: right;">0.1250</td>
-<td style="text-align: left;">12.5%</td>
-<td style="text-align: left;">Yes</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: left;">0.0%</td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">.</td>
 <td style="text-align: left;">.</td>
 <td style="text-align: left;">.</td>
@@ -414,15 +414,15 @@ location within the dataset.
 <td style="text-align: left;">.</td>
 <td style="text-align: left;">.</td>
 <td style="text-align: left;">.</td>
-<td style="text-align: left;">M</td>
-<td style="text-align: left;">M</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">14</td>
 <td style="text-align: left;">hospital_b</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">16</td>
-<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000000</td>
 <td style="text-align: left;">0.0%</td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">.</td>
@@ -445,10 +445,10 @@ location within the dataset.
 <tr class="odd">
 <td style="text-align: left;">15</td>
 <td style="text-align: left;">hospital_b</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">16</td>
-<td style="text-align: right;">0.1875</td>
-<td style="text-align: left;">18.8%</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">0.0714286</td>
+<td style="text-align: left;">7.1%</td>
 <td style="text-align: left;">Yes</td>
 <td style="text-align: left;">.</td>
 <td style="text-align: left;">.</td>
@@ -464,8 +464,8 @@ location within the dataset.
 <td style="text-align: left;">.</td>
 <td style="text-align: left;">.</td>
 <td style="text-align: left;">.</td>
-<td style="text-align: left;">M</td>
-<td style="text-align: left;">M</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
 </tr>
 </tbody>
 </table>
@@ -506,20 +506,20 @@ Example of a data access group (DAG) level report of missing data
 <tr class="odd">
 <td style="text-align: left;">hospital_a</td>
 <td style="text-align: right;">10</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">9</td>
-<td style="text-align: right;">160</td>
-<td style="text-align: right;">0.0562500</td>
-<td style="text-align: left;">5.6%</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">154</td>
+<td style="text-align: right;">0.0194805</td>
+<td style="text-align: left;">1.9%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">hospital_b</td>
 <td style="text-align: right;">6</td>
+<td style="text-align: right;">2</td>
 <td style="text-align: right;">3</td>
-<td style="text-align: right;">9</td>
-<td style="text-align: right;">96</td>
-<td style="text-align: right;">0.0937500</td>
-<td style="text-align: left;">9.4%</td>
+<td style="text-align: right;">90</td>
+<td style="text-align: right;">0.0333333</td>
+<td style="text-align: left;">3.3%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">hospital_c</td>
@@ -543,37 +543,37 @@ Example of a data access group (DAG) level report of missing data
 <td style="text-align: left;">hospital_e</td>
 <td style="text-align: right;">9</td>
 <td style="text-align: right;">3</td>
-<td style="text-align: right;">7</td>
-<td style="text-align: right;">144</td>
-<td style="text-align: right;">0.0486111</td>
-<td style="text-align: left;">4.9%</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">140</td>
+<td style="text-align: right;">0.0214286</td>
+<td style="text-align: left;">2.1%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">hospital_f</td>
 <td style="text-align: right;">6</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">5</td>
 <td style="text-align: right;">96</td>
-<td style="text-align: right;">0.0104167</td>
-<td style="text-align: left;">1.0%</td>
+<td style="text-align: right;">0.0520833</td>
+<td style="text-align: left;">5.2%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">hospital_g</td>
 <td style="text-align: right;">7</td>
 <td style="text-align: right;">3</td>
-<td style="text-align: right;">7</td>
-<td style="text-align: right;">112</td>
-<td style="text-align: right;">0.0625000</td>
-<td style="text-align: left;">6.2%</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">108</td>
+<td style="text-align: right;">0.0462963</td>
+<td style="text-align: left;">4.6%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">hospital_h</td>
 <td style="text-align: right;">6</td>
 <td style="text-align: right;">3</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">96</td>
-<td style="text-align: right;">0.0416667</td>
-<td style="text-align: left;">4.2%</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">94</td>
+<td style="text-align: right;">0.0531915</td>
+<td style="text-align: left;">5.3%</td>
 </tr>
 </tbody>
 </table>

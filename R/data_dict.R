@@ -9,6 +9,7 @@
 #' @return Dataframe with 4 columns: variable (variable name), class (variable class), na_pct (the percentage of data which is NA for that variable), and values (an appropriate summary for the variable class).
 #' @importFrom dplyr filter mutate arrange select summarise
 #' @import magrittr
+#' @import finalfit
 #' @importFrom tibble as_tibble rownames_to_column
 #' @importFrom stringr str_count str_split_fixed
 #' @importFrom lubridate ymd origin

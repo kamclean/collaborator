@@ -19,6 +19,8 @@ devtools::install_github("kamclean/collaborator")
 
 It is recommended that this package is used together with `tidyverse` packages.
 
+Furthermore, functions to faciliate analysis of data collected in R can be found in the [finalfit](https://github.com/ewenharrison/finalfit/blob/master/README.md) package.
+
 Vignettes
 ---------
 [Generating Redcap Summary Data](https://github.com/kamclean/collaborator/blob/master/vignettes/vignette_summary.md)
