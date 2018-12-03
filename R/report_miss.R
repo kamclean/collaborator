@@ -124,7 +124,7 @@ report_miss <- function(redcap_project_uri, redcap_project_token, var_exclude = 
     data_missing_pt <- df_project %>%
       dplyr::mutate_all(., as.character) %>%
       dplyr::mutate_at(.,
-                       colnames(select(., -record_id, -redcap_data_access_group)),
+                       colnames(select(., redcap_dd_nobranch$variable)),
                        funs(ifelse(is.na(.)==T, "M", ".")))
 
   # Create missing data reports---------------------------
