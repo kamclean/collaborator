@@ -51,6 +51,7 @@ report_miss <- function(redcap_project_uri, redcap_project_token, var_exclude = 
     dplyr::mutate(branch_logic = gsub(">==", ">=", branch_logic)) %>%
     dplyr::mutate(branch_logic = gsub("<==", "<=", branch_logic)) %>%
     dplyr::mutate(branch_logic = gsub(" or ", "| df_project$", branch_logic)) %>%
+    dplyr::mutate(branch_logic = gsub(" OR ", "| df_project$", branch_logic)) %>%
     dplyr::mutate(branch_logic = gsub(" and ", " & df_project$", branch_logic)) %>%
     dplyr::mutate(branch_logic = gsub(" AND ", " & df_project$", branch_logic)) %>%
     dplyr::mutate(branch_logic = ifelse(is.na(branch_logic)==F, paste0("df_project$", branch_logic), NA)) %>%

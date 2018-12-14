@@ -3,7 +3,12 @@ collaboratoR
 
 <img src="man/figures/collaborator_logo.png" align="right" width="159" height="174"/>
 
-The `collaboratoR` package provides functions which help facilitate administration of multi-centre research using R and the [REDCap](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2700030/) (Research Electronic Data Capture) application. These functions have been developed and utilised within several collaborative research projects from [Student Audit and Research in Surgery (STARSurg)](https://www.starsurg.org), [EuroSurg](http://www.eurosurg.org), and [West Midlands Research Collaborative (WMRC)](http://www.wmresearch.org.uk).
+The `collaboratoR` package provides functions which help facilitate administration of multi-centre research using R and the [REDCap](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2700030/) (Research Electronic Data Capture) application. These functions have been developed and utilised within several collaborative research projects from:
+
+- [**Student Audit and Research in Surgery (STARSurg)**](https://www.starsurg.org) - [Outcomes After Kidney injury in Surgery (OAKS)](https://starsurg.org/oaks-2/)
+- [**EuroSurg**](http://www.eurosurg.org) - [Ileus Management International (IMAGINE)](http://eurosurg.org/imagine-hub/)
+- [**GlobalSurg**](http://globalsurg.org/) - [GlobalSurg 3: Quality and outcomes after global cancer surgery](http://globalsurg.org/projects/cohort-studies/globalsurg-3/)
+- [**West Midlands Research Collaborative (WMRC)**](http://www.wmresearch.org.uk) - [Oesophago-Gastric Anastomosis Audit (OGAA)](https://ogaa.org.uk/)
 
 All functions have been developed with the aim of being applicable to a broad range of REDCap projects. Any suggestions for further functions are welcome, however these would need to be aligned with this aim.
 
