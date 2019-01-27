@@ -5,12 +5,26 @@ collaboratoR
 
 The `collaboratoR` package provides functions which help facilitate administration of multi-centre research using R and the [REDCap](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2700030/) (Research Electronic Data Capture) application. These functions have been developed and utilised within several collaborative research projects from:
 
-- [**Student Audit and Research in Surgery (STARSurg)**](https://www.starsurg.org) - [Outcomes After Kidney injury in Surgery (OAKS)](https://starsurg.org/oaks-2/)
-- [**EuroSurg**](http://www.eurosurg.org) - [Ileus Management International (IMAGINE)](http://eurosurg.org/imagine-hub/)
-- [**GlobalSurg**](http://globalsurg.org/) - [GlobalSurg 3: Quality and outcomes after global cancer surgery](http://globalsurg.org/projects/cohort-studies/globalsurg-3/)
-- [**West Midlands Research Collaborative (WMRC)**](http://www.wmresearch.org.uk) - [Oesophago-Gastric Anastomosis Audit (OGAA)](https://ogaa.org.uk/)
+- [**Student Audit and Research in Surgery (STARSurg)**](https://www.starsurg.org)
+  - [Outcomes After Kidney injury in Surgery (OAKS)](https://starsurg.org/oaks-2/)
+  - [REspiratory COmplications after abdomiNal Surgery (RECON)](https://starsurg.org/recon-project-18-19/)
+<br><br>
+  
+- [**EuroSurg**](http://www.eurosurg.org)
+  - [Ileus Management International (IMAGINE)](http://eurosurg.org/imagine-hub/)
+<br><br>
+
+- [**GlobalSurg**](http://globalsurg.org/)
+  - [GlobalSurg 3: Quality and outcomes after global cancer surgery](http://globalsurg.org/projects/cohort-studies/globalsurg-3/)
+<br><br>
+
+- [**West Midlands Research Collaborative (WMRC)**](http://www.wmresearch.org.uk)
+  - [Oesophago-Gastric Anastomosis Audit (OGAA)](https://ogaa.org.uk/)
+<br><br>
 
 All functions have been developed with the aim of being applicable to a broad range of REDCap projects. Any suggestions for further functions are welcome, however these would need to be aligned with this aim.
+
+If the CollaboratoR package is used within your project, please e-mail the authors [here](mailto:v1kmcle6@ed.ac.uk) so the list above can be updated. Please also consider citing the package in any resultant publications with the suggested format: "McLean KA, Ots R. *CollaboratoR: Scalable multi-centre research using R and REDCap*. 2019. Avaliable at: [https://github.com/kamclean/collaborator](https://github.com/kamclean/collaborator)."
 
 Installation and Documentation
 ------------------------------
