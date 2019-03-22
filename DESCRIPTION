@@ -3,7 +3,9 @@ Title: Scalable multi-centre research using R and REDCap
 Version: 0.0.0.9000
 Authors@R: as.person(c(
     "Kenneth McLean <v1kmcle6@ed.ac.uk> [aut, cre]", 
-    "Riinu Ots <r.ots@ed.ac.uk> [aut]"))
+    "Riinu Ots <r.ots@ed.ac.uk> [aut]",
+    "Tom Drake <t.drake@ed.ac.uk> [aut]",
+    "Ewen Harrison <ewen.harrison@ed.ac.uk> [aut]"))
 Description: A cluster of functions to help facilitate administration of
     multi-centre research using R and REDCap (Research Electronic Data Capture). It
     allows automatic allocation of users within a REDCap project to data access groups

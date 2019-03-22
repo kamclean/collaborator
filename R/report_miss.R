@@ -21,8 +21,8 @@ report_miss <- function(redcap_project_uri, redcap_project_token, var_exclude = 
   "%ni%" <- Negate("%in%")
 
   df_project <- RCurl::postForm(uri=redcap_project_uri, token = redcap_project_token,
-                         content='record',exportDataAccessGroups = 'true',  format='csv',
-                         raworLabel="raw") %>%
+                                content='record',exportDataAccessGroups = 'true',  format='csv',
+                                raworLabel="raw") %>%
     readr::read_csv()
 
   # Exclude columns from project dataframe
@@ -61,37 +61,40 @@ report_miss <- function(redcap_project_uri, redcap_project_token, var_exclude = 
   if("checkbox" %in% df_datdic$field_type){
     field_values_max <- df_datdic %>%
       dplyr::filter(field_type=="checkbox") %>%
-      dplyr::mutate(field_check_num = stringr::str_count(field_values, ","))
+      dplyr::mutate(field_check_num = stringr::str_count(field_values, "\\|")+1)
 
-    checkbox_num <- cbind.data.frame(num = cbind(1:max(field_values_max$field_check_num))) %>%
+    checkbox_num <- cbind.data.frame(num = cbind(0:max(field_values_max$field_check_num))) %>%
       dplyr::mutate(old = paste0("(", num, ")"),
                     new = paste0("___", num))
 
     for (i in 1:nrow(checkbox_num)){
       df_datdic$branch_logic <- stringi::stri_replace_all_fixed(df_datdic$branch_logic, checkbox_num$old[i], checkbox_num$new[i])}}
 
+
   # Add in checkbox variables if present
   if("checkbox" %in% df_datdic$field_type){
     df_datdic %>%
       dplyr::select(variable, branch_logic, field_type,field_values) %>%
       dplyr::filter(field_type =="checkbox") %>%
-      dplyr::mutate(nvalues = stringr::str_count(field_values, "\\|")+1) -> var_checkbox
+      dplyr::mutate(nvalues = stringr::str_count(field_values, "\\|")+1,
+                    n_start = substr(field_values, 1,1)) -> var_checkbox
 
-    var_checkbox %$%
-      rep(variable, nvalues) %>%
+    var_checkbox %>%
+      select(variable, nvalues, n_start) %>%
+      group_by(variable, nvalues) %>%
+      summarise(n_seq = ifelse(n_start == 0, paste(seq(0, nvalues-1), collapse = ","), paste(seq(1, nvalues), collapse = ","))) %>%
       tibble::as.tibble() %>%
-      dplyr::group_by(value) %>%
-      dplyr::mutate(n_check = row_number()) %>%
-      dplyr::mutate(variable_old = as.character(value)) %>%
-      dplyr::mutate(variable = paste0(value, "___", n_check)) %>%
-      dplyr::ungroup() %>%
-      merge.data.frame(., var_checkbox, by.x = "value", by.y = "variable") %>%
+      tidyr::separate_rows(n_seq, sep = ",") %>%
+      dplyr::mutate(variable_old = variable,
+                    variable = paste0(variable, "___", n_seq)) %>%
+      dplyr::left_join(., var_checkbox, by =c("variable_old"= "variable")) %>%
       dplyr::select(variable_old, variable, branch_logic,field_type, field_values) -> var_checkbox
 
     df_datdic <- df_datdic %>%
       dplyr::filter(variable %ni% var_checkbox$variable_old) %>% # remove original checkbox variables
       rbind.data.frame(., var_checkbox[,-which(colnames(var_checkbox)=="variable_old")]) # add in new checkbox variables
   }
+
 
   # Clean final data dictionary
   df_datdic <- df_datdic %>%
@@ -122,11 +125,11 @@ report_miss <- function(redcap_project_uri, redcap_project_token, var_exclude = 
     dplyr::filter(is.na(branch_logic)==T) -> redcap_dd_nobranch
 
   # B. Replace with  present (".") or missing ("M") based on NA status
-    data_missing_pt <- df_project %>%
-      dplyr::mutate_all(., as.character) %>%
-      dplyr::mutate_at(.,
-                       colnames(select(., redcap_dd_nobranch$variable)),
-                       funs(ifelse(is.na(.)==T, "M", ".")))
+  data_missing_pt <- df_project %>%
+    dplyr::mutate_all(., as.character) %>%
+    dplyr::mutate_at(.,
+                     colnames(select(., redcap_dd_nobranch$variable)),
+                     function(x){ifelse(is.na(x)==T, "M", ".")})
 
   # Create missing data reports---------------------------
   # Patient-level
