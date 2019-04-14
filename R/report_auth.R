@@ -9,6 +9,7 @@
 #' @param name_sep Character(s) which will separate names within the group (the default is ",").
 #' @param group_brachet Character(s) bracheting the group (the default is "()").
 #' @param group_sep Character(s) which will separate the groups (the default is ";").
+#' @param file_text Create a text file of output in current working directory (defalut = FALSE)
 #' @importFrom dplyr filter mutate arrange select summarise group_by pull
 #' @importFrom magrittr "%>%"
 #' @importFrom stringi stri_replace_last_fixed
@@ -16,7 +17,7 @@
 #' @return Generates a text file ("auth_out.txt").
 #' @export
 
-report_auth <- function(df, group = NULL, subdivision = NULL,
+report_auth <- function(df, group = NULL, subdivision = NULL, file_text = FALSE,
                         name_sep = ",", group_brachet = "()",group_sep = ";"){
 
   group_brachet_L = substr(group_brachet, 1, 1)
@@ -27,7 +28,7 @@ report_auth <- function(df, group = NULL, subdivision = NULL,
 
       dplyr::summarise(name_list = paste0(paste(c(name), collapse=paste0(name_sep, " ")),"."))
 
-      readr::write_file(auth_out$name_list, path="auth_out.txt")}
+    readr::write_file(auth_out$name_list, path="auth_out.txt")}
 
   if(is.null(group)==FALSE&is.null(subdivision)==TRUE){
     auth_out <- df %>%
@@ -46,25 +47,25 @@ report_auth <- function(df, group = NULL, subdivision = NULL,
     readr::write_file(auth_out$auth_out, path="auth_out.txt")}
 
   if(is.null(group)==TRUE&is.null(subdivision)==FALSE){
-     auth_out <- df %>%
-       dplyr::mutate(subdivision = dplyr::pull(df, subdivision)) %>%
+    auth_out <- df %>%
+      dplyr::mutate(subdivision = dplyr::pull(df, subdivision)) %>%
 
-       dplyr::select(subdivision, name) %>%
+      dplyr::select(subdivision, name) %>%
 
-       dplyr::group_by(subdivision) %>%
+      dplyr::group_by(subdivision) %>%
 
-       dplyr::summarise(name_list = paste0(paste(c(name), collapse=paste0(name_sep, " ")),".")) %>%
+      dplyr::summarise(name_list = paste0(paste(c(name), collapse=paste0(name_sep, " ")),".")) %>%
 
-       dplyr::mutate(auth_out = paste0(name_list, "\n", sep="")) %>%
+      dplyr::mutate(auth_out = paste0(name_list, "\n", sep="")) %>%
 
-       dplyr::mutate(auth_out_sd = paste0(subdivision, ": ", auth_out))
+      dplyr::mutate(auth_out_sd = paste0(subdivision, ": ", auth_out))
 
-     write(auth_out$auth_out_sd, file="auth_out.txt")}
+    write(auth_out$auth_out_sd, file="auth_out.txt")}
 
   if(is.null(group)==FALSE&is.null(subdivision)==FALSE){
     auth_out <- df %>%
       dplyr::mutate(group = dplyr::pull(df, group),
-             subdivision = dplyr::pull(df, subdivision)) %>%
+                    subdivision = dplyr::pull(df, subdivision)) %>%
 
       dplyr::select(subdivision, group, name) %>%
 
@@ -84,4 +85,8 @@ report_auth <- function(df, group = NULL, subdivision = NULL,
 
     write(auth_out$auth_out_sd, file="auth_out.txt")}
 
-  return(cat(readr::read_file("auth_out.txt")))}
+  out <- cat(readr::read_file("auth_out.txt"))
+
+  if(file_text==FALSE){file.remove("auth_out.txt")}
+
+  return(out)}

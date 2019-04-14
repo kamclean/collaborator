@@ -4,8 +4,8 @@
 \alias{report_auth}
 \title{Generate a formatted authorship list.}
 \usage{
-report_auth(df, group = NULL, subdivision = NULL, name_sep = ",",
-  group_brachet = "()", group_sep = ";")
+report_auth(df, group = NULL, subdivision = NULL, file_text = FALSE,
+  name_sep = ",", group_brachet = "()", group_sep = ";")
 }
 \arguments{
 \item{df}{Dataframe of at least 2 columns: "name".}
@@ -13,6 +13,8 @@ report_auth(df, group = NULL, subdivision = NULL, name_sep = ",",
 \item{group}{Column name of a variable in the dataframe by which to group authorship (the default is NULL).}
 
 \item{subdivision}{Column name of an additional variable in the dataframe by which to subdivide authorship (the default is NULL).}
+
+\item{file_text}{Create a text file of output in current working directory (defalut = FALSE)}
 
 \item{name_sep}{Character(s) which will separate names within the group (the default is ",").}
 
