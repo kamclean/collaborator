@@ -5,6 +5,7 @@
 #' @param redcap_project_uri URI (Uniform Resource Identifier) for the REDCap instance.
 #' @param redcap_project_token API (Application Programming Interface) for the REDCap project.
 #' @param var_exclude Vector of names of variables that are desired to be excluded from the missing data count (the default is "." e.g. none).
+#' @param row_exclude Vector of rows that are desired to be excluded from the missing data count (the default is "." e.g. none).
 #' @importFrom dplyr filter mutate select summarise group_by ungroup
 #' @importFrom stringr str_count
 #' @importFrom stringi stri_replace_all_fixed
@@ -15,7 +16,7 @@
 #' @export
 
 # Function:
-report_miss <- function(redcap_project_uri, redcap_project_token, var_exclude = ""){
+report_miss <- function(redcap_project_uri, redcap_project_token, var_exclude = "", row_exclude = ""){
   # Prepare dataset----------------
   # Load functions / packages
   "%ni%" <- Negate("%in%")
@@ -29,6 +30,7 @@ report_miss <- function(redcap_project_uri, redcap_project_token, var_exclude = 
   var_form_complete <- colnames(df_project)[grepl("_complete", colnames(df_project), fixed=TRUE)]
 
   df_project <- df_project %>%
+    filter(record_id %ni% row_exclude) %>%
     dplyr::select(colnames(.)[colnames(df_project) %ni% c(var_exclude, var_form_complete)])
 
 

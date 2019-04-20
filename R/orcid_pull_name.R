@@ -20,6 +20,8 @@
 # Function:
 pull_orcid_name <- function(list_orcid, initials = TRUE, full_name = TRUE){
   library(dplyr)
+
+  # Pull orcid information / select out name
   df <- purrr::map(list_orcid, purrr::safely(function(x){xml2::as_list(xml2::read_html(paste0("https://pub.orcid.org/v2.1/",
                                                                                               x,
                                                                                               "/personal-details")))$`html`$`body`$`personal-details`$name %>%
@@ -27,6 +29,7 @@ pull_orcid_name <- function(list_orcid, initials = TRUE, full_name = TRUE){
       cbind.data.frame(orcid = x, fn_orcid = .$`given-names`[[1]], ln_orcid = .$`family-name`[[1]]) %>%
       .[which(colnames(.) %in% c("orcid", "fn_orcid", "ln_orcid"))]}))
 
+  # If orcid invalid, then replace with NA
   df <- purrr::transpose(df)[["result"]] %>%
     purrr::map(function(x){if(is.null(x)==T){cbind.data.frame("orcid" = NA, fn_orcid = NA, ln_orcid = NA)}else{x}}) %>%
     data.table::rbindlist() %>%
