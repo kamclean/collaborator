@@ -112,14 +112,15 @@ report_miss <- function(redcap_project_uri, redcap_project_token, var_exclude = 
     dplyr::filter(is.na(branch_logic)==F) -> redcap_dd_branch
 
   # B. Convert to present ("."), missing ("M") or appropriately missing ("NA") based on branching logic
-  for(i in 1:nrow(redcap_dd_branch)) {
-    x <- ifelse(eval(parse(text=eval(redcap_dd_branch$branch_logic[[i]])))==F,
-                NA, # if the if the branching logic has not been fufilled then NA
-                ifelse(is.na(eval(parse(text=paste0("df_project$",
-                                                    eval(redcap_dd_branch$variable[[i]])))))& # if the question hasn't been answered
-                         eval(parse(text=eval(redcap_dd_branch$branch_logic[[i]]))), # and if the branching logic is fufilled or
-                       "M", "."))
-    df_project[eval(redcap_dd_branch$variable[[i]])] <- x}
+  if(nrow(redcap_dd_branch)!=0){
+    for(i in 1:nrow(redcap_dd_branch)) {
+      x <- ifelse(eval(parse(text=eval(redcap_dd_branch$branch_logic[[i]])))==F,
+                  NA, # if the if the branching logic has not been fufilled then NA
+                  ifelse(is.na(eval(parse(text=paste0("df_project$",
+                                                      eval(redcap_dd_branch$variable[[i]])))))& # if the question hasn't been answered
+                           eval(parse(text=eval(redcap_dd_branch$branch_logic[[i]]))), # and if the branching logic is fufilled or
+                         "M", "."))
+      df_project[eval(redcap_dd_branch$variable[[i]])] <- x}}
 
   # 2. Non-branching variables
   # A. Select non-branching variables

@@ -1,4 +1,4 @@
-# pull_orcid_name--------------------------------
+# orcid_pull_name--------------------------------
 
 # Documentation
 #' Pull first name(s) and last name for a given list of orcid
@@ -18,7 +18,7 @@
 #' @export
 
 # Function:
-pull_orcid_name <- function(list_orcid, initials = TRUE, full_name = TRUE){
+orcid_pull_name <- function(list_orcid, initials = TRUE, full_name = TRUE){
   library(dplyr)
 
   # Pull orcid information / select out name
