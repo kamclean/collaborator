@@ -2,7 +2,9 @@
 title: "Generating a Simple, Easily-Shareable Data Dictionary"
 author: "Kenneth McLean"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output:
+  md_document:
+    variant: markdown_github
 vignette: >
   %\VignetteIndexEntry{Vignette Title}
   %\VignetteEngine{knitr::rmarkdown}

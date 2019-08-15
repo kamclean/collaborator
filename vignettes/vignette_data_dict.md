@@ -28,160 +28,25 @@ as “Class not supported” in the values column):
 
 Example dataframe (`example_data_dict`):
 
-    library(collaborator)
+``` r
+library(collaborator)
 
-    data <- collaborator::example_data_dict
-    knitr::kable(head(data, n=10)) # Please note data is not based on real patients
+data <- collaborator::example_data_dict
+knitr::kable(head(data, n=10)) # Please note data is not based on real patients
+```
 
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: left;">id_num</th>
-<th style="text-align: right;">age</th>
-<th style="text-align: left;">sex</th>
-<th style="text-align: left;">ASA_grade</th>
-<th style="text-align: left;">cvd_tf</th>
-<th style="text-align: left;">cvd_yn</th>
-<th style="text-align: left;">adm_date</th>
-<th style="text-align: left;">op_date</th>
-<th style="text-align: left;">op_urgency</th>
-<th style="text-align: left;">op_procedure_code</th>
-<th style="text-align: left;">follow_up</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">1</td>
-<td style="text-align: right;">45</td>
-<td style="text-align: left;">male</td>
-<td style="text-align: left;">I</td>
-<td style="text-align: left;">TRUE</td>
-<td style="text-align: left;">yes</td>
-<td style="text-align: left;">2018-07-29</td>
-<td style="text-align: left;">2018-08-01</td>
-<td style="text-align: left;">elective</td>
-<td style="text-align: left;">0D9J00Z</td>
-<td style="text-align: left;">yes</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">2</td>
-<td style="text-align: right;">23</td>
-<td style="text-align: left;">female</td>
-<td style="text-align: left;">II</td>
-<td style="text-align: left;">TRUE</td>
-<td style="text-align: left;">yes</td>
-<td style="text-align: left;">2018-07-30</td>
-<td style="text-align: left;">2018-08-02</td>
-<td style="text-align: left;">elective</td>
-<td style="text-align: left;">0D9J0ZZ</td>
-<td style="text-align: left;">no</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">3</td>
-<td style="text-align: right;">76</td>
-<td style="text-align: left;">female</td>
-<td style="text-align: left;">II</td>
-<td style="text-align: left;">TRUE</td>
-<td style="text-align: left;">yes</td>
-<td style="text-align: left;">2018-07-30</td>
-<td style="text-align: left;">2018-08-02</td>
-<td style="text-align: left;">elective</td>
-<td style="text-align: left;">0D9J40Z</td>
-<td style="text-align: left;">NA</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">4</td>
-<td style="text-align: right;">54</td>
-<td style="text-align: left;">female</td>
-<td style="text-align: left;">IV</td>
-<td style="text-align: left;">TRUE</td>
-<td style="text-align: left;">yes</td>
-<td style="text-align: left;">2018-07-31</td>
-<td style="text-align: left;">2018-08-03</td>
-<td style="text-align: left;">emergency</td>
-<td style="text-align: left;">0D9J4ZZ</td>
-<td style="text-align: left;">NA</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">5</td>
-<td style="text-align: right;">32</td>
-<td style="text-align: left;">female</td>
-<td style="text-align: left;">III</td>
-<td style="text-align: left;">FALSE</td>
-<td style="text-align: left;">no</td>
-<td style="text-align: left;">2018-08-01</td>
-<td style="text-align: left;">2018-08-04</td>
-<td style="text-align: left;">elective</td>
-<td style="text-align: left;">0DQJ0ZZ</td>
-<td style="text-align: left;">yes</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">6</td>
-<td style="text-align: right;">34</td>
-<td style="text-align: left;">female</td>
-<td style="text-align: left;">III</td>
-<td style="text-align: left;">FALSE</td>
-<td style="text-align: left;">no</td>
-<td style="text-align: left;">2018-08-01</td>
-<td style="text-align: left;">2018-08-04</td>
-<td style="text-align: left;">emergency</td>
-<td style="text-align: left;">0DQJ4ZZ</td>
-<td style="text-align: left;">no</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">7</td>
-<td style="text-align: right;">56</td>
-<td style="text-align: left;">female</td>
-<td style="text-align: left;">III</td>
-<td style="text-align: left;">TRUE</td>
-<td style="text-align: left;">yes</td>
-<td style="text-align: left;">2018-08-01</td>
-<td style="text-align: left;">2018-08-04</td>
-<td style="text-align: left;">emergency</td>
-<td style="text-align: left;">0DTJ0ZZ</td>
-<td style="text-align: left;">NA</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">8</td>
-<td style="text-align: right;">78</td>
-<td style="text-align: left;">female</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">TRUE</td>
-<td style="text-align: left;">yes</td>
-<td style="text-align: left;">2018-08-02</td>
-<td style="text-align: left;">2018-08-05</td>
-<td style="text-align: left;">emergency</td>
-<td style="text-align: left;">0DTJ4ZZ</td>
-<td style="text-align: left;">yes</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">9</td>
-<td style="text-align: right;">79</td>
-<td style="text-align: left;">female</td>
-<td style="text-align: left;">I</td>
-<td style="text-align: left;">FALSE</td>
-<td style="text-align: left;">no</td>
-<td style="text-align: left;">2018-08-03</td>
-<td style="text-align: left;">2018-08-06</td>
-<td style="text-align: left;">emergency</td>
-<td style="text-align: left;">0F140D3</td>
-<td style="text-align: left;">NA</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">10</td>
-<td style="text-align: right;">65</td>
-<td style="text-align: left;">female</td>
-<td style="text-align: left;">II</td>
-<td style="text-align: left;">TRUE</td>
-<td style="text-align: left;">yes</td>
-<td style="text-align: left;">2018-08-04</td>
-<td style="text-align: left;">2018-08-07</td>
-<td style="text-align: left;">emergency</td>
-<td style="text-align: left;">0F140D5</td>
-<td style="text-align: left;">NA</td>
-</tr>
-</tbody>
-</table>
+| id\_num |  age| sex    | ASA\_grade | cvd\_tf | cvd\_yn | adm\_date  | op\_date   | op\_urgency | op\_procedure\_code | follow\_up |
+|:--------|----:|:-------|:-----------|:--------|:--------|:-----------|:-----------|:------------|:--------------------|:-----------|
+| 1       |   45| male   | I          | TRUE    | yes     | 2018-07-29 | 2018-08-01 | elective    | 0D9J00Z             | yes        |
+| 2       |   23| female | II         | TRUE    | yes     | 2018-07-30 | 2018-08-02 | elective    | 0D9J0ZZ             | no         |
+| 3       |   76| female | II         | TRUE    | yes     | 2018-07-30 | 2018-08-02 | elective    | 0D9J40Z             | NA         |
+| 4       |   54| female | IV         | TRUE    | yes     | 2018-07-31 | 2018-08-03 | emergency   | 0D9J4ZZ             | NA         |
+| 5       |   32| female | III        | FALSE   | no      | 2018-08-01 | 2018-08-04 | elective    | 0DQJ0ZZ             | yes        |
+| 6       |   34| female | III        | FALSE   | no      | 2018-08-01 | 2018-08-04 | emergency   | 0DQJ4ZZ             | no         |
+| 7       |   56| female | III        | TRUE    | yes     | 2018-08-01 | 2018-08-04 | emergency   | 0DTJ0ZZ             | NA         |
+| 8       |   78| female | NA         | TRUE    | yes     | 2018-08-02 | 2018-08-05 | emergency   | 0DTJ4ZZ             | yes        |
+| 9       |   79| female | I          | FALSE   | no      | 2018-08-03 | 2018-08-06 | emergency   | 0F140D3             | NA         |
+| 10      |   65| female | II         | TRUE    | yes     | 2018-08-04 | 2018-08-07 | emergency   | 0F140D5             | NA         |
 
 Main Features
 -------------
@@ -195,88 +60,25 @@ variable in the original dataframe.
 The output can be easily converted to a spreadsheet file (e.g. csv file)
 and exported for sharing.
 
+``` r
 
-    data_dict(data) %>%
-      knitr::kable()
+data_dict(data) %>%
+  knitr::kable()
+```
 
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: left;">variable</th>
-<th style="text-align: left;">class</th>
-<th style="text-align: left;">values</th>
-<th style="text-align: left;">na_pct</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">id_num</td>
-<td style="text-align: left;">character</td>
-<td style="text-align: left;">20 Unique: 1, 10, 2, 3, 4, 5, 6, 7, 8, 9</td>
-<td style="text-align: left;">0.0%</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">age</td>
-<td style="text-align: left;">numeric</td>
-<td style="text-align: left;">Mean: 50.7 Median: 49.5 Range: 22.0 to 79.0</td>
-<td style="text-align: left;">0.0%</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">sex</td>
-<td style="text-align: left;">factor</td>
-<td style="text-align: left;">2 Levels: female, male</td>
-<td style="text-align: left;">0.0%</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">ASA_grade</td>
-<td style="text-align: left;">orderedfactor</td>
-<td style="text-align: left;">5 Levels: I, II, III, IV, V</td>
-<td style="text-align: left;">15.0%</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">cvd_tf</td>
-<td style="text-align: left;">logical</td>
-<td style="text-align: left;">TRUE, TRUE, TRUE, TRUE, FALSE, FALSE, TRUE, TRUE, FALSE, TRUE</td>
-<td style="text-align: left;">0.0%</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">cvd_yn</td>
-<td style="text-align: left;">factor</td>
-<td style="text-align: left;">2 Levels: no, yes</td>
-<td style="text-align: left;">0.0%</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">adm_date</td>
-<td style="text-align: left;">Date</td>
-<td style="text-align: left;">Range: 2018-07-29 to 2018-08-11</td>
-<td style="text-align: left;">0.0%</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">op_date</td>
-<td style="text-align: left;">Date</td>
-<td style="text-align: left;">Range: 2018-08-01 to 2018-08-14</td>
-<td style="text-align: left;">0.0%</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">op_urgency</td>
-<td style="text-align: left;">factor</td>
-<td style="text-align: left;">2 Levels: elective, emergency</td>
-<td style="text-align: left;">0.0%</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">op_procedure_code</td>
-<td style="text-align: left;">character</td>
-<td style="text-align: left;">20 Unique: 0D9J00Z, 0D9J0ZZ, 0D9J40Z, 0D9J4ZZ, 0DQJ0ZZ, 0DQJ4ZZ, 0DTJ0ZZ, 0DTJ4ZZ, 0F140D3, 0F140D5</td>
-<td style="text-align: left;">0.0%</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">follow_up</td>
-<td style="text-align: left;">factor</td>
-<td style="text-align: left;">2 Levels: no, yes</td>
-<td style="text-align: left;">45.0%</td>
-</tr>
-</tbody>
-</table>
+| variable            | class         | values                                                                                              | na\_pct |
+|:--------------------|:--------------|:----------------------------------------------------------------------------------------------------|:--------|
+| id\_num             | character     | 20 Unique: 1, 10, 2, 3, 4, 5, 6, 7, 8, 9                                                            | 0.0%    |
+| age                 | numeric       | Mean: 50.7 Median: 49.5 Range: 22.0 to 79.0                                                         | 0.0%    |
+| sex                 | factor        | 2 Levels: female, male                                                                              | 0.0%    |
+| ASA\_grade          | orderedfactor | 5 Levels: I, II, III, IV, V                                                                         | 15.0%   |
+| cvd\_tf             | logical       | TRUE, TRUE, TRUE, TRUE, FALSE, FALSE, TRUE, TRUE, FALSE, TRUE                                       | 0.0%    |
+| cvd\_yn             | factor        | 2 Levels: no, yes                                                                                   | 0.0%    |
+| adm\_date           | Date          | Range: 2018-07-29 to 2018-08-11                                                                     | 0.0%    |
+| op\_date            | Date          | Range: 2018-08-01 to 2018-08-14                                                                     | 0.0%    |
+| op\_urgency         | factor        | 2 Levels: elective, emergency                                                                       | 0.0%    |
+| op\_procedure\_code | character     | 20 Unique: 0D9J00Z, 0D9J0ZZ, 0D9J40Z, 0D9J4ZZ, 0DQJ0ZZ, 0DQJ4ZZ, 0DTJ0ZZ, 0DTJ4ZZ, 0F140D3, 0F140D5 | 0.0%    |
+| follow\_up          | factor        | 2 Levels: no, yes                                                                                   | 45.0%   |
 
 Through summarising the variables, data will not necessarily be linkable
 to individual patients (bar in the circumstance where variable(s)
@@ -287,72 +89,19 @@ However, should any variable(s) (such as a direct patient identifier) be
 desirable to exclude from the output, this can be achieved using the
 “var\_exclude” parameter.
 
-    library(collaborator)
-    knitr::kable(data_dict(data, var_exclude = c("id_num","sex")))
+``` r
+library(collaborator)
+knitr::kable(data_dict(data, var_exclude = c("id_num","sex")))
+```
 
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: left;">variable</th>
-<th style="text-align: left;">class</th>
-<th style="text-align: left;">values</th>
-<th style="text-align: left;">na_pct</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">age</td>
-<td style="text-align: left;">numeric</td>
-<td style="text-align: left;">Mean: 50.7 Median: 49.5 Range: 22.0 to 79.0</td>
-<td style="text-align: left;">0.0%</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">ASA_grade</td>
-<td style="text-align: left;">orderedfactor</td>
-<td style="text-align: left;">5 Levels: I, II, III, IV, V</td>
-<td style="text-align: left;">15.0%</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">cvd_tf</td>
-<td style="text-align: left;">logical</td>
-<td style="text-align: left;">TRUE, TRUE, TRUE, TRUE, FALSE, FALSE, TRUE, TRUE, FALSE, TRUE</td>
-<td style="text-align: left;">0.0%</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">cvd_yn</td>
-<td style="text-align: left;">factor</td>
-<td style="text-align: left;">2 Levels: no, yes</td>
-<td style="text-align: left;">0.0%</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">adm_date</td>
-<td style="text-align: left;">Date</td>
-<td style="text-align: left;">Range: 2018-07-29 to 2018-08-11</td>
-<td style="text-align: left;">0.0%</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">op_date</td>
-<td style="text-align: left;">Date</td>
-<td style="text-align: left;">Range: 2018-08-01 to 2018-08-14</td>
-<td style="text-align: left;">0.0%</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">op_urgency</td>
-<td style="text-align: left;">factor</td>
-<td style="text-align: left;">2 Levels: elective, emergency</td>
-<td style="text-align: left;">0.0%</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">op_procedure_code</td>
-<td style="text-align: left;">character</td>
-<td style="text-align: left;">20 Unique: 0D9J00Z, 0D9J0ZZ, 0D9J40Z, 0D9J4ZZ, 0DQJ0ZZ, 0DQJ4ZZ, 0DTJ0ZZ, 0DTJ4ZZ, 0F140D3, 0F140D5</td>
-<td style="text-align: left;">0.0%</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">follow_up</td>
-<td style="text-align: left;">factor</td>
-<td style="text-align: left;">2 Levels: no, yes</td>
-<td style="text-align: left;">45.0%</td>
-</tr>
-</tbody>
-</table>
+| variable            | class         | values                                                                                              | na\_pct |
+|:--------------------|:--------------|:----------------------------------------------------------------------------------------------------|:--------|
+| age                 | numeric       | Mean: 50.7 Median: 49.5 Range: 22.0 to 79.0                                                         | 0.0%    |
+| ASA\_grade          | orderedfactor | 5 Levels: I, II, III, IV, V                                                                         | 15.0%   |
+| cvd\_tf             | logical       | TRUE, TRUE, TRUE, TRUE, FALSE, FALSE, TRUE, TRUE, FALSE, TRUE                                       | 0.0%    |
+| cvd\_yn             | factor        | 2 Levels: no, yes                                                                                   | 0.0%    |
+| adm\_date           | Date          | Range: 2018-07-29 to 2018-08-11                                                                     | 0.0%    |
+| op\_date            | Date          | Range: 2018-08-01 to 2018-08-14                                                                     | 0.0%    |
+| op\_urgency         | factor        | 2 Levels: elective, emergency                                                                       | 0.0%    |
+| op\_procedure\_code | character     | 20 Unique: 0D9J00Z, 0D9J0ZZ, 0D9J40Z, 0D9J4ZZ, 0DQJ0ZZ, 0DQJ4ZZ, 0DTJ0ZZ, 0DTJ4ZZ, 0F140D3, 0F140D5 | 0.0%    |
+| follow\_up          | factor        | 2 Levels: no, yes                                                                                   | 45.0%   |
