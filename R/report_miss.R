@@ -15,6 +15,8 @@
 #' @return Nested dataframe with a summary of missing data at the redcap_data_access_group level and the record level.
 #' @export
 
+# Set missing data threshold (default 5%)
+
 # Function:
 report_miss <- function(redcap_project_uri, redcap_project_token, var_exclude = "", row_exclude = ""){
   # Prepare dataset----------------

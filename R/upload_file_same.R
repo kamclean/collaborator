@@ -11,7 +11,7 @@
 #' @import dplyr
 #' @importFrom purrr imap_dfr
 #' @importFrom REDCapR redcap_upload_file_oneshot
-#' @return Tibble of all records which the file could not be uploaded to
+#' @return Tibble of all records which the file could not be uploaded to.
 #' @export
 
 # if you want to upload the same file to all

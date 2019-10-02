@@ -19,7 +19,7 @@ upload_file_same(redcap_project_uri, redcap_project_token, record_id,
 \item{name_file}{The location of the file to be uploaded to all records in "record_id".}
 }
 \value{
-Tibble of all records which the file could not be uploaded to
+Tibble of all records which the file could not be uploaded to.
 }
 \description{
 Use to upload the same file to all records in record_id
