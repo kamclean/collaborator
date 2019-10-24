@@ -23,6 +23,8 @@ Imports: dplyr,
   readr,
   stringi,
   stringr,
+  REDCapR,
+  data.table,
   tibble,
   tidyr
 License: GPL-3

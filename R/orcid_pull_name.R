@@ -5,8 +5,8 @@
 #' @description
 #'
 #' @param list_orcid List of orcid ids (XXXX-XXXX-XXXX-XXXX format)
-#' @param initials Should a column containing names with up to 3 initals be included? (default = TRUE)
-#' @param full_name Should a column containing the full name be included? (default = TRUE)
+#' @param initials Should the first / middle name(s) be converted to initials (default = TRUE)
+#' @param position initials to "left" or "right" of last name (default = "right")
 #' @return Dataframe with 3 mandatory columns: orcid, first names (fn_orcid) and last name (ln_orcid)
 #' @importFrom dplyr filter mutate arrange select summarise
 #' @import magrittr
@@ -18,8 +18,8 @@
 #' @export
 
 # Function:
-orcid_pull_name <- function(list_orcid, initials = TRUE, full_name = TRUE){
-  library(dplyr)
+orcid_pull_name <- function(list_orcid, initials = TRUE, position = "right"){
+  require(dplyr)
 
   # Pull orcid information / select out name
   df <- purrr::map(list_orcid, purrr::safely(function(x){xml2::as_list(xml2::read_html(paste0("https://pub.orcid.org/v2.1/",
@@ -37,25 +37,27 @@ orcid_pull_name <- function(list_orcid, initials = TRUE, full_name = TRUE){
     tibble::as_tibble() %>%
     dplyr::mutate(orcid = ifelse(is.na(orcid)==T, list_orcid, orcid))
 
-  if(initials==TRUE){
-    df <- df %>%
-      dplyr::mutate(i1 = toupper(substr(stringr::str_split_fixed(fn_orcid, " ", 3)[,1],1,1)),
-                    i2 = toupper(substr(stringr::str_split_fixed(fn_orcid, " ", 3)[,2],1,1)),
-                    i3 = toupper(substr(stringr::str_split_fixed(fn_orcid, " ", 3)[,3],1,1))) %>%
-      dplyr::mutate(i_com = gsub(" ", "", paste0(i1, i2, i3))) %>%
-      dplyr::mutate(ln_orcid = ifelse(grepl("^[[:upper:]]+$", ln_orcid)==F,
-                                      ln_orcid,
-                                      paste0(substr(ln_orcid, 1,1),
-                                             tolower(substr(ln_orcid, 2, nchar(ln_orcid)))))) %>%
-      dplyr::mutate(initial_orcid = ifelse(is.na(fn_orcid)==F&is.na(ln_orcid)==F,
-                                           paste0(i_com, " ", ln_orcid),
-                                           NA)) %>%
-      dplyr::select(orcid, fn_orcid, ln_orcid, initial_orcid)}
+  df <- df %>%
+    dplyr::mutate(i1 = toupper(substr(stringr::str_split_fixed(fn_orcid, " ", 3)[,1],1,1)),
+                  i2 = toupper(substr(stringr::str_split_fixed(fn_orcid, " ", 3)[,2],1,1)),
+                  i3 = toupper(substr(stringr::str_split_fixed(fn_orcid, " ", 3)[,3],1,1))) %>%
+    dplyr::mutate(initial_orcid = gsub(" ", "", paste0(i1, i2, i3)),
+                  ln_orcid = ifelse(grepl("^[[:upper:]]+$", ln_orcid)==F,
+                                    ln_orcid,
+                                    paste0(substr(ln_orcid, 1,1),
+                                           tolower(substr(ln_orcid, 2, nchar(ln_orcid)))))) %>%
+    dplyr::mutate(fn_final = gsub(" ", "", paste0(i1, i2, i3))) %>%
+    dplyr::select(orcid, fn_orcid, ln_orcid, initial_orcid,fn_final)
 
-  if(full_name==TRUE){
-    df <- df %>%
-      dplyr::mutate(full_name_orcid = ifelse(is.na(fn_orcid)==F&is.na(ln_orcid)==F,
-                                             paste0(fn_orcid, " ", ln_orcid),
-                                             NA))}
+  if(initials==FALSE){df <- df %>% dplyr::mutate(fn_final = fn_orcid)}
 
+  df <- df %>%
+    dplyr::mutate(full_name_orcid = ifelse(is.na(fn_orcid)==F&is.na(ln_orcid)==F,
+                                      paste0(ln_orcid, " ",fn_final),
+                                      NA))
+
+  if(position == "left"){df <- df %>%
+    dplyr::mutate(full_name_orcid = ifelse(is.na(fn_orcid)==F&is.na(ln_orcid)==F,
+                                      paste0(fn_final," ", ln_orcid),
+                                      NA))}
   return(df)}
