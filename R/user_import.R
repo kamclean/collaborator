@@ -13,7 +13,7 @@
 #' @param expiration Column name (Optional) which corresponds to "Expiration". Must be in YYYY-MM-DD HH:MM or MM/DD/YYYY HH:MM format.
 #' @param comments Column name (Optional) which corresponds to "Comments".
 #' @param path Path or connection to write to as .csv file.
-#' @importFrom dplyr filter mutate select summarise group_by ungroup
+#' @import dplyr
 #' @importFrom readr write_csv
 #' @return Returns a dataframe formated for REDCap user import (and an optional CSV file specified using path)
 #' @export

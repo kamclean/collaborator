@@ -1,6 +1,6 @@
 # redcap_label-------------------------
 # Documentation
-# Export REDCap dataset and label using metadata
+#' Export REDCap dataset and label using metadata
 #' @description Export the REDCap dataset, and use the metadata to classify the variables and label the columns.
 #' @param redcap_project_uri URI (Uniform Resource Identifier) for the REDCap instance.
 #' @param redcap_project_token API (Application Programming Interface) for the REDCap project.

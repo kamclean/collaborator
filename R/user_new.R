@@ -7,7 +7,7 @@
 #' @param df_user_update Dataframe of all users containing at least 1 column ("username")
 #' @param user_exclude = Vector of any usernames to be excluded.
 #' @param use_ssl Logical value whether verify the peer's SSL certificate should be evaluated (default=TRUE)
-#' @importFrom dplyr filter
+#' @import dplyr
 #' @importFrom readr read_csv
 #' @importFrom RCurl postForm
 #' @return Original dataframe containing only usernames not yet allocated to the REDCap project

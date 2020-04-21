@@ -13,7 +13,6 @@
 #' @importFrom purrr map
 #' @importFrom lubridate ymd origin is.Date
 #' @importFrom stats median
-#' @importFrom utils head
 #' @export
 
 # Function:
