@@ -29,7 +29,8 @@ user_role <- function(redcap_project_uri, redcap_project_token, users_ignore = N
   unique_roles_full <- user_current %>%
     tidyr::unite(col = "role", design:forms, sep = "; ", remove = F) %>%
     dplyr::mutate(role = as.numeric(factor(role))) %>%
-    dplyr::select(role, everything())
+    dplyr::select(role, everything()) %>%
+    dplyr::arrange(role)
 
   unique_roles_examples <- unique_roles_full %>%
     dplyr::group_by(role) %>%
