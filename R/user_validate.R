@@ -25,7 +25,7 @@ user_validate <- function(redcap_project_uri, redcap_project_token, use_ssl = TR
     readr::read_csv()
 
   if(is.null(user_exclude)==F){user_current <- user_current %>% dplyr::filter(! username %in% user_exclude)}
-  if(is.null(user_exclude)==F){df_user <- df_user %>% dplyr::filter(! username %in% user_exclude)}
+  if(is.null(user_exclude)==F){df_user_master <- df_user_master %>% dplyr::filter(! username %in% user_exclude)}
 
   user_forms_na <- user_current %>%
     dplyr::select(username, data_access_group, forms) %>%
