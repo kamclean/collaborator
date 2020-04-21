@@ -5,10 +5,10 @@
 \title{Generate REDCap summary data.}
 \usage{
 redcap_sum(redcap_project_uri = NULL, redcap_project_token = NULL,
-  use_ssl = TRUE, centre_sum = TRUE, n_top_dag = 10,
-  var_include = NULL, var_exclude = NULL, user_include = NULL,
-  user_exclude = NULL, dag_exclude = NULL, dag_include = NULL,
-  record_include = NULL, record_exclude = NULL)
+  use_ssl = TRUE, centre_sum = TRUE, top = 10, var_include = NULL,
+  var_exclude = NULL, user_include = NULL, user_exclude = NULL,
+  dag_exclude = NULL, dag_include = NULL, record_include = NULL,
+  record_exclude = NULL)
 }
 \arguments{
 \item{redcap_project_uri}{URI (Uniform Resource Identifier) for the REDCap instance.}
@@ -19,7 +19,7 @@ redcap_sum(redcap_project_uri = NULL, redcap_project_token = NULL,
 
 \item{centre_sum}{Logical value to determine whether data access group-level summaries will be produced (Default = TRUE).}
 
-\item{n_top_dag}{When centre_sum = TRUE, defines output of the number of centres with the most records uploaded (default is top 10).}
+\item{top}{When centre_sum = TRUE, defines output of the number of centres with the most records uploaded (default is top 10).}
 
 \item{var_include}{Vector of names of variables that are desired to be specifically used to assess data completness (alternate method from using "var_exclude").}
 
@@ -38,7 +38,7 @@ redcap_sum(redcap_project_uri = NULL, redcap_project_token = NULL,
 \item{record_exclude}{Vector of redcap record_id that are desired to be excluded from the record count.}
 }
 \value{
-Nested dataframes of (i) overall summary statistics for the project ("sum_overall") (ii). DAG-specific summary statistics for the project ("dag_all") (iii). DAGs with no data uploaded, but users assigned ("dag_nodata") (iv). DAGs with <100% completeness ("dag_incom") (v). The top n recruiting centres ("dag_top_n").
+Nested dataframes of (i) overall summary statistics for the project ("sum_overall") (ii). DAG-specific summary statistics for the project ("dag_all") (iii). DAGs with no data uploaded, but users assigned ("dag_nodata") (iv). DAGs with <100% completeness ("dag_incom") (v). The top n recruiting centres ("dag_top").
 }
 \description{
 Used to generate high quality summary data for REDCap projects at overall, and DAG-specific level.
