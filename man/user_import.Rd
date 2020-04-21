@@ -4,8 +4,9 @@
 \alias{user_import}
 \title{Generate a csv file to upload new user accounts to REDCap}
 \usage{
-user_import(df, username, first_name, last_name, email, institution = "",
-  sponser = "", expiration = "", comments = "")
+user_import(df, username, first_name, last_name, email,
+  institution = NULL, sponser = NULL, expiration = NULL,
+  comments = NULL, path = NULL)
 }
 \arguments{
 \item{df}{Dataframe of at least 4 mandatory columns (corresponding to: username, first name, last name, and email address) and 4 optional columns (corresponding to: institution, sponser, expiration, comments).}
@@ -25,9 +26,11 @@ user_import(df, username, first_name, last_name, email, institution = "",
 \item{expiration}{Column name (Optional) which corresponds to "Expiration". Must be in YYYY-MM-DD HH:MM or MM/DD/YYYY HH:MM format.}
 
 \item{comments}{Column name (Optional) which corresponds to "Comments".}
+
+\item{path}{Path or connection to write to as .csv file.}
 }
 \value{
-Returns a csv file for upload ("user.import_[date generated].csv"), and a dataframe.
+Returns a dataframe formated for REDCap user import (and an optional CSV file specified using path)
 }
 \description{
 Used to generate a csv file that can be used to upload new user accounts to REDCap directly (via control centre). This requires a dataframe of at least 4 mandatory columns (corresponding to: username, first name, last name, and email address) and 4 optional columns (corresponding to: institution, sponser, expiration, comments). All optional columns will be blank unless otherwise specified.

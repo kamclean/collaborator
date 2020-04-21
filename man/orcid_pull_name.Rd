@@ -4,18 +4,23 @@
 \alias{orcid_pull_name}
 \title{Pull first name(s) and last name for a given list of orcid}
 \usage{
-orcid_pull_name(list_orcid, initials = TRUE, position = "right")
+orcid_pull_name(list_orcid, initial = TRUE, initial_max = 3,
+  position = "right", reason = FALSE)
 }
 \arguments{
 \item{list_orcid}{List of orcid ids (XXXX-XXXX-XXXX-XXXX format)}
 
-\item{initials}{Should the first / middle name(s) be converted to initials (default = TRUE)}
+\item{initial}{Should the first / middle name(s) be converted to initial (default = TRUE)}
 
-\item{position}{initials to "left" or "right" of last name (default = "right")}
+\item{initial_max}{Maximum number of digits (default = 3)}
+
+\item{position}{initial to "left" or "right" of last name (default = "right")}
+
+\item{reason}{Logical value to determine whether output should include reasons for NA values (default = FALSE) or vector of ORCID (TRUE).}
 }
 \value{
-Dataframe with 3 mandatory columns: orcid, first names (fn_orcid) and last name (ln_orcid)
+Dataframe with 5 mandatory columns: orcid, full name, first names, initials, and last name.
 }
 \description{
-
+Pull and format first name(s) and last name for a given list of orcid
 }

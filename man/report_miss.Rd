@@ -4,17 +4,29 @@
 \alias{report_miss}
 \title{Generate a missing data report for a REDCap project.}
 \usage{
-report_miss(redcap_project_uri, redcap_project_token, var_exclude = "",
-  row_exclude = "")
+report_miss(redcap_project_uri, redcap_project_token, use_ssl = TRUE,
+  missing_threshold = 0.05, var_include = NULL, var_exclude = NULL,
+  record_exclude = NULL, record_include = NULL, dag_include = NULL,
+  dag_exclude = NULL)
 }
 \arguments{
 \item{redcap_project_uri}{URI (Uniform Resource Identifier) for the REDCap instance.}
 
 \item{redcap_project_token}{API (Application Programming Interface) for the REDCap project.}
 
-\item{var_exclude}{Vector of names of variables that are desired to be excluded from the missing data count (the default is "." e.g. none).}
+\item{use_ssl}{Logical value whether verify the peer's SSL certificate should be evaluated (default=TRUE)}
 
-\item{row_exclude}{Vector of rows that are desired to be excluded from the missing data count (the default is "." e.g. none).}
+\item{var_include}{Vector of names of variables that are desired to be specifically used to assess data completness (alternate method from using "var_exclude").}
+
+\item{var_exclude}{Vector of names of variables that are desired to be excluded from assessment of data completness (any NA value will be counted as incomplete).}
+
+\item{record_exclude}{Vector of redcap record_id that are desired to be excluded from the record count.}
+
+\item{record_include}{Vector of redcap record_id that are desired to be included in the record count.}
+
+\item{dag_include}{Vector of redcap data access group names that are desired to be included in the record count.}
+
+\item{dag_exclude}{Vector of redcap data access group names that are desired to be excluded from the record count.}
 }
 \value{
 Nested dataframe with a summary of missing data at the redcap_data_access_group level and the record level.

@@ -4,17 +4,19 @@
 \alias{user_new}
 \title{Generates a dataframe of all new users}
 \usage{
-user_new(redcap_project_uri, redcap_project_token, user_all.df,
-  users_exception)
+user_new(redcap_project_uri, redcap_project_token, df_user_update,
+  user_exclude, use_ssl = TRUE)
 }
 \arguments{
 \item{redcap_project_uri}{URI (Uniform Resource Identifier) for the REDCap instance.}
 
 \item{redcap_project_token}{API (Application Programming Interface) for the REDCap project.}
 
-\item{user_all.df}{Dataframe of all users containing at least 1 column ("username")}
+\item{df_user_update}{Dataframe of all users containing at least 1 column ("username")}
 
-\item{users_exception}{= Vector of any usernames to be excluded.}
+\item{user_exclude}{= Vector of any usernames to be excluded.}
+
+\item{use_ssl}{Logical value whether verify the peer's SSL certificate should be evaluated (default=TRUE)}
 }
 \value{
 Original dataframe containing only usernames not yet allocated to the REDCap project

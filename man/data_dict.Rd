@@ -4,16 +4,18 @@
 \alias{data_dict}
 \title{Generate a data dictionary.}
 \usage{
-data_dict(df, var_exclude = "")
+data_dict(df, var_include = NULL, var_exclude = NULL)
 }
 \arguments{
 \item{df}{Dataframe.}
 
-\item{var_exclude}{Vector of names of variables that are desired to be excluded from the data dictionary (the default is "" e.g. none).}
+\item{var_include}{Vector of names of variables that are desired to be included in the data dictionary (default: NULL).}
+
+\item{var_exclude}{Vector of names of variables that are desired to be excluded from the data dictionary (default: NULL).}
 }
 \value{
-Dataframe with 4 columns: variable (variable name), class (variable class), na_pct (the percentage of data which is NA for that variable), and values (an appropriate summary for the variable class).
+Dataframe with 4 columns: variable (variable name), class (variable class), na_pct (the percentage of data which is NA for that variable), and value (an appropriate summary for the variable class).
 }
 \description{
-Used to generate an easily sharable data dictionary for an R dataframe. This supports the following classes: numeric, integer, logical, Date, character, String, factor, orderedfactor.
+Used to generate an easily sharable data dictionary for an R dataframe. This supports the following classes: numeric, integer, logical, Date, character, String, factor, ordered.
 }

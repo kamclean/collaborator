@@ -4,16 +4,19 @@
 \alias{user_assign}
 \title{Used to assign users to data access groups on a redcap project.}
 \usage{
-user_assign(redcap_project_uri, redcap_project_token, users.df, role)
+user_assign(redcap_project_uri, redcap_project_token, df_user, role,
+  use_ssl = TRUE)
 }
 \arguments{
 \item{redcap_project_uri}{URI (Uniform Resource Identifier) for the REDCap instance.}
 
 \item{redcap_project_token}{API (Application Programming Interface) for the REDCap project.}
 
-\item{users.df}{Dataframe containing at least 2 columns (username, data_access_group)}
+\item{df_user}{Dataframe containing at least 2 columns (username, data_access_group)}
 
 \item{role}{Username of user with the desired user rights}
+
+\item{use_ssl}{Logical value whether verify the peer's SSL certificate should be evaluated (default=TRUE)}
 }
 \value{
 None (user rights uploaded directly into REDCap - user acccounts are still required to be entered manually)
