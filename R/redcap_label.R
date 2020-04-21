@@ -24,8 +24,8 @@ redcap_label <- function(redcap_project_uri, redcap_project_token, use_ssl = TRU
 
   # Label individual variables -----------------------------
   # Get metadata
-  source("/home/kmclean/collaborator/R/updated/redcap_metadata.R")  # collaborator::redcap_metadata
-  meta <- redcap_metadata(redcap_project_uri = redcap_project_uri,
+
+  meta <- collaborator::redcap_metadata(redcap_project_uri = redcap_project_uri,
                           redcap_project_token = redcap_project_token,
                           use_ssl = use_ssl)
 
