@@ -29,7 +29,6 @@ as “Class not supported” in the values column):
 Example dataframe (`example_data_dict`):
 
 ``` r
-library(collaborator)
 
 data <- collaborator::example_data_dict
 knitr::kable(head(data, n=10)) # Please note data is not based on real patients
@@ -66,10 +65,10 @@ data_dict(data) %>%
   knitr::kable()
 ```
 
-| variable            | class         | values                                                                                              | na\_pct |
+| variable            | class         | value                                                                                               | na\_pct |
 |:--------------------|:--------------|:----------------------------------------------------------------------------------------------------|:--------|
-| id\_num             | character     | 20 Unique: 1, 10, 2, 3, 4, 5, 6, 7, 8, 9                                                            | 0.0%    |
-| age                 | numeric       | Mean: 50.7 Median: 49.5 Range: 22.0 to 79.0                                                         | 0.0%    |
+| id\_num             | character     | 20 Unique: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10                                                            | 0.0%    |
+| age                 | numeric       | Mean: 50.7; Median: 49.5; Range: 22 to 79                                                           | 0.0%    |
 | sex                 | factor        | 2 Levels: female, male                                                                              | 0.0%    |
 | ASA\_grade          | orderedfactor | 5 Levels: I, II, III, IV, V                                                                         | 15.0%   |
 | cvd\_tf             | logical       | TRUE, TRUE, TRUE, TRUE, FALSE, FALSE, TRUE, TRUE, FALSE, TRUE                                       | 0.0%    |
@@ -90,13 +89,12 @@ desirable to exclude from the output, this can be achieved using the
 “var\_exclude” parameter.
 
 ``` r
-library(collaborator)
-knitr::kable(data_dict(data, var_exclude = c("id_num","sex")))
+knitr::kable(collaborator::data_dict(data, var_exclude = c("id_num","sex")))
 ```
 
-| variable            | class         | values                                                                                              | na\_pct |
+| variable            | class         | value                                                                                               | na\_pct |
 |:--------------------|:--------------|:----------------------------------------------------------------------------------------------------|:--------|
-| age                 | numeric       | Mean: 50.7 Median: 49.5 Range: 22.0 to 79.0                                                         | 0.0%    |
+| age                 | numeric       | Mean: 50.7; Median: 49.5; Range: 22 to 79                                                           | 0.0%    |
 | ASA\_grade          | orderedfactor | 5 Levels: I, II, III, IV, V                                                                         | 15.0%   |
 | cvd\_tf             | logical       | TRUE, TRUE, TRUE, TRUE, FALSE, FALSE, TRUE, TRUE, FALSE, TRUE                                       | 0.0%    |
 | cvd\_yn             | factor        | 2 Levels: no, yes                                                                                   | 0.0%    |

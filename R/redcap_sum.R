@@ -1,4 +1,4 @@
-# report_sum--------------------------------
+# redcap_sum--------------------------------
 # Documentation
 #' Generate REDCap summary data.
 #' @description Used to generate high quality summary data for REDCap projects at overall, and DAG-specific level.

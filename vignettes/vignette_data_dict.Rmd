@@ -33,7 +33,6 @@ The `data_dict()` function can be applied to any dataframe object. At present, i
 
 Example dataframe (`example_data_dict`):
 ```{r, warning=FALSE, message=FALSE}
-library(collaborator)
 
 data <- collaborator::example_data_dict
 knitr::kable(head(data, n=10)) # Please note data is not based on real patients
@@ -59,6 +58,5 @@ Through summarising the variables, data will not necessarily be linkable to indi
 However, should any variable(s) (such as a direct patient identifier) be desirable to exclude from the output, this can be achieved using the "var_exclude" parameter. 
 
 ```{r, warning=FALSE, message=FALSE}
-library(collaborator)
-knitr::kable(data_dict(data, var_exclude = c("id_num","sex")))
+knitr::kable(collaborator::data_dict(data, var_exclude = c("id_num","sex")))
 ```
