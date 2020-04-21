@@ -2,11 +2,11 @@
 # Documentation
 #' Generates a dataframe of all new users
 #' @description Used to compare a dataframe of all usernames to those currently allocated on REDCap to determine any new users requiring assigned
-
 #' @param redcap_project_uri URI (Uniform Resource Identifier) for the REDCap instance.
 #' @param redcap_project_token API (Application Programming Interface) for the REDCap project.
-#' @param user_all.df Dataframe of all users containing at least 1 column ("username")
-#' @param users_exception = Vector of any usernames to be excluded.
+#' @param df_user_update Dataframe of all users containing at least 1 column ("username")
+#' @param user_exclude = Vector of any usernames to be excluded.
+#' @param use_ssl Logical value whether verify the peer's SSL certificate should be evaluated (default=TRUE)
 #' @importFrom dplyr filter
 #' @importFrom readr read_csv
 #' @importFrom RCurl postForm
@@ -14,18 +14,16 @@
 #' @export
 
 # Function:
-user_new <- function(redcap_project_uri, redcap_project_token, user_all.df, users_exception){
-   "%ni%" <- Negate("%in%")
+user_new <- function(redcap_project_uri, redcap_project_token, df_user_update, user_exclude, use_ssl = TRUE){
 
-  RCurl::postForm(
-    uri=redcap_project_uri,
-    token= redcap_project_token,
-    content='user',
-    format='csv') %>%
-    readr::read_csv() -> user_current
+  require(RCurl);require(readr);require(dplyr)
+  user_current <- RCurl::postForm(uri=redcap_project_uri, token= redcap_project_token,
+                                  .opts = curlOptions(ssl.verifypeer = if(use_ssl==F){FALSE}else{TRUE}),
+                                  content='user',  format='csv') %>%
+    readr::read_csv()
 
-  user_all.df %>%
-    dplyr::filter(username %ni% users_exception) %>%
-    dplyr::filter(username %ni% user_current$username) -> users_new
+  users_new <- df_user_update %>%
+    dplyr::filter(! username %in% user_exclude) %>%
+    dplyr::filter(! username %in% user_current$username)
 
   return(users_new)}

@@ -1,63 +1,57 @@
 # orcid_pull_name--------------------------------
-
 # Documentation
 #' Pull first name(s) and last name for a given list of orcid
-#' @description
-#'
+#' @description Pull and format first name(s) and last name for a given list of orcid
 #' @param list_orcid List of orcid ids (XXXX-XXXX-XXXX-XXXX format)
-#' @param initials Should the first / middle name(s) be converted to initials (default = TRUE)
-#' @param position initials to "left" or "right" of last name (default = "right")
-#' @return Dataframe with 3 mandatory columns: orcid, first names (fn_orcid) and last name (ln_orcid)
-#' @importFrom dplyr filter mutate arrange select summarise
-#' @import magrittr
-#' @importFrom purrr map safely transpose
-#' @importFrom tibble as_tibble
-#' @importFrom stringr str_split_fixed
-#' @importFrom xml2 as_list read_html
-#' @importFrom data.table rbindlist
+#' @param initial Should the first / middle name(s) be converted to initial (default = TRUE)
+#' @param position initial to "left" or "right" of last name (default = "right")
+#' @param initial_max Maximum number of digits (default = 3)
+#' @param reason Logical value to determine whether output should include reasons for NA values (default = FALSE) or vector of ORCID (TRUE).
+#' @return Dataframe with 5 mandatory columns: orcid, full name, first names, initials, and last name.
+#' @import dplyr
+#' @import tidyr
+#' @import tibble
+#' @import xml2
+#' @importFrom purrr map_df
+#' @importFrom stringr str_sub
 #' @export
 
-# Function:
-orcid_pull_name <- function(list_orcid, initials = TRUE, position = "right"){
-  require(dplyr)
+orcid_pull_name <- function(list_orcid, initial = TRUE, initial_max = 3, position = "right", reason = FALSE){
+  require(dplyr);require(purrr);require(xml2);require(dplyr);require(tibble);require(tidyr);require(stringr)
 
-  # Pull orcid information / select out name
-  df <- purrr::map(list_orcid, purrr::safely(function(x){xml2::as_list(xml2::read_html(paste0("https://pub.orcid.org/v2.1/",
-                                                                                              x,
-                                                                                              "/personal-details")))$`html`$`body`$`personal-details`$name %>%
+  output <- purrr::map_df(list_orcid, function(x){
+    # Extract from ORCID API
+    eval <- tryCatch(xml2::read_xml(paste0("https://pub.orcid.org/v2.1/", x, "/personal-details")),error = function(e){NA})
 
-      cbind.data.frame(orcid = x, fn_orcid = .$`given-names`[[1]], ln_orcid = .$`family-name`[[1]]) %>%
-      .[which(colnames(.) %in% c("orcid", "fn_orcid", "ln_orcid"))]}))
+    # Return empty tibble or xml output if ORCID valid
+    if(is.na(eval)==T){tibble::tibble("orcid" = x, check_access = "No", "first_name" = NA, "last_name" = NA)}else{
+      eval <- suppressWarnings(eval %>%
+                                 xml2::xml_find_all("personal-details:name") %>%
+                                 xml2::xml_find_all("personal-details:given-names|personal-details:family-name") %$%
+                                 tibble::tibble("name" = xml2::xml_name(.), "value" = xml2::as_list(.) %>% unlist()) %>%
+                                 dplyr::right_join(tibble::tibble("name" = c("given-names", "family-name")), by="name") %>%
+                                 tidyr::pivot_wider(names_from = "name", values_from = "value") %>%
+                                 dplyr::mutate(orcid = x,
+                                               check_access = "Yes") %>%
+                                 dplyr::select(orcid,check_access, "first_name" = `given-names`, "last_name" = `family-name`))}})
 
-  # If orcid invalid, then replace with NA
-  df <- purrr::transpose(df)[["result"]] %>%
-    purrr::map(function(x){if(is.null(x)==T){cbind.data.frame("orcid" = NA, fn_orcid = NA, ln_orcid = NA)}else{x}}) %>%
-    data.table::rbindlist() %>%
-    dplyr::mutate_all(as.character) %>%
-    tibble::as_tibble() %>%
-    dplyr::mutate(orcid = ifelse(is.na(orcid)==T, list_orcid, orcid))
+  name2initial <- function(x){
+    out <- suppressWarnings(tibble::enframe(x) %>%
+                       tidyr::separate(value, " ", into = paste0("i_", rep(1:initial_max))) %>%
+                       dplyr::mutate_at(vars(starts_with("i_")), function(x){stringr::str_sub(x, 1,1) %>% toupper()}) %>%
+                       tidyr::unite(starts_with("i_"), col = "initial", sep = " ", na.rm= T) %>% dplyr::pull(initial))
+    return(out)}
 
-  df <- df %>%
-    dplyr::mutate(i1 = toupper(substr(stringr::str_split_fixed(fn_orcid, " ", 3)[,1],1,1)),
-                  i2 = toupper(substr(stringr::str_split_fixed(fn_orcid, " ", 3)[,2],1,1)),
-                  i3 = toupper(substr(stringr::str_split_fixed(fn_orcid, " ", 3)[,3],1,1))) %>%
-    dplyr::mutate(initial_orcid = gsub(" ", "", paste0(i1, i2, i3)),
-                  ln_orcid = ifelse(grepl("^[[:upper:]]+$", ln_orcid)==F,
-                                    ln_orcid,
-                                    paste0(substr(ln_orcid, 1,1),
-                                           tolower(substr(ln_orcid, 2, nchar(ln_orcid)))))) %>%
-    dplyr::mutate(fn_final = gsub(" ", "", paste0(i1, i2, i3))) %>%
-    dplyr::select(orcid, fn_orcid, ln_orcid, initial_orcid,fn_final)
+  output <- output %>%
+    dplyr::mutate(check_name = ifelse(is.na(first_name)==T|is.na(last_name)==T, "No", "Yes")) %>%
+    dplyr::mutate(initial = ifelse(check_name=="Yes", name2initial(first_name), NA))
 
-  if(initials==FALSE){df <- df %>% dplyr::mutate(fn_final = fn_orcid)}
+  if(initial==T&position == "right"){output <- output %>% dplyr::mutate(full_name = ifelse(check_name=="Yes", paste0(last_name, " ", initial), NA))}
+  if(initial==F&position == "right"){output <- output %>% dplyr::mutate(full_name = ifelse(check_name=="Yes", paste0(last_name, " ", first_name), NA))}
+  if(initial==T&position == "left"){output <- output %>% dplyr::mutate(full_name = ifelse(check_name=="Yes", paste0(initial, " ", last_name), NA))}
+  if(initial==F&position == "left"){output <- output %>% dplyr::mutate(full_name = ifelse(check_name=="Yes", paste0(first_name, " ", last_name), NA))}
 
-  df <- df %>%
-    dplyr::mutate(full_name_orcid = ifelse(is.na(fn_orcid)==F&is.na(ln_orcid)==F,
-                                      paste0(ln_orcid, " ",fn_final),
-                                      NA))
+  if(reason==F){final <- output %>% dplyr::select(orcid, full_name, first_name, initial, last_name)}else{
+  final <- output %>% dplyr::select(orcid, check_access, check_name, full_name, first_name, initial, last_name)}
 
-  if(position == "left"){df <- df %>%
-    dplyr::mutate(full_name_orcid = ifelse(is.na(fn_orcid)==F&is.na(ln_orcid)==F,
-                                      paste0(fn_final," ", ln_orcid),
-                                      NA))}
-  return(df)}
+  return(final)}

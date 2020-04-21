@@ -12,39 +12,32 @@
 #' @param sponser Column name (Optional) which corresponds to "Sponsor username".
 #' @param expiration Column name (Optional) which corresponds to "Expiration". Must be in YYYY-MM-DD HH:MM or MM/DD/YYYY HH:MM format.
 #' @param comments Column name (Optional) which corresponds to "Comments".
+#' @param path Path or connection to write to as .csv file.
 #' @importFrom dplyr filter mutate select summarise group_by ungroup
 #' @importFrom readr write_csv
-#' @return Returns a csv file for upload ("user.import_[date generated].csv"), and a dataframe.
+#' @return Returns a dataframe formated for REDCap user import (and an optional CSV file specified using path)
 #' @export
 
 # Function
+
 user_import <- function(df, username, first_name, last_name, email,
-                        institution = "", sponser="", expiration="", comments=""){
+                        institution = NULL, sponser = NULL, expiration = NULL, comments = NULL,
+                        path = NULL){
+  require(dplyr);require(readr)
+  user_import_df <- df %>%
+    dplyr::mutate("Username" = dplyr::pull(., username),
+                  "First name" = dplyr::pull(., first_name),
+                  "Last name" = dplyr::pull(., last_name),
+                  "Email address" = pull(., email)) %>%
+    dplyr::mutate("Institution ID" = if(is.null(institution)==T){""}else{dplyr::pull(., institution)},
+                  "Sponsor username" = if(is.null(sponser)==T){""}else{dplyr::pull(., sponser)},
+                  "Expiration" = if(is.null(expiration)==T){""}else{dplyr::pull(., expiration)},
+                  "Comments" = if(is.null(comments)==T){""}else{dplyr::pull(., comments)}) %>%
+    dplyr::select(Username:Comments) %>%
+    dplyr::mutate_at(vars(`Institution ID`:Comments), function(x){ifelse(is.na(x)==T, "", x)})
 
-  df %>%
-  dplyr::mutate(col_blank = "") -> df
+  if(is.null(path)==T){user_import_df %>% readr::write_csv(path=path)}
 
-  df %>%
-  dplyr::mutate(var_username = pull(df, username),
-                var_first_name = pull(df, first_name),
-                var_last_name = pull(df, last_name),
-                var_email = pull(df, email)) %>%
+  return(user_import_df)}
 
-  dplyr::mutate(var_institution = cbind(dplyr::pull(df, ifelse(institution!="", institution, col_blank))),
-                var_sponser = cbind(dplyr::pull(df, ifelse(sponser!="", sponser, col_blank))),
-                var_expiration = cbind(dplyr::pull(df, ifelse(expiration!="", expiration, col_blank))),
-                var_comments = cbind(dplyr::pull(df, ifelse(comments!="", comments, col_blank)))) %>%
 
-  dplyr::select("Username" = var_username,
-                "First name" = var_first_name,
-                "Last name" = var_last_name,
-                "Email address" = var_email,
-                "Institution ID" = var_institution,
-                "Sponsor username" = var_sponser,
-                "Expiration" = var_expiration,
-                "Comments" = var_comments) -> user_import_df
-
-user_import_df %>%
-  readr::write_csv(path=paste0("user.import_",paste0(Sys.Date(), ".csv")))
-
-return(user_import_df)}

@@ -4,3 +4,5 @@
 inst/doc
 packrat/lib*/
 .httr-oauth
+logs/R/development
+logs/R/retired

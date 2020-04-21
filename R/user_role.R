@@ -5,38 +5,34 @@
 #' @param redcap_project_uri URI (Uniform Resource Identifier) for the REDCap instance.
 #' @param redcap_project_token API (Application Programming Interface) for the REDCap project.
 #' @param users_ignore Vector of usernames to be excluded (e.g. those with unique rights). Default is none (e.g. "").
-#' @importFrom dplyr filter mutate select arrange left_join group_by summarise
+#' @import dplyr
 #' @importFrom RCurl postForm
 #' @importFrom readr read_csv
+#' @importFrom tidyr unite
 #' @return Nested dataframe of (i) Dataframe of all users numbered by unique role. (ii) Dataframe of each role with an example user with those user rights.
 #' @export
 
 # Function:
-user_roles_n <- function(redcap_project_uri, redcap_project_token, users_ignore = ""){
+user_roles_n <- function(redcap_project_uri, redcap_project_token, users_ignore = NULL, use_ssl = TRUE){
+  require(RCurl); require(dplyr); require(readr); require(tidyr)
 
-  "%ni%" <- Negate("%in%")
-
-
-  RCurl::postForm(
+  user_current <- RCurl::postForm(
     uri=redcap_project_uri,
     token= redcap_project_token,
     content='user',
+    .opts = curlOptions(ssl.verifypeer = if(use_ssl==F){FALSE}else{TRUE}),
     format='csv') %>%
-    readr::read_csv() -> user_current
+    readr::read_csv()
 
-  user_current %>%
-    dplyr::select(-c(username:data_access_group_id)) %>%
-    unique() %>%
-    cbind.data.frame(., role = c(1:nrow(.))) %>%
-    dplyr::left_join(user_current, ., by =  colnames(user_current)[which(colnames(user_current)=="design"):which(colnames(user_current)=="forms")]) %>%
-    dplyr::filter(username %ni% users_ignore) %>%
-    dplyr::select(role, everything())%>%
-    dplyr::arrange(role) -> unique_roles_full
+  if(is.null(users_ignore)==F){user_current %>% dplyr::filter(! user_current %in% users_ignore)}
 
-  unique_roles_full %>%
+  unique_roles_full <- user_current %>%
+    tidyr::unite(col = "role", design:forms, sep = "; ", remove = F) %>%
+    dplyr::mutate(role = as.numeric(factor(role))) %>%
+    dplyr::select(role, everything())
+
+  unique_roles_examples <- unique_roles_full %>%
     dplyr::group_by(role) %>%
-    dplyr::summarise(username = head(username)[1]) -> unique_roles_examples
-
-  print(paste0("There are ", nrow(unique_roles_examples), " unique roles in this redcap project"))
+    dplyr::summarise(username = head(username, 1))
 
   return(list(full = unique_roles_full, examples = unique_roles_examples))}

@@ -2,170 +2,115 @@
 
 # Documentation
 #' Generate a data dictionary.
-#' @description Used to generate an easily sharable data dictionary for an R dataframe. This supports the following classes: numeric, integer, logical, Date, character, String, factor, orderedfactor.
-#'
+#' @description Used to generate an easily sharable data dictionary for an R dataframe. This supports the following classes: numeric, integer, logical, Date, character, String, factor, ordered.
 #' @param df Dataframe.
-#' @param var_exclude Vector of names of variables that are desired to be excluded from the data dictionary (the default is "" e.g. none).
-#' @return Dataframe with 4 columns: variable (variable name), class (variable class), na_pct (the percentage of data which is NA for that variable), and values (an appropriate summary for the variable class).
-#' @importFrom dplyr filter mutate arrange select summarise
-#' @import magrittr
-#' @importFrom tibble as_tibble rownames_to_column
-#' @importFrom stringr str_count str_split_fixed
-#' @importFrom lubridate ymd origin
-#' @importFrom gdata reorder.factor
+#' @param var_exclude Vector of names of variables that are desired to be excluded from the data dictionary (default: NULL).
+#' @param var_include Vector of names of variables that are desired to be included in the data dictionary (default: NULL).
+#' @return Dataframe with 4 columns: variable (variable name), class (variable class), na_pct (the percentage of data which is NA for that variable), and value (an appropriate summary for the variable class).
+#' @import dplyr
+#' @import tibble
+#' @import tidyr
+#' @importFrom purrr map
+#' @importFrom lubridate ymd origin is.Date
 #' @importFrom stats median
 #' @importFrom utils head
 #' @export
 
 # Function:
-data_dict <- function(df, var_exclude=""){
+data_dict <- function(df, var_include = NULL, var_exclude=NULL){
+  require(dplyr);require(purrr);require(tibble);require(tidyr);require(lubridate);require(stats)
 
-  "%ni%" <- Negate("%in%")
+  if(is.null(var_exclude)==F){df <- df %>% dplyr::select(-one_of(var_exclude))}
 
-  df.2 <- df %>%
-    dplyr::select(colnames(.)[colnames(df) %ni% c(var_exclude)])
+  if(is.null(var_include)==F){df <- df %>% dplyr::select(all_of(var_include))}
 
-  dd.1 <- cbind(sapply(df.2, class))
-
-  dd.1 <- cbind.data.frame(class = dd.1, is.na = colSums(sapply(df.2, is.na)))
-
-  dd.1 %>%
-    dplyr::mutate(class = sapply(class,function(x) paste(unlist(x),collapse=""))) %>%
-    dplyr::mutate(class = gsub("labelled", "", class)) %>%
-    dplyr::mutate(variable = rownames(dd.1)) %>%
-    dplyr::mutate(na_pct = paste0(format(round(is.na / nrow(df.2) *100, 1), nsmall=1), "%")) %>%
-    dplyr::select(variable, class, na_pct) -> dd.1
-
-  # Set values_class as NULL
-  values_num   <- NULL
-  values_date  <- NULL
-  values_logic <- NULL
-  values_char  <- NULL
-  values_fact  <- NULL
+  dict <- df %>%
+    purrr::map(function(x){class(x) %>%
+        paste(collapse="") %>%
+        gsub("labelled", "", .)}) %>%
+    tibble::enframe(name ="variable", value = "class") %>%
+    dplyr::mutate(n_na = purrr::map(df, function(x){is.na(x) %>% sum()})) %>%
+    tidyr::unnest(cols = c(class, n_na)) %>%
+    dplyr::mutate(na_pct = paste0(format(round(n_na / nrow(df) *100, 1), nsmall=1), "%"))
 
   # Create numeric values
-  dd.1 %>%
-    dplyr::filter(class=="numeric"|class=="integer") %>%
-    dplyr::select(variable) %>%
-    unlist()  -> var_num
-
-  colMax <- function(data) sapply(data, max, na.rm = TRUE)
-  colMin <- function(data) sapply(data, min, na.rm = TRUE)
-  colMed <- function(data) sapply(data, stats::median, na.rm = TRUE)
-
-  if(identical(var_num, character(0))==F){
-  cbind.data.frame(variable = var_num,
-    mean = colMeans(df.2[var_num], na.rm = TRUE),
-    median = colMed(df.2[var_num]),
-    min = colMin(df.2[var_num]),
-    max = colMax(df.2[var_num])) %>%
-
-      dplyr::mutate(values = paste("Mean:", format(round(mean, 1), nsmall=1),
-                                   "Median:", format(round(median, 1), nsmall=1),
-                                   "Range:", format(round(min, 1), nsmall=1), "to", format(round(max, 1), nsmall=1))) %>%
-    dplyr::select(variable, values) -> values_num}
+  value_num   <- NULL
+  if(nrow(dplyr::filter(dict, class=="numeric"|class=="integer"))>0){
+    value_num <- df %>%
+      dplyr::select_if(function(x){is.numeric(x)|is.integer(x)}) %>%
+      tidyr::pivot_longer(cols = everything(), names_to = "variable") %>%
+      dplyr::group_split(variable) %>%
+      purrr::map(function(x){x %>% dplyr::summarise(variable = unique(variable),
+                                                    mean = mean(value, na.rm = T) %>% signif(3),
+                                                    median = stats::median(value, na.rm = T) %>% signif(3),
+                                                    min = min(value, na.rm = T) %>% signif(3),
+                                                    max = max(value, na.rm = T) %>% signif(3))}) %>%
+      dplyr::bind_rows() %>%
+      dplyr::mutate(value = paste0("Mean: ", mean,"; Median: ",median, "; Range: ", min, " to ", max)) %>%
+      dplyr::select(variable, value)}
 
   # Create date values
-  dd.1 %>%
-    dplyr::filter(class=="Date") %>%
-    dplyr::select(variable) %>%
-    unlist()   -> var_date
+  value_date   <- NULL
+  if(nrow(dplyr::filter(dict, class=="Date"))>0){
+     value_date <- df %>%
+       dplyr::select_if(function(x){lubridate::is.Date(x)}) %>%
+       tidyr::pivot_longer(cols = everything(), names_to = "variable") %>%
+       dplyr::group_split(variable) %>%
+       purrr::map(function(x){x %>% dplyr::summarise(variable = unique(variable),
+                                                     min = min(value, na.rm = T),
+                                                     max = max(value, na.rm = T))}) %>%
+       dplyr::bind_rows() %>%
+       dplyr::mutate(value = paste0("Range: ", min, " to ", max)) %>%
+       dplyr::select(variable, value)}
 
-
-  if(identical(var_date, character(0))==F){
-    cbind.data.frame(variable = var_date,
-                     min = lubridate::ymd(as.Date(colMin(select(df.2, var_date)), origin=lubridate::origin)),
-                     max = lubridate::ymd(as.Date(colMax(select(df.2, var_date)), origin=lubridate::origin))) %>%
-      dplyr::mutate(values = paste("Range: ", min, "to", max)) %>%
-      dplyr::select(variable, values) -> values_date}
-
-  # Create logic values
-  dd.1 %>%
-    dplyr::filter(class=="logical") %>%
-    dplyr::select(variable) %>%
-    unlist()   -> var_logic
-
-  colList <- function(data) sapply(data, function(x) c(x[1:10]))
-
-  if(identical(var_logic, character(0))==F){
-
-    df.2 %>%
-      dplyr::select(var_logic) %>%
-      colList() %>%
-      tibble::as_tibble() %>%
-      dplyr::summarise(variable = var_logic,
-                       values = as.list(.)) %>%
-      dplyr::mutate(values = as.character(values)) %>%
-      dplyr::mutate(values = gsub("\\(|\\]","",values)) %>%
-      dplyr::mutate(values = substr(values, 2, nchar(values))) %>%
-      dplyr::mutate(values = gsub(')',"",values)) %>%
-      dplyr::mutate(values = gsub(", NA","",values)) %>%
-
-      select(variable, values) -> values_logic}
+  # Create logical values
+  value_logic   <- NULL
+  if(nrow(dplyr::filter(dict, class=="logical"))>0){
+    value_logic <- df %>%
+      dplyr::select_if(function(x){is.logical(x)}) %>%
+      tidyr::pivot_longer(cols = everything(), names_to = "variable") %>%
+      dplyr::group_split(variable) %>%
+      purrr::map(function(x){x %>% dplyr::summarise(variable = unique(variable),
+                                                    value = paste(head(value, 10), collapse = ", "))}) %>%
+      dplyr::bind_rows() %>%
+      dplyr::select(variable, value)}
 
   # Create character values
-  dd.1 %>%
-    filter(class=="character"|class=="String") %>%
-    dplyr::select(variable) %>%
-    unlist()   -> var_char
-
-  colUnique <- function(data) lapply(data, function(x) gsub(", NA", "",
-                                                            paste0(length(unique(x)),
-                                                                   " Unique: ",
-                                                                   paste(sort(unique(x)[1:10]), collapse=", "))))
-
-  if(identical(var_char, character(0))==F){
-
-    df.2 %>%
-      dplyr::select(var_char) %>%
-      colUnique() %>%
-      cbind(variable = var_char, .) %>%
-      tibble::as_tibble()  %>%
-      dplyr::mutate(variable = as.character(variable),
-             values = as.character(.)) %>%
-      dplyr::mutate(values = ifelse(stringr::str_split_fixed(values, " ", 2)[1]==(stringr::str_count(values, ",")+2),
-                             paste0(values, ", NA"),
-                             values)) %>%
-      select(variable, values) -> values_char}
+  value_char   <- NULL
+  if(nrow(dplyr::filter(dict, class=="character"|class=="String"))>0){
+    value_char <- df %>%
+      dplyr::select_if(function(x){is.character(x)}) %>%
+      tidyr::pivot_longer(cols = everything(), names_to = "variable") %>%
+      dplyr::group_split(variable) %>%
+      purrr::map(function(x){x %>% dplyr::summarise(variable = unique(variable),
+                                                    n_unique = length(unique(value)),
+                                                    value = paste(head(unique(value), 10), collapse = ", "))}) %>%
+      dplyr::bind_rows() %>%
+      dplyr::mutate(value = paste0(n_unique, " Unique: ",value)) %>%
+      dplyr::select(variable, value)}
 
   # Create factor values
-  dd.1 %>%
-    filter(class=="factor"|class=="orderedfactor") %>%
-    dplyr::select(variable) %>%
-    unlist() %>%  as.vector() -> var_fact
+  value_factor   <- NULL; var_factor <- NULL
+  if(nrow(dplyr::filter(dict, class=="factor"|class=="orderedfactor"))>0){
+    var_factor <- df %>%
+      dplyr::select_if(function(x){is.factor(x)|is.ordered(x)})
 
-  colLevels <- function(data) lapply(data, function(x) gsub(", NA", "", paste0(length(levels(x))," Levels: ", paste(levels(x)[1:10], collapse=", "))))
+    value_factor <- var_factor %>%
+      purrr::map(function(x){tibble::tibble("n_levels" = nlevels(x),
+                                            "levels" = paste0(levels(x) %>% head(10), collapse = ", "))}) %>%
+      dplyr::bind_rows() %>%
+      dplyr::mutate(variable = colnames(var_factor),
+                    value = paste0(n_levels, " Levels: ",levels)) %>%
+      dplyr::select(variable, value)}
 
-  if(identical(var_fact, character(0))==F){
 
-    df.2 %>%
-      dplyr::select(var_fact) %>%
-      colLevels() %>%
-      tibble::as.tibble() %>% t() %>% as.data.frame() %>%
-      tibble::rownames_to_column(., var="variable") %>%
-      dplyr::select(variable, values="V1") -> values_fact}
+  class_supported <- c("factor", "character", "String", "Date", "numeric", "logical", "orderedfactor")
 
-  df.values <- rbind.data.frame(values_fact,
-                                values_char,
-                                values_logic,
-                                values_date,
-                                values_num)
+  dict_full <- dplyr::bind_rows(value_factor, value_char, value_logic, value_date, value_num) %>%
+    dplyr::left_join(dict, by = "variable") %>%
+    dplyr::mutate(value = ifelse(class %in% class_supported, value, "Class not supported")) %>%
+    dplyr::mutate(variable = factor(variable, levels = colnames(df))) %>%
+    dplyr::arrange(variable) %>% dplyr::mutate(variable = as.character(variable)) %>%
+    dplyr::select(variable, class, value, na_pct)
 
-  dd.out <- merge.data.frame(dd.1, df.values, by="variable")
-
-  dd.1 %>%
-    dplyr::filter(variable %ni% dd.out$variable) -> dd_class
-
-  if(nrow(dd_class)!=0){
-
-    dd_class %>%
-      dplyr::mutate(values = "Class not supported") -> dd_class
-
-   dd.out <- rbind.data.frame(dd.out, dd_class)}
-
-  dd.out %>%
-    dplyr::mutate(variable = gdata::reorder.factor(variable, new.order=colnames(df.2))) %>%
-    dplyr::arrange(variable) %>%
-    dplyr::select(variable, class, values, na_pct) -> dd.out
-
-  return(dd.out)}
+  return(dict_full)}
