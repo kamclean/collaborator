@@ -11,7 +11,7 @@
 #' @import dplyr
 #' @importFrom stringi stri_replace_all_fixed
 #' @importFrom stringr str_sub
-#' @importFrom RCurl postForm
+#' @importFrom RCurl postForm curlOptions
 #' @importFrom jsonlite toJSON prettify
 #' @importFrom readr read_csv
 #' @importFrom tidyr separate separate_rows
@@ -29,7 +29,7 @@ user_assign <- function(redcap_project_uri, redcap_project_token, df_user, role,
   user_current <- RCurl::postForm(uri=redcap_project_uri,
                                   token= redcap_project_token,
                                   content='user',
-                                  .opts = curlOptions(ssl.verifypeer = if(use_ssl==F){FALSE}else{TRUE}),
+                                  .opts = RCurl::curlOptions(ssl.verifypeer = if(use_ssl==F){FALSE}else{TRUE}),
                                   format='csv') %>%
     readr::read_csv()
 
@@ -81,7 +81,7 @@ user_assign <- function(redcap_project_uri, redcap_project_token, df_user, role,
     res = try(RCurl::postForm(uri=redcap_project_uri,
                               token= redcap_project_token,
                               content='user',
-                              .opts = curlOptions(ssl.verifypeer = if(use_ssl==F){FALSE}else{TRUE}),
+                              .opts = RCurl::curlOptions(ssl.verifypeer = if(use_ssl==F){FALSE}else{TRUE}),
                               format='json',
                               data = df_user$json[i]))
 

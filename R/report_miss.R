@@ -16,7 +16,7 @@
 #' @importFrom stringr str_split_fixed
 #' @importFrom stringi stri_replace_all_fixed
 #' @importFrom scales percent
-#' @importFrom RCurl postForm
+#' @importFrom RCurl postForm curlOptions
 #' @importFrom readr read_csv
 #' @importFrom tidyr separate_rows
 #' @importFrom tidyselect all_of
@@ -36,7 +36,7 @@ report_miss <- function(redcap_project_uri, redcap_project_token, use_ssl = TRUE
                                token = redcap_project_token,
                                content='record',
                                exportDataAccessGroups = 'true',
-                               .opts = curlOptions(ssl.verifypeer = if(use_ssl==F){FALSE}else{TRUE}),
+                               .opts = RCurl::curlOptions(ssl.verifypeer = if(use_ssl==F){FALSE}else{TRUE}),
                                format='csv',
                                raworLabel="raw")
 

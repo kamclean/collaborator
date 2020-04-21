@@ -9,7 +9,7 @@
 #' @param user_exclude Vector of usernames to be excluded e.g. those with unique rights (default = NULL).
 #' @return Dataframe summarising the user dataframe by group (data access group), number of users, and username/fullname/emails (separated by ";").
 #' @import dplyr
-#' @importFrom RCurl postForm
+#' @importFrom RCurl postForm curlOptions
 #' @importFrom readr read_csv
 #' @export
 
@@ -28,7 +28,7 @@ user_summarise <- function(data = NULL, redcap_project_uri = NULL, redcap_projec
     user_current <- RCurl::postForm( uri=redcap_project_uri,
                                      token= redcap_project_token,
                                      content='user',
-                                     .opts = curlOptions(ssl.verifypeer = if(use_ssl==F){FALSE}else{TRUE}),
+                                     .opts = RCurl::curlOptions(ssl.verifypeer = if(use_ssl==F){FALSE}else{TRUE}),
                                      format='csv') %>%
       readr::read_csv() %>%
 

@@ -9,7 +9,7 @@
 #' @param use_ssl Logical value whether verify the peer's SSL certificate should be evaluated (default=TRUE)
 #' @import dplyr
 #' @importFrom tidyr unite
-#' @importFrom RCurl postForm
+#' @importFrom RCurl postForm curlOptions
 #' @importFrom readr read_csv
 #' @importFrom zoo na.locf
 #' @return Dataframe of REDCap project users with an additional "role" column.
@@ -41,7 +41,7 @@ user_roles <- function(data = NULL, redcap_project_uri = NULL, redcap_project_to
   user_current <- RCurl::postForm(uri=redcap_project_uri,
                                   token= redcap_project_token,
                                   content='user',
-                                  .opts = curlOptions(ssl.verifypeer = if(use_ssl==F){FALSE}else{TRUE}),
+                                  .opts = RCurl::curlOptions(ssl.verifypeer = if(use_ssl==F){FALSE}else{TRUE}),
                                   format='csv') %>%
     readr::read_csv() %>%
     dplyr::left_join(role_users_example, by="username") %>%

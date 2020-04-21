@@ -7,7 +7,7 @@
 #' @param use_ssl Logical value whether to verify the peer's SSL certificate should be evaluated during the API pull (default=TRUE)
 #' @return Tibble of REDCap project metadata (with individual checkbox variables if present) and variable class in R.
 #' @import dplyr
-#' @importFrom RCurl postForm
+#' @importFrom RCurl postForm curlOptions
 #' @importFrom readr read_csv
 #' @importFrom tidyr separate_rows
 #' @importFrom purrr map
@@ -21,7 +21,7 @@ redcap_metadata <- function(redcap_project_uri, redcap_project_token, use_ssl = 
   df_meta <- RCurl::postForm(uri=redcap_project_uri,
                              token = redcap_project_token,
                              content='metadata',
-                             .opts = curlOptions(ssl.verifypeer = if(use_ssl==F){FALSE}else{TRUE}),
+                             .opts = RCurl::curlOptions(ssl.verifypeer = if(use_ssl==F){FALSE}else{TRUE}),
                              format='csv',
                              raworLabel="raw") %>%
     readr::read_csv() %>%

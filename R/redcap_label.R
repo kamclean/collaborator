@@ -8,7 +8,7 @@
 #' @param column_name Determine if output column names should be unchanged from the REDCap record export ("raw") or labelled ("label"). Default = "raw".
 #' @param column_attr Determine if a labelled attribute should be applied and whether this should be the original ("raw") or labelled ("label") name. Default = NULL.
 #' @import dplyr
-#' @importFrom RCurl postForm
+#' @importFrom RCurl postForm curlOptions
 #' @importFrom readr read_csv
 #' @importFrom lubridate as_date as_datetime
 #' @importFrom tidyselect all_of
@@ -43,7 +43,7 @@ redcap_label <- function(redcap_project_uri, redcap_project_token, use_ssl = TRU
                                    token = redcap_project_token,
                                    content='record',
                                    exportDataAccessGroups = 'true',
-                                   .opts = curlOptions(ssl.verifypeer = if(use_ssl==F){FALSE}else{TRUE}),
+                                   .opts = RCurl::curlOptions(ssl.verifypeer = if(use_ssl==F){FALSE}else{TRUE}),
                                    format='csv',
                                    raworLabel="raw") %>% readr::read_csv()
 

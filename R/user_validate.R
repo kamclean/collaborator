@@ -9,7 +9,7 @@
 #' @param use_ssl Logical value whether verify the peer's SSL certificate should be evaluated (default=TRUE)
 #' @return Nested dataframe of (i) Users with NA access rights to forms (ii) Users with an unallocated DAG (iii). Users with an incorrect DAG according to df_user_master.  (iv). Users absent from the redcap project, but present in df_user_master.  (v). Users present on the redcap project, but absent in df_user_master.
 #' @import dplyr
-#' @importFrom RCurl postForm
+#' @importFrom RCurl postForm curlOptions
 #' @importFrom purrr discard
 #' @importFrom stringr str_sub
 #' @importFrom readr read_csv
@@ -20,7 +20,7 @@ user_validate <- function(redcap_project_uri, redcap_project_token, use_ssl = TR
   require(dplyr);require(purrr);require(stringr); require(RCurl);require(readr)
 
   user_current <- RCurl::postForm(uri=redcap_project_uri, token= redcap_project_token,
-                                  .opts = curlOptions(ssl.verifypeer = if(use_ssl==F){FALSE}else{TRUE}),
+                                  .opts = RCurl::curlOptions(ssl.verifypeer = if(use_ssl==F){FALSE}else{TRUE}),
                                   content='user',  format='csv') %>%
     readr::read_csv()
 

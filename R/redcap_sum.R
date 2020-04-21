@@ -19,7 +19,7 @@
 #' @import dplyr
 #' @importFrom scales percent
 #' @importFrom lubridate day month year origin
-#' @importFrom RCurl postForm
+#' @importFrom RCurl postForm curlOptions
 #' @importFrom readr read_csv
 #' @export
 
@@ -39,7 +39,7 @@ report_sum <- function(redcap_project_uri = NULL, redcap_project_token = NULL, u
                                token = redcap_project_token,
                                content='record',
                                exportDataAccessGroups = 'true',
-                               .opts = curlOptions(ssl.verifypeer = if(use_ssl==F){FALSE}else{TRUE}),
+                               .opts = RCurl::curlOptions(ssl.verifypeer = if(use_ssl==F){FALSE}else{TRUE}),
                                format='csv',
                                raworLabel="raw")
 

@@ -9,7 +9,7 @@
 #' @param use_ssl Logical value whether verify the peer's SSL certificate should be evaluated (default=TRUE)
 #' @import dplyr
 #' @importFrom readr read_csv
-#' @importFrom RCurl postForm
+#' @importFrom RCurl postForm curlOptions
 #' @return Original dataframe containing only usernames not yet allocated to the REDCap project
 #' @export
 
@@ -18,7 +18,7 @@ user_new <- function(redcap_project_uri, redcap_project_token, df_user_update, u
 
   require(RCurl);require(readr);require(dplyr)
   user_current <- RCurl::postForm(uri=redcap_project_uri, token= redcap_project_token,
-                                  .opts = curlOptions(ssl.verifypeer = if(use_ssl==F){FALSE}else{TRUE}),
+                                  .opts = RCurl::curlOptions(ssl.verifypeer = if(use_ssl==F){FALSE}else{TRUE}),
                                   content='user',  format='csv') %>%
     readr::read_csv()
 
