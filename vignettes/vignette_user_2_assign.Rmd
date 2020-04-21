@@ -4,18 +4,13 @@ author:
  - "Kenneth McLean"
  - "Riinu Ots"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Vignette Title}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+output:
+  md_document:
+    variant: gfm
 ---
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(collapse = FALSE)
-  
-redcap_project_uri = "https://redcap.cir.ed.ac.uk/redcap_v8.4.5/API/"
-redcap_project_token = "582D6629348CB3AED679BCADE20969DA"
 ```
 # Collaborator: Redcap User Management 2. Automatically Assign User Rights
 
@@ -42,9 +37,11 @@ However, the downside using this method is that "user roles" cannot be assigned 
 The assignment of new user rights can be achieved via the following steps:
 
 ### a). `user_new()`
-The `user_new()` function can be used to compare a dataframe of all users to those currently allocated on REDCap to determine any new users requiring assigned (ignoring those listed in `users_exception`).
+The `user_new()` function can be used to compare a dataframe of all users to those currently allocated on REDCap to determine any new users requiring assigned (ignoring those listed in `user_exclude`).
 
 These new users can then be uploaded to REDCap using `user_import()` and `user_assign()`.
+
+&nbsp;
 
 ### b). `user_import()`
 REDCap user accounts cannot be generated via R at present, and need to be manually uploaded at present (however there is capability to bulk upload via a csv file). This function can be used to generate the csv file in the exact format required for direct upload via the control centre.
@@ -54,38 +51,43 @@ It requires a dataframe of at least 4 mandatory columns (corresponding to: usern
 ```{r, warning=FALSE, message=FALSE}
 library(collaborator);library(dplyr)
 
-# Example output from user_roles_n()
-data_user_import <- user_roles_n(redcap_project_uri, redcap_project_token)$full %>%
-  select(username, email, firstname, lastname, data_access_group) # please note all names are randomly generated
+# Example output from user_role()
+data_user_import <- collaborator::user_role(redcap_project_uri = Sys.getenv("collaborator_test_uri"),
+                                            redcap_project_token = Sys.getenv("collaborator_test_token"))$full %>%
+  dplyr::select(username, email, firstname, lastname, data_access_group) # please note all names are randomly generated
 
-user_import(df = data_user_import,
+collaborator::user_import(df = data_user_import,
             username = "username", first_name = "firstname", last_name = "lastname",
             email = "email", institution = "data_access_group") %>%
-  head(., n=10) %>%
+  head(10) %>%
   knitr::kable()
 
 ```
+
+This tibble will be saved as a CSV file (for download to upload to REDCap) if the `path` parameter is specified (note must end in ".csv").
+
+&nbsp;
 
 ### c). `user_assign()`
 This can be achieved via the following steps:
 
 **1. Create example user (with the desired user rights):**
  
- - This should be done within REDCap - users which act as an example of each role in the project (e.g. administrator, collaborator, validator) should be manually created as normal.
+ - This should be done within REDCap - users which act as an example of each role in the project (e.g. administrator, collaborator, validator) should be created as outlined in [Redcap User Management: 1. Explore Current Users](https://github.com/kamclean/collaborator/blob/master/vignettes/vignette_user_1_explore.md))
 
 **2. Create data_access_groups:**
  
- - Data access groups should be added manually as normal.
+ - Data access groups should be added manually to the project as normal.
 
 **3. Apply `user_assign()`:**
  
-- Use the `user_assign()` function to add a group of users (`users.df`) with the same user rights as the example user (input username of the example username as `role`).
+- Use the `user_assign()` function to add a group of users (`df_user`) with the same user rights as the example user (input username of the example username as `role`).
 
  - These usernames / user rights are directly pushed into the REDCap project (including assignment to the appropriate DAG) on an individual , but automatic / rapid basis.
 
  - Usernames should not contain punctuation beyond full stop ("."), dash ("-"), and underscore ("_"). 
 
- - It is highly recommended that users are grouped using `user_roles_n()` and/or `user_roles()` prior to assignment to minimise possible errors, and to use `user_validate()` to identify potential issues afterwards (e.g. to ensure form rights have uploaded correctly) (see [Redcap User Management: 1. Explore Current Users](https://github.com/kamclean/collaborator/blob/master/vignettes/vignette_user_1_explore.Rmd)).
+ - It is highly recommended that users are grouped using `user_role()` and/or `user_roles()` prior to assignment to minimise possible errors, and to use `user_validate()` to identify potential issues afterwards (e.g. to ensure form rights have uploaded correctly) (see [Redcap User Management: 1. Explore Current Users](https://github.com/kamclean/collaborator/blob/master/vignettes/vignette_user_1_explore.Rmd)).
  
  *Note: Users can be assigned to a project without being uploaded via the control centre (e.g. accounts being issued). This may be useful if a single user import is preferred over multiple smaller imports, or user access is desired to be given at a single point in time.*
  
@@ -112,10 +114,10 @@ This can be achieved via the following steps:
  
  - The easiest method to achieve this is from within REDCap - a new user should either be allocated with the desired rights, or an existing user should be selected and their user rights amended as appropriate.
  
- - Alternatively, this can be modified once exported to R however this requires a clear understanding of how user rights are recorded within REDCap.
+ - Alternatively, this can be modified once exported to R. However, this requires a clear understanding of how user rights are recorded within REDCap.
 
 **2. Apply `user_assign()`:**
  
-- Use the `user_assign()` function to modify the rights of a group of users (`users.df`) to match the existing example user (input username as `role`).
+- Use the `user_assign()` function to modify the rights of a group of users (`df_user`) to match the existing example user (input username as `role`).
 
 *Note: While user rights can be modified to remove all access to forms on the REDCap project, they cannot be removed from the project using this method (the only capability to do so is manually / individually via REDCap).*

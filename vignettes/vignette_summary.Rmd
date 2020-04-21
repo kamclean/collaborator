@@ -4,19 +4,15 @@ author:
  - "Kenneth McLean"
  - "Riinu Ots"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Vignette Title}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+output:
+  md_document:
+    variant: gfm
 ---
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(collapse = FALSE)
 
 library(collaborator);library(dplyr)
-redcap_project_uri = "https://redcap.cir.ed.ac.uk/redcap_v8.4.5/API/"
-redcap_project_token = "582D6629348CB3AED679BCADE20969DA"
 
 ```
 # Collaborator: REDCap summary data
@@ -29,11 +25,11 @@ The `redcap_sum()` function is designed to be simple from the point of use - the
 
 However, this is intended to have a high degree of customisability to fit the needs of a variety of projects. For example, being able to easily:
 
-- Exclude individual records (`record_exclude`) or whole data access groups (`dag_exclude`) from the record count (e.g. records or DAGs that were found to be ineligible).
+ - Select variables (using `var_include` or `var_exclude`) to be included in the assessment of completeness. For example, to focus on only essential variables to determine level of completeness.
 
-- Exclude users (`user_exclude`) from the total REDCap user count (e.g. administrator user accounts).
-
-- Define variables that should contribute towards evaluation of data completeness. This can be achieved by either excluding  (`var_exclude`), or specifying certain variables (`var_complete`).
+ - Select individual records (using `record_exclude` or `record_include`) or whole data access groups (using `dag_exclude` or `dag_include`) to be assessed. For example to remove records or DAGs that were found to be ineligible. 
+ 
+ - Select individual users (using `user_exclude` or `user_include`) or whole data access groups (using `dag_exclude` or `dag_include`) to be assessed. For example to remove users (e.g. administrator user accounts) or DAGs that were found to be ineligible from the total REDCap user count.
 
 - Generation of summary data by DAG unless `centre_sum` is specified as FALSE (default `centre_sum=T`) 
 
@@ -57,7 +53,9 @@ At it's most basic, `redcap_sum()` can produce an overall summary of current dat
 - `last_update` is the date which the summary data was generated on. 
  
 ```{r, warning=FALSE, message=FALSE}
-redcap_sum(redcap_project_uri, redcap_project_token, centre_sum = F)  %>%
+collaborator::redcap_sum(redcap_project_uri = Sys.getenv("collaborator_test_uri"),
+                         redcap_project_token = Sys.getenv("collaborator_test_token"),
+                         centre_sum = F)  %>%
   knitr::kable()
 
 ```
@@ -70,8 +68,11 @@ However, more granular summary data on each DAG can also be obtained using the s
 This will produce a dataframe of the same summary data as outlined above **grouped by each DAG instead** (minus any DAGs removed using `dag_exclude`).
 
 ```{r, warning=FALSE, message=FALSE}
-redcap_sum(redcap_project_uri, redcap_project_token, centre_sum = T)$dag_all %>%
-  knitr::kable()
+output <- collaborator::redcap_sum(redcap_project_uri = Sys.getenv("collaborator_test_uri"),
+                                   redcap_project_token = Sys.getenv("collaborator_test_token"),
+                                   centre_sum = T)
+
+  knitr::kable(output$dag_all)
 
 ```
 
@@ -79,8 +80,7 @@ redcap_sum(redcap_project_uri, redcap_project_token, centre_sum = T)$dag_all %>%
 This will produce a dataframe of all DAG with users assigned on the REDCap project, but no data uploaded to REDCap. This may be useful for the purposes of targeting encouragement to upload data, or establishing authorship on any research output. 
 
 ```{r, warning=FALSE, message=FALSE}
-redcap_sum(redcap_project_uri, redcap_project_token, centre_sum = T)$dag_nodata %>%
-  knitr::kable()
+knitr::kable(output$dag_nodata)
 
 ```
 
@@ -89,19 +89,21 @@ redcap_sum(redcap_project_uri, redcap_project_token, centre_sum = T)$dag_nodata 
 This will produce a dataframe of all DAG with incomplete records (the definition of completeness customisable as discussed above). This may be useful for the purposes of follow up regarding (essential) missing data at each of these DAGs. 
 
 ```{r, warning=FALSE, message=FALSE}
-redcap_sum(redcap_project_uri, redcap_project_token, centre_sum = T)$dag_incom %>%
-  knitr::kable()
+knitr::kable(output$dag_incom)
 
 ```
 
 
 
 #### 4. `$dag_top_n` Output
-This will produce a dataframe of the DAGs with the most records uploaded overall (the number of DAGs listed is defined by `n_top_dag` with top 10 DAG being default). This may be useful for the purposes of publicity surrounding the project. 
+This will produce a dataframe of the DAGs with the most records uploaded overall (the number of DAGs listed is defined by `top` with top 10 DAG being default). This may be useful for the purposes of publicity surrounding the project. 
 
 
 ```{r, warning=FALSE, message=FALSE}
-redcap_sum(redcap_project_uri, redcap_project_token, centre_sum = T, n_top_dag = 5)$dag_top_n %>%
+collaborator::redcap_sum(redcap_project_uri = Sys.getenv("collaborator_test_uri"),
+                                   redcap_project_token = Sys.getenv("collaborator_test_token"),
+                                   centre_sum = T, top = 5)$dag_top %>% 
   knitr::kable()
+
 
 ```
