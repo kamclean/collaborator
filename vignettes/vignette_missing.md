@@ -23,11 +23,20 @@ use - the only requirements are a valid URI (Uniform Resource
 Identifier) and API (Application Programming Interface) for the REDCap
 project.
 
-Any variable can be excluded from the output using the “var\_exclude”
-parameter.
+There is a high degree of customisability, with the following able to be
+specified to focus on a subset of the dataset:
 
-Limitations: - This function has not yet been tested on REDCap projects
-with multiple events.
+-   Variables (columns): Modified using the “var\_include” and
+    “var\_exclude” parameters.
+
+-   Records / DAGs (rows): Modified using the
+    “record\_include”/“dag\_include” and
+    “record\_exclude”/“dag\_exclude”.
+
+Limitations:
+
+-   This function has not yet been tested on REDCap projects with
+    multiple events.
 
 Output:
 -------
@@ -41,12 +50,15 @@ location within the dataset.
 **1. Record level summary**
 
 -   `miss_n` is the number of missing data fields (“M”).
+
 -   `fields_n` is the number of all data fields (excluding appropriately
     missing data).
+
 -   `miss_prop` / `miss_pct` are respective proportions and percentages
     of data that are missing for each record.
--   `miss_5` is a binary variable indicating if the variable has &gt;5%
-    missing data (&lt;95% completeness).
+
+-   `miss_threshold` is a yes/no variable indicating if the variable has
+    **over** the specified missing data threshold (default = 5%).
 
 **2. Missing data locations (column 8 onwards)**
 
@@ -57,418 +69,30 @@ location within the dataset.
 -   “M” fields represent ‘true’ missing data (which may require follow
     up), and so all counts of missing data are based these.
 
-<!-- -->
+``` r
+collaborator::report_miss(redcap_project_uri = Sys.getenv("collaborator_test_uri"),
+                          redcap_project_token = Sys.getenv("collaborator_test_token"))$record %>%
+  head(15) %>% # first 15 records
+  knitr::kable()
+```
 
-    report_miss(redcap_project_uri,redcap_project_token)$data_missing_record %>%
-      head(., 15) %>% # first 15 records
-      knitr::kable()
-
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: left;">record_id</th>
-<th style="text-align: left;">redcap_data_access_group</th>
-<th style="text-align: right;">miss_n</th>
-<th style="text-align: right;">fields_n</th>
-<th style="text-align: right;">miss_prop</th>
-<th style="text-align: left;">miss_pct</th>
-<th style="text-align: left;">miss_5</th>
-<th style="text-align: left;">pt_age</th>
-<th style="text-align: left;">pt_sex</th>
-<th style="text-align: left;">smoking_status</th>
-<th style="text-align: left;">body_mass_index</th>
-<th style="text-align: left;">pmh___1</th>
-<th style="text-align: left;">pmh___2</th>
-<th style="text-align: left;">pmh___3</th>
-<th style="text-align: left;">asa_grade</th>
-<th style="text-align: left;">pt_ethnicity</th>
-<th style="text-align: left;">adm_date</th>
-<th style="text-align: left;">op_date</th>
-<th style="text-align: left;">op_urgency</th>
-<th style="text-align: left;">op_procedure_code</th>
-<th style="text-align: left;">follow_up</th>
-<th style="text-align: left;">follow_up_readm</th>
-<th style="text-align: left;">follow_up_mort</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">hospital_a</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">16</td>
-<td style="text-align: right;">0.0000000</td>
-<td style="text-align: left;">0.0%</td>
-<td style="text-align: left;">No</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">2</td>
-<td style="text-align: left;">hospital_a</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">16</td>
-<td style="text-align: right;">0.1250000</td>
-<td style="text-align: left;">12.5%</td>
-<td style="text-align: left;">Yes</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">M</td>
-<td style="text-align: left;">M</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">3</td>
-<td style="text-align: left;">hospital_a</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">16</td>
-<td style="text-align: right;">0.0625000</td>
-<td style="text-align: left;">6.2%</td>
-<td style="text-align: left;">Yes</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">M</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">4</td>
-<td style="text-align: left;">hospital_a</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">16</td>
-<td style="text-align: right;">0.0000000</td>
-<td style="text-align: left;">0.0%</td>
-<td style="text-align: left;">No</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">5</td>
-<td style="text-align: left;">hospital_a</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">14</td>
-<td style="text-align: right;">0.0000000</td>
-<td style="text-align: left;">0.0%</td>
-<td style="text-align: left;">No</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">6</td>
-<td style="text-align: left;">hospital_a</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">14</td>
-<td style="text-align: right;">0.0000000</td>
-<td style="text-align: left;">0.0%</td>
-<td style="text-align: left;">No</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">7</td>
-<td style="text-align: left;">hospital_a</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">16</td>
-<td style="text-align: right;">0.0000000</td>
-<td style="text-align: left;">0.0%</td>
-<td style="text-align: left;">No</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">8</td>
-<td style="text-align: left;">hospital_a</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">16</td>
-<td style="text-align: right;">0.0000000</td>
-<td style="text-align: left;">0.0%</td>
-<td style="text-align: left;">No</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">9</td>
-<td style="text-align: left;">hospital_a</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">14</td>
-<td style="text-align: right;">0.0000000</td>
-<td style="text-align: left;">0.0%</td>
-<td style="text-align: left;">No</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">10</td>
-<td style="text-align: left;">hospital_a</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">16</td>
-<td style="text-align: right;">0.0000000</td>
-<td style="text-align: left;">0.0%</td>
-<td style="text-align: left;">No</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">11</td>
-<td style="text-align: left;">hospital_b</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">16</td>
-<td style="text-align: right;">0.0000000</td>
-<td style="text-align: left;">0.0%</td>
-<td style="text-align: left;">No</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">12</td>
-<td style="text-align: left;">hospital_b</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">14</td>
-<td style="text-align: right;">0.1428571</td>
-<td style="text-align: left;">14.3%</td>
-<td style="text-align: left;">Yes</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">M</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">M</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">13</td>
-<td style="text-align: left;">hospital_b</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">14</td>
-<td style="text-align: right;">0.0000000</td>
-<td style="text-align: left;">0.0%</td>
-<td style="text-align: left;">No</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">14</td>
-<td style="text-align: left;">hospital_b</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">16</td>
-<td style="text-align: right;">0.0000000</td>
-<td style="text-align: left;">0.0%</td>
-<td style="text-align: left;">No</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">15</td>
-<td style="text-align: left;">hospital_b</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">14</td>
-<td style="text-align: right;">0.0714286</td>
-<td style="text-align: left;">7.1%</td>
-<td style="text-align: left;">Yes</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">M</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-</tr>
-</tbody>
-</table>
+| record\_id | redcap\_data\_access\_group |  miss\_n|  fields\_n|  miss\_prop| miss\_pct | miss\_threshold | dmy\_hms | enrol\_tf | enrol\_signature | pt\_age | pt\_sex | smoking\_status | body\_mass\_index | pmh\_\_\_1 | pmh\_\_\_2 | pmh\_\_\_3 | asa\_grade | pt\_ethnicity | pt\_ethnicity\_other | adm\_date | adm\_vas | op\_date | time2op | op\_urgency | op\_procedure\_code | follow\_up | follow\_up\_readm | follow\_up\_mort | file |
+|:-----------|:----------------------------|--------:|----------:|-----------:|:----------|:----------------|:---------|:----------|:-----------------|:--------|:--------|:----------------|:------------------|:-----------|:-----------|:-----------|:-----------|:--------------|:---------------------|:----------|:---------|:---------|:--------|:------------|:--------------------|:-----------|:------------------|:-----------------|:-----|
+| 1          | hospital\_a                 |        4|         21|   0.1904762| 19%       | Yes             | M        | M         | NA               | .       | .       | .               | .                 | .          | .          | .          | .          | .             | NA                   | .         | M        | .        | M       | .           | .                   | .          | .                 | .                | .    |
+| 2          | hospital\_a                 |        6|         21|   0.2857143| 29%       | Yes             | M        | M         | NA               | .       | .       | M               | M                 | .          | .          | .          | .          | .             | NA                   | .         | M        | .        | M       | .           | .                   | .          | .                 | .                | .    |
+| 3          | hospital\_a                 |        5|         21|   0.2380952| 24%       | Yes             | M        | M         | NA               | .       | .       | .               | M                 | .          | .          | .          | .          | .             | NA                   | .         | M        | .        | M       | .           | .                   | .          | .                 | .                | .    |
+| 4          | hospital\_a                 |        4|         21|   0.1904762| 19%       | Yes             | M        | M         | NA               | .       | .       | .               | .                 | .          | .          | .          | .          | .             | NA                   | .         | M        | .        | M       | .           | .                   | .          | .                 | .                | .    |
+| 5          | hospital\_a                 |        4|         19|   0.2105263| 21%       | Yes             | M        | M         | NA               | .       | .       | .               | .                 | .          | .          | .          | .          | .             | NA                   | .         | M        | .        | M       | .           | .                   | .          | NA                | NA               | .    |
+| 6          | hospital\_a                 |        4|         19|   0.2105263| 21%       | Yes             | M        | M         | NA               | .       | .       | .               | .                 | .          | .          | .          | .          | .             | NA                   | .         | M        | .        | M       | .           | .                   | .          | NA                | NA               | .    |
+| 7          | hospital\_a                 |        4|         21|   0.1904762| 19%       | Yes             | M        | M         | NA               | .       | .       | .               | .                 | .          | .          | .          | .          | .             | NA                   | .         | M        | .        | M       | .           | .                   | .          | .                 | .                | .    |
+| 8          | hospital\_a                 |        4|         21|   0.1904762| 19%       | Yes             | M        | M         | NA               | .       | .       | .               | .                 | .          | .          | .          | .          | .             | NA                   | .         | M        | .        | M       | .           | .                   | .          | .                 | .                | .    |
+| 9          | hospital\_a                 |        4|         19|   0.2105263| 21%       | Yes             | M        | M         | NA               | .       | .       | .               | .                 | .          | .          | .          | .          | .             | NA                   | .         | M        | .        | M       | .           | .                   | .          | NA                | NA               | .    |
+| 10         | hospital\_a                 |        4|         21|   0.1904762| 19%       | Yes             | M        | M         | NA               | .       | .       | .               | .                 | .          | .          | .          | .          | .             | NA                   | .         | M        | .        | M       | .           | .                   | .          | .                 | .                | .    |
+| 11         | hospital\_b                 |        4|         21|   0.1904762| 19%       | Yes             | M        | M         | NA               | .       | .       | .               | .                 | .          | .          | .          | .          | .             | NA                   | .         | M        | .        | M       | .           | .                   | .          | .                 | .                | .    |
+| 12         | hospital\_b                 |        6|         19|   0.3157895| 32%       | Yes             | M        | M         | NA               | .       | M       | .               | M                 | .          | .          | .          | .          | .             | NA                   | .         | M        | .        | M       | .           | .                   | .          | NA                | NA               | .    |
+| 13         | hospital\_b                 |        4|         19|   0.2105263| 21%       | Yes             | M        | M         | NA               | .       | .       | .               | .                 | .          | .          | .          | .          | .             | NA                   | .         | M        | .        | M       | .           | .                   | .          | NA                | NA               | .    |
+| 14         | hospital\_b                 |        4|         21|   0.1904762| 19%       | Yes             | M        | M         | NA               | .       | .       | .               | .                 | .          | .          | .          | .          | .             | NA                   | .         | M        | .        | M       | .           | .                   | .          | .                 | .                | .    |
+| 15         | hospital\_b                 |        5|         19|   0.2631579| 26%       | Yes             | M        | M         | NA               | .       | .       | .               | .                 | .          | .          | .          | M          | .             | NA                   | .         | M        | .        | M       | .           | .                   | .          | NA                | NA               | .    |
 
 ### Data access group level report
 
@@ -476,8 +100,8 @@ Example of a data access group (DAG) level report of missing data
 (summarising missing data for all records within the DAG).
 
 -   `n_pt` is the number of patients within the data\_access\_group.
--   `n_pt5` is the number of patients with &gt;5% missing data (&lt;95%
-    completeness).
+-   `n_threshold` is the number of patients **over** the specified
+    missing data threshold (default = 5%).
 -   `cen_miss_n` is the number of missing data fields (“M”) within the
     data\_access\_group.
 -   `fields_n` is the number of all data fields within the
@@ -485,95 +109,19 @@ Example of a data access group (DAG) level report of missing data
 -   `cen_miss_prop` / `cen_miss_pct` are respective proportions and
     percentages of data that are missing for each data\_access\_group.
 
-<!-- -->
+``` r
+report_miss(redcap_project_uri = Sys.getenv("collaborator_test_uri"),
+            redcap_project_token = Sys.getenv("collaborator_test_token"), missing_threshold = 0.2)$group %>%
+  knitr::kable()
+```
 
-    report_miss(redcap_project_uri,redcap_project_token)$data_missing_dag %>%
-      knitr::kable()
-
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: left;">redcap_data_access_group</th>
-<th style="text-align: right;">n_pt</th>
-<th style="text-align: right;">n_pt5</th>
-<th style="text-align: right;">cen_miss_n</th>
-<th style="text-align: right;">cen_field_n</th>
-<th style="text-align: right;">cen_miss_prop</th>
-<th style="text-align: left;">cen_miss_pct</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">hospital_a</td>
-<td style="text-align: right;">10</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">154</td>
-<td style="text-align: right;">0.0194805</td>
-<td style="text-align: left;">1.9%</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">hospital_b</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">90</td>
-<td style="text-align: right;">0.0333333</td>
-<td style="text-align: left;">3.3%</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">hospital_c</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">32</td>
-<td style="text-align: right;">0.0000000</td>
-<td style="text-align: left;">0.0%</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">hospital_d</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">64</td>
-<td style="text-align: right;">0.0468750</td>
-<td style="text-align: left;">4.7%</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">hospital_e</td>
-<td style="text-align: right;">9</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">140</td>
-<td style="text-align: right;">0.0214286</td>
-<td style="text-align: left;">2.1%</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">hospital_f</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">96</td>
-<td style="text-align: right;">0.0520833</td>
-<td style="text-align: left;">5.2%</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">hospital_g</td>
-<td style="text-align: right;">7</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">108</td>
-<td style="text-align: right;">0.0462963</td>
-<td style="text-align: left;">4.6%</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">hospital_h</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">94</td>
-<td style="text-align: right;">0.0531915</td>
-<td style="text-align: left;">5.3%</td>
-</tr>
-</tbody>
-</table>
+| redcap\_data\_access\_group |  n\_pt|  n\_threshold|  cen\_miss\_n|  cen\_field\_n|  cen\_miss\_prop| cen\_miss\_pct |
+|:----------------------------|------:|-------------:|-------------:|--------------:|----------------:|:---------------|
+| hospital\_a                 |     10|             5|            43|            204|        0.2107843| 21.0784%       |
+| hospital\_b                 |      6|             3|            27|            120|        0.2250000| 22.5000%       |
+| hospital\_c                 |      2|             0|             8|             42|        0.1904762| 19.0476%       |
+| hospital\_d                 |      4|             3|            19|             84|        0.2261905| 22.6190%       |
+| hospital\_e                 |      9|             3|            39|            185|        0.2108108| 21.0811%       |
+| hospital\_f                 |      6|             3|            29|            126|        0.2301587| 23.0159%       |
+| hospital\_g                 |      7|             3|            34|            144|        0.2361111| 23.6111%       |
+| hospital\_h                 |      6|             4|            30|            125|        0.2400000| 24.0000%       |

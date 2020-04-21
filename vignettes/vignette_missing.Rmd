@@ -2,19 +2,14 @@
 title: "Generating Missing Data Reports"
 author: "Kenneth McLean"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Vignette Title}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+output:
+  md_document:
+    variant: markdown_github
 ---
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(collapse = FALSE)
-
 library(collaborator);library(dplyr)
-redcap_project_uri = "https://redcap.cir.ed.ac.uk/redcap_v8.4.5/API/"
-redcap_project_token = "582D6629348CB3AED679BCADE20969DA"
 ```
 # Collaborator: Generating Missing Data Reports
 
@@ -25,31 +20,41 @@ The `report_miss()` function is designed to easily produce a high quality and in
 ## Requirements:
 The `report_miss()` function is designed to be simple from the point of use - the only requirements are a valid URI (Uniform Resource Identifier) and API (Application Programming Interface) for the REDCap project.
 
-Any variable can be excluded from the output using the "var_exclude" parameter. 
+There is a high degree of customisability, with the following able to be specified to focus on a subset of the dataset:
+
+ - Variables (columns): Modified using the "var_include" and "var_exclude" parameters. 
+
+ - Records / DAGs (rows): Modified using the "record_include"/"dag_include" and "record_exclude"/"dag_exclude".
 
 Limitations:
+
 - This function has not yet been tested on REDCap projects with multiple events.
 
 ## Output:
+
 ### Record level report
 Example of a record level report of missing data. This not only quantifies the missing data within the record, but also highlights it's location within the dataset.
 
 **1. Record level summary**
 
  - `miss_n` is the number of missing data fields ("M").
+ 
  - `fields_n` is the number of all data fields (excluding appropriately missing data).
+ 
  - `miss_prop` / `miss_pct` are respective proportions and percentages of data that are missing for each record.
- - `miss_5` is a binary variable indicating if the variable has >5% missing data (<95% completeness).
+ 
+ - `miss_threshold` is a yes/no variable indicating if the variable has **over** the specified missing data threshold (default = 5%).
  
 **2. Missing data locations (column 8 onwards)**
 
-- "NA" fields represent appropriately missing data (e.g. secondary to unfulfilled branching logic). Therefore, these are excluded from the missing data count entirely.
+  - "NA" fields represent appropriately missing data (e.g. secondary to unfulfilled branching logic). Therefore, these are excluded from the missing data count entirely.
 
-- "M" fields represent 'true' missing data (which may require follow up), and so all counts of missing data are based these.
+  - "M" fields represent 'true' missing data (which may require follow up), and so all counts of missing data are based these.
 
 ```{r, warning=FALSE, message=FALSE}
-report_miss(redcap_project_uri,redcap_project_token)$data_missing_record %>%
-  head(., 15) %>% # first 15 records
+collaborator::report_miss(redcap_project_uri = Sys.getenv("collaborator_test_uri"),
+                          redcap_project_token = Sys.getenv("collaborator_test_token"))$record %>%
+  head(15) %>% # first 15 records
   knitr::kable()
 
 ```
@@ -59,12 +64,13 @@ report_miss(redcap_project_uri,redcap_project_token)$data_missing_record %>%
 Example of a data access group (DAG) level report of missing data (summarising missing data for all records within the DAG).
 
  - `n_pt` is the number of patients within the data_access_group.
- - `n_pt5` is the number of patients with >5% missing data (<95% completeness).
+ - `n_threshold` is the number of patients **over** the specified missing data threshold (default = 5%).
  - `cen_miss_n` is the number of missing data fields ("M") within the data_access_group.
  - `fields_n` is the number of all data fields within the data_access_group (excluding appropriately missing data).
  - `cen_miss_prop` / `cen_miss_pct` are respective proportions and percentages of data that are missing for each data_access_group.
  
 ```{r, warning=FALSE, message=FALSE}
-report_miss(redcap_project_uri,redcap_project_token)$data_missing_dag %>%
+report_miss(redcap_project_uri = Sys.getenv("collaborator_test_uri"),
+            redcap_project_token = Sys.getenv("collaborator_test_token"), missing_threshold = 0.2)$group %>%
   knitr::kable()
 ```
