@@ -15,18 +15,24 @@ Description: A cluster of functions to help facilitate administration of
 Depends: R (>= 3.3.1)
 Imports: dplyr,
   gdata,
+  gmailr,
+  here,
   jsonlite,
   lubridate,
   magrittr,
   purrr,
   RCurl,
   readr,
+  rvest,
+  scales,
+  stats,
   stringi,
   stringr,
-  REDCapR,
-  data.table,
   tibble,
-  tidyr
+  tidyr,
+  tidyselect,
+  xml2,
+  zip
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
