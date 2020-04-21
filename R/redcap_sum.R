@@ -6,7 +6,7 @@
 #' @param redcap_project_token API (Application Programming Interface) for the REDCap project.
 #' @param use_ssl Logical value whether to verify the peer's SSL certificate should be evaluated during the API pull (default=TRUE)
 #' @param centre_sum Logical value to determine whether data access group-level summaries will be produced (Default = TRUE).
-#' @param n_top_dag When centre_sum = TRUE, defines output of the number of centres with the most records uploaded (default is top 10).
+#' @param top When centre_sum = TRUE, defines output of the number of centres with the most records uploaded (default is top 10).
 #' @param var_include Vector of names of variables that are desired to be specifically used to assess data completness (alternate method from using "var_exclude").
 #' @param var_exclude Vector of names of variables that are desired to be excluded from assessment of data completness (any NA value will be counted as incomplete).
 #' @param user_include Vector of redcap usernames that are desired to be included in the user count (note all users not assigned to a DAG will automatically be excluded).
@@ -15,7 +15,7 @@
 #' @param record_exclude Vector of redcap record_id that are desired to be excluded from the record count.
 #' @param dag_include Vector of redcap data access group names that are desired to be included in the record count.
 #' @param dag_exclude Vector of redcap data access group names that are desired to be excluded from the record count.
-#' @return Nested dataframes of (i) overall summary statistics for the project ("sum_overall") (ii). DAG-specific summary statistics for the project ("dag_all") (iii). DAGs with no data uploaded, but users assigned ("dag_nodata") (iv). DAGs with <100% completeness ("dag_incom") (v). The top n recruiting centres ("dag_top_n").
+#' @return Nested dataframes of (i) overall summary statistics for the project ("sum_overall") (ii). DAG-specific summary statistics for the project ("dag_all") (iii). DAGs with no data uploaded, but users assigned ("dag_nodata") (iv). DAGs with <100% completeness ("dag_incom") (v). The top n recruiting centres ("dag_top").
 #' @import dplyr
 #' @importFrom scales percent
 #' @importFrom lubridate day month year origin
@@ -24,7 +24,7 @@
 #' @export
 
 redcap_sum <- function(redcap_project_uri = NULL, redcap_project_token = NULL, use_ssl = TRUE,
-                       centre_sum = TRUE, n_top_dag = 10,
+                       centre_sum = TRUE, top = 10,
                        var_include = NULL, var_exclude = NULL,
                        user_include = NULL, user_exclude = NULL,
                        dag_exclude = NULL, dag_include = NULL,
@@ -139,6 +139,6 @@ redcap_sum <- function(redcap_project_uri = NULL, redcap_project_token = NULL, u
                            "dag_all" = sum_dag_all,
                            "dag_nodata" = dplyr::filter(sum_dag_all, record_all==0),
                            "dag_incom" = dplyr::filter(sum_dag_all, prop_com<1),
-                           "dag_top_n" = dplyr::select(sum_dag_all, "top_n_dag" = redcap_data_access_group, record_all) %>% head(n_top_dag))}
+                           "dag_top" = dplyr::select(sum_dag_all, redcap_data_access_group, record_all) %>% head(top))}
 
   return(report_summary)}
