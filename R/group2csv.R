@@ -13,11 +13,12 @@
 #' @import readr
 #' @import here
 #' @import tibble
+#' @importFrom purrr map
 #' @export
 
 # Function
 group2csv <- function(data, group, subfolder = "folder_csv", file_prefix = "", file_suffix = ""){
-  require(dplyr);require(readr); require(here)
+  require(dplyr);require(readr); require(here); require(purrr)
 
   dir.create(subfolder, showWarnings = FALSE)
 
