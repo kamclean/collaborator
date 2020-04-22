@@ -48,7 +48,7 @@ report_miss <- function(redcap_project_uri, redcap_project_token, use_ssl = TRUE
   # Data dictionary set-up---------------------
   # Convert data dictionary branching to R format
 
-  df_meta <- redcap_metadata(redcap_project_uri = redcap_project_uri,
+  df_meta <- collaborator::redcap_metadata(redcap_project_uri = redcap_project_uri,
                              redcap_project_token = redcap_project_token,
                              use_ssl = use_ssl) %>%
     dplyr::select(variable_name, variable_label, variable_type, branch_logic) %>%
