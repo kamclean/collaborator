@@ -48,7 +48,7 @@ report_miss <- function(redcap_project_uri, redcap_project_token, use_ssl = TRUE
   # Data dictionary set-up---------------------
   # Convert data dictionary branching to R format
 
-  df_meta <- collaborator::redcap_metadata(redcap_project_uri = redcap_project_uri,
+  df_meta <- redcap_metadata(redcap_project_uri = redcap_project_uri,
                              redcap_project_token = redcap_project_token,
                              use_ssl = use_ssl) %>%
     dplyr::select(variable_name, variable_label, variable_type, branch_logic) %>%
@@ -74,7 +74,6 @@ report_miss <- function(redcap_project_uri, redcap_project_token, use_ssl = TRUE
     dplyr::mutate(branch_logic = stringi::stri_replace_all_fixed(branch_logic, "df_record$((", "((df_record$")) %>%
     dplyr::mutate(branch_logic = stringi::stri_replace_all_fixed(branch_logic, "df_record$(", "(df_record$"))
 
-
   # Clean final data dictionary
   df_meta <- df_meta %>%
     dplyr::bind_rows(dplyr::bind_cols("variable_name" = "redcap_data_access_group",
@@ -92,7 +91,6 @@ report_miss <- function(redcap_project_uri, redcap_project_token, use_ssl = TRUE
     dplyr::filter(is.na(branch_logic)==T) %>%
     dplyr::filter(! variable_name %in% c("record_id", "redcap_data_access_group")) %>%
     dplyr::pull(variable_name)
-
 
   # 2. Convert branching to present ("."), missing ("M") or appropriately missing ("NA") based on branching logic
   if(nrow(redcap_dd_branch)>0){

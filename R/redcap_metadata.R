@@ -17,7 +17,7 @@
 #' @export
 
 redcap_metadata <- function(redcap_project_uri, redcap_project_token, use_ssl = TRUE){
-  require(dplyr); require(RCurl); require(readr); require(tidyr); require(stringr); require(purrr)require(stringi)
+  require(dplyr); require(RCurl); require(readr); require(tidyr); require(stringr); require(purrr); require(stringi)
 
   df_meta <- RCurl::postForm(uri=redcap_project_uri,
                              token = redcap_project_token,
@@ -48,26 +48,26 @@ redcap_metadata <- function(redcap_project_uri, redcap_project_token, use_ssl = 
                   variable_name = paste0(variable_name, "___", factor_n),
                   variable_label = paste0(variable_label, " {", select_choices_or_calculations, "}"))
 
-  df_change_xbox_name <- df_meta
-  for(i in c(1:nrow(df_meta_xbox))){
-    df_change_xbox_name <- df_change_xbox_name %>%
-      dplyr::mutate(branch_logic = iconv(tolower(as.character(branch_logic)), to ="ASCII//TRANSLIT")) %>%
-      dplyr::mutate(branch_logic = stringi::stri_replace_all_fixed(branch_logic,
-                                                                   df_meta_xbox$variable_xbox_original[[i]],
-                                                                   df_meta_xbox$variable_name[[i]]))}
-
-  df_meta <- df_change_xbox_name %>%
+   df_meta <- df_meta %>%
     dplyr::mutate(factor_n = NA,
-                  variable_name_original = variable_name) %>%
+                  variable_name_original = variable_name,
+                  variable_xbox_original = NA) %>%
     dplyr::filter(! variable_type %in% "checkbox") %>%
     dplyr::bind_rows(df_meta_xbox) %>%
     dplyr::mutate(variable_name_original = factor(variable_name_original, levels = df_meta$variable_name)) %>%
     dplyr::arrange(variable_name_original, factor_n) %>%
     dplyr::select(-variable_name_original, -factor_n,-variable_xbox_original)
 
+    for(i in c(1:nrow(df_meta_xbox))){
+      df_meta <- df_meta %>%
+        dplyr::mutate(branch_logic = iconv(tolower(as.character(branch_logic)), to ="ASCII//TRANSLIT"),
+                      variable_name = iconv(tolower(as.character(variable_name)), to ="ASCII//TRANSLIT")) %>%
+        dplyr::mutate(branch_logic = stringi::stri_replace_all_fixed(branch_logic,
+                                                                     df_meta_xbox$variable_xbox_original[[i]],
+                                                                     df_meta_xbox$variable_name[[i]]))}}
 
 
-  }
+
 
   # Factors
   factor_01 <- NULL
