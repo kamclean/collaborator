@@ -119,15 +119,14 @@ report_miss <- function(redcap_project_uri, redcap_project_token, use_ssl = TRUE
     dplyr::mutate_at(tidyselect::all_of(redcap_dd_nobranch), function(x){ifelse(is.na(x)==T, "M", ".")})
 
   # Clean dataset
-  if(is.null(var_exclude==F)){df_record <- df_record %>% dplyr::select(-one_of(var_exclude))}
-  if(is.null(var_include==F)){df_record <- df_record %>% dplyr::select(record_id, redcap_data_access_group,
-                                                                                   tidyselect::all_of(var_include))}
+  if(is.null(var_exclude)==F){df_record <- df_record %>% dplyr::select(-one_of(var_exclude))}
+  if(is.null(var_include)==F){df_record <- df_record %>% dplyr::select(record_id, redcap_data_access_group, tidyselect::all_of(var_include))}
 
-  if(is.null(dag_exclude==F)){df_record <- df_record %>% dplyr::filter(! redcap_data_access_group %in% dag_exclude)}
-  if(is.null(dag_include==F)){df_record <- df_record %>% dplyr::filter(redcap_data_access_group %in% dag_include)}
+  if(is.null(dag_exclude)==F){df_record <- df_record %>% dplyr::filter(! redcap_data_access_group %in% dag_exclude)}
+  if(is.null(dag_include)==F){df_record <- df_record %>% dplyr::filter(redcap_data_access_group %in% dag_include)}
 
-  if(is.null(record_exclude==F)){df_record <- df_record %>% dplyr::filter(! record_id %in% record_exclude)}
-  if(is.null(record_include==F)){df_record <- df_record %>% dplyr::filter(record_id %in% record_include)}
+  if(is.null(record_exclude)==F){df_record <- df_record %>% dplyr::filter(! record_id %in% record_exclude)}
+  if(is.null(record_include)==F){df_record <- df_record %>% dplyr::filter(record_id %in% record_include)}
 
 
   # Create missing data reports---------------------------

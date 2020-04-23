@@ -48,14 +48,14 @@ redcap_sum <- function(redcap_project_uri = NULL, redcap_project_token = NULL, u
     dplyr::filter(is.na(redcap_data_access_group)==F)
 
   # Clean dataset
-  if(is.null(var_exclude==F)){df_record <- df_record %>% dplyr::select(-one_of(var_exclude))}
-  if(is.null(var_include==F)){df_record <- df_record %>% dplyr::select(redcap_data_access_group, all_of(var_include))}
+  if(is.null(var_exclude)==F){df_record <- df_record %>% dplyr::select(-one_of(var_exclude))}
+  if(is.null(var_include)==F){df_record <- df_record %>% dplyr::select(redcap_data_access_group, all_of(var_include))}
 
-  if(is.null(dag_exclude==F)){df_record <- df_record %>% dplyr::filter(! redcap_data_access_group %in% dag_exclude)}
-  if(is.null(dag_include==F)){df_record <- df_record %>% dplyr::filter(redcap_data_access_group %in% dag_include)}
+  if(is.null(dag_exclude)==F){df_record <- df_record %>% dplyr::filter(! redcap_data_access_group %in% dag_exclude)}
+  if(is.null(dag_include)==F){df_record <- df_record %>% dplyr::filter(redcap_data_access_group %in% dag_include)}
 
-  if(is.null(record_exclude==F)){df_record <- df_record %>% dplyr::filter(! record_id %in% record_exclude)}
-  if(is.null(record_include==F)){df_record <- df_record %>% dplyr::filter(record_id %in% record_include)}
+  if(is.null(record_exclude)==F){df_record <- df_record %>% dplyr::filter(! record_id %in% record_exclude)}
+  if(is.null(record_include)==F){df_record <- df_record %>% dplyr::filter(record_id %in% record_include)}
 
 
   # Summarise record by DAG
@@ -96,11 +96,11 @@ redcap_sum <- function(redcap_project_uri = NULL, redcap_project_token = NULL, u
     dplyr::filter(is.na(redcap_data_access_group)==F)
 
   # Clean dataset
-  if(is.null(dag_exclude==F)){df_user <- df_user %>% dplyr::filter(! redcap_data_access_group %in% dag_exclude)}
-  if(is.null(dag_include==F)){df_user <- df_user %>% dplyr::filter(redcap_data_access_group %in% dag_include)}
+  if(is.null(dag_exclude)==F){df_user <- df_user %>% dplyr::filter(! redcap_data_access_group %in% dag_exclude)}
+  if(is.null(dag_include)==F){df_user <- df_user %>% dplyr::filter(redcap_data_access_group %in% dag_include)}
 
-  if(is.null(user_exclude==F)){df_user <- df_user %>% dplyr::filter(! username %in% user_exclude)}
-  if(is.null(user_include==F)){df_user <- df_user %>% dplyr::filter(username %in% user_include)}
+  if(is.null(user_exclude)==F){df_user <- df_user %>% dplyr::filter(! username %in% user_exclude)}
+  if(is.null(user_include)==F){df_user <- df_user %>% dplyr::filter(username %in% user_include)}
 
 
   # Summarise user by DAG
