@@ -105,8 +105,10 @@ redcap_label <- function(redcap_project_uri, redcap_project_token, use_ssl = TRU
   data_labelled <- data_labelled %>%
     dplyr::mutate_at(dplyr::vars(tidyselect::all_of(var_complete)),
                      function(x){as.character(x) %>% factor(levels = c("0", "1","2"),
-                                                            labels = c("Incomplete", "Unverified", "Complete"))}) %>%
-    dplyr::mutate(redcap_data_access_group= factor(redcap_data_access_group, levels=sort(unique(redcap_data_access_group))))
+                                                            labels = c("Incomplete", "Unverified", "Complete"))})
+
+  if("redcap_data_access_group" %in% names(data_labelled)){
+    dplyr::mutate(redcap_data_access_group= factor(redcap_data_access_group, levels=sort(unique(redcap_data_access_group))))}
 
 
 
