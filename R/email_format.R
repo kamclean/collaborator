@@ -25,9 +25,9 @@ email_format <- function(df_email, group = "data_access_group", subject,
   data <- df_email %>%
     # standardise names of variables
     dplyr::mutate(group = dplyr::pull(., group),
-                  recipient_main = if(recipient_main==""){""}else{dplyr::pull(., recipient_main)},
-                  recipient_cc  = if(recipient_cc==""){""}else{dplyr::pull(., recipient_cc)},
-                  recipient_bcc = if(recipient_bcc==""){""}else{dplyr::pull(., recipient_bcc)})
+                  recipient_main = if(is.null(recipient_main)==T){""}else{dplyr::pull(., recipient_main)},
+                  recipient_cc  = if(is.null(recipient_cc)==T){""}else{dplyr::pull(., recipient_cc)},
+                  recipient_bcc = if(is.null(recipient_bcc)==T){""}else{dplyr::pull(., recipient_bcc)})
 
   # Create subject lines (including those unique if specified)
   # variable names to be inserted must be []
