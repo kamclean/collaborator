@@ -12,10 +12,12 @@ The `collaboratoR` package provides functions which help facilitate administrati
   
 - [**EuroSurg**](http://www.eurosurg.org)
   - [Ileus Management International (IMAGINE)](http://eurosurg.org/imagine-hub/)
+  - [Management of COMPlicAted intra-abdominal collectionS after colorectal Surgery (COMPASS)](http://eurosurg.org/compass-study-hub/)
 <br><br>
 
 - [**GlobalSurg**](http://globalsurg.org/)
   - [GlobalSurg 3: Quality and outcomes after global cancer surgery](http://globalsurg.org/projects/cohort-studies/globalsurg-3/)
+  - [CovidSurg](https://globalsurg.org/covidsurg/)
 <br><br>
 
 - [**West Midlands Research Collaborative (WMRC)**](http://www.wmresearch.org.uk)
@@ -24,7 +26,7 @@ The `collaboratoR` package provides functions which help facilitate administrati
 
 All functions have been developed with the aim of being applicable to a broad range of REDCap projects. Any suggestions for further functions are welcome, however these would need to be aligned with this aim.
 
-If the CollaboratoR package is used within your project, please e-mail the authors [here](mailto:v1kmcle6@ed.ac.uk) so the list above can be updated. Please also consider citing the package in any resultant publications with the suggested format: "McLean KA, Ots R, Drake T, Harrison E. *CollaboratoR: Scalable multi-centre research using R and REDCap*. 2019. Avaliable at: [https://github.com/kamclean/collaborator](https://github.com/kamclean/collaborator)."
+If the CollaboratoR package is used within your project, please e-mail the authors [here](mailto:v1kmcle6@ed.ac.uk) so the list above can be updated. Please also consider citing the package in any resultant publications with the suggested format: "McLean KA, Ots R, Drake TM, Harrison EM. *CollaboratoR: Scalable multi-centre research using R and REDCap*. 2019. Avaliable at: [https://github.com/kamclean/collaborator](https://github.com/kamclean/collaborator)."
 
 Installation and Documentation
 ------------------------------
