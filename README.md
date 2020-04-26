@@ -5,23 +5,23 @@ collaboratoR
 
 The `collaboratoR` package provides functions which help facilitate administration of multi-centre research using R and the [REDCap](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2700030/) (Research Electronic Data Capture) application. These functions have been developed and utilised within several collaborative research projects from:
 
-- <a href="https://www.starsurg.org" target="_blank"><b>Student Audit and Research in Surgery (STARSurg) Collaborative</b></a>
-  - <a href="https://starsurg.org/oaks-2/" target="_blank">Outcomes After Kidney injury in Surgery (OAKS)</a>
-  - <a href="https://starsurg.org/recon-project-18-19/" target="_blank">REspiratory COmplications after abdomiNal Surgery (RECON)</a>
+- [**Student Audit and Research in Surgery (STARSurg)**](https://www.starsurg.org)
+  - [Outcomes After Kidney injury in Surgery (OAKS)](https://starsurg.org/oaks-2/)
+  - [REspiratory COmplications after abdomiNal Surgery (RECON)](https://starsurg.org/recon-project-18-19/)
 <br><br>
   
-- <a href="http://www.eurosurg.org" target="_blank"><b>European Surgical (EuroSurg) Collaborative</b></a>
-  - <a href="http://eurosurg.org/imagine-hub/" target="_blank">Ileus Management International (IMAGINE)</a>
-  - <a href="http://eurosurg.org/compass-study-hub/" target="_blank">Management of COMPlicAted intra-abdominal collectionS after colorectal Surgery (COMPASS)</a>
+- [**EuroSurg**](http://www.eurosurg.org)
+  - [Ileus Management International (IMAGINE)](http://eurosurg.org/imagine-hub/)
+  - [Management of COMPlicAted intra-abdominal collectionS after colorectal Surgery (COMPASS)](http://eurosurg.org/compass-study-hub/)
 <br><br>
 
-- <a href="http://globalsurg.org/" target="_blank"><b>Global Surgical (GlobalSurg) Collaborative</b></a>
-  - <a href="http://globalsurg.org/projects/cohort-studies/globalsurg-3/" target="_blank">GlobalSurg 3: Quality and outcomes after global cancer surgery</a>
-  - <a href="https://globalsurg.org/covidsurg/" target="_blank">CovidSurg</a>
+- [**GlobalSurg**](http://globalsurg.org/)
+  - [GlobalSurg 3: Quality and outcomes after global cancer surgery](http://globalsurg.org/projects/cohort-studies/globalsurg-3/)
+  - [CovidSurg](https://globalsurg.org/covidsurg/)
 <br><br>
 
-- <a href="http://www.wmresearch.org.uk" target="_blank"><b>West Midlands Research Collaborative (WMRC)</b></a>
-  - <a href="https://ogaa.org.uk/" target="_blank">Oesophago-Gastric Anastomosis Audit (OGAA)</a>
+- [**West Midlands Research Collaborative (WMRC)**](http://www.wmresearch.org.uk)
+  - [Oesophago-Gastric Anastomosis Audit (OGAA)](https://ogaa.org.uk/)
 <br><br>
 
 All functions have been developed with the aim of being applicable to a broad range of REDCap projects. Any suggestions for further functions are welcome, however these would need to be aligned with this aim.
