@@ -7,7 +7,7 @@
 #' @param subfolder Folder within working directory (e.g. string entered into here::here()) where CSV will be stored. Default = "folder_csv".
 #' @param file_prefix String to be prefixed to "group" when naming CSV file.
 #' @param file_suffix String to be suffixed to "group" when naming CSV file.
-#' @return Dataframe of group AND html code ("code") and/or csv file path ("file").
+#' @return Dataframe of group AND csv file path ("file").
 #' @import dplyr
 #' @import magrittr
 #' @import readr

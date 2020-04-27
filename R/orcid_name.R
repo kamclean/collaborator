@@ -1,4 +1,4 @@
-# orcid_pull_name--------------------------------
+# orcid_name--------------------------------
 # Documentation
 #' Pull first name(s) and last name for a given list of orcid
 #' @description Pull and format first name(s) and last name for a given list of orcid
@@ -16,7 +16,7 @@
 #' @importFrom stringr str_sub
 #' @export
 
-orcid_pull_name <- function(list_orcid, initial = TRUE, initial_max = 3, position = "right", reason = FALSE){
+orcid_name <- function(list_orcid, initial = TRUE, initial_max = 3, position = "right", reason = FALSE){
   require(dplyr);require(purrr);require(xml2);require(dplyr);require(tibble);require(tidyr);require(stringr)
 
   output <- purrr::map_df(list_orcid, function(x){
