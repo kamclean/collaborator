@@ -2,7 +2,7 @@
 
 export(collapse01)
 export(data_dict)
-export(email_format)
+export(email_field)
 export(email_send)
 export(group2csv)
 export(group2html)

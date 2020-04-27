@@ -1,4 +1,4 @@
-# email_format--------------------------------
+# email_field--------------------------------
 # Documentation
 #'Prepare df_email in a standard format for email_send function.
 #' @description  Prepare df_email in a standard format for email_send function.
@@ -17,7 +17,7 @@
 #' @export
 
 # Function
-email_format <- function(df_email, group = "data_access_group", subject,
+email_field <- function(df_email, group = "data_access_group", subject,
                          recipient_main = NULL,recipient_cc = NULL,recipient_bcc = NULL){
 
   require(dplyr);require(stringr);require(purrr);require(tidyr);require(tibble)
