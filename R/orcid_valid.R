@@ -65,6 +65,6 @@ orcid_valid <- function(list_orcid, reason = FALSE, na.rm = FALSE){
 
   if(na.rm==F&reason==F){out <- out %>% dplyr::pull(orcid)}
 
-  if(na.rm==T){out <- out %>% dplyr::filter(valid_yn=="Yes") %>% dplyr::pull(orcid)}
+  if(na.rm==T){out <- out %>% dplyr::filter(valid_yn=="Yes")}
 
   return(out)}
