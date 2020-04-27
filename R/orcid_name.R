@@ -62,7 +62,7 @@ orcid_name <- function(list_orcid, initial = TRUE, initial_max = 3, position = "
     out <- suppressWarnings(tibble::enframe(x) %>%
                        tidyr::separate(value, " ", into = paste0("i_", rep(1:initial_max))) %>%
                        dplyr::mutate_at(vars(starts_with("i_")), function(x){stringr::str_sub(x, 1,1) %>% toupper()}) %>%
-                       tidyr::unite(starts_with("i_"), col = "initial", sep = " ", na.rm= T) %>% dplyr::pull(initial))
+                       tidyr::unite(starts_with("i_"), col = "initial", sep = "", na.rm= T) %>% dplyr::pull(initial))
     return(out)}
 
   output <- output %>%
