@@ -51,7 +51,7 @@ email_field <- function(df_email, group = "data_access_group", subject,
 
   out <- data %>%
     dplyr::mutate(subject = subject_final) %>%
-    dplyr::select(-dplyr::one_of(var_original[! var_original %in% ""])) %>%
+    dplyr::select(-dplyr::one_of(var_original[! var_original %in% c("", "group", "recipient_main", "recipient_cc", "recipient_bcc")])) %>%
     dplyr::select(group, recipient_main, recipient_cc, recipient_bcc, subject, dplyr::everything())
 
   return(out)}

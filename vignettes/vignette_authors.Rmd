@@ -27,44 +27,34 @@ In order for the `report_auth()` function to operate as intended, we must first 
 Example dataframe (`data_author`):
 ```{r, warning=FALSE, message=FALSE}
 library(collaborator)
-
 data_author <- collaborator::example_report_author
 knitr::kable(head(data_author, n=10)) # Please note all names have been randomly generated
-
 ```
 
 ## Main Features
 ### (1) Basic Function
 At it's most basic, `report_auth()` can produce a formatted list of a column of names.
 ```{r, warning=FALSE, message=FALSE}
-
 report_auth(data_author) # Please note all names have been randomly generated
-
 ```
 
 ### (2) Grouping and subdivision of names
 
 These names can be further grouped by another column in the dataframe:
 ```{r, warning=FALSE, message=FALSE}
-
 report_auth(data_author, group = "hospital")
-
 ```
 
 Or can be subdivided by another column in the dataframe:
 ```{r, warning=FALSE, message=FALSE}
-
 report_auth(data_author, subdivision = "country")
-
 ```
 
 Or groups can be further subdivided (for example by region/country, or by role)
 ```{r, warning=FALSE, message=FALSE}
-
 report_auth(data_author,
             group = "hospital",
             subdivision = "country")
-
 ```
 
 ### (3) Formatting
@@ -72,8 +62,6 @@ Clear and consistent formatting of authorship lists allows the contributions and
 
 
 ```{r, warning=FALSE, message=FALSE}
-
 report_auth(data_author, group="hospital", subdivision = "country",
             name_sep = " +", group_brachet = "[}",group_sep = " -")
-
 ```
