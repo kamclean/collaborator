@@ -6,3 +6,4 @@ packrat/lib*/
 .httr-oauth
 R/development
 R/retired
+vignettes/folder_csv

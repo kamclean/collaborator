@@ -2,10 +2,10 @@
 
 export(collapse01)
 export(data_dict)
+export(email_body)
 export(email_field)
 export(email_send)
 export(group2csv)
-export(group2html)
 export(orcid_pull_name)
 export(orcid_valid)
 export(redcap_label)

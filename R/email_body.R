@@ -1,4 +1,4 @@
-# group2html
+# email_body
 # Documentation
 #' Split a tibble/dataframe by "group" variable, then save HTML file and/or code (e.g. for email body in send_email function)
 #' @description Split a tibble/dataframe by "group" variable, then save HTML file and/or code (e.g. for email body in send_email function)
@@ -22,7 +22,7 @@
 #' @export
 
 # Function
-group2html <- function(data, group, rmd_file, html_output = c("code", "file"),
+email_body <- function(data, group, rmd_file, html_output = c("code", "file"),
                        subfolder = here::here("folder_html"), file_prefix = "", file_suffix = ""){
 
   require(dplyr); require(here); require(rmarkdown); require(purrr)
