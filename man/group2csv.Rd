@@ -19,7 +19,7 @@ group2csv(data, group, subfolder = "folder_csv", file_prefix = "",
 \item{file_suffix}{String to be suffixed to "group" when naming CSV file.}
 }
 \value{
-Dataframe of group AND html code ("code") and/or csv file path ("file").
+Dataframe of group AND csv file path ("file").
 }
 \description{
 Split a tibble/dataframe by "group" variable, then save in a subfolder as CSV.
