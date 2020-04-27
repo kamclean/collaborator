@@ -18,7 +18,7 @@ orcid_name(list_orcid, initial = TRUE, initial_max = 3,
 
 \item{reason}{Logical value to determine whether output should include reasons for NA values (default = FALSE) or vector of ORCID (TRUE).}
 
-\item{na.rm}{Remove NA (invalid ORCID) from output}
+\item{na.rm}{Remove NA (invalid ORCID) from output (default = TRUE)}
 }
 \value{
 Dataframe with 5 mandatory columns: orcid, full name, first names, initials, and last name.

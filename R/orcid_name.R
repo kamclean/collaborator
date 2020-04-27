@@ -7,7 +7,7 @@
 #' @param position initial to "left" or "right" of last name (default = "right")
 #' @param initial_max Maximum number of digits (default = 3)
 #' @param reason Logical value to determine whether output should include reasons for NA values (default = FALSE) or vector of ORCID (TRUE).
-#' @param na.rm Remove NA (invalid ORCID) from output
+#' @param na.rm Remove NA (invalid ORCID) from output (default = TRUE)
 #' @return Dataframe with 5 mandatory columns: orcid, full name, first names, initials, and last name.
 #' @import dplyr
 #' @import tidyr
@@ -20,7 +20,11 @@
 orcid_name <- function(list_orcid, initial = TRUE, initial_max = 3, position = "right", reason = FALSE, na.rm = TRUE){
   require(dplyr);require(purrr);require(xml2);require(dplyr);require(tibble);require(tidyr);require(stringr)
 
-  output <- purrr::map_df(list_orcid, function(x){
+  valid <- orcid_valid(list_orcid, reason = reason, na.rm = na.rm)
+
+  if(tibble::is_tibble(valid)){input_orcid <- dplyr::pull(valid, orcid)}else{input_orcid <- valid}
+
+  output <- purrr::map_df(na.omit(input_orcid) %>% as.character(), function(x){
     # Extract from ORCID API
     eval <- tryCatch(xml2::read_xml(paste0("https://pub.orcid.org/v2.1/", x, "/personal-details")),error = function(e){NA})
 
@@ -35,6 +39,24 @@ orcid_name <- function(list_orcid, initial = TRUE, initial_max = 3, position = "
                                  dplyr::mutate(orcid = x,
                                                check_access = "Yes") %>%
                                  dplyr::select(orcid,check_access, "first_name" = `given-names`, "last_name" = `family-name`))}})
+
+  if(tibble::is_tibble(valid)==F){valid <- tibble::enframe(valid, name = NULL, value = "orcid")}
+
+  if(na.rm == F & reason == T){
+  output <- tibble::enframe(list_orcid, name = NULL, value = "orcid") %>%
+    dplyr::left_join(output, by = "orcid") %>%
+    dplyr::left_join(dplyr::select(valid, -orcid), by = c("orcid" = "orcid_original")) %>%
+    dplyr::select(orcid, ends_with("_name"), starts_with("check_"))}
+
+  if(na.rm == F & reason == F){
+    output <- tibble::enframe(list_orcid, name = NULL, value = "orcid") %>%
+      dplyr::left_join(output, by = "orcid") %>%
+      dplyr::select(orcid, ends_with("_name"))}
+
+  if(na.rm == T){
+    output <- output %>%
+      dplyr::left_join(valid, by = c("orcid")) %>%
+      dplyr::select(orcid, ends_with("_name"), starts_with("check_"))}
 
   name2initial <- function(x){
     out <- suppressWarnings(tibble::enframe(x) %>%
@@ -53,7 +75,7 @@ orcid_name <- function(list_orcid, initial = TRUE, initial_max = 3, position = "
   if(initial==F&position == "left"){output <- output %>% dplyr::mutate(full_name = ifelse(check_name=="Yes", paste0(first_name, " ", last_name), NA))}
 
   if(reason==F){final <- output %>% dplyr::select(orcid, full_name, first_name, initial, last_name)}else{
-  final <- output %>% dplyr::select(orcid, check_access, check_name, full_name, first_name, initial, last_name)}
+  final <- output %>% dplyr::select(orcid, full_name, first_name, initial, last_name, starts_with("check_"))}
 
   if(na.rm==T){final <- final %>% dplyr::filter(is.na(full_name)==F)}
 

@@ -8,7 +8,7 @@
 #' @return Vector of orcid (reason = FALSE) or tibble with columns specifying the validation checks failed by the ORCID ("check_" columns)
 #' @import dplyr
 #' @importFrom tibble enframe
-#' @importFrom tidyr separate
+#' @importFrom tidyr separate drop_na
 #' @importFrom stringr str_sub str_remove_all
 #' @export
 
@@ -63,8 +63,9 @@ orcid_valid <- function(list_orcid, reason = FALSE, na.rm = FALSE){
     dplyr::mutate(orcid = gsub('(?=(?:.{4})+$)', "-", orcid, perl = TRUE) %>% stringr::str_sub(2, nchar(.))) %>%
     dplyr::select(orcid_original, valid_yn, orcid, contains("check_"))
 
-  if(na.rm==F&reason==F){out <- out %>% dplyr::pull(orcid)}
+  if(na.rm==T){out <- out %>% tidyr::drop_na()}
 
-  if(na.rm==T){out <- out %>% dplyr::filter(valid_yn=="Yes")}
+  if(reason==F){out <- out %>% dplyr::pull(orcid)}
+
 
   return(out)}
