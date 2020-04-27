@@ -5,7 +5,7 @@
 \title{Pull first name(s) and last name for a given list of orcid}
 \usage{
 orcid_name(list_orcid, initial = TRUE, initial_max = 3,
-  position = "right", reason = FALSE)
+  position = "right", reason = FALSE, na.rm = TRUE)
 }
 \arguments{
 \item{list_orcid}{List of orcid ids (XXXX-XXXX-XXXX-XXXX format)}
@@ -17,6 +17,8 @@ orcid_name(list_orcid, initial = TRUE, initial_max = 3,
 \item{position}{initial to "left" or "right" of last name (default = "right")}
 
 \item{reason}{Logical value to determine whether output should include reasons for NA values (default = FALSE) or vector of ORCID (TRUE).}
+
+\item{na.rm}{Remove NA (invalid ORCID) from output}
 }
 \value{
 Dataframe with 5 mandatory columns: orcid, full name, first names, initials, and last name.

@@ -7,6 +7,7 @@
 #' @param position initial to "left" or "right" of last name (default = "right")
 #' @param initial_max Maximum number of digits (default = 3)
 #' @param reason Logical value to determine whether output should include reasons for NA values (default = FALSE) or vector of ORCID (TRUE).
+#' @param na.rm Remove NA (invalid ORCID) from output
 #' @return Dataframe with 5 mandatory columns: orcid, full name, first names, initials, and last name.
 #' @import dplyr
 #' @import tidyr
@@ -16,7 +17,7 @@
 #' @importFrom stringr str_sub
 #' @export
 
-orcid_name <- function(list_orcid, initial = TRUE, initial_max = 3, position = "right", reason = FALSE){
+orcid_name <- function(list_orcid, initial = TRUE, initial_max = 3, position = "right", reason = FALSE, na.rm = TRUE){
   require(dplyr);require(purrr);require(xml2);require(dplyr);require(tibble);require(tidyr);require(stringr)
 
   output <- purrr::map_df(list_orcid, function(x){
@@ -53,5 +54,7 @@ orcid_name <- function(list_orcid, initial = TRUE, initial_max = 3, position = "
 
   if(reason==F){final <- output %>% dplyr::select(orcid, full_name, first_name, initial, last_name)}else{
   final <- output %>% dplyr::select(orcid, check_access, check_name, full_name, first_name, initial, last_name)}
+
+  if(na.rm==T){final <- final %>% dplyr::filter(is.na(full_name)==F)}
 
   return(final)}
