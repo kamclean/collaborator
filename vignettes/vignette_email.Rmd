@@ -4,7 +4,7 @@ author: "Kenneth McLean"
 date: "`r Sys.Date()`"
 output:
   md_document:
-    variant: markdown_github
+    variant: gfm
 vignette: >
   %\VignetteIndexEntry{Vignette Title}
   %\VignetteEngine{knitr::rmarkdown}
@@ -30,7 +30,7 @@ CollaboratoR has several functions that have been designed to work together to f
 &nbsp;
 &nbsp;
 
-## 1. Build email dataset
+# 1. Build email dataset
 
 The first step is to define the groups of people that will be emailed. 
 
@@ -84,7 +84,7 @@ There may be any number of additional columns present that can be used to "mail-
 &nbsp;
 &nbsp;
 
-## 2. Build group-specific emails
+# 2. Build group-specific emails
 
 At this stage, we have a dataframe of the grouped recipents of the emails. Now we can begin to build the group-specific components of the emails.
 
@@ -181,7 +181,8 @@ Note: Only `group2csv()` will be supported as a function for creating group-spec
 &nbsp;
 &nbsp;
 
-## 3. Send group-specific emails
+
+# 3. Send group-specific emails
 
 We now have created our four components to the group-specific email:
 

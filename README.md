@@ -55,3 +55,5 @@ Vignettes
 [Generating Missing Data Reports](https://github.com/kamclean/collaborator/blob/master/vignettes/vignette_missing.md)
 
 [Generating a Simple, Easily-Shareable Data Dictionary](https://github.com/kamclean/collaborator/blob/master/vignettes/vignette_data_dict.md)
+
+[Mailmerge in R with personalised attachments](https://github.com/kamclean/collaborator/blob/master/vignettes/vignette_email.md)
