@@ -1,0 +1,18 @@
+---
+title: "&nbsp;" # To avoid "[WARNING] This document format requires a nonempty <title> element. Please specify either 'title' or 'pagetitle' in the metadata.".
+
+output: html_document
+---
+
+```{r setup, echo = FALSE, include = FALSE, message=FALSE}
+library(dplyr);library(readr);library(knitr)
+```
+
+#### **Dear `r x$user_fullnames`**,
+
+Thank you for your work at `r x$group`. 
+
+You will find *2 attatchments* ...
+
+Many thanks,
+Kenneth
