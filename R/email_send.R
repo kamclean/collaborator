@@ -24,6 +24,7 @@ email_send <- function(df_email, sender, email_body = "body", attach = NULL, zip
   require(zip); require(purrr);require(stringi)
 
   df_email %>%
+    dplyr::mutate(body = dplyr::pull(., email_body)) %>%
     dplyr::group_split(group) %>%
     purrr::map2(., seq_along(.), function(x, y){
 
