@@ -17,14 +17,15 @@
 #' @importFrom purrr map2
 #' @importFrom stringi stri_locate_last_fixed
 #' @export
-
+df_email <- surginf
 # Function
-email_send <- function(df_email, sender, email_body = "body", attach = NULL, zip = F, draft = TRUE){
+
+email_send <- function(df_email, sender, body = "body", attach = NULL, zip = F, draft = TRUE){
   require(dplyr);require(gmailr);  require(stringr); require(tidyr)
   require(zip); require(purrr);require(stringi)
 
   df_email %>%
-    dplyr::mutate(body = dplyr::pull(., email_body)) %>%
+    dplyr::mutate(body = dplyr::pull(., body)) %>%
     dplyr::group_split(group) %>%
     purrr::map2(., seq_along(.), function(x, y){
 
