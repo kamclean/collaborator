@@ -9,7 +9,7 @@
 #' @param subfolder Folder within working directory where HTML file will be stored - only required if file %in% html_output. (Default = "folder_html")
 #' @param file_prefix String to be prefixed to "group" when naming HTML file - only required if file %in% html_output.
 #' @param file_suffix String to be suffixed to "group" when naming HTML file - only required if file %in% html_output.
-#' @return Dataframe of group AND html code ("code") and/or html file path ("file") depending on html_output.
+#' @return Original dataframe with up to 2 additional columns: html code ("code") and/or html file path ("file") depending on html_output.
 #' @import dplyr
 #' @importFrom here here
 #' @importFrom rmarkdown render
@@ -22,7 +22,7 @@
 #' @export
 
 # Function
-email_body <- function(data, group, rmd_file, html_output = c("code", "file"),
+email_body <- function(data, group = "group", rmd_file, html_output = c("code", "file"),
                        subfolder = here::here("folder_html"), file_prefix = "", file_suffix = ""){
 
   require(dplyr); require(here); require(rmarkdown); require(purrr)
@@ -53,13 +53,16 @@ email_body <- function(data, group, rmd_file, html_output = c("code", "file"),
 
       dplyr::bind_rows()
 
+    data_final <- data %>%
+      dplyr::left_join(output, by = "group")
+
     # remove html file created
     file.remove(gsub(".Rmd", ".html", rmd_file))}
 
   if("file" %in% html_output){
     dir.create(subfolder, showWarnings = FALSE)
 
-    data <- data %>%
+    output <- data %>%
       dplyr::mutate(group = dplyr::pull(., group)) %>%
       dplyr::filter(is.na(group)==F) %>%
       dplyr::mutate(file = paste0(subfolder, "/",file_prefix, group,file_suffix, ".html"))
@@ -71,10 +74,9 @@ email_body <- function(data, group, rmd_file, html_output = c("code", "file"),
 
       purrr::map(function(x){rmarkdown::render(input = rmd_file, output_file = x$file, quiet=TRUE, params = x)})
 
-    output <- data %>% dplyr::select(group, file)
+    data_final <- output
 
-    if("code" %in% html_output){output <- output %>%
-      dplyr::mutate(code = html_doc2code(file)) %>%
-      dplyr::select(group, code, file)}}
+    if("code" %in% html_output){data_final <- data_final %>%
+      dplyr::mutate(code = html_doc2code(file))}}
 
-  return(output)}
+  return(data_final)}

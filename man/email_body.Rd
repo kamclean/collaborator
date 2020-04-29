@@ -4,8 +4,8 @@
 \alias{email_body}
 \title{Split a tibble/dataframe by "group" variable, then save HTML file and/or code (e.g. for email body in send_email function)}
 \usage{
-email_body(data, group, rmd_file, html_output = c("code", "file"),
-  subfolder = here::here("folder_html"), file_prefix = "",
+email_body(data, group = "group", rmd_file, html_output = c("code",
+  "file"), subfolder = here::here("folder_html"), file_prefix = "",
   file_suffix = "")
 }
 \arguments{
@@ -24,7 +24,7 @@ email_body(data, group, rmd_file, html_output = c("code", "file"),
 \item{file_suffix}{String to be suffixed to "group" when naming HTML file - only required if file %in% html_output.}
 }
 \value{
-Dataframe of group AND html code ("code") and/or html file path ("file") depending on html_output.
+Original dataframe with up to 2 additional columns: html code ("code") and/or html file path ("file") depending on html_output.
 }
 \description{
 Split a tibble/dataframe by "group" variable, then save HTML file and/or code (e.g. for email body in send_email function)
