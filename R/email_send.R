@@ -4,7 +4,7 @@
 #' @description Send group-specific emails and attatchments via gmailR (must have previously set up GmailR on R instance)
 #' @param df_email Dataframe containing a minimum of the output from email_format function and a column corresponding to the email body pathway.
 #' @param sender Email address from the sender (should match the details specified using gmailr::gm_auth_configure()).
-#' @param email_body String of column names of the HTML code to attach as the email body (default = "body"). Note html files cannot be sent at present using gmailR.
+#' @param body String of column names of the HTML code to attach as the email body (default = "code"). Note html files cannot be sent at present using gmailR.
 #' @param attach List of column names of files to attach. Each column must contain a full path for each file for each group.
 #' @param zip Logical value to send attachments as a ZIP folder (default = FALSE). Requires an attachment via "attach".
 #' @param draft Logical value to create as a draft email (default: TRUE) or send immediately (FALSE)
@@ -20,7 +20,7 @@
 
 # Function
 
-email_send <- function(df_email, sender, body = "body", attach = NULL, zip = F, draft = TRUE){
+email_send <- function(df_email, sender, body = "code", attach = NULL, zip = F, draft = TRUE){
   require(dplyr);require(gmailr);  require(stringr); require(tidyr)
   require(zip); require(purrr);require(stringi)
 

@@ -4,15 +4,15 @@
 \alias{email_send}
 \title{Send group-specific emails and attatchments via gmailR.}
 \usage{
-email_send(df_email, sender, email_body = "body", attach = NULL,
-  zip = F, draft = TRUE)
+email_send(df_email, sender, body = "code", attach = NULL, zip = F,
+  draft = TRUE)
 }
 \arguments{
 \item{df_email}{Dataframe containing a minimum of the output from email_format function and a column corresponding to the email body pathway.}
 
 \item{sender}{Email address from the sender (should match the details specified using gmailr::gm_auth_configure()).}
 
-\item{email_body}{String of column names of the HTML code to attach as the email body (default = "body"). Note html files cannot be sent at present using gmailR.}
+\item{body}{String of column names of the HTML code to attach as the email body (default = "code"). Note html files cannot be sent at present using gmailR.}
 
 \item{attach}{List of column names of files to attach. Each column must contain a full path for each file for each group.}
 
