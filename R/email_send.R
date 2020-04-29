@@ -17,7 +17,7 @@
 #' @importFrom purrr map2
 #' @importFrom stringi stri_locate_last_fixed
 #' @export
-df_email <- surginf
+
 # Function
 
 email_send <- function(df_email, sender, body = "body", attach = NULL, zip = F, draft = TRUE){
