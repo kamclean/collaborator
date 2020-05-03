@@ -30,7 +30,7 @@ redcap_label <- function(redcap_project_uri, redcap_project_token, use_ssl = TRU
                           redcap_project_token = redcap_project_token,
                           use_ssl = use_ssl)
 
-  if(checkbox_name=="label"){
+  if(checkbox_value=="label"){
     meta <- meta %>%
       dplyr::group_by(variable_name) %>%
       dplyr::mutate(factor_level = ifelse(variable_type=="checkbox", list(c(0,1)),factor_level),
