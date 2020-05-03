@@ -7,6 +7,7 @@
 #' @param use_ssl Logical value whether verify the peer's SSL certificate should be evaluated (default=TRUE)
 #' @param column_name Determine if output column names should be unchanged from the REDCap record export ("raw") or labelled ("label"). Default = "raw".
 #' @param column_attr Determine if a labelled attribute should be applied and whether this should be the original ("raw") or labelled ("label") name. Default = NULL.
+#' @param checkbox_name Determine if output checkbox variables should be unchanged from the REDCap record export ("raw") or labelled ("label"). Default = "raw".
 #' @import dplyr
 #' @importFrom RCurl postForm curlOptions
 #' @importFrom readr read_csv
@@ -18,7 +19,7 @@
 
 # Function:
 redcap_label <- function(redcap_project_uri, redcap_project_token, use_ssl = TRUE,
-                         column_name = "raw", column_attr = NULL){
+                         column_name = "raw", column_attr = NULL, checkbox_value = "label"){
 
   require(dplyr);require(RCurl);require(readr);require(lubridate); require(tidyselect);require(tibble)
 
@@ -28,6 +29,14 @@ redcap_label <- function(redcap_project_uri, redcap_project_token, use_ssl = TRU
   meta <- collaborator::redcap_metadata(redcap_project_uri = redcap_project_uri,
                           redcap_project_token = redcap_project_token,
                           use_ssl = use_ssl)
+
+  if(checkbox_name=="label"){
+    meta <- meta %>%
+      dplyr::group_by(variable_name) %>%
+      dplyr::mutate(factor_level = ifelse(variable_type=="checkbox", list(c(0,1)),factor_level),
+                    factor_label = ifelse(variable_type=="checkbox", list(c("Unchecked", select_choices_or_calculations)),factor_label)) %>%
+      dplyr::ungroup()}
+
 
   # Supported REDCap classes
   meta_factor <- meta %>% dplyr::filter(class=="factor")
@@ -56,7 +65,9 @@ redcap_label <- function(redcap_project_uri, redcap_project_token, use_ssl = TRU
         dplyr::mutate_at(dplyr::vars(meta_factor$variable_name[[i]]),
                          function(x){factor(x,
                                             levels = meta_factor$factor_level[[i]],
-                                            labels = meta_factor$factor_label[[i]])})}}
+                                            labels = meta_factor$factor_label[[i]])}) %>%
+        dplyr::mutate_at(dplyr::vars(meta_factor$variable_name[[i]]),
+                         function(x){forcats::fct_recode(x, NULL = "Unchecked")})}}
 
   # Numeric
   if(nrow(meta_numeric)>0){
@@ -110,15 +121,13 @@ redcap_label <- function(redcap_project_uri, redcap_project_token, use_ssl = TRU
   if("redcap_data_access_group" %in% names(data_labelled)){
     dplyr::mutate(redcap_data_access_group= factor(redcap_data_access_group, levels=sort(unique(redcap_data_access_group))))}
 
-
-
-
   meta = tibble::tibble(variable_name = colnames(data_original)) %>%
     dplyr::left_join(meta, by = 'variable_name') %>%
     dplyr::mutate(class = ifelse(variable_name %in% c('redcap_data_access_group', var_complete), "factor", class),
                   form_name = ifelse(variable_name %in% var_complete, gsub("_complete", "", var_complete), form_name),
                   variable_label = ifelse(variable_name == 'redcap_data_access_group', 'REDCap Data Access Group', variable_label)) %>%
     dplyr::mutate(variable_label = ifelse(is.na(variable_label), variable_name, variable_label))
+
 
   # Label columns---------------------------------
 

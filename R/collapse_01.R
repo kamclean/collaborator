@@ -7,22 +7,26 @@
 #' @param cols List of columnn names of binary variables desired to be collapsed.
 #' @param prefix String to add to the start of all summary columns names.
 #' @param suffix String to add to the end of all summary columns names.
+#' @param remove Logical value to remove columns supplied to the "cols" parameter
+#' @param output List of desired outputs: yesno (any values selected), n (number of values selected) and list (list of column names of all values selected).
 #' @param binary0 List of all values corresponding to "0" (No) in the binary variable (default = 0 or no)
 #' @param binary1 List of all values corresponding to "1" (Yes) in the binary variable (default = 1 or yes).
-#' @return Dataframe with 3 additional columns: yesno (any values selected), n (number of values selected) and list (list of column names of all values selected).
+#' @return Dataframe with up to 3 additional columns: yesno (any values selected), n (number of values selected) and list (list of column names of all values selected).
 #' @import dplyr
 #' @import tibble
 #' @import tidyr
+#' @importFrom tidyselect all_of
 #' @export
 
 # Function
 collapse01 <- function(df, cols, prefix=NULL, suffix = NULL,
-                             binary0 = c(0, "0", "No", "no"), binary1 = c(1, "1", "Yes", "yes")){
+                       output = c("list", "yesno", "n"), remove = TRUE,
+                       binary0 = c(0, "0", "No", "no"), binary1 = c(1, "1", "Yes", "yes")){
 
-  require(tibble);require(dplyr);require(tidyr)
+  require(tibble);require(dplyr);require(tidyr);require(tidyselect)
   #clean df
   out <- df %>%
-    dplyr::select_at(vars(cols)) %>%
+    dplyr::select_at(tidyselect::all_of(cols)) %>%
     dplyr::mutate_all(function(x){ifelse(x %in% binary0, NA, x)}) %>%
     tibble::rowid_to_column() %>%
 
@@ -37,12 +41,14 @@ collapse01 <- function(df, cols, prefix=NULL, suffix = NULL,
     dplyr::mutate(n = stringr::str_count(list, ", ")+1) %>%
     dplyr::mutate(n = ifelse(is.na(n)==T, 0, n)) %>%
     dplyr::mutate(yesno = factor(ifelse(n==0, "No", "Yes"), levels = c("No", "Yes"))) %>%
-    dplyr::select(yesno, n, list) %>%
+    dplyr::select(all_of(output)) %>%
 
     dplyr::rename_all(function(x){paste0(if(is.null(prefix)==T){""}else{prefix},
                                          x,
                                          if(is.null(suffix)==T){""}else{suffix})})
 
   out <- tibble::as_tibble(dplyr::bind_cols(df, out))
+
+  if(remove==TRUE){out <- out %>% dplyr::select(-any_of(cols))}
 
   return(out)}

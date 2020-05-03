@@ -116,26 +116,18 @@ The `email_body()` function will perform a mailmerge using a specified rmarkdown
 
 - The rmarkdown file must have the YAML specified as "output: html_document" and fields to be mailmerged must be specified as "x$colname" (see "vignettes/vignette_email_body.Rmd"). The text format / spacing/ etc can be edited as usual for html rmarkdown documents.
 
-- The output from `email_body()` is a tibble with the "group" and based on the options selected in the `html_output` parameter can include:
+- The output from `email_body()` is the original dataframe with up to 2 columns appended (based on the `html_output` parameter):
 
   - "file" - The path for group-specific html file produced (can be viewed to verify the rendered Rmd document displays as desired). These will only be saved if `html_output` includes "file". *Note: All files will be placed in a subfolder specified by `subfolder` (default = "folder_html" within current working directory), and will be named according to the group name (this can be customised using `file_prefix` and `file_suffix`)*.
  
   - "code" - The html code for the mailmerged html document produced. *Note: at present, GmailR does not allow allow html files to be directly attached as the email body. Therefore, html_output should always include "code" and this should be used as the email body in `email_send()`*.
 
 ```{r, warning=FALSE, message=FALSE}
-body <- collaborator::email_body(df_email, group = "group",
+df_email <- collaborator::email_body(df_email, group = "group",
                                  html_output = "code", 
                                  rmd_file = here::here("vignettes/vignette_email_body.Rmd"))
 
-tibble::as_tibble(body)
-
-```
-
-The output from `email_body()` must be appended to the output from `email_field()` as an additional column.
-
-```{r, warning=FALSE, message=FALSE}
-df_email <- df_email %>%
-  dplyr::left_join(body, group=c("group"))
+tibble::as_tibble(df_email)
 
 ```
 
