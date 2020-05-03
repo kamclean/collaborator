@@ -5,7 +5,7 @@
 \title{Export REDCap dataset and label using metadata}
 \usage{
 redcap_label(redcap_project_uri, redcap_project_token, use_ssl = TRUE,
-  column_name = "raw", column_attr = NULL)
+  column_name = "raw", column_attr = NULL, checkbox_value = "label")
 }
 \arguments{
 \item{redcap_project_uri}{URI (Uniform Resource Identifier) for the REDCap instance.}
@@ -17,6 +17,8 @@ redcap_label(redcap_project_uri, redcap_project_token, use_ssl = TRUE,
 \item{column_name}{Determine if output column names should be unchanged from the REDCap record export ("raw") or labelled ("label"). Default = "raw".}
 
 \item{column_attr}{Determine if a labelled attribute should be applied and whether this should be the original ("raw") or labelled ("label") name. Default = NULL.}
+
+\item{checkbox_name}{Determine if output checkbox variables should be unchanged from the REDCap record export ("raw") or labelled ("label"). Default = "raw".}
 }
 \value{
 Three nested tibbles: (1) "exported": REDcap record export (unchanged) (2) labelled": REDcap record export with variables classified and columns labelled as specified via column_name and column_attr (3) "metadata": Cleaned metadata file for the REDCap dataset.
