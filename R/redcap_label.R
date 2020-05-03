@@ -7,7 +7,7 @@
 #' @param use_ssl Logical value whether verify the peer's SSL certificate should be evaluated (default=TRUE)
 #' @param column_name Determine if output column names should be unchanged from the REDCap record export ("raw") or labelled ("label"). Default = "raw".
 #' @param column_attr Determine if a labelled attribute should be applied and whether this should be the original ("raw") or labelled ("label") name. Default = NULL.
-#' @param checkbox_name Determine if output checkbox variables should be unchanged from the REDCap record export ("raw") or labelled ("label"). Default = "raw".
+#' @param checkbox_value Determine if output checkbox variables should be unchanged from the REDCap record export ("raw") or labelled ("label"). Default = "raw".
 #' @import dplyr
 #' @importFrom RCurl postForm curlOptions
 #' @importFrom readr read_csv
