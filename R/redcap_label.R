@@ -118,8 +118,15 @@ redcap_label <- function(redcap_project_uri, redcap_project_token, use_ssl = TRU
                      function(x){as.character(x) %>% factor(levels = c("0", "1","2"),
                                                             labels = c("Incomplete", "Unverified", "Complete"))})
 
-  if("redcap_data_access_group" %in% names(data_labelled)){
+  if("redcap_data_access_group" %in% names(data_labelled)){data_labelled <- data_labelled %>%
     dplyr::mutate(redcap_data_access_group= factor(redcap_data_access_group, levels=sort(unique(redcap_data_access_group))))}
+
+  if("redcap_event_name" %in% names(data_labelled)){data_labelled <- data_labelled %>%
+    dplyr::mutate(redcap_event_name= factor(redcap_event_name, levels=sort(unique(redcap_event_name))))}
+
+  if("redcap_repeat_instance" %in% names(data_labelled)){data_labelled <- data_labelled %>%
+    dplyr::mutate(redcap_repeat_instrument= factor(redcap_repeat_instrument, levels=sort(unique(redcap_repeat_instrument))),
+                  redcap_repeat_instance = as.numeric(redcap_repeat_instance))}
 
   meta = tibble::tibble(variable_name = colnames(data_original)) %>%
     dplyr::left_join(meta, by = 'variable_name') %>%
@@ -152,7 +159,5 @@ redcap_label <- function(redcap_project_uri, redcap_project_token, use_ssl = TRU
   # column_name = "raw" or "label" (default = raw)
   if(column_name == "label"){
     colnames(data_labelled) = meta$variable_label[which(colnames(data_labelled) %in% meta$variable_name)]}
-
-
 
   return(list("exported" = data_original, "labelled" = data_labelled, "metadata" = meta))}
