@@ -40,9 +40,9 @@ redcap_metadata <- function(redcap_project_uri, redcap_project_token, use_ssl = 
   if("checkbox" %in% df_meta$variable_type){
   df_meta_xbox <- df_meta %>%
     dplyr::filter(variable_type %in% "checkbox") %>%
-    tidyr::separate_rows(select_choices_or_calculations, sep = " \\| ", convert = FALSE) %>%
+    tidyr::separate_rows(select_choices_or_calculations, sep = "\\|", convert = FALSE) %>%
     dplyr::mutate(factor_n = stringr::str_split_fixed(select_choices_or_calculations, ", ", 2)[,1],
-                  select_choices_or_calculations = stringr::str_split_fixed(select_choices_or_calculations, ", ", 2)[,2]) %>%
+                  select_choices_or_calculations = stringr::str_split_fixed(trimws(select_choices_or_calculations), ", ", 2)[,2]) %>%
     dplyr::mutate(variable_name_original = variable_name,
                   variable_xbox_original = paste0(variable_name, "(", factor_n, ")"),
                   variable_name = paste0(variable_name, "___", factor_n),
