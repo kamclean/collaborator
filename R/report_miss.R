@@ -64,6 +64,7 @@ report_miss <- function(redcap_project_uri, redcap_project_token, use_ssl = TRUE
     dplyr::mutate(branch_logic = gsub("<>", "!=", branch_logic)) %>%
     dplyr::mutate(branch_logic = gsub("!==", "!=", branch_logic)) %>%
     dplyr::mutate(branch_logic = gsub(">==", ">=", branch_logic)) %>%
+    dplyr::mutate(branch_logic = gsub("> ==", ">=", branch_logic)) %>%
     dplyr::mutate(branch_logic = gsub("<==", "<=", branch_logic)) %>%
     dplyr::mutate(branch_logic = gsub(" or ", "| df_record$", branch_logic)) %>%
     dplyr::mutate(branch_logic = gsub(" and ", " & df_record$", branch_logic)) %>%
