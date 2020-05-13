@@ -41,7 +41,7 @@ redcap_metadata <- function(redcap_project_uri, redcap_project_token, use_ssl = 
     df_meta_xbox <- df_meta %>%
       dplyr::filter(variable_type %in% "checkbox") %>%
       tidyr::separate_rows(select_choices_or_calculations, sep = "\\|", convert = FALSE) %>%
-      dplyr::mutate(factor_n = stringr::str_split_fixed(select_choices_or_calculations, ", ", 2)[,1],
+      dplyr::mutate(factor_n = trimws(stringr::str_split_fixed(select_choices_or_calculations, ", ", 2)[,1]),
                     select_choices_or_calculations = stringr::str_split_fixed(trimws(select_choices_or_calculations), ", ", 2)[,2]) %>%
       dplyr::mutate(variable_name_original = variable_name,
                     variable_xbox_original = paste0(variable_name, "(", factor_n, ")"),
@@ -102,7 +102,6 @@ redcap_metadata <- function(redcap_project_uri, redcap_project_token, use_ssl = 
       dplyr::select(class, everything())}else{df_meta <- df_meta %>%
         dplyr::mutate(class = NA, factor_level = NA, factor_label = NA) %>%
         dplyr::select(class, everything())}
-
 
   # Other variable types
   output <- df_meta %>%
