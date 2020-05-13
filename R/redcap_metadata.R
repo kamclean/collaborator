@@ -38,25 +38,25 @@ redcap_metadata <- function(redcap_project_uri, redcap_project_token, use_ssl = 
 
   # add in checkbox variables
   if("checkbox" %in% df_meta$variable_type){
-  df_meta_xbox <- df_meta %>%
-    dplyr::filter(variable_type %in% "checkbox") %>%
-    tidyr::separate_rows(select_choices_or_calculations, sep = "\\|", convert = FALSE) %>%
-    dplyr::mutate(factor_n = stringr::str_split_fixed(select_choices_or_calculations, ", ", 2)[,1],
-                  select_choices_or_calculations = stringr::str_split_fixed(trimws(select_choices_or_calculations), ", ", 2)[,2]) %>%
-    dplyr::mutate(variable_name_original = variable_name,
-                  variable_xbox_original = paste0(variable_name, "(", factor_n, ")"),
-                  variable_name = paste0(variable_name, "___", factor_n),
-                  variable_label = paste0(variable_label, " {", select_choices_or_calculations, "}"))
+    df_meta_xbox <- df_meta %>%
+      dplyr::filter(variable_type %in% "checkbox") %>%
+      tidyr::separate_rows(select_choices_or_calculations, sep = "\\|", convert = FALSE) %>%
+      dplyr::mutate(factor_n = stringr::str_split_fixed(select_choices_or_calculations, ", ", 2)[,1],
+                    select_choices_or_calculations = stringr::str_split_fixed(trimws(select_choices_or_calculations), ", ", 2)[,2]) %>%
+      dplyr::mutate(variable_name_original = variable_name,
+                    variable_xbox_original = paste0(variable_name, "(", factor_n, ")"),
+                    variable_name = paste0(variable_name, "___", factor_n),
+                    variable_label = paste0(variable_label, " {", select_choices_or_calculations, "}"))
 
-   df_meta <- df_meta %>%
-    dplyr::mutate(factor_n = NA,
-                  variable_name_original = variable_name,
-                  variable_xbox_original = NA) %>%
-    dplyr::filter(! variable_type %in% "checkbox") %>%
-    dplyr::bind_rows(df_meta_xbox) %>%
-    dplyr::mutate(variable_name_original = factor(variable_name_original, levels = df_meta$variable_name)) %>%
-    dplyr::arrange(variable_name_original, factor_n) %>%
-    dplyr::select(-variable_name_original, -factor_n,-variable_xbox_original)
+    df_meta <- df_meta %>%
+      dplyr::mutate(factor_n = NA,
+                    variable_name_original = variable_name,
+                    variable_xbox_original = NA) %>%
+      dplyr::filter(! variable_type %in% "checkbox") %>%
+      dplyr::bind_rows(df_meta_xbox) %>%
+      dplyr::mutate(variable_name_original = factor(variable_name_original, levels = df_meta$variable_name)) %>%
+      dplyr::arrange(variable_name_original, factor_n) %>%
+      dplyr::select(-variable_name_original, -factor_n,-variable_xbox_original)
 
     for(i in c(1:nrow(df_meta_xbox))){
       df_meta <- df_meta %>%
@@ -74,22 +74,23 @@ redcap_metadata <- function(redcap_project_uri, redcap_project_token, use_ssl = 
   factor_other <- NULL
 
   if("checkbox" %in% df_meta$variable_type| "yesno" %in% df_meta$variable_type){
-  factor_01 <- df_meta %>%
-    dplyr::filter(variable_type %in% c("checkbox", "yesno")) %>%
-    dplyr::mutate(factor_level = rep(list(c(0, 1)), nrow(.)),
-                  factor_label = rep(list(c("No", "Yes")),nrow(.))) %>%
-    dplyr::select(variable_name, factor_level, factor_label)}
+    factor_01 <- df_meta %>%
+      dplyr::filter(variable_type %in% c("checkbox", "yesno")) %>%
+      dplyr::mutate(factor_level = rep(list(c(0, 1)), nrow(.)),
+                    factor_label = rep(list(c("No", "Yes")),nrow(.))) %>%
+      dplyr::select(variable_name, factor_level, factor_label)}
 
   if("radio" %in% df_meta$variable_type| "dropdown" %in% df_meta$variable_type){
-  factor_other <- df_meta %>%
-    dplyr::filter(variable_type %in% c("radio", "dropdown")) %>%
-    tidyr::separate_rows(select_choices_or_calculations, sep = " \\| ") %>%
-    dplyr::mutate(factor_level = stringr::str_split_fixed(select_choices_or_calculations, ", ", 2)[,1],
-                  factor_label = stringr::str_split_fixed(select_choices_or_calculations, ", ", 2)[,2]) %>%
-    dplyr::group_by(variable_name) %>%
-    dplyr::summarise(factor_level = list(factor_level),
-                     factor_label = list(factor_label)) %>%
-    dplyr::ungroup()}
+    factor_other <- df_meta %>%
+      dplyr::filter(variable_type %in% c("radio", "dropdown")) %>%
+      tidyr::separate_rows(select_choices_or_calculations, sep = "\\|") %>%
+      dplyr::mutate(select_choices_or_calculations = trimws(select_choices_or_calculations)) %>%
+      dplyr::mutate(factor_level = stringr::str_split_fixed(select_choices_or_calculations, ", ", 2)[,1],
+                    factor_label = stringr::str_split_fixed(select_choices_or_calculations, ", ", 2)[,2]) %>%
+      dplyr::group_by(variable_name) %>%
+      dplyr::summarise(factor_level = list(factor_level),
+                       factor_label = list(factor_label)) %>%
+      dplyr::ungroup()}
 
   factor_all <- dplyr::bind_rows(factor_01, factor_other)
 
