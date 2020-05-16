@@ -16,6 +16,10 @@
 #' @importFrom tibble tibble
 #' @return Three nested tibbles: (1) "exported": REDcap record export (unchanged) (2) labelled": REDcap record export with variables classified and columns labelled as specified via column_name and column_attr (3) "metadata": Cleaned metadata file for the REDCap dataset.
 #' @export
+redcap_project_uri = Sys.getenv("bmh_gs_url")
+redcap_project_token = Sys.getenv("covidsurg_api")
+use_ssl = FALSE
+column_attr = "label"
 
 # Function:
 redcap_label <- function(redcap_project_uri, redcap_project_token, use_ssl = TRUE,
@@ -27,8 +31,8 @@ redcap_label <- function(redcap_project_uri, redcap_project_token, use_ssl = TRU
   # Get metadata
 
   meta <- collaborator::redcap_metadata(redcap_project_uri = redcap_project_uri,
-                          redcap_project_token = redcap_project_token,
-                          use_ssl = use_ssl)
+                                        redcap_project_token = redcap_project_token,
+                                        use_ssl = use_ssl)
 
   if(checkbox_value=="label"){
     meta <- meta %>%
@@ -58,8 +62,11 @@ redcap_label <- function(redcap_project_uri, redcap_project_token, use_ssl = TRU
 
   data_labelled <- data_original
 
+
   # Factors
   if(nrow(meta_factor)>0){
+    # for replicated factor levels
+
     for(i in c(1:nrow(meta_factor))){
       data_labelled <- data_labelled %>%
         dplyr::mutate_at(dplyr::vars(meta_factor$variable_name[[i]]),

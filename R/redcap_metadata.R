@@ -68,7 +68,6 @@ redcap_metadata <- function(redcap_project_uri, redcap_project_token, use_ssl = 
 
 
 
-
   # Factors
   factor_01 <- NULL
   factor_other <- NULL
@@ -87,6 +86,10 @@ redcap_metadata <- function(redcap_project_uri, redcap_project_token, use_ssl = 
       dplyr::mutate(select_choices_or_calculations = trimws(select_choices_or_calculations)) %>%
       dplyr::mutate(factor_level = stringr::str_split_fixed(select_choices_or_calculations, ", ", 2)[,1],
                     factor_label = stringr::str_split_fixed(select_choices_or_calculations, ", ", 2)[,2]) %>%
+      dplyr::group_by(variable_name, factor_label) %>%
+      dplyr::mutate(factor_dup =1:n()) %>%
+      dplyr::ungroup() %>%
+      dplyr::mutate(factor_label = ifelse(factor_dup>1, paste0(factor_label, "_", factor_dup), factor_label)) %>%
       dplyr::group_by(variable_name) %>%
       dplyr::summarise(factor_level = list(factor_level),
                        factor_label = list(factor_label)) %>%
