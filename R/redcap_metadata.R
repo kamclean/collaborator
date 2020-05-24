@@ -132,6 +132,6 @@ redcap_metadata <- function(redcap_project_uri, redcap_project_token, use_ssl = 
 
     output <- output %>%
       dplyr::left_join(df_event,by = "form_name") %>%
-      dplyr::select(form_name, variable_name, matrix_name, class, everything())}else{output <- dplyr::mutate(arm = list(NA), redcap_event_name = list(NA))}
+      dplyr::select(form_name, variable_name, matrix_name, class, everything())}else{output <- output %>% dplyr::mutate(arm = list(NA), redcap_event_name = list(NA))}
 
   return(output)}
