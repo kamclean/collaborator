@@ -16,6 +16,7 @@
 #'
 #' @export
 
+
 redcap_metadata <- function(redcap_project_uri, redcap_project_token, use_ssl = TRUE){
   require(dplyr); require(RCurl); require(readr); require(tidyr); require(stringr); require(purrr); require(stringi)
 
@@ -115,4 +116,22 @@ redcap_metadata <- function(redcap_project_uri, redcap_project_token, use_ssl = 
                   class = ifelse(variable_type %in% "truefalse", "logical", class),
                   class = ifelse(variable_type == "file", "file", class),
                   class = ifelse(is.na(class), "character", class))
+
+
+  # Get event / arm data
+  df_event <- tryCatch(RCurl::postForm(uri=redcap_project_uri,
+                                       token=redcap_project_token,
+                                       content = "formEventMapping",
+                                       .opts = RCurl::curlOptions(ssl.verifypeer = if (use_ssl == F) {FALSE}else {TRUE}),
+                                       format = "csv") %>% readr::read_csv(), error=function(e) NULL)
+  if(is.null(df_event)==F){
+    df_event <- df_event %>%
+      group_by(form) %>%
+      dplyr::summarise_all(function(x){unique(x) %>% list()}) %>%
+      dplyr::rename("arm" = arm_num, "redcap_event_name" = unique_event_name, "form_name" = form)
+
+    output <- output %>%
+      dplyr::left_join(df_event,by = "form_name") %>%
+      dplyr::select(form_name, variable_name, matrix_name, class, everything())}else{output <- dplyr::mutate(arm = list(NA), redcap_event_name = list(NA))}
+
   return(output)}
