@@ -4,7 +4,7 @@
 \alias{data_dict}
 \title{Generate a data dictionary.}
 \usage{
-data_dict(df, var_include = NULL, var_exclude = NULL)
+data_dict(df, var_include = NULL, var_exclude = NULL, label = FALSE)
 }
 \arguments{
 \item{df}{Dataframe.}
@@ -12,6 +12,8 @@ data_dict(df, var_include = NULL, var_exclude = NULL)
 \item{var_include}{Vector of names of variables that are desired to be included in the data dictionary (default: NULL).}
 
 \item{var_exclude}{Vector of names of variables that are desired to be excluded from the data dictionary (default: NULL).}
+
+\item{label}{Logical value (default = FALSE). If TRUE, then include the variable label for each variable (if assigned).}
 }
 \value{
 Dataframe with 4 columns: variable (variable name), class (variable class), na_pct (the percentage of data which is NA for that variable), and value (an appropriate summary for the variable class).

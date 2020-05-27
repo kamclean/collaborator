@@ -6,7 +6,7 @@
 #' @param df Dataframe.
 #' @param var_exclude Vector of names of variables that are desired to be excluded from the data dictionary (default: NULL).
 #' @param var_include Vector of names of variables that are desired to be included in the data dictionary (default: NULL).
-#' @param label Where present, include the variable label for each variable
+#' @param label Logical value (default = FALSE). If TRUE, then include the variable label for each variable (if assigned).
 #' @return Dataframe with 4 columns: variable (variable name), class (variable class), na_pct (the percentage of data which is NA for that variable), and value (an appropriate summary for the variable class).
 #' @import dplyr
 #' @import tibble
