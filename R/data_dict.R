@@ -20,18 +20,6 @@
 # Function:
 data_dict <- function(df, var_include = NULL, var_exclude=NULL, label = FALSE){
   require(dplyr);require(purrr);require(tibble);require(tidyr);require(lubridate);require(stats)
-  extract_labels = function(.data){
-    # Struggled to make this work and look elegant!
-    # Works but surely there is a better way.
-    df.out = lapply(.data, function(x) {
-      vlabel = attr(x, "label")
-      list(vlabel = vlabel)}) %>%
-      do.call(rbind, .)
-    df.out = data.frame(vname = rownames(df.out), vlabel = unlist(as.character(df.out)),
-                        stringsAsFactors = FALSE)
-    df.out$vfill = df.out$vlabel
-    df.out$vfill[df.out$vlabel == "NULL"] = df.out$vname[df.out$vlabel=="NULL"]
-    return(df.out)}
 
   if(is.null(var_exclude)==F){df <- df %>% dplyr::select(-one_of(var_exclude))}
 
@@ -127,6 +115,19 @@ data_dict <- function(df, var_include = NULL, var_exclude=NULL, label = FALSE){
     dplyr::select(variable, class, value, na_pct)
 
   if(label ==TRUE){
+    extract_labels = function(.data){
+      # Struggled to make this work and look elegant!
+      # Works but surely there is a better way.
+      df.out = lapply(.data, function(x) {
+        vlabel = attr(x, "label")
+        list(vlabel = vlabel)}) %>%
+        do.call(rbind, .)
+      df.out = data.frame(vname = rownames(df.out), vlabel = unlist(as.character(df.out)),
+                          stringsAsFactors = FALSE)
+      df.out$vfill = df.out$vlabel
+      df.out$vfill[df.out$vlabel == "NULL"] = df.out$vname[df.out$vlabel=="NULL"]
+      return(df.out)}
+
     dict_full <- df %>%
       extract_labels() %>%
       tibble::as_tibble() %>%
