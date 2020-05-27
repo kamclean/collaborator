@@ -6,6 +6,7 @@
 #' @param df Dataframe.
 #' @param var_exclude Vector of names of variables that are desired to be excluded from the data dictionary (default: NULL).
 #' @param var_include Vector of names of variables that are desired to be included in the data dictionary (default: NULL).
+#' @param label Where present, include the variable label for each variable
 #' @return Dataframe with 4 columns: variable (variable name), class (variable class), na_pct (the percentage of data which is NA for that variable), and value (an appropriate summary for the variable class).
 #' @import dplyr
 #' @import tibble
@@ -15,9 +16,22 @@
 #' @importFrom stats median
 #' @export
 
+
 # Function:
-data_dict <- function(df, var_include = NULL, var_exclude=NULL){
+data_dict <- function(df, var_include = NULL, var_exclude=NULL, label = FALSE){
   require(dplyr);require(purrr);require(tibble);require(tidyr);require(lubridate);require(stats)
+  extract_labels = function(.data){
+    # Struggled to make this work and look elegant!
+    # Works but surely there is a better way.
+    df.out = lapply(.data, function(x) {
+      vlabel = attr(x, "label")
+      list(vlabel = vlabel)}) %>%
+      do.call(rbind, .)
+    df.out = data.frame(vname = rownames(df.out), vlabel = unlist(as.character(df.out)),
+                        stringsAsFactors = FALSE)
+    df.out$vfill = df.out$vlabel
+    df.out$vfill[df.out$vlabel == "NULL"] = df.out$vname[df.out$vlabel=="NULL"]
+    return(df.out)}
 
   if(is.null(var_exclude)==F){df <- df %>% dplyr::select(-one_of(var_exclude))}
 
@@ -111,5 +125,15 @@ data_dict <- function(df, var_include = NULL, var_exclude=NULL){
     dplyr::mutate(variable = factor(variable, levels = colnames(df))) %>%
     dplyr::arrange(variable) %>% dplyr::mutate(variable = as.character(variable)) %>%
     dplyr::select(variable, class, value, na_pct)
+
+  if(label ==TRUE){
+    dict_full <- df %>%
+      extract_labels() %>%
+      tibble::as_tibble() %>%
+      dplyr::select("variable" = vname, "label" = vfill) %>%
+      dplyr::right_join(dict_full, by = "variable") %>%
+      dplyr::select(variable, label, everything())}
+
+
 
   return(dict_full)}
