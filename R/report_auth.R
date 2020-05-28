@@ -15,15 +15,6 @@
 #' @return Returns a formated string (and an optional .txt file specified using path)
 #' @export
 
-collaborator::report_auth(data_author, )
-df <- data_author
-subdivision = "country"
-name = "name"
-name_sep = ", "
-group_brachet = "()"
-group_sep = "; "
-group = NULL
-path = NULL
 report_auth <- function(df, name, group = NULL, subdivision = NULL, path = NULL,
                         name_sep = ", ", group_brachet = "()",group_sep = "; "){
 
