@@ -15,6 +15,15 @@
 #' @return Returns a formated string (and an optional .txt file specified using path)
 #' @export
 
+collaborator::report_auth(data_author, )
+df <- data_author
+subdivision = "country"
+name = "name"
+name_sep = ", "
+group_brachet = "()"
+group_sep = "; "
+group = NULL
+path = NULL
 report_auth <- function(df, name, group = NULL, subdivision = NULL, path = NULL,
                         name_sep = ", ", group_brachet = "()",group_sep = "; "){
 
@@ -66,7 +75,7 @@ report_auth <- function(df, name, group = NULL, subdivision = NULL, path = NULL,
 
       dplyr::mutate(auth_out = paste0(subdivision, ": ", name_list)) %>%
 
-      dplyr::summarise(auth_out = paste0(auth_out, collapse="\n\n"))
+      dplyr::select(auth_out)
 
     if(is.null(path)==F){readr::write_file(output$auth_out, path=path)}}
 
@@ -90,7 +99,7 @@ report_auth <- function(df, name, group = NULL, subdivision = NULL, path = NULL,
 
       dplyr::mutate(auth_out = paste0(subdivision, ": ", auth_out)) %>%
 
-      dplyr::summarise(auth_out = paste0(auth_out, collapse="\n\n"))
+      dplyr::select(auth_out)
 
     if(is.null(path)==F){readr::write_file(output$auth_out, path=path)}}
 

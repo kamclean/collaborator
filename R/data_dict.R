@@ -16,7 +16,6 @@
 #' @importFrom stats median
 #' @export
 
-
 # Function:
 data_dict <- function(df, var_include = NULL, var_exclude=NULL, label = FALSE){
   require(dplyr);require(purrr);require(tibble);require(tidyr);require(lubridate);require(stats)
