@@ -13,6 +13,7 @@ vignette: >
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(collapse = FALSE)
+library(dplyr);library(collaborator);library(knitr)
   
 ```
 # Collaborator: Generating Authorship Lists
@@ -26,7 +27,7 @@ In order for the `report_auth()` function to operate as intended, we must first 
 
 Example dataframe (`data_author`):
 ```{r, warning=FALSE, message=FALSE}
-library(collaborator)
+
 data_author <- collaborator::example_report_author
 knitr::kable(head(data_author, n=10)) # Please note all names have been randomly generated
 ```
@@ -35,33 +36,41 @@ knitr::kable(head(data_author, n=10)) # Please note all names have been randomly
 ### (1) Basic Function
 At it's most basic, `report_auth()` can produce a formatted list of a column of names.
 ```{r, warning=FALSE, message=FALSE}
-report_auth(data_author) # Please note all names have been randomly generated
+  collaborator::report_auth(data_author) %>% # Please note all names have been randomly generated
+  knitr::kable(, col.names= "") 
 ```
 
 ### (2) Grouping and subdivision of names
 
 These names can be further grouped by another column in the dataframe:
 ```{r, warning=FALSE, message=FALSE}
-report_auth(data_author, group = "hospital")
+collaborator::report_auth(data_author, group = "hospital") %>% # Please note all names have been randomly generated
+  knitr::kable(col.names= "") 
 ```
 
 Or can be subdivided by another column in the dataframe:
 ```{r, warning=FALSE, message=FALSE}
-report_auth(data_author, subdivision = "country")
+
+collaborator::report_auth(data_author, subdivision = "country") %>% # Please note all names have been randomly generated
+  knitr::kable(col.names= "")
 ```
 
 Or groups can be further subdivided (for example by region/country, or by role)
 ```{r, warning=FALSE, message=FALSE}
-report_auth(data_author,
+collaborator::report_auth(data_author,
             group = "hospital",
-            subdivision = "country")
+            subdivision = "country") %>% # Please note all names have been randomly generated
+  knitr::kable(col.names= "")
 ```
 
 ### (3) Formatting
 Clear and consistent formatting of authorship lists allows the contributions and affiliations of each collaborator/author to be represented. Within `report_auth()`, names are usually separated by a comma (","), with groups separated by a semicolon (";"). Furthermore the name of groups are separated by round brackets ("()"). However, there is a degree of inbuilt flexibility to facilitate customisation.
 
+Below if for demonstration of this concept (not intented to reflect how these should be formatted!)
+
 
 ```{r, warning=FALSE, message=FALSE}
-report_auth(data_author, group="hospital", subdivision = "country",
-            name_sep = " +", group_brachet = "[}",group_sep = " -")
+collaborator::report_auth(data_author, group="hospital", subdivision = "country",
+            name_sep = " +", group_brachet = "[]",group_sep = " --- ") %>% # Please note all names have been randomly generated
+  knitr::kable(col.names= "")
 ```
