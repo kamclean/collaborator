@@ -4,8 +4,9 @@
 \alias{redcap_label}
 \title{Export REDCap dataset and label using metadata}
 \usage{
-redcap_label(redcap_project_uri, redcap_project_token, use_ssl = TRUE,
-  column_name = "raw", column_attr = NULL, checkbox_value = "label")
+redcap_label(data = NULL, metadata = NULL, redcap_project_uri = NULL,
+  redcap_project_token = NULL, use_ssl = TRUE, column_name = "raw",
+  column_attr = NULL, checkbox_value = "label")
 }
 \arguments{
 \item{redcap_project_uri}{URI (Uniform Resource Identifier) for the REDCap instance.}

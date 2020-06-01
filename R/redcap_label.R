@@ -18,20 +18,35 @@
 #' @export
 
 # Function:
-redcap_label <- function(redcap_project_uri, redcap_project_token, use_ssl = TRUE,
+redcap_label <- function(data = NULL, metadata = NULL,
+                         redcap_project_uri  = NULL, redcap_project_token  = NULL, use_ssl = TRUE,
                          column_name = "raw", column_attr = NULL, checkbox_value = "label"){
 
   require(dplyr);require(RCurl);require(readr);require(lubridate); require(tidyselect);require(tibble)
 
-  # Label individual variables -----------------------------
-  # Get metadata
+  # Load required data--------------------
+  # Project data
+  if(is.null(redcap_project_uri)==F&is.null(redcap_project_token)==F&is.null(data)==T){
+    data <- RCurl::postForm(uri=redcap_project_uri,
+                            token = redcap_project_token,
+                            content='record',
+                            exportDataAccessGroups = 'true',
+                            .opts = RCurl::curlOptions(ssl.verifypeer = if(use_ssl==F){FALSE}else{TRUE}),
+                            format='csv',
+                            raworLabel="raw") %>% readr::read_csv()}
 
-  meta <- collaborator::redcap_metadata(redcap_project_uri = redcap_project_uri,
-                          redcap_project_token = redcap_project_token,
-                          use_ssl = use_ssl)
+  data_labelled <- data
 
+  # Project metadata
+  if(is.null(redcap_project_uri)==F&is.null(redcap_project_token)==F&is.null(metadata)==T){
+    metadata <-  collaborator::redcap_metadata(redcap_project_uri = redcap_project_uri,
+                                               redcap_project_token = redcap_project_token,
+                                               use_ssl = use_ssl)}
+
+  # Format-------------------
+  # Format checkbox variables
   if(checkbox_value=="label"){
-    meta <- meta %>%
+    metadata <- metadata %>%
       dplyr::group_by(variable_name) %>%
       dplyr::mutate(factor_level = ifelse(variable_type=="checkbox", list(c(0,1)),factor_level),
                     factor_label = ifelse(variable_type=="checkbox", list(c("Unchecked", select_choices_or_calculations)),factor_label)) %>%
@@ -39,24 +54,14 @@ redcap_label <- function(redcap_project_uri, redcap_project_token, use_ssl = TRU
 
 
   # Supported REDCap classes
-  meta_factor <- meta %>% dplyr::filter(class=="factor")
-  meta_numeric <- meta %>% dplyr::filter(class=="numeric")
-  meta_date <- meta %>% dplyr::filter(class=="date")
-  meta_datetime <- meta %>% dplyr::filter(class=="datetime")
-  meta_logical <- meta %>% dplyr::filter(class=="logical")
-  meta_file <- meta %>% dplyr::filter(class=="file")
-  meta_character <- meta %>% dplyr::filter(class=="character")
+  meta_factor <- metadata %>% dplyr::filter(class=="factor")
+  meta_numeric <- metadata %>% dplyr::filter(class=="numeric")
+  meta_date <- metadata %>% dplyr::filter(class=="date")
+  meta_datetime <- metadata %>% dplyr::filter(class=="datetime")
+  meta_logical <- metadata %>% dplyr::filter(class=="logical")
+  meta_file <- metadata %>% dplyr::filter(class=="file")
+  meta_character <- metadata %>% dplyr::filter(class=="character")
 
-  # Get data
-  data_original <- RCurl::postForm(uri=redcap_project_uri,
-                                   token = redcap_project_token,
-                                   content='record',
-                                   exportDataAccessGroups = 'true',
-                                   .opts = RCurl::curlOptions(ssl.verifypeer = if(use_ssl==F){FALSE}else{TRUE}),
-                                   format='csv',
-                                   raworLabel="raw") %>% readr::read_csv()
-
-  data_labelled <- data_original
 
   # Factors
   if(nrow(meta_factor)>0){
@@ -112,7 +117,7 @@ redcap_label <- function(redcap_project_uri, redcap_project_token, use_ssl = TRU
                          function(x){as.character(x)})}}
 
   # Special variables
-  var_complete <- paste0(unique(meta$form_name), "_complete")
+  var_complete <- paste0(unique(metadata$form_name), "_complete")
   data_labelled <- data_labelled %>%
     dplyr::mutate_at(dplyr::vars(tidyselect::all_of(var_complete)),
                      function(x){as.character(x) %>% factor(levels = c("0", "1","2"),
@@ -128,8 +133,8 @@ redcap_label <- function(redcap_project_uri, redcap_project_token, use_ssl = TRU
     dplyr::mutate(redcap_repeat_instrument= factor(redcap_repeat_instrument, levels=sort(unique(redcap_repeat_instrument))),
                   redcap_repeat_instance = as.numeric(redcap_repeat_instance))}
 
-  meta = tibble::tibble(variable_name = colnames(data_original)) %>%
-    dplyr::left_join(meta, by = 'variable_name') %>%
+  metadata = tibble::tibble(variable_name = colnames(data)) %>%
+    dplyr::left_join(metadata, by = 'variable_name') %>%
     dplyr::mutate(class = ifelse(variable_name %in% c('redcap_data_access_group', var_complete), "factor", class),
                   form_name = ifelse(variable_name %in% var_complete, gsub("_complete", "", var_complete), form_name),
                   variable_label = ifelse(variable_name == 'redcap_data_access_group', 'REDCap Data Access Group', variable_label)) %>%
@@ -146,18 +151,18 @@ redcap_label <- function(redcap_project_uri, redcap_project_token, use_ssl = TRU
 
     if(column_attr=="label"){
       data_labelled = purrr::modify2(.x = data_labelled, # the first object to iterate over
-                                     .y = meta$variable_label, # the second object to iterate over
+                                     .y = metadata$variable_label, # the second object to iterate over
                                      ~ var_label(.x, var_label = .y)) %>%
         dplyr::select(!!colnames(data_labelled))} #this gives it back in the right order
 
     if(column_attr=="raw"){
       data_labelled = purrr::modify2(.x = data_labelled, # the first object to iterate over
-                                     .y = meta$variable_name, # the second object to iterate over
+                                     .y = metadata$variable_name, # the second object to iterate over
                                      ~ var_label(.x, var_label = .y)) %>%
         dplyr::select(!!colnames(data_labelled))}}
 
   # column_name = "raw" or "label" (default = raw)
   if(column_name == "label"){
-    colnames(data_labelled) = meta$variable_label[which(colnames(data_labelled) %in% meta$variable_name)]}
+    colnames(data_labelled) = metadata$variable_label[which(colnames(data_labelled) %in% metadata$variable_name)]}
 
-  return(list("exported" = data_original, "labelled" = data_labelled, "metadata" = meta))}
+  return(list("exported" = data, "labelled" = data_labelled, "metadata" = metadata))}
