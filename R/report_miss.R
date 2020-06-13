@@ -48,9 +48,11 @@ report_miss <- function(redcap_project_uri, redcap_project_token, use_ssl = TRUE
   # Data dictionary set-up---------------------
   # Convert data dictionary branching to R format
 
-  df_meta <- collaborator::redcap_metadata(redcap_project_uri = redcap_project_uri,
+  df_metadata <- collaborator::redcap_metadata(redcap_project_uri = redcap_project_uri,
                              redcap_project_token = redcap_project_token,
-                             use_ssl = use_ssl) %>%
+                             use_ssl = use_ssl)
+
+  df_meta <- df_metadata %>%
     dplyr::select(variable_name, variable_label, variable_type, branch_logic) %>%
 
     dplyr::mutate(branch_logic = iconv(tolower(as.character(branch_logic)), to ="ASCII//TRANSLIT")) %>%
@@ -96,43 +98,51 @@ report_miss <- function(redcap_project_uri, redcap_project_token, use_ssl = TRUE
   # 2. Convert branching to present ("."), missing ("M") or appropriately missing ("NA") based on branching logic
   if(nrow(redcap_dd_branch)>0){
 
+    df_record_clean <- df_record
     for(i in 1:nrow(redcap_dd_branch)) {
 
-      # evaluate branching logic within dataset
-      output <- parse(text=eval(redcap_dd_branch$branch_logic[[i]])) %>%
-        eval() %>% tibble::enframe(name = NULL, value = "logic_fufilled") %>%
+      df_record_clean <- df_record_clean %>%
+        # evaluate branching logic within dataset
+        dplyr::mutate(logic_fufilled = parse(text=eval(redcap_dd_branch$branch_logic[[i]])) %>% eval(),
 
-        # add in original data
-        dplyr::mutate(variable_data = dplyr::pull(df_record, redcap_dd_branch$variable_name[[i]])) %>%
+                      # add in original data
+                      variable_data = dplyr::pull(., redcap_dd_branch$variable_name[[i]])) %>%
 
         # if the branching logic has not been fufilled (value==F or NA) then NA
         dplyr::mutate(variable_out = ifelse(is.na(logic_fufilled)==T|logic_fufilled==F, NA,
 
                                             # if logic_fufilled == T, and the data is NA then "Missing"
                                             ifelse(is.na(variable_data)==T, "M", "."))) %>%
-        dplyr::pull(variable_out)
-
-      df_record[eval(redcap_dd_branch$variable_name[[i]])] <- output}}
+        dplyr::select(-all_of(redcap_dd_branch$variable_name[[i]])) %>%
+        dplyr::rename_at(vars(matches("variable_out")), function(x){redcap_dd_branch$variable_name[[i]]})}}
 
   # 3. Convert non-branching to present (".") or missing ("M") based on NA status
-  df_record <- df_record %>%
+  df_record_clean <- df_record_clean %>%
     dplyr::mutate_all(as.character) %>%
     dplyr::mutate_at(tidyselect::all_of(redcap_dd_nobranch), function(x){ifelse(is.na(x)==T, "M", ".")})
 
   # Clean dataset
-  if(is.null(var_exclude)==F){df_record <- df_record %>% dplyr::select(-one_of(var_exclude))}
-  if(is.null(var_include)==F){df_record <- df_record %>% dplyr::select(record_id, redcap_data_access_group, tidyselect::all_of(var_include))}
+  if(is.null(var_exclude)==F){df_record_clean <- df_record_clean %>% dplyr::select(-one_of(var_exclude))}
+  if(is.null(var_include)==F){df_record_clean <- df_record_clean %>% dplyr::select(record_id, redcap_data_access_group, tidyselect::all_of(var_include))}
 
-  if(is.null(dag_exclude)==F){df_record <- df_record %>% dplyr::filter(! redcap_data_access_group %in% dag_exclude)}
-  if(is.null(dag_include)==F){df_record <- df_record %>% dplyr::filter(redcap_data_access_group %in% dag_include)}
+  if(is.null(dag_exclude)==F){df_record_clean <- df_record_clean %>% dplyr::filter(! redcap_data_access_group %in% dag_exclude)}
+  if(is.null(dag_include)==F){df_record_clean <- df_record_clean %>% dplyr::filter(redcap_data_access_group %in% dag_include)}
 
-  if(is.null(record_exclude)==F){df_record <- df_record %>% dplyr::filter(! record_id %in% record_exclude)}
-  if(is.null(record_include)==F){df_record <- df_record %>% dplyr::filter(record_id %in% record_include)}
-
+  if(is.null(record_exclude)==F){df_record_clean <- df_record_clean %>% dplyr::filter(! record_id %in% record_exclude)}
+  if(is.null(record_include)==F){df_record_clean <- df_record_clean %>% dplyr::filter(record_id %in% record_include)}
 
   # Create missing data reports---------------------------
+  xbox_remove <- df_metadata %>%
+    dplyr::filter(variable_type == "checkbox") %>%
+    dplyr::filter(stringr::str_split_fixed(variable_name, "___", 2)[,2]!="1") %>%
+    dplyr::pull(variable_name)
+
   # Patient-level
-  data_missing_pt <- df_record %>%
+  data_missing_pt <- df_record_clean %>%
+
+    # remove checkbox variables (will always be the same value) except the first and rename
+    dplyr::select(-any_of(xbox_remove)) %>%
+    dplyr::rename_all(function(x){stringr::str_remove(x, "___1")}) %>%
     dplyr::mutate(miss_n = rowSums(dplyr::select(., -dplyr::one_of("record_id", "redcap_data_access_group"))=="M", na.rm=T),
                   fields_n = rowSums(is.na(dplyr::select(., -dplyr::one_of("record_id", "redcap_data_access_group")))==F)) %>%
     dplyr::mutate(miss_prop = miss_n/fields_n) %>%
