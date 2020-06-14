@@ -18,21 +18,25 @@ orcid_valid <- function(list_orcid, reason = FALSE, na.rm = FALSE){
 
   # https://support.orcid.org/hc/en-us/articles/360006897674-Structure-of-the-ORCID-Identifier.
   out <- tibble::enframe(list_orcid, value = "orcid") %>%
-    dplyr::mutate(orcid_raw = trimws(stringr::str_remove_all(orcid, pattern = "[[:punct:]]") %>% toupper()),
+    dplyr::mutate(orcid_raw = stringr::str_remove_all(orcid, pattern = "[[:punct:]]") %>%
+                    stringr::str_trim() %>% toupper(),
                   check_present = ifelse(is.na(orcid)==F, "Yes", "No")) %>%
-    dplyr::mutate(check_ndigit = ifelse(nchar(orcid_raw)==16, "Yes", "No")) %>%
-    dplyr::mutate(digit15 = ifelse(check_ndigit=="Yes", stringr::str_sub(orcid_raw,1,15), NA),
-                  digit16 = ifelse(check_ndigit=="Yes", stringr::str_sub(orcid_raw,16,16), NA)) %>%
+    dplyr::mutate(check_length = ifelse(is.na(orcid_raw)==F&nchar(orcid_raw)==16, "Yes", "No")) %>%
+    dplyr::mutate(digit15 = ifelse(check_length=="Yes", stringr::str_sub(orcid_raw,1,15), NA),
+                  digit16 = ifelse(check_length=="Yes", stringr::str_sub(orcid_raw,16,16), NA)) %>%
     dplyr::mutate(check_format = ifelse(check_numeric(digit15)==T&(check_numeric(digit16)==T|digit16=="X"), "Yes", "No")) %>%
-    dplyr::select(name, orcid_raw, "orcid_original" = orcid, check_present, check_ndigit, check_format)
+    dplyr::select(name, orcid_raw, "orcid_original" = orcid, check_present, check_length, check_format)
 
   orcid_valid <- out %>%
     dplyr::filter_at(vars(contains("check_")), all_vars(.=="Yes")) %>%
     dplyr::select(name, orcid_raw) %>%
-    dplyr::mutate(orcid = gsub('(?=(?:.{1})+$)', "-", orcid_raw, perl = TRUE) %>% stringr::str_sub(2, nchar(.))) %>%
+
+    #separate each number
+    dplyr::mutate(orcid = gsub('(?=(?:.{1})+$)', "-", orcid_raw, perl = TRUE) %>%
+                    stringr::str_sub(2, nchar(.))) %>%
     tidyr::separate(col = orcid, into = paste0("orcid_", seq(1:16)), sep ="-", remove =F) %>%
     dplyr::mutate_at(vars(orcid_1:orcid_15), as.numeric) %>%
-    dplyr::mutate(check_digit = orcid_1*2,
+    dplyr::mutate(check_digit =  orcid_1*2,
                   check_digit = (orcid_2+check_digit)*2,
                   check_digit = (orcid_3+check_digit)*2,
                   check_digit = (orcid_4+check_digit)*2,
@@ -48,7 +52,7 @@ orcid_valid <- function(list_orcid, reason = FALSE, na.rm = FALSE){
                   check_digit = (orcid_14+check_digit)*2,
                   check_digit = (orcid_15+check_digit)*2) %>%
     dplyr::mutate(check_digit = check_digit %% 11) %>% # %% == remainder
-    dplyr::mutate(check_digit = 12-check_digit %% 11) %>%
+    dplyr::mutate(check_digit = (12-check_digit) %% 11) %>%
     dplyr::mutate(check_digit = ifelse(check_digit==10, "X", ifelse(check_digit==11, 0, check_digit))) %>%
     dplyr::mutate(check_sum = ifelse(as.character(check_digit)==as.character(orcid_16), "Yes", "No")) %>%
     dplyr::select(orcid_raw, check_sum)
@@ -56,16 +60,26 @@ orcid_valid <- function(list_orcid, reason = FALSE, na.rm = FALSE){
   out <- out %>%
     dplyr::left_join(orcid_valid, by = "orcid_raw") %>%
     dplyr::mutate_at(vars(contains("check_")), function(x){ifelse(is.na(x)==T, "No", x)}) %>%
-    dplyr::mutate(valid_yn = ifelse(check_ndigit=="Yes"&check_ndigit=="Yes"&check_sum=="Yes"&check_present=="Yes",
+    dplyr::mutate(valid_yn = ifelse(check_present=="Yes"&check_length=="Yes"&check_format=="Yes"&check_sum=="Yes",
                                     "Yes", "No"),
-                  orcid = ifelse(valid_yn=="Yes",orcid_raw, NA)) %>%
+                  valid_orcid = ifelse(valid_yn=="Yes",orcid_raw, NA)) %>%
+    dplyr::mutate(reason = ifelse(check_present=="No", "Missing ORCID", ""),
+                  reason = ifelse(check_present=="Yes"&check_length=="No",
+                                       paste0(reason,", Not 16 characters"), reason),
+                  reason = ifelse(check_present=="Yes"&check_format=="No",
+                                       paste0(reason,", Not ORCID format"), reason),
+                  reason = ifelse(check_present=="Yes"&check_sum=="No",
+                                       paste0(reason,", Failed checksum"), reason)) %>%
+    dplyr::mutate(reason = stringr::str_remove(reason, "^, ")) %>%
+    dplyr::mutate(reason = ifelse(reason =="", NA, reason)) %>%
 
-    dplyr::mutate(orcid = gsub('(?=(?:.{4})+$)', "-", orcid, perl = TRUE) %>% stringr::str_sub(2, nchar(.))) %>%
-    dplyr::select(orcid_original, valid_yn, orcid, contains("check_"))
+    dplyr::mutate(valid_orcid = gsub('(?=(?:.{4})+$)', "-", valid_orcid, perl = TRUE) %>% stringr::str_sub(2, nchar(.))) %>%
+    dplyr::select("orcid" = orcid_original,
+                  valid_yn, valid_orcid, "valid_reason" = reason,
+                  contains("check_"))
 
   if(na.rm==T){out <- out %>% tidyr::drop_na()}
 
   if(reason==F){out <- out %>% dplyr::pull(orcid)}
-
 
   return(out)}
