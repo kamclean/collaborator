@@ -4,10 +4,12 @@
 \alias{orcid_valid}
 \title{Validate vector of ORCID}
 \usage{
-orcid_valid(list_orcid, reason = FALSE, na.rm = FALSE)
+orcid_valid(data, orcid = "orcid", reason = FALSE, na.rm = FALSE)
 }
 \arguments{
-\item{list_orcid}{List of orcid ids (XXXX-XXXX-XXXX-XXXX format)}
+\item{data}{datafame containing a vector of ORCID}
+
+\item{orcid}{Column name of vector containing ORCID (default = "orcid")}
 
 \item{reason}{Logical value to determine whether output should include reasons for validity (default = FALSE) or vector of ORCID (TRUE).}
 

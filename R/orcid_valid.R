@@ -2,7 +2,8 @@
 # Documentation
 #' Validate vector of ORCID
 #' @description Validate vector of ORCID based number of digits / format / checksum.
-#' @param list_orcid List of orcid ids (XXXX-XXXX-XXXX-XXXX format)
+#' @param data datafame containing a vector of ORCID
+#' @param orcid Column name of vector containing ORCID (default = "orcid")
 #' @param reason Logical value to determine whether output should include reasons for validity (default = FALSE) or vector of ORCID (TRUE).
 #' @param na.rm Remove NA (invalid ORCID) from output
 #' @return Vector of orcid (reason = FALSE) or tibble with columns specifying the validation checks failed by the ORCID ("check_" columns)
@@ -12,12 +13,15 @@
 #' @importFrom stringr str_sub str_remove_all
 #' @export
 
-orcid_valid <- function(list_orcid, reason = FALSE, na.rm = FALSE){
+orcid_valid <- function(data, orcid = "orcid", reason = FALSE, na.rm = FALSE){
   require(dplyr);require(tibble);require(tidyr);require(stringr)
   check_numeric <- function(x){suppressWarnings(is.numeric(as.numeric(x))==T&is.na(as.numeric(x))==F)}
 
   # https://support.orcid.org/hc/en-us/articles/360006897674-Structure-of-the-ORCID-Identifier.
-  out <- tibble::enframe(list_orcid, value = "orcid") %>%
+  out <- data %>%
+    dplyr::mutate(orcid = dplyr::pull(., orcid)) %>%
+    dplyr::select(orcid) %>%
+    tibble::rowid_to_column(var = "name") %>%
     dplyr::mutate(orcid_raw = stringr::str_remove_all(orcid, pattern = "[[:punct:]]") %>%
                     stringr::str_trim() %>% toupper(),
                   check_present = ifelse(is.na(orcid)==F, "Yes", "No")) %>%
@@ -55,7 +59,8 @@ orcid_valid <- function(list_orcid, reason = FALSE, na.rm = FALSE){
     dplyr::mutate(check_digit = (12-check_digit) %% 11) %>%
     dplyr::mutate(check_digit = ifelse(check_digit==10, "X", ifelse(check_digit==11, 0, check_digit))) %>%
     dplyr::mutate(check_sum = ifelse(as.character(check_digit)==as.character(orcid_16), "Yes", "No")) %>%
-    dplyr::select(orcid_raw, check_sum)
+    dplyr::select(orcid_raw, check_sum) %>%
+    dplyr::distinct()
 
   out <- out %>%
     dplyr::left_join(orcid_valid, by = "orcid_raw") %>%
@@ -75,11 +80,14 @@ orcid_valid <- function(list_orcid, reason = FALSE, na.rm = FALSE){
 
     dplyr::mutate(valid_orcid = gsub('(?=(?:.{4})+$)', "-", valid_orcid, perl = TRUE) %>% stringr::str_sub(2, nchar(.))) %>%
     dplyr::select("orcid" = orcid_original,
-                  valid_yn, valid_orcid, "valid_reason" = reason,
-                  contains("check_"))
+                  "valid_orcid_yn" = valid_yn, valid_orcid, "valid_orcid_reason" = reason,
+                  starts_with("check_")) %>%
+    dplyr::rename_at(vars(starts_with("check_")), function(x){stringr::str_replace(x, "check_", "check_orcid_")})
 
-  if(na.rm==T){out <- out %>% tidyr::drop_na()}
+  data_out <- dplyr::bind_cols(data, dplyr::select(out, -orcid))
 
-  if(reason==F){out <- out %>% dplyr::pull(orcid)}
+  if(na.rm==T){data_out <- data_out %>% dplyr::filter(is.na(valid_orcid)==F)}
 
-  return(out)}
+  if(reason==F){data_out <- data_out %>% dplyr::pull(valid_orcid)}
+
+  return(data_out)}

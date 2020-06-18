@@ -99,6 +99,9 @@ report_miss <- function(redcap_project_uri, redcap_project_token, use_ssl = TRUE
   if(nrow(redcap_dd_branch)>0){
 
     df_record_clean <- df_record
+
+    df_record <- df_record %>% dplyr::mutate_all(function(x){ifelse(is.na(x)==T, "", x)})
+
     for(i in 1:nrow(redcap_dd_branch)) {
 
       df_record_clean <- df_record_clean %>%
@@ -119,7 +122,8 @@ report_miss <- function(redcap_project_uri, redcap_project_token, use_ssl = TRUE
   # 3. Convert non-branching to present (".") or missing ("M") based on NA status
   df_record_clean <- df_record_clean %>%
     dplyr::mutate_all(as.character) %>%
-    dplyr::mutate_at(tidyselect::all_of(redcap_dd_nobranch), function(x){ifelse(is.na(x)==T, "M", ".")})
+    dplyr::mutate_at(tidyselect::all_of(redcap_dd_nobranch), function(x){ifelse(is.na(x)==T, "M", ".")}) %>%
+    dplyr::select(-logic_fufilled, -variable_data)
 
   # Clean dataset
   if(is.null(var_exclude)==F){df_record_clean <- df_record_clean %>% dplyr::select(-one_of(var_exclude))}
