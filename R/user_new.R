@@ -16,6 +16,9 @@
 # Function:
 user_new <- function(redcap_project_uri, redcap_project_token, df_user_update, user_exclude, use_ssl = TRUE){
 
+  df_user_update <- df_user_update %>% dplyr::mutate_all(tolower)
+  user_exclude <- tolower(user_exclude)
+
   require(RCurl);require(readr);require(dplyr)
   user_current <- RCurl::postForm(uri=redcap_project_uri, token= redcap_project_token,
                                   .opts = RCurl::curlOptions(ssl.verifypeer = if(use_ssl==F){FALSE}else{TRUE}),
@@ -23,6 +26,7 @@ user_new <- function(redcap_project_uri, redcap_project_token, df_user_update, u
     readr::read_csv()
 
   users_new <- df_user_update %>%
+    dplyr::mutate_all(tolower) %>%
     dplyr::filter(! username %in% user_exclude) %>%
     dplyr::filter(! username %in% user_current$username)
 

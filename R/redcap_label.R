@@ -53,6 +53,20 @@ redcap_label <- function(data = NULL, metadata = NULL,
       dplyr::ungroup()}
 
 
+var_required <- metadata %>%
+  dplyr::filter(variable_identifier=="Yes") %>%
+  dplyr::pull(variable_name)
+
+
+  # if patient identifiable (and don't have access, add blank columns)
+  if(unique(var_required %in% names(data))==F){
+    data_labelled <- data_labelled %>%
+    dplyr::bind_cols( tibble::enframe(var_required, name = NULL, value = "variable") %>%
+                        dplyr::mutate(value = list(rep(NA, nrow(data_labelled)))) %>%
+                        tidyr::pivot_wider(names_from = "variable") %>%
+                        tidyr::unnest(cols = everything())) %>%
+    dplyr::select(all_of(names(data_labelled)))}
+
   # Supported REDCap classes
   meta_factor <- metadata %>% dplyr::filter(class=="factor")
   meta_numeric <- metadata %>% dplyr::filter(class=="numeric")
