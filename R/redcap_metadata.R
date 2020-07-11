@@ -57,7 +57,7 @@ redcap_metadata <- function(redcap_project_uri, redcap_project_token, use_ssl = 
       dplyr::filter(! variable_type %in% "checkbox") %>%
       dplyr::bind_rows(df_meta_xbox) %>%
       dplyr::mutate(variable_name_original = factor(variable_name_original, levels = df_meta$variable_name)) %>%
-      dplyr::arrange(variable_name_original, factor_n) %>%
+      # dplyr::arrange(variable_name_original, factor_n) %>% ? Error: `...` is not empty.
       dplyr::select(-variable_name_original, -factor_n,-variable_xbox_original)
 
     for(i in c(1:nrow(df_meta_xbox))){
