@@ -17,6 +17,7 @@
 #' @return Three nested tibbles: (1) "exported": REDcap record export (unchanged) (2) labelled": REDcap record export with variables classified and columns labelled as specified via column_name and column_attr (3) "metadata": Cleaned metadata file for the REDCap dataset.
 #' @export
 
+
 # Function:
 redcap_label <- function(data = NULL, metadata = NULL,
                          redcap_project_uri  = NULL, redcap_project_token  = NULL, use_ssl = TRUE,

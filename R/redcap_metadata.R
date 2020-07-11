@@ -16,7 +16,6 @@
 #'
 #' @export
 
-
 redcap_metadata <- function(redcap_project_uri, redcap_project_token, use_ssl = TRUE){
   require(dplyr); require(RCurl); require(readr); require(tidyr); require(stringr); require(purrr); require(stringi)
 

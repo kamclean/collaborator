@@ -67,7 +67,7 @@ orcid_valid <- function(data, orcid = "orcid", reason = FALSE, na.rm = FALSE){
     dplyr::mutate_at(vars(contains("check_")), function(x){ifelse(is.na(x)==T, "No", x)}) %>%
     dplyr::mutate(valid_yn = ifelse(check_present=="Yes"&check_length=="Yes"&check_format=="Yes"&check_sum=="Yes",
                                     "Yes", "No"),
-                  valid_orcid = ifelse(valid_yn=="Yes",orcid_raw, NA)) %>%
+                  orcid_valid = ifelse(valid_yn=="Yes",orcid_raw, NA)) %>%
     dplyr::mutate(reason = ifelse(check_present=="No", "Missing ORCID", ""),
                   reason = ifelse(check_present=="Yes"&check_length=="No",
                                        paste0(reason,", Not 16 characters"), reason),
@@ -78,16 +78,16 @@ orcid_valid <- function(data, orcid = "orcid", reason = FALSE, na.rm = FALSE){
     dplyr::mutate(reason = stringr::str_remove(reason, "^, ")) %>%
     dplyr::mutate(reason = ifelse(reason =="", NA, reason)) %>%
 
-    dplyr::mutate(valid_orcid = gsub('(?=(?:.{4})+$)', "-", valid_orcid, perl = TRUE) %>% stringr::str_sub(2, nchar(.))) %>%
+    dplyr::mutate(orcid_valid = gsub('(?=(?:.{4})+$)', "-", orcid_valid, perl = TRUE) %>% stringr::str_sub(2, nchar(.))) %>%
     dplyr::select("orcid" = orcid_original,
-                  "valid_orcid_yn" = valid_yn, valid_orcid, "valid_orcid_reason" = reason,
+                  "orcid_valid_yn" = valid_yn, orcid_valid, "orcid_valid_reason" = reason,
                   starts_with("check_")) %>%
-    dplyr::rename_at(vars(starts_with("check_")), function(x){stringr::str_replace(x, "check_", "check_orcid_")})
+    dplyr::rename_at(vars(starts_with("check_")), function(x){stringr::str_replace(x, "check_", "orcid_check_")})
 
   data_out <- dplyr::bind_cols(data, dplyr::select(out, -orcid))
 
-  if(na.rm==T){data_out <- data_out %>% dplyr::filter(is.na(valid_orcid)==F)}
+  if(na.rm==T){data_out <- data_out %>% dplyr::filter(is.na(orcid_valid)==F)}
 
-  if(reason==F){data_out <- data_out %>% dplyr::pull(valid_orcid)}
+  if(reason==F){data_out <- data_out %>% dplyr::select(-starts_with("orcid_check_"), -orcid_valid_yn, -orcid_valid_reason)}
 
   return(data_out)}

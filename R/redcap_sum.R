@@ -47,6 +47,11 @@ redcap_sum <- function(redcap_project_uri = NULL, redcap_project_token = NULL, u
     dplyr::select(-contains("_complete")) %>%
     dplyr::filter(is.na(redcap_data_access_group)==F)
 
+  if(! "record_id" %in% names(df_record)){
+    if(record_id == "record_id"){stop("record_id column not present in the dataframe, please specify the name of the record_id variable")}
+
+    df_record <-df_record %>% dplyr::mutate(record_id = pull(., record_id))}
+
   # Clean dataset
   if(is.null(var_exclude)==F){df_record <- df_record %>% dplyr::select(-one_of(var_exclude))}
   if(is.null(var_include)==F){df_record <- df_record %>% dplyr::select(redcap_data_access_group, all_of(var_include))}
@@ -57,9 +62,9 @@ redcap_sum <- function(redcap_project_uri = NULL, redcap_project_token = NULL, u
   if(is.null(record_exclude)==F){df_record <- df_record %>% dplyr::filter(! record_id %in% record_exclude)}
   if(is.null(record_include)==F){df_record <- df_record %>% dplyr::filter(record_id %in% record_include)}
 
-
   # Summarise record by DAG
   df_record_sum_dag <- df_record %>%
+    dplyr::distinct() %>%
     # count the number of NA by row (1 = complete record)
     dplyr::mutate(com = ifelse(rowSums(is.na(.)==T)>0, 0, 1)) %>%
     dplyr::group_by(redcap_data_access_group) %>%

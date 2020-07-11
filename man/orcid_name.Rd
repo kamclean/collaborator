@@ -4,17 +4,12 @@
 \alias{orcid_name}
 \title{Pull first name(s) and last name for a given list of orcid}
 \usage{
-orcid_name(list_orcid, initial = TRUE, initial_max = 3,
-  position = "right", reason = FALSE, na.rm = TRUE)
+orcid_name(data, orcid = "orcid", reason = FALSE, na.rm = FALSE)
 }
 \arguments{
-\item{list_orcid}{List of orcid ids (XXXX-XXXX-XXXX-XXXX format)}
+\item{data}{datafame containing a vector of ORCID (XXXX-XXXX-XXXX-XXXX format)}
 
-\item{initial}{Should the first / middle name(s) be converted to initial (default = TRUE)}
-
-\item{initial_max}{Maximum number of digits (default = 3)}
-
-\item{position}{initial to "left" or "right" of last name (default = "right")}
+\item{orcid}{Column name of vector containing ORCID (default = "orcid")}
 
 \item{reason}{Logical value to determine whether output should include reasons for NA values (default = FALSE) or vector of ORCID (TRUE).}
 
