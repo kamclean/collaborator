@@ -17,14 +17,7 @@
 #' @return Three nested tibbles: (1) "exported": REDcap record export (unchanged) (2) labelled": REDcap record export with variables classified and columns labelled as specified via column_name and column_attr (3) "metadata": Cleaned metadata file for the REDCap dataset.
 #' @export
 
-redcap_project_uri = Sys.getenv("surginf_url")
-redcap_project_token = Sys.getenv("twist_api_wgh")
-data = NULL
-metadata = NULL
-column_name = "raw"
-column_attr = NULL
-checkbox_value = "label"
-use_ssl = TRUE
+
 # Function:
 redcap_label <- function(data = NULL, metadata = NULL,
                          redcap_project_uri  = NULL, redcap_project_token  = NULL, use_ssl = TRUE,
@@ -47,7 +40,7 @@ redcap_label <- function(data = NULL, metadata = NULL,
 
   # Project metadata
   if(is.null(redcap_project_uri)==F&is.null(redcap_project_token)==F&is.null(metadata)==T){
-    metadata <- redcap_metadata(redcap_project_uri = redcap_project_uri,
+    metadata <-  collaborator::redcap_metadata(redcap_project_uri = redcap_project_uri,
                                                redcap_project_token = redcap_project_token,
                                                use_ssl = use_ssl)}
 
