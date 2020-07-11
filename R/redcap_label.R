@@ -17,7 +17,6 @@
 #' @return Three nested tibbles: (1) "exported": REDcap record export (unchanged) (2) labelled": REDcap record export with variables classified and columns labelled as specified via column_name and column_attr (3) "metadata": Cleaned metadata file for the REDCap dataset.
 #' @export
 
-
 # Function:
 redcap_label <- function(data = NULL, metadata = NULL,
                          redcap_project_uri  = NULL, redcap_project_token  = NULL, use_ssl = TRUE,
@@ -58,15 +57,15 @@ var_required <- metadata %>%
   dplyr::filter(variable_identifier=="Yes") %>%
   dplyr::pull(variable_name)
 
-
   # if patient identifiable (and don't have access, add blank columns)
-  if(unique(var_required %in% names(data))==F){
+  if(length(var_required)>0){
+    if(unique(var_required %in% names(data))==F){
     data_labelled <- data_labelled %>%
     dplyr::bind_cols( tibble::enframe(var_required, name = NULL, value = "variable") %>%
                         dplyr::mutate(value = list(rep(NA, nrow(data_labelled)))) %>%
                         tidyr::pivot_wider(names_from = "variable") %>%
                         tidyr::unnest(cols = everything())) %>%
-    dplyr::select(all_of(names(data_labelled)))}
+    dplyr::select(all_of(names(data_labelled)))}}
 
   # Supported REDCap classes
   meta_factor <- metadata %>% dplyr::filter(class=="factor")
