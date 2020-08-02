@@ -4,8 +4,13 @@
 \alias{author_name}
 \title{Pull first name(s) and last name for a given list of orcid}
 \usage{
-author_name(data, first_name = "first_name", last_name = "last_name",
-  initial = T, position = "right")
+author_name(
+  data,
+  first_name = "first_name",
+  last_name = "last_name",
+  initial = T,
+  position = "right"
+)
 }
 \arguments{
 \item{data}{datafame containing a vectors of the author name (split into first_name and last_name)}

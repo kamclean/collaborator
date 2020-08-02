@@ -4,11 +4,21 @@
 \alias{redcap_sum}
 \title{Generate REDCap summary data.}
 \usage{
-redcap_sum(redcap_project_uri = NULL, redcap_project_token = NULL,
-  use_ssl = TRUE, centre_sum = TRUE, top = 10, var_include = NULL,
-  var_exclude = NULL, user_include = NULL, user_exclude = NULL,
-  dag_exclude = NULL, dag_include = NULL, record_include = NULL,
-  record_exclude = NULL)
+redcap_sum(
+  redcap_project_uri = NULL,
+  redcap_project_token = NULL,
+  use_ssl = TRUE,
+  centre_sum = TRUE,
+  top = 10,
+  var_include = NULL,
+  var_exclude = NULL,
+  user_include = NULL,
+  user_exclude = NULL,
+  dag_exclude = NULL,
+  dag_include = NULL,
+  record_include = NULL,
+  record_exclude = NULL
+)
 }
 \arguments{
 \item{redcap_project_uri}{URI (Uniform Resource Identifier) for the REDCap instance.}

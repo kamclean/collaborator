@@ -4,8 +4,16 @@
 \alias{report_auth}
 \title{Generate a formatted authorship list.}
 \usage{
-report_auth(df, name, group = NULL, subdivision = NULL, path = NULL,
-  name_sep = ", ", group_brachet = "()", group_sep = "; ")
+report_auth(
+  df,
+  name,
+  group = NULL,
+  subdivision = NULL,
+  path = NULL,
+  name_sep = ", ",
+  group_brachet = "()",
+  group_sep = "; "
+)
 }
 \arguments{
 \item{df}{Dataframe with authors in rows.}

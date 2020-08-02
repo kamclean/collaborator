@@ -4,8 +4,13 @@
 \alias{group2csv}
 \title{Split a tibble/dataframe into CSV by "group" variable}
 \usage{
-group2csv(data, group, subfolder = "folder_csv", file_prefix = "",
-  file_suffix = "")
+group2csv(
+  data,
+  group,
+  subfolder = "folder_csv",
+  file_prefix = "",
+  file_suffix = ""
+)
 }
 \arguments{
 \item{data}{Dataframe with at least 1 column - corresponding to a "group".}

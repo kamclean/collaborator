@@ -4,7 +4,9 @@
 \name{example_report_author}
 \alias{example_report_author}
 \title{Example dataset of authors}
-\format{A data frame with 100 rows and 3 variables.}
+\format{
+A data frame with 100 rows and 3 variables.
+}
 \usage{
 data(example_report_author)
 }

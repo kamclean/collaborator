@@ -4,7 +4,9 @@
 \name{example_df_user}
 \alias{example_df_user}
 \title{Example dataset of REDCap users}
-\format{A data frame with 34 rows and 2 variables.}
+\format{
+A data frame with 34 rows and 2 variables.
+}
 \usage{
 data(example_df_user)
 }

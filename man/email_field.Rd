@@ -4,8 +4,14 @@
 \alias{email_field}
 \title{Prepare df_email in a standard format for email_send function.}
 \usage{
-email_field(df_email, group = "data_access_group", subject,
-  recipient_main = NULL, recipient_cc = NULL, recipient_bcc = NULL)
+email_field(
+  df_email,
+  group = "data_access_group",
+  subject,
+  recipient_main = NULL,
+  recipient_cc = NULL,
+  recipient_bcc = NULL
+)
 }
 \arguments{
 \item{df_email}{Dataframe with at least 2 columns - corresponding to a "group" and and "email" (e.g. output from user_summarise). Email addresses must be a string separated by a comma or semi-colon (not a list variable).}

@@ -4,8 +4,13 @@
 \alias{user_summarise}
 \title{Summarise the REDCap user dataframe by group (data access group)}
 \usage{
-user_summarise(data = NULL, redcap_project_uri = NULL,
-  redcap_project_token = NULL, user_exclude = NULL, use_ssl = TRUE)
+user_summarise(
+  data = NULL,
+  redcap_project_uri = NULL,
+  redcap_project_token = NULL,
+  user_exclude = NULL,
+  use_ssl = TRUE
+)
 }
 \arguments{
 \item{data}{Dataset previously exported of users authorized for a project (5 required columns: data_access_group, username, firstname, lastname, email)}

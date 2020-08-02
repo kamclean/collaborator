@@ -4,8 +4,14 @@
 \alias{email_send}
 \title{Send group-specific emails and attatchments via gmailR.}
 \usage{
-email_send(df_email, sender, body = "code", attach = NULL, zip = F,
-  draft = TRUE)
+email_send(
+  df_email,
+  sender,
+  body = "code",
+  attach = NULL,
+  zip = F,
+  draft = TRUE
+)
 }
 \arguments{
 \item{df_email}{Dataframe containing a minimum of the output from email_format function and a column corresponding to the email body pathway.}

@@ -4,8 +4,13 @@
 \alias{user_validate}
 \title{Validates users have been allocated correctly}
 \usage{
-user_validate(redcap_project_uri, redcap_project_token, use_ssl = TRUE,
-  df_user_master = NULL, user_exclude = NULL)
+user_validate(
+  redcap_project_uri,
+  redcap_project_token,
+  use_ssl = TRUE,
+  df_user_master = NULL,
+  user_exclude = NULL
+)
 }
 \arguments{
 \item{redcap_project_uri}{URI (Uniform Resource Identifier) for the REDCap instance.}

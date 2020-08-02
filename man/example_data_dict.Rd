@@ -4,7 +4,9 @@
 \name{example_data_dict}
 \alias{example_data_dict}
 \title{Example dataset of surgical patients}
-\format{A data frame with 20 rows and 11 variables.}
+\format{
+A data frame with 20 rows and 11 variables.
+}
 \usage{
 data(example_data_dict)
 }

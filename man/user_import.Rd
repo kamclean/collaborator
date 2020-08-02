@@ -4,9 +4,18 @@
 \alias{user_import}
 \title{Generate a csv file to upload new user accounts to REDCap}
 \usage{
-user_import(df, username, first_name, last_name, email,
-  institution = NULL, sponser = NULL, expiration = NULL,
-  comments = NULL, path = NULL)
+user_import(
+  df,
+  username,
+  first_name,
+  last_name,
+  email,
+  institution = NULL,
+  sponser = NULL,
+  expiration = NULL,
+  comments = NULL,
+  path = NULL
+)
 }
 \arguments{
 \item{df}{Dataframe of at least 4 mandatory columns (corresponding to: username, first name, last name, and email address) and 4 optional columns (corresponding to: institution, sponser, expiration, comments).}

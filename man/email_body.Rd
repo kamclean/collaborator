@@ -4,9 +4,15 @@
 \alias{email_body}
 \title{Split a tibble/dataframe by "group" variable, then save HTML file and/or code (e.g. for email body in send_email function)}
 \usage{
-email_body(data, group = "group", rmd_file, html_output = c("code",
-  "file"), subfolder = here::here("folder_html"), file_prefix = "",
-  file_suffix = "")
+email_body(
+  data,
+  group = "group",
+  rmd_file,
+  html_output = c("code", "file"),
+  subfolder = here::here("folder_html"),
+  file_prefix = "",
+  file_suffix = ""
+)
 }
 \arguments{
 \item{data}{Dataframe with at least 1 column - corresponding to the "group".}

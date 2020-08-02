@@ -4,8 +4,12 @@
 \alias{user_role}
 \title{Identifies unique REDCap user roles}
 \usage{
-user_role(redcap_project_uri, redcap_project_token, users_ignore = NULL,
-  use_ssl = TRUE)
+user_role(
+  redcap_project_uri,
+  redcap_project_token,
+  users_ignore = NULL,
+  use_ssl = TRUE
+)
 }
 \arguments{
 \item{redcap_project_uri}{URI (Uniform Resource Identifier) for the REDCap instance.}

@@ -4,10 +4,18 @@
 \alias{report_miss}
 \title{Generate a missing data report for a REDCap project.}
 \usage{
-report_miss(redcap_project_uri, redcap_project_token, use_ssl = TRUE,
-  missing_threshold = 0.05, var_include = NULL, var_exclude = NULL,
-  record_exclude = NULL, record_include = NULL, dag_include = NULL,
-  dag_exclude = NULL)
+report_miss(
+  redcap_project_uri,
+  redcap_project_token,
+  use_ssl = TRUE,
+  missing_threshold = 0.05,
+  var_include = NULL,
+  var_exclude = NULL,
+  record_exclude = NULL,
+  record_include = NULL,
+  dag_include = NULL,
+  dag_exclude = NULL
+)
 }
 \arguments{
 \item{redcap_project_uri}{URI (Uniform Resource Identifier) for the REDCap instance.}

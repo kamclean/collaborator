@@ -4,8 +4,13 @@
 \alias{user_assign}
 \title{Used to assign users to data access groups on a redcap project.}
 \usage{
-user_assign(redcap_project_uri, redcap_project_token, df_user, role,
-  use_ssl = TRUE)
+user_assign(
+  redcap_project_uri,
+  redcap_project_token,
+  df_user,
+  role,
+  use_ssl = TRUE
+)
 }
 \arguments{
 \item{redcap_project_uri}{URI (Uniform Resource Identifier) for the REDCap instance.}
