@@ -6,7 +6,7 @@
 #' @param orcid Column name of vector containing ORCID (default = "orcid")
 #' @param reason Logical value to determine whether output should include reasons for NA values (default = FALSE) or vector of ORCID (TRUE).
 #' @param na.rm Remove NA (invalid ORCID) from output (default = TRUE)
-#' @return Dataframe with 5 mandatory columns: orcid, full name, first names, initials, and last name.
+#' @return Dataframe with 5 mandatory columns: orcid, full name, first name(s), last name, publication name.
 #' @import dplyr
 #' @import tidyr
 #' @import tibble
@@ -15,6 +15,8 @@
 #' @importFrom stringr str_sub
 #' @importFrom httr GET
 #' @export
+
+
 
 orcid_name <- function(data, orcid = "orcid", reason = FALSE, na.rm = FALSE){
   # Packages / Functions
@@ -27,8 +29,8 @@ orcid_name <- function(data, orcid = "orcid", reason = FALSE, na.rm = FALSE){
       dplyr::mutate(orcid = dplyr::pull(., orcid)) %>%
       dplyr::select(orcid, starts_with("orcid_valid"), starts_with("orcid_check_"))}else{
         data <- data %>%
-    orcid_valid(orcid = orcid, reason = T, na.rm = na.rm) %>%
-    dplyr::mutate("orcid" = orcid_valid)}
+          collaborator::orcid_valid(orcid = orcid, reason = T, na.rm = na.rm) %>%
+          dplyr::mutate("orcid" = orcid_valid)}
 
   # Check extract name from valid orcids
   input_orcid <- data %>%
@@ -47,31 +49,37 @@ orcid_name <- function(data, orcid = "orcid", reason = FALSE, na.rm = FALSE){
                                                                         "/personal-details"))),
                                   error = function(e){NA})})
 
+
+
   output <- output %>%
     furrr::future_map2_dfr(.x =., .y = seq_along(1:length(.)),
                            function(.x, .y){
-      print(.y)
+                             print(.y)
 
-      if(is.na(.x)==T|length(.x %>% xml2::xml_find_all("personal-details:name"))==0){out <- tibble::tibble(orcid_check_access = "No",
-                                            "orcid_name_first" = NA,
-                                            "orcid_name_last" = NA)
-      }else{
-        out <- suppressWarnings(.x %>%
-                                  xml2::xml_find_all("personal-details:name") %>%
-                                  xml2::xml_find_all("personal-details:given-names|personal-details:family-name") %$%
-                                  tibble::tibble("name" = xml2::xml_name(.),
-                                                 "value" = xml2::as_list(.) %>% unlist()) %>%
-                                  dplyr::right_join(tibble::tibble("name" = c("given-names", "family-name")), by="name") %>%
-                                  tidyr::pivot_wider(names_from = "name",
-                                                     values_from = "value") %>%
-                                  dplyr::mutate(orcid_check_access = "Yes") %>%
-                                  dplyr::select(orcid_check_access,
-                                                "orcid_name_first" = `given-names`,
-                                                "orcid_name_last" = `family-name`))}
+                             if(is.na(.x)==T|length(.x %>% xml2::xml_find_all("personal-details:name"))==0){out <- tibble::tibble(orcid_check_access = "No",
+                                                                                                                                  "orcid_name_first" = NA,
+                                                                                                                                  "orcid_name_last" = NA,
+                                                                                                                                  "orcid_name_credit" = NA)
+                             }else{
+                               out <- suppressWarnings(.x %>%
+                                                         xml2::xml_find_all("personal-details:name") %>%
+                                                         xml2::xml_find_all("personal-details:given-names|personal-details:family-name|personal-details:credit-name") %$%
+                                                         tibble::tibble("name" = xml2::xml_name(.),
+                                                                        "value" = xml2::as_list(.) %>% unlist()) %>%
+                                                         dplyr::right_join(tibble::tibble("name" = c("given-names", "family-name", "credit-name")), by="name") %>%
+                                                         tidyr::pivot_wider(names_from = "name",
+                                                                            values_from = "value") %>%
+                                                         dplyr::mutate(orcid_check_access = "Yes") %>%
+                                                         dplyr::select(orcid_check_access,
+                                                                       "orcid_name_first" = `given-names`,
+                                                                       "orcid_name_last" = `family-name`,
+                                                                       "orcid_name_credit" = `credit-name`))}
 
-      return(out)}) %>%
+                             return(out)}) %>%
     dplyr::mutate(orcid = input_orcid) %>%
     dplyr::select(orcid, everything())
+
+
 
   final <- dplyr::left_join(data %>%
                               dplyr::select(-any_of(names(output)[! names(output) %in% c("orcid")])),

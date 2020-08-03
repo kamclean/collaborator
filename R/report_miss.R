@@ -87,6 +87,7 @@ report_miss <- function(redcap_project_uri, redcap_project_token, use_ssl = TRUE
     dplyr::arrange(variable_name) %>% dplyr::mutate(variable_name = as.character(variable_name)) %>%
     dplyr::select(variable_name, branch_logic)
 
+
   # Determine missing data-------------------------------
   # 1. Determine branching variables
   redcap_dd_branch <- df_meta %>% dplyr::filter(is.na(branch_logic)==F)
@@ -119,11 +120,30 @@ report_miss <- function(redcap_project_uri, redcap_project_token, use_ssl = TRUE
         dplyr::select(-all_of(redcap_dd_branch$variable_name[[i]])) %>%
         dplyr::rename_at(vars(matches("variable_out")), function(x){redcap_dd_branch$variable_name[[i]]})}}
 
+
+
   # 3. Convert non-branching to present (".") or missing ("M") based on NA status
   df_record_clean <- df_record_clean %>%
     dplyr::mutate_all(as.character) %>%
     dplyr::mutate_at(tidyselect::all_of(redcap_dd_nobranch), function(x){ifelse(is.na(x)==T, "M", ".")}) %>%
     dplyr::select(-logic_fufilled, -variable_data)
+
+
+  # 4. Re-combine checkbox variables
+  xbox_names <- df_metadata %>%
+    dplyr::filter(variable_type=="checkbox") %>%
+    dplyr::mutate(variable_name_original = stringr::str_split_fixed(variable_name, "___", 2)[,1]) %>%
+    dplyr::select(variable_name_original, variable_name) %>%
+    dplyr::group_by(variable_name_original) %>%
+    dplyr::summarise(variable_name = list(variable_name))
+
+  for(i in 1:nrow(xbox_names)){
+  df_record_clean <- df_record_clean %>%
+    tidyr::unite(col = !!eval(unique(xbox_names$variable_name_original[i])),
+                 tidyselect::all_of(c(xbox_names$variable_name[[i]])), na.rm = T, remove = T)}
+
+  df_record_clean <- df_record_clean %>%
+    dplyr::mutate_at(vars(all_of(xbox_names$variable_name_original)), function(x){ifelse(x=="", NA, ".")})
 
   # Clean dataset
   if(is.null(var_exclude)==F){df_record_clean <- df_record_clean %>% dplyr::select(-one_of(var_exclude))}

@@ -16,7 +16,7 @@ orcid_name(data, orcid = "orcid", reason = FALSE, na.rm = FALSE)
 \item{na.rm}{Remove NA (invalid ORCID) from output (default = TRUE)}
 }
 \value{
-Dataframe with 5 mandatory columns: orcid, full name, first names, initials, and last name.
+Dataframe with 5 mandatory columns: orcid, full name, first name(s), last name, publication name.
 }
 \description{
 Pull and format first name(s) and last name for a given list of orcid
