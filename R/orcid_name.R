@@ -11,12 +11,10 @@
 #' @import tidyr
 #' @import tibble
 #' @import xml2
+#' @import stringr
 #' @importFrom furrr future_map2 future_map_dfr
-#' @importFrom stringr str_sub
 #' @importFrom httr GET
 #' @export
-
-
 
 orcid_name <- function(data, orcid = "orcid", reason = FALSE, na.rm = FALSE){
   # Packages / Functions
@@ -76,7 +74,8 @@ orcid_name <- function(data, orcid = "orcid", reason = FALSE, na.rm = FALSE){
                                                                        "orcid_name_credit" = `credit-name`))}
 
                              return(out)}) %>%
-    dplyr::mutate(orcid = input_orcid) %>%
+    dplyr::mutate(orcid = input_orcid,
+                  orcid_name_credit_first = stringr::str_remove(orcid_name_credit, orcid_name_last) %>% stringr::str_trim()) %>%
     dplyr::select(orcid, everything())
 
 

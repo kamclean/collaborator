@@ -18,6 +18,7 @@
 #' @export
 
 # Function:
+
 redcap_label <- function(data = NULL, metadata = NULL,
                          redcap_project_uri  = NULL, redcap_project_token  = NULL, use_ssl = TRUE,
                          column_name = "raw", column_attr = NULL, checkbox_value = "label"){
@@ -35,7 +36,7 @@ redcap_label <- function(data = NULL, metadata = NULL,
                             format='csv',
                             raworLabel="raw") %>% readr::read_csv()}
 
-  data_labelled <- data
+  data_labelled <- data %>% dplyr::select(-ends_with("___"))
 
   # Project metadata
   if(is.null(redcap_project_uri)==F&is.null(redcap_project_token)==F&is.null(metadata)==T){
@@ -53,28 +54,29 @@ redcap_label <- function(data = NULL, metadata = NULL,
       dplyr::ungroup()}
 
 
-var_required <- metadata %>%
-  dplyr::filter(variable_identifier=="Yes") %>%
-  dplyr::pull(variable_name)
+  var_required <- metadata %>%
+    dplyr::filter(variable_identifier=="Yes") %>%
+    dplyr::pull(variable_name)
 
   # if patient identifiable (and don't have access, add blank columns)
   if(length(var_required)>0){
     if(unique(var_required %in% names(data))==F){
-    data_labelled <- data_labelled %>%
-    dplyr::bind_cols( tibble::enframe(var_required, name = NULL, value = "variable") %>%
-                        dplyr::mutate(value = list(rep(NA, nrow(data_labelled)))) %>%
-                        tidyr::pivot_wider(names_from = "variable") %>%
-                        tidyr::unnest(cols = everything())) %>%
-    dplyr::select(all_of(names(data_labelled)))}}
+      data_labelled <- data_labelled %>%
+        dplyr::bind_cols( tibble::enframe(var_required, name = NULL, value = "variable") %>%
+                            dplyr::mutate(value = list(rep(NA, nrow(data_labelled)))) %>%
+                            tidyr::pivot_wider(names_from = "variable") %>%
+                            tidyr::unnest(cols = everything())) %>%
+        dplyr::select(all_of(names(data_labelled)))}}
 
   # Supported REDCap classes
-  meta_factor <- metadata %>% dplyr::filter(class=="factor")
+  meta_factor <- metadata %>% dplyr::filter(class=="factor") %>% dplyr::filter(! (variable_type=="checkbox"&select_choices_or_calculations==""))
   meta_numeric <- metadata %>% dplyr::filter(class=="numeric")
   meta_date <- metadata %>% dplyr::filter(class=="date")
   meta_datetime <- metadata %>% dplyr::filter(class=="datetime")
   meta_logical <- metadata %>% dplyr::filter(class=="logical")
   meta_file <- metadata %>% dplyr::filter(class=="file")
   meta_character <- metadata %>% dplyr::filter(class=="character")
+
 
 
   # Factors
