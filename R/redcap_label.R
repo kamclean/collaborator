@@ -53,22 +53,7 @@ redcap_label <- function(data = NULL, metadata = NULL,
                     factor_label = ifelse(variable_type=="checkbox", list(c("Unchecked", select_choices_or_calculations)),factor_label)) %>%
       dplyr::ungroup()}
 
-
-  var_required <- metadata %>%
-    dplyr::filter(variable_identifier=="Yes") %>%
-    dplyr::pull(variable_name)
-
-  # if patient identifiable (and don't have access, add blank columns)
-  if(length(var_required)>0){
-    if(unique(var_required %in% names(data))==F){
-      data_labelled <- data_labelled %>%
-        dplyr::bind_cols( tibble::enframe(var_required, name = NULL, value = "variable") %>%
-                            dplyr::mutate(value = list(rep(NA, nrow(data_labelled)))) %>%
-                            tidyr::pivot_wider(names_from = "variable") %>%
-                            tidyr::unnest(cols = everything())) %>%
-        dplyr::select(all_of(names(data_labelled)))}}
-
-  # Supported REDCap classes
+   # Supported REDCap classes
   meta_factor <- metadata %>% dplyr::filter(class=="factor") %>% dplyr::filter(! (variable_type=="checkbox"&select_choices_or_calculations==""))
   meta_numeric <- metadata %>% dplyr::filter(class=="numeric")
   meta_date <- metadata %>% dplyr::filter(class=="date")
@@ -78,6 +63,24 @@ redcap_label <- function(data = NULL, metadata = NULL,
   meta_character <- metadata %>% dplyr::filter(class=="character")
 
 
+
+  var_restricted <- metadata %>%
+    dplyr::filter(variable_identifier=="Yes") %>%
+    dplyr::pull(variable_name)
+
+  # If dates are also restricted
+  if(TRUE %in% c(meta_date$variable_name %in% names(data_labelled))==F){
+    var_restricted <- unique(c(var_restricted, meta_date$variable_name)) }
+
+  # if patient identifiable (and don't have access, add blank columns)
+  if(length(var_restricted)>0){
+    if(unique(var_restricted %in% names(data))==F){
+      data_labelled <- data_labelled %>%
+        dplyr::bind_cols(tibble::enframe(var_restricted, name = NULL, value = "variable") %>%
+                           dplyr::mutate(value = list(rep(NA, nrow(data_labelled)))) %>%
+                           tidyr::pivot_wider(names_from = "variable") %>%
+                           tidyr::unnest(cols = everything())) %>%
+        dplyr::select(all_of(names(data_labelled)))}}
 
   # Factors
   if(nrow(meta_factor)>0){
@@ -94,48 +97,48 @@ redcap_label <- function(data = NULL, metadata = NULL,
   if(nrow(meta_numeric)>0){
     for(i in c(1:nrow(meta_numeric))){
       data_labelled <- data_labelled %>%
-        dplyr::mutate_at(dplyr::vars(meta_numeric$variable_name[[i]]),
+        dplyr::mutate_at(dplyr::vars(any_of(meta_numeric$variable_name[[i]])),
                          function(x){as.numeric(x)})}}
 
   # Date
   if(nrow(meta_date)>0){
     for(i in c(1:nrow(meta_date))){
       data_labelled <- data_labelled %>%
-        dplyr::mutate_at(dplyr::vars(meta_date$variable_name[[i]]),
+        dplyr::mutate_at(dplyr::vars(any_of(meta_date$variable_name[[i]])),
                          function(x){lubridate::as_date(x)})}}
 
   # Datetime
   if(nrow(meta_datetime)>0){
     for(i in c(1:nrow(meta_datetime))){
       data_labelled <- data_labelled %>%
-        dplyr::mutate_at(dplyr::vars(meta_datetime$variable_name[[i]]),
+        dplyr::mutate_at(dplyr::vars(any_of(meta_datetime$variable_name[[i]])),
                          function(x){lubridate::as_datetime(x)})}}
 
   # Logical
   if(nrow(meta_logical)>0){
     for(i in c(1:nrow(meta_logical))){
       data_labelled <- data_labelled %>%
-        dplyr::mutate_at(dplyr::vars(meta_logical$variable_name[[i]]),
+        dplyr::mutate_at(dplyr::vars(any_of(meta_logical$variable_name[[i]])),
                          function(x){as.logical(x)})}}
 
   # File
   if(nrow(meta_file)>0){
     for(i in c(1:nrow(meta_file))){
       data_labelled <- data_labelled %>%
-        dplyr::mutate_at(dplyr::vars(meta_file$variable_name[[i]]),
+        dplyr::mutate_at(dplyr::vars(any_of(meta_file$variable_name[[i]])),
                          function(x){ifelse(is.na(x)==T, FALSE, TRUE)})}}
 
   # Characters
   if(nrow(meta_character)>0){
     for(i in c(1:nrow(meta_character))){
       data_labelled <- data_labelled %>%
-        dplyr::mutate_at(dplyr::vars(meta_character$variable_name[[i]]),
+        dplyr::mutate_at(dplyr::vars(any_of(meta_character$variable_name[[i]])),
                          function(x){as.character(x)})}}
 
   # Special variables
   var_complete <- paste0(unique(metadata$form_name), "_complete")
   data_labelled <- data_labelled %>%
-    dplyr::mutate_at(dplyr::vars(tidyselect::all_of(var_complete)),
+    dplyr::mutate_at(dplyr::vars(tidyselect::any_of(var_complete)),
                      function(x){as.character(x) %>% factor(levels = c("0", "1","2"),
                                                             labels = c("Incomplete", "Unverified", "Complete"))})
 
