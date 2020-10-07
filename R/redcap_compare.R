@@ -62,9 +62,9 @@ redcap_compare <- function(redcap_project_uri, redcap_token_list, comparison){
       dplyr::select(all_of(meta_constant), dplyr::all_of(keep_col))
 
     output <- list("full" = full,
-                   "discrepancies" =
+                   "discrepancies" =discrepancies)}
 
-    )}
+
 
 
   if(comparison=="rights"){
