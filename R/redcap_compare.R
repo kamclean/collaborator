@@ -16,7 +16,7 @@
 #' @export
 
 redcap_compare <- function(redcap_project_uri, redcap_token_list, comparison){
-  require(dplyr); require(collaborator); require(purrr); require(tibble)
+  require(dplyr); require(purrr); require(tibble)
   require(RCurl); require(readr); require(stringr)
 
 
