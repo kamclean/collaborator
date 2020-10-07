@@ -6,5 +6,6 @@ packrat/lib*/
 .httr-oauth
 R/development
 R/retired
+admin/
 vignettes/folder_csv
 presentation
