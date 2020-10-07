@@ -1,4 +1,4 @@
-# redcap_metadata--------------------------------
+# redcap_compare--------------------------------
 # Documentation
 #' Compare multiple REDCap projects to determine discrepancies in structure or user rights.
 #' @description Used to compare multiple REDCap projects to determine discrepancies in structure or user rights.
