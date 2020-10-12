@@ -7,7 +7,6 @@
 #' @param comparison What should be compared - project structure ("metadata") or user rights ("rights").
 #' @return Nested tibble of the full comparison across projects ("full") and the specific discrepancies ("discrepancies").
 #' @import dplyr
-#' @import collaborator
 #' @import purrr
 #' @import tibble
 #' @importFrom RCurl postForm
