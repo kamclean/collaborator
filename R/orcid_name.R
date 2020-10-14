@@ -48,30 +48,37 @@ orcid_name <- function(data, orcid = "orcid", reason = FALSE, na.rm = FALSE){
                                   error = function(e){NA})})
 
 
-
   output <- output %>%
-    furrr::future_map2_dfr(.x =., .y = seq_along(1:length(.)),
+    furrr::future_map2_dfr(.x =.,
+                           .y = seq_along(1:length(.)),
                            function(.x, .y){
                              print(.y)
 
-                             if(is.na(.x)==T|length(.x %>% xml2::xml_find_all("personal-details:name"))==0){out <- tibble::tibble(orcid_check_access = "No",
-                                                                                                                                  "orcid_name_first" = NA,
-                                                                                                                                  "orcid_name_last" = NA,
-                                                                                                                                  "orcid_name_credit" = NA)
+                             if(is.na(.x)==T){out <- tibble::tibble(orcid_check_access = "No",
+                                                                    "orcid_name_first" = NA,
+                                                                    "orcid_name_last" = NA,
+                                                                    "orcid_name_credit" = NA)
+
                              }else{
-                               out <- suppressWarnings(.x %>%
-                                                         xml2::xml_find_all("personal-details:name") %>%
-                                                         xml2::xml_find_all("personal-details:given-names|personal-details:family-name|personal-details:credit-name") %$%
-                                                         tibble::tibble("name" = xml2::xml_name(.),
-                                                                        "value" = xml2::as_list(.) %>% unlist()) %>%
-                                                         dplyr::right_join(tibble::tibble("name" = c("given-names", "family-name", "credit-name")), by="name") %>%
-                                                         tidyr::pivot_wider(names_from = "name",
-                                                                            values_from = "value") %>%
-                                                         dplyr::mutate(orcid_check_access = "Yes") %>%
-                                                         dplyr::select(orcid_check_access,
-                                                                       "orcid_name_first" = `given-names`,
-                                                                       "orcid_name_last" = `family-name`,
-                                                                       "orcid_name_credit" = `credit-name`))}
+                               if(length(.x %>% xml2::xml_find_all("personal-details:name"))==0){
+                                 out <- tibble::tibble(orcid_check_access = "No",
+                                                       "orcid_name_first" = NA,
+                                                       "orcid_name_last" = NA,
+                                                       "orcid_name_credit" = NA)
+                               }else{
+                                 out <- suppressWarnings(.x %>%
+                                                           xml2::xml_find_all("personal-details:name") %>%
+                                                           xml2::xml_find_all("personal-details:given-names|personal-details:family-name|personal-details:credit-name") %$%
+                                                           tibble::tibble("name" = xml2::xml_name(.),
+                                                                          "value" = xml2::as_list(.) %>% unlist()) %>%
+                                                           dplyr::right_join(tibble::tibble("name" = c("given-names", "family-name", "credit-name")), by="name") %>%
+                                                           tidyr::pivot_wider(names_from = "name",
+                                                                              values_from = "value") %>%
+                                                           dplyr::mutate(orcid_check_access = "Yes") %>%
+                                                           dplyr::select(orcid_check_access,
+                                                                         "orcid_name_first" = `given-names`,
+                                                                         "orcid_name_last" = `family-name`,
+                                                                         "orcid_name_credit" = `credit-name`))}}
 
                              return(out)}) %>%
     dplyr::mutate(orcid = input_orcid,
