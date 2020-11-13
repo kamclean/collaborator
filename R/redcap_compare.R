@@ -51,14 +51,14 @@ redcap_compare <- function(redcap_project_uri, redcap_token_list, comparison){
 
     keep_col <- full %>%
       dplyr::filter(n!=length(redcap_token_list)) %>%
-      dplyr::select(all_of(meta_constant)) %>% purrr::map_chr(function(x){length(unique(x)) > 1}) %>% tibble::enframe() %>% filter(value ==T) %>%
-      dplyr::pull(value)
+      purrr::map_chr(function(x){length(unique(x)) > 1}) %>% tibble::enframe() %>% filter(value ==T) %>%
+      dplyr::pull(name)
 
-    if(purrr::is_empty(keep_col)){keep_col <- NULL}
+    if(purrr::is_empty(keep_col)){keep_col <- NULL}else{keep_col <- c("variable_name", keep_col)}
 
     discrepancies <- full %>%
       dplyr::filter(n!=length(redcap_token_list)) %>%
-      dplyr::select(all_of(meta_constant), dplyr::all_of(keep_col))
+      dplyr::select(all_of(meta_constant), dplyr::all_of(c(keep_col)))
 
     output <- list("full" = full,
                    "discrepancies" =discrepancies)}
@@ -104,16 +104,17 @@ redcap_compare <- function(redcap_project_uri, redcap_token_list, comparison){
 
     keep_col <- full %>%
       dplyr::filter(n!=length(redcap_token_list)) %>%
-      dplyr::select(-all_of(user_constant)) %>% purrr::map_chr(function(x){length(unique(x)) > 1}) %>% tibble::enframe() %>% filter(value ==T) %>%
-      dplyr::pull(value)
+      purrr::map_chr(function(x){length(unique(x)) > 1}) %>% tibble::enframe() %>% filter(value ==T) %>%
+      dplyr::pull(name)
 
-    if(purrr::is_empty(keep_col)){keep_col <- NULL}
+    if(purrr::is_empty(keep_col)){keep_col <- NULL}else{keep_col <- c("variable_name", keep_col)}
 
     discrepancies <- full %>%
       dplyr::filter(n!=length(redcap_token_list)) %>%
       dplyr::select(all_of(user_constant), dplyr::all_of(keep_col))
 
-    output <- list("full" = full, "discrepancies" = discrepancies)}
+    output <- list("full" = full,
+                   "discrepancies" =discrepancies)}
 
 
   return(output)}
