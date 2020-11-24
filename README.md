@@ -34,8 +34,8 @@ Installation and Documentation
 You can install `collaborator` from github with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("kamclean/collaborator")
+# install.packages("remotes")
+remotes::install_github("kamclean/collaborator")
 ```
 
 It is recommended that this package is used together with `tidyverse` packages.
