@@ -40,7 +40,7 @@ report_miss <- function(redcap_project_uri, redcap_project_token, use_ssl = TRUE
                                format='csv',
                                raworLabel="raw")
 
-  df_record <- suppressWarnings(readr::read_csv(df_record)) %>%
+  df_record <- suppressWarnings(readr::read_csv(df_record, guess_max = 100000)) %>%
     dplyr::select(-contains("_complete")) %>%
     dplyr::filter(is.na(redcap_data_access_group)==F)
 
@@ -51,6 +51,8 @@ report_miss <- function(redcap_project_uri, redcap_project_token, use_ssl = TRUE
   df_metadata <- collaborator::redcap_metadata(redcap_project_uri = redcap_project_uri,
                              redcap_project_token = redcap_project_token,
                              use_ssl = use_ssl)
+
+
 
   df_meta <- df_metadata %>%
     dplyr::select(variable_name, variable_label, variable_type, branch_logic) %>%
@@ -87,7 +89,6 @@ report_miss <- function(redcap_project_uri, redcap_project_token, use_ssl = TRUE
     dplyr::arrange(variable_name) %>% dplyr::mutate(variable_name = as.character(variable_name)) %>%
     dplyr::select(variable_name, branch_logic)
 
-
   # Determine missing data-------------------------------
   # 1. Determine branching variables
   redcap_dd_branch <- df_meta %>% dplyr::filter(is.na(branch_logic)==F)
@@ -99,9 +100,8 @@ report_miss <- function(redcap_project_uri, redcap_project_token, use_ssl = TRUE
   # 2. Convert branching to present ("."), missing ("M") or appropriately missing ("NA") based on branching logic
   if(nrow(redcap_dd_branch)>0){
 
-    df_record_clean <- df_record
-
-    df_record <- df_record %>% dplyr::mutate_all(function(x){ifelse(is.na(x)==T, "", x)})
+    df_record_clean <- df_record %>%
+      dplyr::mutate_all(function(x){as.character(x)})
 
     for(i in 1:nrow(redcap_dd_branch)) {
 
@@ -116,10 +116,9 @@ report_miss <- function(redcap_project_uri, redcap_project_token, use_ssl = TRUE
         dplyr::mutate(variable_out = ifelse(is.na(logic_fufilled)==T|logic_fufilled==F, NA,
 
                                             # if logic_fufilled == T, and the data is NA then "Missing"
-                                            ifelse(is.na(variable_data)==T, "M", "."))) %>%
+                                            ifelse(is.na(variable_data), "M", "."))) %>%
         dplyr::select(-all_of(redcap_dd_branch$variable_name[[i]])) %>%
         dplyr::rename_at(vars(matches("variable_out")), function(x){redcap_dd_branch$variable_name[[i]]})}}
-
 
 
   # 3. Convert non-branching to present (".") or missing ("M") based on NA status
@@ -127,7 +126,6 @@ report_miss <- function(redcap_project_uri, redcap_project_token, use_ssl = TRUE
     dplyr::mutate_all(as.character) %>%
     dplyr::mutate_at(tidyselect::all_of(redcap_dd_nobranch), function(x){ifelse(is.na(x)==T, "M", ".")}) %>%
     dplyr::select(-logic_fufilled, -variable_data)
-
 
   # 4. Re-combine checkbox variables
   xbox_names <- df_metadata %>%
@@ -146,8 +144,8 @@ report_miss <- function(redcap_project_uri, redcap_project_token, use_ssl = TRUE
     dplyr::mutate_at(vars(all_of(xbox_names$variable_name_original)), function(x){ifelse(x=="", NA, ".")})
 
   # Clean dataset
-  if(is.null(var_exclude)==F){df_record_clean <- df_record_clean %>% dplyr::select(-one_of(var_exclude))}
-  if(is.null(var_include)==F){df_record_clean <- df_record_clean %>% dplyr::select(record_id, redcap_data_access_group, tidyselect::all_of(var_include))}
+  if(is.null(var_exclude)==F){df_record_clean <- df_record_clean %>% dplyr::select(-tidyselect::any_of(var_exclude))}
+  if(is.null(var_include)==F){df_record_clean <- df_record_clean %>% dplyr::select(record_id, redcap_data_access_group, tidyselect::any_of(var_include))}
 
   if(is.null(dag_exclude)==F){df_record_clean <- df_record_clean %>% dplyr::filter(! redcap_data_access_group %in% dag_exclude)}
   if(is.null(dag_include)==F){df_record_clean <- df_record_clean %>% dplyr::filter(redcap_data_access_group %in% dag_include)}

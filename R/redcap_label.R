@@ -34,7 +34,7 @@ redcap_label <- function(data = NULL, metadata = NULL,
                             exportDataAccessGroups = 'true',
                             .opts = RCurl::curlOptions(ssl.verifypeer = if(use_ssl==F){FALSE}else{TRUE}),
                             format='csv',
-                            raworLabel="raw") %>% readr::read_csv()}
+                            raworLabel="raw") %>% readr::read_csv(guess_max = 100000)}
 
   data_labelled <- data %>% dplyr::select(-ends_with("___"))
 

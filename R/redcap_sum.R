@@ -43,7 +43,7 @@ redcap_sum <- function(redcap_project_uri = NULL, redcap_project_token = NULL, u
                                format='csv',
                                raworLabel="raw")
 
-  df_record <- suppressWarnings(readr::read_csv(df_record)) %>%
+  df_record <- suppressWarnings(readr::read_csv(df_record, guess_max = 100000)) %>%
     dplyr::select(-contains("_complete")) %>%
     dplyr::filter(is.na(redcap_data_access_group)==F)
 
