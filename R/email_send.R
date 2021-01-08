@@ -10,7 +10,7 @@
 #' @param draft Logical value to create as a draft email (default: TRUE) or send immediately (FALSE)
 #' @return Vector of paths for each group-specific HTML file (append to df_email to use in send_email function)
 #' @import dplyr
-#' @import gmailr
+#' @importFrom gmailr gm_from gm_mime gm_to gm_bcc gm_bcc gm_subject gm_html_body gm_attach_file gm_send_message gm_create_draft
 #' @importFrom stringr str_sub
 #' @importFrom tidyr pivot_longer
 #' @importFrom zip zipr
