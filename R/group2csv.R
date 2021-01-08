@@ -9,7 +9,6 @@
 #' @param file_suffix String to be suffixed to "group" when naming CSV file.
 #' @return Dataframe of group AND csv file path ("file").
 #' @import dplyr
-#' @import magrittr
 #' @import readr
 #' @import here
 #' @import tibble
@@ -18,7 +17,6 @@
 
 # Function
 group2csv <- function(data, group, subfolder = "folder_csv", file_prefix = "", file_suffix = ""){
-  require(dplyr);require(readr); require(here); require(purrr)
 
   dir.create(subfolder, showWarnings = FALSE)
 

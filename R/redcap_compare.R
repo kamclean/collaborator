@@ -7,16 +7,14 @@
 #' @param comparison What should be compared - project structure ("metadata") or user rights ("rights").
 #' @return Nested tibble of the full comparison across projects ("full") and the specific discrepancies ("discrepancies").
 #' @import dplyr
-#' @import purrr
 #' @import tibble
 #' @importFrom RCurl postForm
+#' @importFrom purrr map_chr map_df is_empty map
 #' @importFrom readr read_csv
 #' @importFrom stringr str_split
 #' @export
 
 redcap_compare <- function(redcap_project_uri, redcap_token_list, comparison){
-  require(dplyr); require(purrr); require(tibble)
-  require(RCurl); require(readr); require(stringr)
 
 
   output <- NULL
