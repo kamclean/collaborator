@@ -20,8 +20,6 @@
 email_field <- function(df_email, group = "data_access_group", subject,
                          recipient_main = NULL,recipient_cc = NULL,recipient_bcc = NULL){
 
-  require(dplyr);require(stringr);require(purrr);require(tidyr);require(tibble)
-
   data <- df_email %>%
     # standardise names of variables
     dplyr::mutate(group = dplyr::pull(., group),

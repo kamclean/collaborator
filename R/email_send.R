@@ -21,8 +21,6 @@
 # Function
 
 email_send <- function(df_email, sender, body = "code", attach = NULL, zip = F, draft = TRUE){
-  require(dplyr);require(gmailr);  require(stringr); require(tidyr)
-  require(zip); require(purrr);require(stringi)
 
   df_email %>%
     dplyr::mutate(body = dplyr::pull(., body)) %>%

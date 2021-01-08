@@ -25,9 +25,6 @@
 email_body <- function(data, group = "group", rmd_file, html_output = c("code", "file"),
                        subfolder = here::here("folder_html"), file_prefix = "", file_suffix = ""){
 
-  require(dplyr); require(here); require(rmarkdown); require(purrr)
-  require(stringr); require(rvest); require(xml2); require(tibble)
-
   html_doc2code <- function(x){
     map(x, function(y){xml2::read_html(y) %>%
         rvest::html_node("div") %>%
