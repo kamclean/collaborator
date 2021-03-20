@@ -5,6 +5,7 @@
 #' @param redcap_project_uri URI (Uniform Resource Identifier) for the REDCap instance.
 #' @param redcap_project_token API (Application Programming Interface) for the REDCap project.
 #' @param use_ssl Logical value whether to verify the peer's SSL certificate should be evaluated during the API pull (default=TRUE)
+#' @param descriptive Logical value whether to include descriptive fields within the dataset (default = FALSE)
 #' @return Tibble of REDCap project metadata (with individual checkbox variables if present) and variable class in R.
 #' @import dplyr
 #' @importFrom RCurl postForm curlOptions
@@ -16,8 +17,10 @@
 #'
 #' @export
 
-redcap_metadata <- function(redcap_project_uri, redcap_project_token, use_ssl = TRUE){
+redcap_metadata <- function(redcap_project_uri, redcap_project_token, use_ssl = TRUE, descriptive = FALSE){
   require(dplyr); require(RCurl); require(readr); require(tidyr); require(stringr); require(purrr); require(stringi)
+
+  if(descriptive==F){var_descriptive <- NULL}
 
   df_meta <- RCurl::postForm(uri=redcap_project_uri,
                              token = redcap_project_token,
@@ -33,10 +36,10 @@ redcap_metadata <- function(redcap_project_uri, redcap_project_token, use_ssl = 
                   "variable_label" = field_label, select_choices_or_calculations) %>%
 
     # remove any html coding from text
-    dplyr::mutate(variable_label = gsub("<.*?>", "", variable_label)) %>%
+    dplyr::mutate(variable_label = ifelse(variable_type=="descriptive", variable_label, gsub("<.*?>", "", variable_label))) %>%
     dplyr::mutate(variable_identifier = ifelse(variable_identifier=="y"&is.na(variable_identifier)==F, "Yes", "No"),
                   variable_required = ifelse(variable_required=="y"&is.na(variable_required)==F, "Yes", "No")) %>%
-    dplyr::filter(! variable_type %in% c("descriptive"))
+    dplyr::filter(! variable_type %in% var_descriptive)
 
   # add in checkbox variables
   if("checkbox" %in% df_meta$variable_type){
