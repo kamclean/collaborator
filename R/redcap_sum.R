@@ -23,6 +23,7 @@
 #' @export
 #'
 
+
 redcap_sum <- function(redcap_project_uri = NULL, redcap_project_token = NULL,
                        centre_sum = TRUE, top = 10,
                        var_include = NULL, var_exclude = NULL,
@@ -36,23 +37,24 @@ redcap_sum <- function(redcap_project_uri = NULL, redcap_project_token = NULL,
   # Dataframe of current records----------------------------
   # Load data from REDCap
   df_record <- httr::POST(url = redcap_project_uri,
-                         body = list("token"=redcap_project_token,
-                                     content='record',
-                                     action='export',
-                                     format='csv',
-                                     type='flat',
-                                     csvDelimiter='',
-                                     rawOrLabel='raw',
-                                     rawOrLabelHeaders='raw',
-                                     exportCheckboxLabel='false',
-                                     exportSurveyFields='false',
-                                     exportDataAccessGroups='true',
-                                     returnFormat='json'),
-                         encode = "form") %>%
+                          body = list("token"=redcap_project_token,
+                                      content='record',
+                                      action='export',
+                                      format='csv',
+                                      type='flat',
+                                      csvDelimiter='',
+                                      rawOrLabel='raw',
+                                      rawOrLabelHeaders='raw',
+                                      exportCheckboxLabel='false',
+                                      exportSurveyFields='false',
+                                      exportDataAccessGroups='true',
+                                      returnFormat='json'),
+                          encode = "form") %>%
     httr::content(type = "text/csv",show_col_types = FALSE,
                   guess_max = 100000, encoding = "UTF-8") %>%
     dplyr::select(-contains("_complete")) %>%
-    dplyr::filter(is.na(redcap_data_access_group)==F)
+    dplyr::filter(is.na(redcap_data_access_group)==F) %>%
+    dplyr::mutate(redcap_data_access_group = as.character(redcap_data_access_group))
 
   if(! "record_id" %in% names(df_record)){
     if(record_id == "record_id"){stop("record_id column not present in the dataframe, please specify the name of the record_id variable")}
@@ -97,20 +99,21 @@ redcap_sum <- function(redcap_project_uri = NULL, redcap_project_token = NULL,
   # Load data from REDCap
 
   df_user <- httr::POST(url = redcap_project_uri,
-                          body = list("token"=redcap_project_token,
-                                      content='user',
-                                      action='export',
-                                      format='csv',
-                                      type='flat',
-                                      csvDelimiter='',
-                                      rawOrLabel='raw',
-                                      rawOrLabelHeaders='raw',
-                                      returnFormat='json'),
-                          encode = "form") %>%
+                        body = list("token"=redcap_project_token,
+                                    content='user',
+                                    action='export',
+                                    format='csv',
+                                    type='flat',
+                                    csvDelimiter='',
+                                    rawOrLabel='raw',
+                                    rawOrLabelHeaders='raw',
+                                    returnFormat='json'),
+                        encode = "form") %>%
     httr::content(type = "text/csv",show_col_types = FALSE,
                   guess_max = 100000, encoding = "UTF-8") %>%
     dplyr::select("redcap_data_access_group" = data_access_group, username) %>%
-    dplyr::filter(is.na(redcap_data_access_group)==F)
+    dplyr::filter(is.na(redcap_data_access_group)==F) %>%
+    dplyr::mutate(redcap_data_access_group = as.character(redcap_data_access_group))
 
   # Clean dataset
   if(is.null(dag_exclude)==F){df_user <- df_user %>% dplyr::filter(! redcap_data_access_group %in% dag_exclude)}
@@ -144,7 +147,9 @@ redcap_sum <- function(redcap_project_uri = NULL, redcap_project_token = NULL,
   # DAG summary output ---------------------------
   if(centre_sum==T){
 
-    sum_dag_all <- dplyr::full_join(df_record_sum_dag, df_user_sum_dag, by="redcap_data_access_group") %>%
+    sum_dag_all <- dplyr::full_join(df_record_sum_dag,
+                                    df_user_sum_dag,
+                                    by="redcap_data_access_group") %>%
       dplyr::mutate(record_all = ifelse(is.na(record_all)==T, 0,record_all),
                     last_update = paste(lubridate::day(Sys.Date()),
                                         lubridate::month(Sys.Date(), label=TRUE),

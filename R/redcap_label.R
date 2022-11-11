@@ -4,12 +4,11 @@
 #' @description Export the REDCap dataset, and use the metadata to classify the variables and label the columns.
 #' @param redcap_project_uri URI (Uniform Resource Identifier) for the REDCap instance.
 #' @param redcap_project_token API (Application Programming Interface) for the REDCap project.
-#' @param use_ssl Logical value whether verify the peer's SSL certificate should be evaluated (default=TRUE)
 #' @param column_name Determine if output column names should be unchanged from the REDCap record export ("raw") or labelled ("label"). Default = "raw".
 #' @param column_attr Determine if a labelled attribute should be applied and whether this should be the original ("raw") or labelled ("label") name. Default = NULL.
 #' @param checkbox_value Determine if output checkbox variables should be unchanged from the REDCap record export ("raw") or labelled ("label"). Default = "raw".
 #' @import dplyr
-#' @importFrom RCurl postForm curlOptions
+#' @importFrom httr POST content
 #' @importFrom readr read_csv
 #' @importFrom lubridate as_date as_datetime
 #' @importFrom tidyselect all_of
@@ -19,30 +18,36 @@
 
 # Function:
 
-redcap_label <- function(data = NULL, metadata = NULL,
-                         redcap_project_uri  = NULL, redcap_project_token  = NULL, use_ssl = TRUE,
+redcap_label <- function(redcap_project_uri, redcap_project_token,
                          column_name = "raw", column_attr = NULL, checkbox_value = "label"){
 
-  require(dplyr);require(RCurl);require(readr);require(lubridate); require(tidyselect);require(tibble)
+  require(dplyr);require(httr);require(readr);require(lubridate); require(tidyselect);require(tibble)
 
   # Load required data--------------------
   # Project data
-  if(is.null(redcap_project_uri)==F&is.null(redcap_project_token)==F&is.null(data)==T){
-    data <- RCurl::postForm(uri=redcap_project_uri,
-                            token = redcap_project_token,
-                            content='record',
-                            exportDataAccessGroups = 'true',
-                            .opts = RCurl::curlOptions(ssl.verifypeer = if(use_ssl==F){FALSE}else{TRUE}),
-                            format='csv',
-                            raworLabel="raw") %>% readr::read_csv(guess_max = 100000)}
+  data <- httr::POST(url = redcap_project_uri,
+                     body = list("token"=redcap_project_token,
+                                 content='record',
+                                 action='export',
+                                 format='csv',
+                                 type='flat',
+                                 csvDelimiter='',
+                                 rawOrLabel='raw',
+                                 rawOrLabelHeaders='raw',
+                                 exportCheckboxLabel='false',
+                                 exportSurveyFields='false',
+                                 exportDataAccessGroups='true',
+                                 returnFormat='json'),
+                     encode = "form") %>%
+    httr::content(type = "text/csv",show_col_types = FALSE,
+                  guess_max = 100000, encoding = "UTF-8") %>%
+    dplyr::select(-contains("_complete"))
 
   data_labelled <- data %>% dplyr::select(-ends_with("___"))
 
   # Project metadata
-  if(is.null(redcap_project_uri)==F&is.null(redcap_project_token)==F&is.null(metadata)==T){
     metadata <-  collaborator::redcap_metadata(redcap_project_uri = redcap_project_uri,
-                                               redcap_project_token = redcap_project_token,
-                                               use_ssl = use_ssl)}
+                                               redcap_project_token = redcap_project_token)
 
   # Format-------------------
   # Format checkbox variables
@@ -165,7 +170,7 @@ redcap_label <- function(data = NULL, metadata = NULL,
   # column_attr = "raw" or "label"  (default NULL)
   if(is.null(column_attr)==F){
 
-    var_label = function(x, var_label, ...){Hmisc::label(x) = var_label
+    var_label = function(x, var_label, ...){finalfit::ff_label(x) = var_label
     return(x)}
 
     if(column_attr=="label"){

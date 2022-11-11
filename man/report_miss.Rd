@@ -7,22 +7,20 @@
 report_miss(
   redcap_project_uri,
   redcap_project_token,
-  use_ssl = TRUE,
   missing_threshold = 0.05,
   var_include = NULL,
   var_exclude = NULL,
   record_exclude = NULL,
   record_include = NULL,
   dag_include = NULL,
-  dag_exclude = NULL
+  dag_exclude = NULL,
+  record_id = "record_id"
 )
 }
 \arguments{
 \item{redcap_project_uri}{URI (Uniform Resource Identifier) for the REDCap instance.}
 
 \item{redcap_project_token}{API (Application Programming Interface) for the REDCap project.}
-
-\item{use_ssl}{Logical value whether verify the peer's SSL certificate should be evaluated (default=TRUE)}
 
 \item{var_include}{Vector of names of variables that are desired to be specifically used to assess data completness (alternate method from using "var_exclude").}
 
@@ -35,6 +33,10 @@ report_miss(
 \item{dag_include}{Vector of redcap data access group names that are desired to be included in the record count.}
 
 \item{dag_exclude}{Vector of redcap data access group names that are desired to be excluded from the record count.}
+
+\item{record_id}{String of variable name which fufills the record_id role (default = "record_id")}
+
+\item{use_ssl}{Logical value whether verify the peer's SSL certificate should be evaluated (default=TRUE)}
 }
 \value{
 Nested dataframe with a summary of missing data at the redcap_data_access_group level and the record level.

@@ -11,6 +11,7 @@
 #' @param dag_include Vector of redcap data access group names that are desired to be included in the record count.
 #' @param dag_exclude Vector of redcap data access group names that are desired to be excluded from the record count.
 #' @param use_ssl Logical value whether verify the peer's SSL certificate should be evaluated (default=TRUE)
+#' @param record_id String of variable name which fufills the record_id role (default = "record_id")
 #' @import dplyr
 #' @import tibble
 #' @importFrom stringr str_split_fixed
@@ -24,39 +25,42 @@
 #' @export
 
 # Function:
-report_miss <- function(redcap_project_uri, redcap_project_token, use_ssl = TRUE, missing_threshold = 0.05,
+report_miss <- function(redcap_project_uri, redcap_project_token, missing_threshold = 0.05,
                         var_include = NULL, var_exclude = NULL, record_exclude = NULL, record_include = NULL,
-                        dag_include = NULL, dag_exclude = NULL){
+                        dag_include = NULL, dag_exclude = NULL, record_id = "record_id"){
   # Prepare dataset----------------
   # Load functions / packages
   require(dplyr);require(tibble);require(stringr); require(stringi);require(scales);
   require(RCurl);require(readr);require(tidyr);require(tidyselect)
 
-  df_record <- RCurl::postForm(uri=redcap_project_uri,
-                               token = redcap_project_token,
-                               content='record',
-                               exportDataAccessGroups = 'true',
-                               .opts = RCurl::curlOptions(ssl.verifypeer = if(use_ssl==F){FALSE}else{TRUE}),
-                               format='csv',
-                               raworLabel="raw")
-
-  df_record <- suppressWarnings(readr::read_csv(df_record, guess_max = 100000)) %>%
+  df_record <-  httr::POST(url = redcap_project_uri,
+                           body = list("token"=redcap_project_token,
+                                       content='record',
+                                       action='export',
+                                       format='csv',
+                                       type='flat',
+                                       csvDelimiter='',
+                                       rawOrLabel='raw',
+                                       rawOrLabelHeaders='raw',
+                                       exportCheckboxLabel='false',
+                                       exportSurveyFields='false',
+                                       exportDataAccessGroups='true',
+                                       returnFormat='json'),
+                           encode = "form") %>%
+    httr::content(type = "text/csv",show_col_types = FALSE,
+                  guess_max = 100000, encoding = "UTF-8") %>%
     dplyr::select(-contains("_complete")) %>%
     dplyr::filter(is.na(redcap_data_access_group)==F)
-
 
   # Data dictionary set-up---------------------
   # Convert data dictionary branching to R format
 
   df_metadata <- collaborator::redcap_metadata(redcap_project_uri = redcap_project_uri,
-                             redcap_project_token = redcap_project_token,
-                             use_ssl = use_ssl)
-
+                                               redcap_project_token = redcap_project_token)
 
 
   df_meta <- df_metadata %>%
     dplyr::select(variable_name, variable_label, variable_type, branch_logic) %>%
-
     dplyr::mutate(branch_logic = iconv(tolower(as.character(branch_logic)), to ="ASCII//TRANSLIT")) %>%
 
     # clean branching logic
@@ -86,6 +90,7 @@ report_miss <- function(redcap_project_uri, redcap_project_token, use_ssl = TRUE
                                       "variable_type" = NA,
                                       "branch_logic" = NA)) %>%
     dplyr::mutate(variable_name = factor(variable_name, levels = colnames(df_record))) %>% # only variables in the dataset
+    dplyr::filter(is.na(variable_name)==F) %>%
     dplyr::arrange(variable_name) %>% dplyr::mutate(variable_name = as.character(variable_name)) %>%
     dplyr::select(variable_name, branch_logic)
 
@@ -123,8 +128,8 @@ report_miss <- function(redcap_project_uri, redcap_project_token, use_ssl = TRUE
 
   # 3. Convert non-branching to present (".") or missing ("M") based on NA status
   df_record_clean <- df_record_clean %>%
-    dplyr::mutate_all(as.character) %>%
-    dplyr::mutate_at(tidyselect::all_of(redcap_dd_nobranch), function(x){ifelse(is.na(x)==T, "M", ".")}) %>%
+    dplyr::mutate(across(everything(), as.character)) %>%
+    dplyr::mutate(across(tidyselect::all_of(redcap_dd_nobranch), function(x){ifelse(is.na(x)==T, "M", ".")})) %>%
     dplyr::select(-logic_fufilled, -variable_data)
 
   # 4. Re-combine checkbox variables
@@ -136,9 +141,9 @@ report_miss <- function(redcap_project_uri, redcap_project_token, use_ssl = TRUE
     dplyr::summarise(variable_name = list(variable_name))
 
   for(i in 1:nrow(xbox_names)){
-  df_record_clean <- df_record_clean %>%
-    tidyr::unite(col = !!eval(unique(xbox_names$variable_name_original[i])),
-                 tidyselect::all_of(c(xbox_names$variable_name[[i]])), na.rm = T, remove = T)}
+    df_record_clean <- df_record_clean %>%
+      tidyr::unite(col = !!eval(unique(xbox_names$variable_name_original[i])),
+                   tidyselect::all_of(c(xbox_names$variable_name[[i]])), na.rm = T, remove = T)}
 
   df_record_clean <- df_record_clean %>%
     dplyr::mutate_at(vars(all_of(xbox_names$variable_name_original)), function(x){ifelse(x=="", NA, ".")})
@@ -161,7 +166,7 @@ report_miss <- function(redcap_project_uri, redcap_project_token, use_ssl = TRUE
 
   # Patient-level
   data_missing_pt <- df_record_clean %>%
-
+    dplyr::rename("record_id" = eval(record_id)) %>%
     # remove checkbox variables (will always be the same value) except the first and rename
     dplyr::select(-any_of(xbox_remove)) %>%
     dplyr::rename_all(function(x){stringr::str_remove(x, "___1")}) %>%

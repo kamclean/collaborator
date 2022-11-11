@@ -20,7 +20,7 @@ user_summarise <- function(redcap_project_uri, redcap_project_token,
 
   require(httr); require(dplyr); require(stringr); require(tidyr)
 
-  user <- user_role(redcap_project_uri = redcap_project_uri,
+  user <- collaborator::user_role(redcap_project_uri = redcap_project_uri,
                             redcap_project_token = redcap_project_token,
                     remove_id = F)$all %>%
     dplyr::filter(! (username %in% user_exclude)) %>%
