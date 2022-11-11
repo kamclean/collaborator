@@ -4,12 +4,10 @@
 #' @description Used to generate high quality summary data for REDCap projects at overall, and DAG-specific level.
 #' @param redcap_project_uri URI (Uniform Resource Identifier) for the REDCap instance.
 #' @param redcap_project_token API (Application Programming Interface) for the REDCap project.
-#' @param use_ssl Logical value whether to verify the peer's SSL certificate should be evaluated during the API pull (default=TRUE)
 #' @param descriptive Logical value whether to include descriptive fields within the dataset (default = FALSE)
 #' @return Tibble of REDCap project metadata (with individual checkbox variables if present) and variable class in R.
 #' @import dplyr
-#' @importFrom RCurl postForm curlOptions
-#' @importFrom readr read_csv
+#' @importFrom httr POST content
 #' @importFrom tidyr separate_rows
 #' @importFrom purrr map
 #' @importFrom stringr str_split_fixed
@@ -17,18 +15,21 @@
 #'
 #' @export
 
-redcap_metadata <- function(redcap_project_uri, redcap_project_token, use_ssl = TRUE, descriptive = FALSE){
-  require(dplyr); require(RCurl); require(readr); require(tidyr); require(stringr); require(purrr); require(stringi)
+redcap_metadata <- function(redcap_project_uri, redcap_project_token, descriptive = FALSE){
+  require(dplyr); require(httr); require(tidyr); require(stringr); require(purrr); require(stringi)
 
   if(descriptive==F){var_descriptive <- NULL}
 
-  df_meta <- RCurl::postForm(uri=redcap_project_uri,
-                             token = redcap_project_token,
-                             content='metadata',
-                             .opts = RCurl::curlOptions(ssl.verifypeer = if(use_ssl==F){FALSE}else{TRUE}),
-                             format='csv',
-                             raworLabel="raw") %>%
-    readr::read_csv() %>%
+  df_meta <- httr::POST(url = redcap_project_uri,
+                        body = list("token"=redcap_project_token,
+                                    content='metadata',
+                                    action='export',
+                                    format='csv',
+                                    type='flat',
+                                    returnFormat='json'),
+                        encode = "form") %>%
+    httr::content(type = "text/csv",show_col_types = FALSE,
+                  guess_max = 100000, encoding = "UTF-8") %>%
     dplyr::select(form_name, "matrix_name" = matrix_group_name, "variable_name" = field_name, "variable_type" = field_type,
                   "variable_validation" = text_validation_type_or_show_slider_number,
                   "variable_validation_min" = text_validation_min, "variable_validation_max" = text_validation_max,
@@ -123,12 +124,19 @@ redcap_metadata <- function(redcap_project_uri, redcap_project_token, use_ssl = 
 
 
   # Get event / arm data
-  df_event <- tryCatch(RCurl::postForm(uri=redcap_project_uri,
-                                       token=redcap_project_token,
-                                       content = "formEventMapping",
-                                       .opts = RCurl::curlOptions(ssl.verifypeer = if (use_ssl == F) {FALSE}else {TRUE}),
-                                       format = "csv") %>% readr::read_csv(), error=function(e) NULL)
-  if(is.null(df_event)==F){
+  df_event <- tryCatch(httr::POST(url = redcap_project_uri,
+                                  body = list("token"=redcap_project_token,
+                                              content='formEventMapping',
+                                              action='export',
+                                              format='csv',
+                                              type='flat',
+                                              returnFormat='json'),
+                                  encode = "form") %>%
+                         httr::content(type = "text/csv",show_col_types = FALSE,
+                                       guess_max = 100000, encoding = "UTF-8"), error=function(e) NULL)
+
+
+  if(nrow(df_event)>0){
     df_event <- df_event %>%
       group_by(form) %>%
       dplyr::summarise_all(function(x){unique(x) %>% list()}) %>%

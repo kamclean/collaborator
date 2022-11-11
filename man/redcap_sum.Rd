@@ -7,7 +7,6 @@
 redcap_sum(
   redcap_project_uri = NULL,
   redcap_project_token = NULL,
-  use_ssl = TRUE,
   centre_sum = TRUE,
   top = 10,
   var_include = NULL,
@@ -24,8 +23,6 @@ redcap_sum(
 \item{redcap_project_uri}{URI (Uniform Resource Identifier) for the REDCap instance.}
 
 \item{redcap_project_token}{API (Application Programming Interface) for the REDCap project.}
-
-\item{use_ssl}{Logical value whether to verify the peer's SSL certificate should be evaluated during the API pull (default=TRUE)}
 
 \item{centre_sum}{Logical value to determine whether data access group-level summaries will be produced (Default = TRUE).}
 

@@ -5,11 +5,8 @@
 \title{Export REDCap dataset and label using metadata}
 \usage{
 redcap_label(
-  data = NULL,
-  metadata = NULL,
-  redcap_project_uri = NULL,
-  redcap_project_token = NULL,
-  use_ssl = TRUE,
+  redcap_project_uri,
+  redcap_project_token,
   column_name = "raw",
   column_attr = NULL,
   checkbox_value = "label"
@@ -19,8 +16,6 @@ redcap_label(
 \item{redcap_project_uri}{URI (Uniform Resource Identifier) for the REDCap instance.}
 
 \item{redcap_project_token}{API (Application Programming Interface) for the REDCap project.}
-
-\item{use_ssl}{Logical value whether verify the peer's SSL certificate should be evaluated (default=TRUE)}
 
 \item{column_name}{Determine if output column names should be unchanged from the REDCap record export ("raw") or labelled ("label"). Default = "raw".}
 

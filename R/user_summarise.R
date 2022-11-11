@@ -9,50 +9,41 @@
 #' @param user_exclude Vector of usernames to be excluded e.g. those with unique rights (default = NULL).
 #' @return Dataframe summarising the user dataframe by group (data access group), number of users, and username/fullname/emails (separated by ";").
 #' @import dplyr
-#' @importFrom RCurl postForm curlOptions
+#' @importFrom httr POST content
 #' @importFrom readr read_csv
 #' @export
 
+
 # Function
-user_summarise <- function(data = NULL, redcap_project_uri = NULL, redcap_project_token = NULL,
-                           user_exclude = NULL, use_ssl=TRUE){
+user_summarise <- function(redcap_project_uri, redcap_project_token,
+                           user_exclude = NULL, role_exclude = NULL){
 
-  require(RCurl); require(dplyr); require(readr)
+  require(httr); require(dplyr); require(stringr); require(tidyr)
 
-  if(is.null(data)==F&(is.null(redcap_project_uri)==T|is.null(redcap_project_token)==T)){
-    user_current <- data %>%
-      dplyr::select(data_access_group, username, firstname, lastname, email)}
+  user <- user_role(redcap_project_uri = redcap_project_uri,
+                            redcap_project_token = redcap_project_token,
+                    remove_id = F)$all %>%
+    dplyr::filter(! (username %in% user_exclude)) %>%
+    dplyr::filter(! (role_name %in% role_exclude)) %>%
 
-  if(is.null(data)==T&(is.null(redcap_project_uri)==F&is.null(redcap_project_token)==F)){
+    # select relevant columns
+    dplyr::select(data_access_group, username, firstname, lastname, email)
 
-    user_current <- RCurl::postForm( uri=redcap_project_uri,
-                                     token= redcap_project_token,
-                                     content='user',
-                                     .opts = RCurl::curlOptions(ssl.verifypeer = if(use_ssl==F){FALSE}else{TRUE}),
-                                     format='csv') %>%
-      readr::read_csv() %>%
-
-      # select relevant columns
-      dplyr::select(data_access_group, username, firstname, lastname, email)}
-
-  # Exclude required users
-  if(is.null(user_exclude)==F){user_current <- user_current %>% dplyr::mutate(! username %in% user_exclude)}
-
-  output <- user_current %>%
+  output <- user %>%
     # must have an email and data_access_group
-    dplyr::filter(is.na(data_access_group)==F&is.na(email)==F) %>%
+    dplyr::filter(is.na(email)==F) %>%
 
     # ensure no special characters
-    dplyr::mutate_all(function(x){iconv(x, to ="ASCII//TRANSLIT")}) %>%
-    dplyr::mutate_at(vars(contains("name")), function(x){gsub(";", "", x)}) %>%
+    dplyr::mutate(across(everything(), function(x){iconv(x, to ="ASCII//TRANSLIT")}),
+                  across(contains("name"), function(x){stringr::str_replace_all(x, ";", "")})) %>%
 
     #summarise by DAG
     dplyr::group_by(data_access_group) %>%
     dplyr::summarise(user_n = n(),
                      user_usernames = paste(paste0(username), collapse = "; "),
                      user_fullnames = paste(paste0(firstname, " ", lastname), collapse = "; "),
-                     user_email = paste0(email, collapse = "; ")) %>%
-    dplyr::ungroup()
-
+                     user_firstnames = paste(paste0(firstname), collapse = "; "),
+                     user_lastnames = paste(paste0(lastname), collapse = "; "),
+                     user_email = paste0(email, collapse = "; "), .groups = "drop")
 
   return(output)}

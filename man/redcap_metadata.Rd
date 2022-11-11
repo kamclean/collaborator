@@ -4,19 +4,12 @@
 \alias{redcap_metadata}
 \title{Export REDCap metadata (with individual checkbox variables if present) and variable class in R.}
 \usage{
-redcap_metadata(
-  redcap_project_uri,
-  redcap_project_token,
-  use_ssl = TRUE,
-  descriptive = FALSE
-)
+redcap_metadata(redcap_project_uri, redcap_project_token, descriptive = FALSE)
 }
 \arguments{
 \item{redcap_project_uri}{URI (Uniform Resource Identifier) for the REDCap instance.}
 
 \item{redcap_project_token}{API (Application Programming Interface) for the REDCap project.}
-
-\item{use_ssl}{Logical value whether to verify the peer's SSL certificate should be evaluated during the API pull (default=TRUE)}
 
 \item{descriptive}{Logical value whether to include descriptive fields within the dataset (default = FALSE)}
 }

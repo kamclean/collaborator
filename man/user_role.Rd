@@ -7,8 +7,8 @@
 user_role(
   redcap_project_uri,
   redcap_project_token,
-  users_ignore = NULL,
-  use_ssl = TRUE
+  user_exclude = NULL,
+  remove_id = T
 )
 }
 \arguments{
@@ -16,10 +16,10 @@ user_role(
 
 \item{redcap_project_token}{API (Application Programming Interface) for the REDCap project.}
 
-\item{users_ignore}{Vector of usernames to be excluded (e.g. those with unique rights). Default is none (e.g. "").}
+\item{user_exclude}{Vector of usernames to be excluded (e.g. those with unique rights). Default is none (e.g. "").}
 }
 \value{
-Nested dataframe of (i) Dataframe of all users numbered by unique role. (ii) Dataframe of each role with an example user with those user rights.
+Dataframe of all users by unique role
 }
 \description{
 Used to count the number of unique roles (e.g. unique combinations of user rights) on the REDCap project. Note: this replaces the function of roles on the user rights page of the REDCap.

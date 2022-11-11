@@ -5,21 +5,20 @@
 \title{Summarise the REDCap user dataframe by group (data access group)}
 \usage{
 user_summarise(
-  data = NULL,
-  redcap_project_uri = NULL,
-  redcap_project_token = NULL,
+  redcap_project_uri,
+  redcap_project_token,
   user_exclude = NULL,
-  use_ssl = TRUE
+  role_exclude = NULL
 )
 }
 \arguments{
-\item{data}{Dataset previously exported of users authorized for a project (5 required columns: data_access_group, username, firstname, lastname, email)}
-
 \item{redcap_project_uri}{URI (Uniform Resource Identifier) for the REDCap instance.}
 
 \item{redcap_project_token}{API (Application Programming Interface) for the REDCap project.}
 
 \item{user_exclude}{Vector of usernames to be excluded e.g. those with unique rights (default = NULL).}
+
+\item{data}{Dataset previously exported of users authorized for a project (5 required columns: data_access_group, username, firstname, lastname, email)}
 
 \item{use_ssl}{Logical value whether to verify the peer's SSL certificate should be evaluated during the API pull (default=TRUE)}
 }

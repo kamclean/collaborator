@@ -4,7 +4,6 @@
 #' @description Used to generate high quality summary data for REDCap projects at overall, and DAG-specific level.
 #' @param redcap_project_uri URI (Uniform Resource Identifier) for the REDCap instance.
 #' @param redcap_project_token API (Application Programming Interface) for the REDCap project.
-#' @param use_ssl Logical value whether to verify the peer's SSL certificate should be evaluated during the API pull (default=TRUE)
 #' @param centre_sum Logical value to determine whether data access group-level summaries will be produced (Default = TRUE).
 #' @param top When centre_sum = TRUE, defines output of the number of centres with the most records uploaded (default is top 10).
 #' @param var_include Vector of names of variables that are desired to be specifically used to assess data completness (alternate method from using "var_exclude").
@@ -19,11 +18,12 @@
 #' @import dplyr
 #' @importFrom scales percent
 #' @importFrom lubridate day month year origin
-#' @importFrom RCurl postForm curlOptions
+#' @importFrom httr POST content
 #' @importFrom readr read_csv
 #' @export
+#'
 
-redcap_sum <- function(redcap_project_uri = NULL, redcap_project_token = NULL, use_ssl = TRUE,
+redcap_sum <- function(redcap_project_uri = NULL, redcap_project_token = NULL,
                        centre_sum = TRUE, top = 10,
                        var_include = NULL, var_exclude = NULL,
                        user_include = NULL, user_exclude = NULL,
@@ -31,26 +31,33 @@ redcap_sum <- function(redcap_project_uri = NULL, redcap_project_token = NULL, u
                        record_include = NULL, record_exclude = NULL){
 
   # Load functions / packages
-  require(dplyr);require(scales);require(lubridate);require(RCurl);require(readr)
+  require(dplyr);require(scales);require(lubridate);require(httr);require(readr)
 
   # Dataframe of current records----------------------------
   # Load data from REDCap
-  df_record <- RCurl::postForm(uri=redcap_project_uri,
-                               token = redcap_project_token,
-                               content='record',
-                               exportDataAccessGroups = 'true',
-                               .opts = RCurl::curlOptions(ssl.verifypeer = if(use_ssl==F){FALSE}else{TRUE}),
-                               format='csv',
-                               raworLabel="raw")
-
-  df_record <- suppressWarnings(readr::read_csv(df_record, guess_max = 100000)) %>%
+  df_record <- httr::POST(url = redcap_project_uri,
+                         body = list("token"=redcap_project_token,
+                                     content='record',
+                                     action='export',
+                                     format='csv',
+                                     type='flat',
+                                     csvDelimiter='',
+                                     rawOrLabel='raw',
+                                     rawOrLabelHeaders='raw',
+                                     exportCheckboxLabel='false',
+                                     exportSurveyFields='false',
+                                     exportDataAccessGroups='true',
+                                     returnFormat='json'),
+                         encode = "form") %>%
+    httr::content(type = "text/csv",show_col_types = FALSE,
+                  guess_max = 100000, encoding = "UTF-8") %>%
     dplyr::select(-contains("_complete")) %>%
     dplyr::filter(is.na(redcap_data_access_group)==F)
 
   if(! "record_id" %in% names(df_record)){
     if(record_id == "record_id"){stop("record_id column not present in the dataframe, please specify the name of the record_id variable")}
 
-    df_record <-df_record %>% dplyr::mutate(record_id = pull(., record_id))}
+    df_record <- df_record %>% dplyr::mutate(record_id = pull(., record_id))}
 
   # Clean dataset
   if(is.null(var_exclude)==F){df_record <- df_record %>% dplyr::select(-one_of(var_exclude))}
@@ -88,15 +95,20 @@ redcap_sum <- function(redcap_project_uri = NULL, redcap_project_token = NULL, u
 
   # Dataframe of current users----------------------------
   # Load data from REDCap
-  df_user <- RCurl::postForm(uri=redcap_project_uri,
-                             token = redcap_project_token,
-                             content='user',
-                             .opts = curlOptions(ssl.verifypeer = if(use_ssl==F){FALSE}else{TRUE}),
-                             exportDataAccessGroups = 'true',
-                             format='csv',
-                             raworLabel="raw")
 
-  df_user <- suppressWarnings(readr::read_csv(df_user)) %>%
+  df_user <- httr::POST(url = redcap_project_uri,
+                          body = list("token"=redcap_project_token,
+                                      content='user',
+                                      action='export',
+                                      format='csv',
+                                      type='flat',
+                                      csvDelimiter='',
+                                      rawOrLabel='raw',
+                                      rawOrLabelHeaders='raw',
+                                      returnFormat='json'),
+                          encode = "form") %>%
+    httr::content(type = "text/csv",show_col_types = FALSE,
+                  guess_max = 100000, encoding = "UTF-8") %>%
     dplyr::select("redcap_data_access_group" = data_access_group, username) %>%
     dplyr::filter(is.na(redcap_data_access_group)==F)
 
