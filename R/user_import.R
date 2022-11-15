@@ -19,7 +19,6 @@
 #' @export
 
 # Function
-
 user_import <- function(df, username, first_name, last_name, email,
                         institution = NULL, sponser = NULL, expiration = NULL, comments = NULL,
                         path = NULL){
@@ -36,7 +35,7 @@ user_import <- function(df, username, first_name, last_name, email,
     dplyr::select(Username:Comments) %>%
     dplyr::mutate_at(vars(`Institution ID`:Comments), function(x){ifelse(is.na(x)==T, "", x)})
 
-  if(is.null(path)==T){user_import_df %>% readr::write_csv(path=path)}
+  if(is.null(path)==F){user_import_df %>% readr::write_csv(path=path)}
 
   return(user_import_df)}
 
