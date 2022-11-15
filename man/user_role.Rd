@@ -8,7 +8,8 @@ user_role(
   redcap_project_uri,
   redcap_project_token,
   user_exclude = NULL,
-  remove_id = T
+  remove_id = T,
+  show_rights = F
 )
 }
 \arguments{
@@ -17,6 +18,10 @@ user_role(
 \item{redcap_project_token}{API (Application Programming Interface) for the REDCap project.}
 
 \item{user_exclude}{Vector of usernames to be excluded (e.g. those with unique rights). Default is none (e.g. "").}
+
+\item{remove_id}{Logical value to remove identifying details of users (e.g. name, email). Default is TRUE}
+
+\item{show_rights}{Logical value to show user rights allocated to each role. Default is FALSE}
 }
 \value{
 Dataframe of all users by unique role

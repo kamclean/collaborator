@@ -4,11 +4,11 @@
 #' @description Used to compare multiple REDCap projects to determine discrepancies in structure or user rights.
 #' @param redcap_project_uri URI (Uniform Resource Identifier) for the REDCap instance (must all be on same REDCap instance)
 #' @param redcap_token_list List of API (Application Programming Interface) for the REDCap projects.
-#' @param comparison What should be compared - project structure ("metadata") or user rights ("rights").
+#' @param comparison What should be compared - project structure ("metadata") or user roles ("role").
 #' @return Nested tibble of the full comparison across projects ("full") and the specific discrepancies ("discrepancies").
 #' @import dplyr
 #' @import tibble
-#' @importFrom RCurl postForm
+#' @importFrom httr POST content
 #' @importFrom purrr map_chr map_df is_empty map
 #' @importFrom readr read_csv
 #' @importFrom stringr str_split
@@ -22,7 +22,13 @@ redcap_compare <- function(redcap_project_uri, redcap_token_list, comparison){
     metadata <- redcap_token_list %>%
       purrr::map_df(function(x){
 
-        title = RCurl::postForm(uri=redcap_project_uri,token=x, content='project', format='csv') %>% readr::read_csv() %>%
+        title = httr::POST(url = redcap_project_uri,
+                           body = list("token"=x,
+                                       content='project',
+                                       format='csv',
+                                       returnFormat='json'), encode = "form") %>%
+          httr::content(type = "text/csv",show_col_types = FALSE,
+                        guess_max = 100000, encoding = "UTF-8") %>%
           dplyr::pull(project_title)
 
         out <- collaborator::redcap_metadata(redcap_project_uri = redcap_project_uri, redcap_project_token = x) %>%
@@ -58,61 +64,57 @@ redcap_compare <- function(redcap_project_uri, redcap_token_list, comparison){
       dplyr::filter(n!=length(redcap_token_list)) %>%
       dplyr::select(all_of(meta_constant), dplyr::all_of(c(keep_col)))
 
-    output <- list("full" = full,
+    output <- list("full" = full %>% dplyr::filter(n==length(redcap_token_list)),
                    "discrepancies" =discrepancies)}
 
 
-
-
-  if(comparison=="rights"){
+  if(comparison=="role"){
     userdata <- redcap_token_list %>%
       purrr::map_df(function(x){
 
-        title = RCurl::postForm(uri=redcap_project_uri,token=x, content='project', format='csv') %>% readr::read_csv() %>%
+        title = httr::POST(url = redcap_project_uri,
+                           body = list("token"=x,
+                                       content='project',
+                                       format='csv',
+                                       returnFormat='json'), encode = "form") %>%
+          httr::content(type = "text/csv",show_col_types = FALSE,
+                        guess_max = 100000, encoding = "UTF-8") %>%
           dplyr::pull(project_title)
 
-        out <- collaborator:::user_role(redcap_project_uri = redcap_project_uri, redcap_project_token =x)$full %>%
-          dplyr::select(-any_of(c("email", "firstname", "lastname", "expiration", "data_access_group", "data_access_group_id"))) %>%
+        out <- user_role(redcap_project_uri = redcap_project_uri, redcap_project_token =x,
+                         show_rights = T, remove_id = T)$sum %>%
           dplyr::mutate(project = title) %>%
-          dplyr::group_by(across(-username)) %>%
-          dplyr::summarise(.groups = "drop",
-                           user_name = paste0(username, collapse = "; "),
-                           user_n = n()) %>%
-          dplyr::select(project, role, user_n, user_name, everything())
+
+          dplyr::select(project, role_name, "user_n" = n, user_name = "username", everything())
 
         return(out)}) %>%
       dplyr::mutate(project = factor(project))
 
-    user_constant <- c("project", "n", "role", "user_name", "user_n")
+    user_constant <- c("project", "role_name", "user_n", "user_name")
 
     full <- userdata %>%
-      dplyr::group_by(across(design:forms)) %>%
+      group_by(across(starts_with("right_"))) %>%
       dplyr::summarise(n = n(),
-                       project = paste0(unique(project), collapse = ", "),
-                       role = paste0(unique(role), collapse = ", "),
-                       user_name = paste0(user_name, collapse = "; "),
+                       project = list(as.character(unique(project))),
+                       role_name = list(as.character(unique(role_name))),
+                       user_name = unique(user_name),
                        .groups = "drop") %>%
-      dplyr::select(any_of(user_constant), everything()) %>%
-
-      dplyr::mutate(user_name = stringr::str_split(user_name, "; ")) %>%
-      dplyr::mutate(user_n = purrr::map(user_name, function(x){unique(x) %>% length()}),
-                    user_name = purrr::map(user_name, function(x){unique(x) %>% paste0(collapse = "; ")}))
-
-
+      dplyr::mutate(user_n = purrr::map_chr(user_name, function(x){length(x)}),
+                    user_name = purrr::map(user_name, function(x){unique(x) %>% paste0(collapse = "; ")}),
+                    project = purrr::map(project, function(x){unique(x) %>% paste0(collapse = "; ")}),
+                    role_name = purrr::map(role_name, function(x){unique(x) %>% paste0(collapse = "; ")})) %>%
+      dplyr::select(any_of(user_constant), everything())
 
     keep_col <- full %>%
       dplyr::filter(n!=length(redcap_token_list)) %>%
       purrr::map_chr(function(x){length(unique(x)) > 1}) %>% tibble::enframe() %>% filter(value ==T) %>%
       dplyr::pull(name)
 
-    if(purrr::is_empty(keep_col)){keep_col <- NULL}else{keep_col <- c("variable_name", keep_col)}
-
     discrepancies <- full %>%
       dplyr::filter(n!=length(redcap_token_list)) %>%
       dplyr::select(all_of(user_constant), dplyr::all_of(keep_col))
 
-    output <- list("full" = full,
-                   "discrepancies" =discrepancies)}
+    output <- list("full" = full)}
 
 
   return(output)}

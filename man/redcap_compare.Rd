@@ -11,7 +11,7 @@ redcap_compare(redcap_project_uri, redcap_token_list, comparison)
 
 \item{redcap_token_list}{List of API (Application Programming Interface) for the REDCap projects.}
 
-\item{comparison}{What should be compared - project structure ("metadata") or user rights ("rights").}
+\item{comparison}{What should be compared - project structure ("metadata") or user roles ("role").}
 }
 \value{
 Nested tibble of the full comparison across projects ("full") and the specific discrepancies ("discrepancies").

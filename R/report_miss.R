@@ -17,7 +17,7 @@
 #' @importFrom stringr str_split_fixed
 #' @importFrom stringi stri_replace_all_fixed
 #' @importFrom scales percent
-#' @importFrom RCurl postForm curlOptions
+#' @importFrom httr POST content
 #' @importFrom readr read_csv
 #' @importFrom tidyr separate_rows
 #' @importFrom tidyselect all_of
@@ -30,8 +30,6 @@ report_miss <- function(redcap_project_uri, redcap_project_token, missing_thresh
                         dag_include = NULL, dag_exclude = NULL, record_id = "record_id"){
   # Prepare dataset----------------
   # Load functions / packages
-  require(dplyr);require(tibble);require(stringr); require(stringi);require(scales);
-  require(RCurl);require(readr);require(tidyr);require(tidyselect)
 
   df_record <-  httr::POST(url = redcap_project_uri,
                            body = list("token"=redcap_project_token,

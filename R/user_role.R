@@ -5,14 +5,16 @@
 #' @param redcap_project_uri URI (Uniform Resource Identifier) for the REDCap instance.
 #' @param redcap_project_token API (Application Programming Interface) for the REDCap project.
 #' @param user_exclude Vector of usernames to be excluded (e.g. those with unique rights). Default is none (e.g. "").
+#' @param remove_id Logical value to remove identifying details of users (e.g. name, email). Default is TRUE
+#' @param show_rights  Logical value to show user rights allocated to each role. Default is FALSE
 #' @import dplyr
 #' @importFrom httr POST content
 #' @return Dataframe of all users by unique role
 #' @export
 
 # Function:
-user_role <- function(redcap_project_uri, redcap_project_token, user_exclude = NULL, remove_id = T){
-  require(httr); require(dplyr); require(stringr); require(purrr)
+user_role <- function(redcap_project_uri, redcap_project_token, user_exclude = NULL, remove_id = T, show_rights = F){
+  require(httr); require(dplyr)
 
   role <- httr::POST(url=redcap_project_uri,
                      body = list("token"= redcap_project_token, content='userRole',
@@ -31,13 +33,18 @@ user_role <- function(redcap_project_uri, redcap_project_token, user_exclude = N
   user_current <- httr::POST(url=redcap_project_uri,
                              body = list("token"= redcap_project_token, content='user',
                                          action='export', format='csv')) %>%
-    httr::content(show_col_types = FALSE)  %>%
-    dplyr::select(username:data_access_group_id)
+    httr::content(show_col_types = FALSE)
+
+
+  user_rights <- user_current%>%
+    dplyr::select(-any_of(c("email","firstname","lastname","expiration","data_access_group","data_access_group_id"))) %>%
+    dplyr::rename_with(function(x){paste0("right_", x)}) %>%
+    dplyr::rename("username" = "right_username")
 
   all <- user_role %>%
     dplyr::mutate(role_name = factor(role_name)) %>%
     dplyr::arrange(role_name) %>%
-    left_join(user_current, by = "username") %>%
+    left_join(user_current %>% dplyr::select(username:data_access_group_id), by = "username") %>%
     dplyr::ungroup()  %>%
     filter(is.na(username)==F)
 
@@ -45,14 +52,22 @@ user_role <- function(redcap_project_uri, redcap_project_token, user_exclude = N
     all <- all %>%
       select(-all_of(c("email", "firstname", "lastname", "expiration")))}
 
+
   sum <- all %>%
-    dplyr::group_by(role_name, role_id) %>%
+    dplyr::left_join(user_rights, by = "username") %>%
+    dplyr::select(-any_of(c("email","firstname","lastname","expiration","data_access_group","data_access_group_id"))) %>%
+    group_by(across(c(-all_of("username")))) %>%
     dplyr::summarise(n = n(),
                      username = list(unique(username)),
                      .groups = "drop") %>%
     dplyr::full_join(role,by = c("role_name", "role_id")) %>%
     dplyr::mutate(role_name = factor(role_name, levels = sort(role$role_name))) %>%
     dplyr::arrange(role_name) %>%
-    dplyr::mutate(n = ifelse(is.na(n)==T, 0, n))
+    dplyr::mutate(n = ifelse(is.na(n)==T, 0, n)) %>%
+    dplyr::select(role_name, role_id, n, username, everything())
+
+  if(show_rights==F){sum <- sum %>% select(-starts_with("right_"))}
+
+
 
   return(list("sum" = sum, "all" = all))}
