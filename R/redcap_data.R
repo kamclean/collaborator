@@ -1,12 +1,12 @@
-# redcap_label-------------------------
+# redcap_data-------------------------
 # Documentation
 #' Export REDCap dataset and label using metadata
 #' @description Export the REDCap dataset, and use the metadata to classify the variables and label the columns.
 #' @param redcap_project_uri URI (Uniform Resource Identifier) for the REDCap instance.
 #' @param redcap_project_token API (Application Programming Interface) for the REDCap project.
-#' @param column_name Determine if output column names should be unchanged from the REDCap record export ("raw") or labelled ("label"). Default = "raw".
-#' @param column_attr Determine if a labelled attribute should be applied and whether this should be the original ("raw") or labelled ("label") name. Default = NULL.
 #' @param checkbox_value Determine if output checkbox variables should be unchanged from the REDCap record export ("raw") or labelled ("label"). Default = "raw".
+#' @param include_original Logical value to determine whether original data should be provided too (default = FALSE).
+#' @param repeat_format The format the repeating instrument data should be provided in. Options include "long" (default), "wide" (each instance a separate column), or "list" (nested instances).
 #' @import dplyr
 #' @importFrom httr POST content
 #' @importFrom readr read_csv
@@ -18,8 +18,8 @@
 
 # Function:
 
-redcap_label <- function(redcap_project_uri, redcap_project_token,
-                         column_name = "raw", column_attr = NULL, checkbox_value = "label"){
+redcap_data <- function(redcap_project_uri, redcap_project_token, checkbox_value = "label",
+                        include_original = F, repeat_format = "long"){
 
   require(dplyr);require(httr);require(readr);require(lubridate); require(tidyselect);require(tibble)
 
@@ -46,10 +46,54 @@ redcap_label <- function(redcap_project_uri, redcap_project_token,
   data_labelled <- data %>% dplyr::select(-ends_with("___"))
 
   # Project metadata
-    metadata <-  collaborator::redcap_metadata(redcap_project_uri = redcap_project_uri,
-                                               redcap_project_token = redcap_project_token)
+  metadata <-  collaborator::redcap_metadata(redcap_project_uri = redcap_project_uri,
+                                             redcap_project_token = redcap_project_token)
 
   # Format-------------------
+  # Repeating instruments
+  if("redcap_data_access_group" %in% names(data_labelled)){data_labelled <- data_labelled %>%
+    dplyr::mutate(redcap_data_access_group= factor(redcap_data_access_group, levels=sort(unique(redcap_data_access_group))))}
+
+  if("redcap_event_name" %in% names(data_labelled)){data_labelled <- data_labelled %>%
+    dplyr::mutate(redcap_event_name= factor(redcap_event_name, levels=sort(unique(redcap_event_name))))}
+
+
+  if(("redcap_repeat_instance" %in% names(data_labelled))==T){
+
+    form_repeat <- data_labelled %>%
+      filter(is.na(redcap_repeat_instrument)==F) %>%
+      pull(redcap_repeat_instrument) %>% unique()
+
+    record_repeat <- data_labelled %>%
+      filter(is.na(redcap_repeat_instrument)==F) %>%
+      pull(record_id) %>% unique()
+
+    var_norepeat <- metadata %>%
+      dplyr::mutate(form_repeat = ifelse(form_name %in% form_repeat, "Yes", "No"))%>%
+      filter(form_repeat=="No") %>%
+      filter(! variable_name %in% c("record_id","redcap_data_access_group")) %>%
+      dplyr::pull(variable_name)
+
+    var_repeat <- metadata %>%
+      dplyr::mutate(form_repeat = ifelse(form_name %in% form_repeat, "Yes", "No"))%>%
+      filter(form_repeat=="Yes") %>%
+      dplyr::pull(variable_name)
+
+    data_labelled <- data_labelled %>%
+      dplyr::mutate(redcap_repeat_instrument= factor(redcap_repeat_instrument, levels=sort(unique(redcap_repeat_instrument))),
+                    redcap_repeat_instance = as.numeric(redcap_repeat_instance),
+                    redcap_repeat_instance = ifelse(is.na(redcap_repeat_instance)==T, 0, redcap_repeat_instance)) %>%
+      group_by(record_id, redcap_data_access_group,redcap_repeat_instance) %>%
+      tidyr::fill(all_of(var_repeat), .direction = "updown") %>%
+      group_by(record_id, redcap_data_access_group) %>%
+      tidyr::fill(all_of(var_norepeat), .direction = "down") %>%
+      dplyr::ungroup() %>%
+      dplyr::select(-redcap_repeat_instrument) %>%
+      dplyr::mutate(redcap_repeat_instance = ifelse(record_id %in% record_repeat, redcap_repeat_instance, 1)) %>%
+      filter(redcap_repeat_instance!=0) %>%
+      dplyr::distinct() %>%
+      dplyr::arrange(record_id, redcap_data_access_group,redcap_repeat_instance)}
+
   # Format checkbox variables
   if(checkbox_value=="label"){
     metadata <- metadata %>%
@@ -58,7 +102,7 @@ redcap_label <- function(redcap_project_uri, redcap_project_token,
                     factor_label = ifelse(variable_type=="checkbox", list(c("Unchecked", select_choices_or_calculations)),factor_label)) %>%
       dplyr::ungroup()}
 
-   # Supported REDCap classes
+  # Supported REDCap classes
   meta_factor <- metadata %>% dplyr::filter(class=="factor") %>% dplyr::filter(! (variable_type=="checkbox"&select_choices_or_calculations==""))
   meta_numeric <- metadata %>% dplyr::filter(class=="numeric")
   meta_date <- metadata %>% dplyr::filter(class=="date")
@@ -147,15 +191,6 @@ redcap_label <- function(redcap_project_uri, redcap_project_token,
                      function(x){as.character(x) %>% factor(levels = c("0", "1","2"),
                                                             labels = c("Incomplete", "Unverified", "Complete"))})
 
-  if("redcap_data_access_group" %in% names(data_labelled)){data_labelled <- data_labelled %>%
-    dplyr::mutate(redcap_data_access_group= factor(redcap_data_access_group, levels=sort(unique(redcap_data_access_group))))}
-
-  if("redcap_event_name" %in% names(data_labelled)){data_labelled <- data_labelled %>%
-    dplyr::mutate(redcap_event_name= factor(redcap_event_name, levels=sort(unique(redcap_event_name))))}
-
-  if("redcap_repeat_instance" %in% names(data_labelled)){data_labelled <- data_labelled %>%
-    dplyr::mutate(redcap_repeat_instrument= factor(redcap_repeat_instrument, levels=sort(unique(redcap_repeat_instrument))),
-                  redcap_repeat_instance = as.numeric(redcap_repeat_instance))}
 
   metadata = tibble::tibble(variable_name = colnames(data)) %>%
     dplyr::left_join(metadata, by = 'variable_name') %>%
@@ -164,29 +199,28 @@ redcap_label <- function(redcap_project_uri, redcap_project_token,
                   variable_label = ifelse(variable_name == 'redcap_data_access_group', 'REDCap Data Access Group', variable_label)) %>%
     dplyr::mutate(variable_label = ifelse(is.na(variable_label), variable_name, variable_label))
 
+  if(("redcap_repeat_instance" %in% names(data_labelled))==T){
+    metadata <- metadata %>%
+      dplyr::mutate(form_repeat = ifelse(form_name %in% form_repeat, "Yes", "No"))
 
-  # Label columns---------------------------------
 
-  # column_attr = "raw" or "label"  (default NULL)
-  if(is.null(column_attr)==F){
+    data_labelled <- data_labelled %>%
+      dplyr::relocate(redcap_repeat_instance, var_repeat, .after = last_col())}
 
-    var_label = function(x, var_label, ...){finalfit::ff_label(x) = var_label
-    return(x)}
+  if(repeat_format %in% c("list", "wide")){
+  data_labelled <- redcap_format_repeat(data = data_labelled, format = repeat_format)}
 
-    if(column_attr=="label"){
-      data_labelled = purrr::modify2(.x = data_labelled, # the first object to iterate over
-                                     .y = metadata$variable_label, # the second object to iterate over
-                                     ~ var_label(.x, var_label = .y)) %>%
-        dplyr::select(!!colnames(data_labelled))} #this gives it back in the right order
+  if(("redcap_repeat_instance" %in% names(data_labelled))==F){
+    metadata <- metadata %>%
+      dplyr::mutate(form_repeat = "No")}
 
-    if(column_attr=="raw"){
-      data_labelled = purrr::modify2(.x = data_labelled, # the first object to iterate over
-                                     .y = metadata$variable_name, # the second object to iterate over
-                                     ~ var_label(.x, var_label = .y)) %>%
-        dplyr::select(!!colnames(data_labelled))}}
 
-  # column_name = "raw" or "label" (default = raw)
-  if(column_name == "label"){
-    colnames(data_labelled) = metadata$variable_label[which(colnames(data_labelled) %in% metadata$variable_name)]}
 
-  return(list("exported" = data, "labelled" = data_labelled, "metadata" = metadata))}
+
+
+
+  if(include_original==F){return(list("data" = data_labelled, "metadata" = metadata))}
+  if(include_original==T){return(list("data" = data_labelled, "metadata" = metadata,"original" = data))}}
+
+
+

@@ -4,13 +4,13 @@
 #' @description Used to generate a report of record-level + redcap_data_access_group-level missing data within a REDCap project (which accounts for branching logic in the dataframe).
 #' @param redcap_project_uri URI (Uniform Resource Identifier) for the REDCap instance.
 #' @param redcap_project_token API (Application Programming Interface) for the REDCap project.
+#' @param missing_threshold The overall proportion of missing data that is acceptable (default = 0.05).
 #' @param var_include Vector of names of variables that are desired to be specifically used to assess data completness (alternate method from using "var_exclude").
 #' @param var_exclude Vector of names of variables that are desired to be excluded from assessment of data completness (any NA value will be counted as incomplete).
 #' @param record_include Vector of redcap record_id that are desired to be included in the record count.
 #' @param record_exclude Vector of redcap record_id that are desired to be excluded from the record count.
 #' @param dag_include Vector of redcap data access group names that are desired to be included in the record count.
 #' @param dag_exclude Vector of redcap data access group names that are desired to be excluded from the record count.
-#' @param use_ssl Logical value whether verify the peer's SSL certificate should be evaluated (default=TRUE)
 #' @param record_id String of variable name which fufills the record_id role (default = "record_id")
 #' @import dplyr
 #' @import tibble
@@ -47,8 +47,7 @@ report_miss <- function(redcap_project_uri, redcap_project_token, missing_thresh
                            encode = "form") %>%
     httr::content(type = "text/csv",show_col_types = FALSE,
                   guess_max = 100000, encoding = "UTF-8") %>%
-    dplyr::select(-contains("_complete")) %>%
-    dplyr::filter(is.na(redcap_data_access_group)==F)
+    dplyr::select(-contains("_complete"))
 
   # Data dictionary set-up---------------------
   # Convert data dictionary branching to R format
@@ -56,7 +55,7 @@ report_miss <- function(redcap_project_uri, redcap_project_token, missing_thresh
   df_metadata <- collaborator::redcap_metadata(redcap_project_uri = redcap_project_uri,
                                                redcap_project_token = redcap_project_token)
 
-
+  # Format branching logic
   df_meta <- df_metadata %>%
     dplyr::select(variable_name, variable_label, variable_type, branch_logic) %>%
     dplyr::mutate(branch_logic = iconv(tolower(as.character(branch_logic)), to ="ASCII//TRANSLIT")) %>%
@@ -91,6 +90,48 @@ report_miss <- function(redcap_project_uri, redcap_project_token, missing_thresh
     dplyr::filter(is.na(variable_name)==F) %>%
     dplyr::arrange(variable_name) %>% dplyr::mutate(variable_name = as.character(variable_name)) %>%
     dplyr::select(variable_name, branch_logic)
+
+
+  # Identify if repeating forms present / which variables
+  if(("redcap_repeat_instrument" %in% names(df_record))==F){
+    df_metadata <- df_metadata %>% dplyr::mutate(form_repeat = "No")}
+
+  if(("redcap_repeat_instrument" %in% names(df_record))==T){
+
+    form_repeat <- df_record %>%
+      filter(is.na(redcap_repeat_instrument)==F) %>%
+      pull(redcap_repeat_instrument) %>% unique()
+
+    df_metadata <- df_metadata %>%
+      dplyr::mutate(form_repeat = ifelse(form_name %in% form_repeat, "Yes", "No"))
+
+    record_repeat <- df_record %>%
+      filter(is.na(redcap_repeat_instrument)==F) %>%
+      pull(record_id) %>% unique()
+
+    var_repeat <- df_metadata %>%
+      filter(form_repeat=="Yes") %>%
+      dplyr::pull(variable_name)
+
+    var_norepeat <- df_metadata %>%
+      filter(form_repeat=="No") %>%
+      dplyr::pull(variable_name)
+
+    df_record <- df_record %>%
+      dplyr::mutate(redcap_repeat_instrument= factor(redcap_repeat_instrument, levels=sort(unique(redcap_repeat_instrument))),
+                    redcap_repeat_instance = as.numeric(redcap_repeat_instance),
+                    redcap_repeat_instance = ifelse(is.na(redcap_repeat_instance)==T, 0, redcap_repeat_instance)) %>%
+      group_by(record_id, redcap_data_access_group,redcap_repeat_instance) %>%
+      tidyr::fill(all_of(var_repeat), .direction = "updown") %>%
+      group_by(record_id, redcap_data_access_group) %>%
+      tidyr::fill(all_of(var_norepeat), .direction = "down") %>%
+      dplyr::ungroup() %>%
+      dplyr::select(-redcap_repeat_instrument) %>%
+      dplyr::mutate(redcap_repeat_instance = ifelse(record_id %in% record_repeat, redcap_repeat_instance, 1)) %>%
+      filter(redcap_repeat_instance!=0) %>%
+      dplyr::distinct() %>%
+      dplyr::arrange(record_id, redcap_data_access_group,redcap_repeat_instance)}
+
 
   # Determine missing data-------------------------------
   # 1. Determine branching variables
@@ -163,6 +204,7 @@ report_miss <- function(redcap_project_uri, redcap_project_token, missing_thresh
     dplyr::pull(variable_name)
 
   # Patient-level
+  if(("redcap_repeat_instance" %in% names(df_record_clean))==F){
   data_missing_pt <- df_record_clean %>%
     dplyr::rename("record_id" = eval(record_id)) %>%
     # remove checkbox variables (will always be the same value) except the first and rename
@@ -173,7 +215,23 @@ report_miss <- function(redcap_project_uri, redcap_project_token, missing_thresh
     dplyr::mutate(miss_prop = miss_n/fields_n) %>%
     dplyr::mutate(miss_pct = scales::percent(miss_prop),
                   miss_threshold = factor(ifelse(miss_prop>missing_threshold, "Yes", "No"))) %>%
-    dplyr::select(record_id, redcap_data_access_group, miss_n:miss_threshold, everything())
+    dplyr::select(record_id, redcap_data_access_group, miss_n:miss_threshold, everything())}
+
+
+  if(("redcap_repeat_instance" %in% names(df_record_clean))==T){
+    data_missing_pt <- df_record_clean %>%
+      dplyr::rename("record_id" = eval(record_id)) %>%
+      # remove checkbox variables (will always be the same value) except the first and rename
+      dplyr::select(-any_of(xbox_remove)) %>%
+      dplyr::rename_all(function(x){stringr::str_remove(x, "___1")}) %>%
+      dplyr::relocate(redcap_repeat_instance, var_repeat, .after = last_col()) %>%
+      redcap_format_repeat(format = "wide") %>%
+      dplyr::mutate(miss_n = rowSums(dplyr::select(., -dplyr::one_of("record_id", "redcap_data_access_group"))=="M", na.rm=T),
+                    fields_n = rowSums(is.na(dplyr::select(., -dplyr::one_of("record_id", "redcap_data_access_group")))==F)) %>%
+      dplyr::mutate(miss_prop = miss_n/fields_n) %>%
+      dplyr::mutate(miss_pct = scales::percent(miss_prop),
+                    miss_threshold = factor(ifelse(miss_prop>missing_threshold, "Yes", "No"))) %>%
+      dplyr::select(record_id, redcap_data_access_group, miss_n:miss_threshold, everything())}
 
   # Centre-level
   data_missing_cen <- data_missing_pt %>%

@@ -43,8 +43,8 @@ data_dict <- function(df, var_include = NULL, var_exclude=NULL, label = FALSE){
       purrr::map(function(x){x %>% dplyr::summarise(variable = unique(variable),
                                                     mean = mean(value, na.rm = T) %>% signif(3),
                                                     median = stats::median(value, na.rm = T) %>% signif(3),
-                                                    min = min(value, na.rm = T) %>% signif(3),
-                                                    max = max(value, na.rm = T) %>% signif(3))}) %>%
+                                                    min = suppressWarnings(min(value, na.rm = T)) %>% signif(3),
+                                                    max = suppressWarnings(max(value, na.rm = T)) %>% signif(3))}) %>%
       dplyr::bind_rows() %>%
       dplyr::mutate(value = paste0("Mean: ", mean,"; Median: ",median, "; Range: ", min, " to ", max)) %>%
       dplyr::select(variable, value)}
@@ -57,8 +57,8 @@ data_dict <- function(df, var_include = NULL, var_exclude=NULL, label = FALSE){
        tidyr::pivot_longer(cols = everything(), names_to = "variable") %>%
        dplyr::group_split(variable) %>%
        purrr::map(function(x){x %>% dplyr::summarise(variable = unique(variable),
-                                                     min = min(value, na.rm = T),
-                                                     max = max(value, na.rm = T))}) %>%
+                                                     min = suppressWarnings(min(value, na.rm = T)),
+                                                     max = suppressWarnings(max(value, na.rm = T)))}) %>%
        dplyr::bind_rows() %>%
        dplyr::mutate(value = paste0("Range: ", min, " to ", max)) %>%
        dplyr::select(variable, value)}

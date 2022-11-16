@@ -22,6 +22,8 @@ report_miss(
 
 \item{redcap_project_token}{API (Application Programming Interface) for the REDCap project.}
 
+\item{missing_threshold}{The overall proportion of missing data that is acceptable (default = 0.05).}
+
 \item{var_include}{Vector of names of variables that are desired to be specifically used to assess data completness (alternate method from using "var_exclude").}
 
 \item{var_exclude}{Vector of names of variables that are desired to be excluded from assessment of data completness (any NA value will be counted as incomplete).}
@@ -35,8 +37,6 @@ report_miss(
 \item{dag_exclude}{Vector of redcap data access group names that are desired to be excluded from the record count.}
 
 \item{record_id}{String of variable name which fufills the record_id role (default = "record_id")}
-
-\item{use_ssl}{Logical value whether verify the peer's SSL certificate should be evaluated (default=TRUE)}
 }
 \value{
 Nested dataframe with a summary of missing data at the redcap_data_access_group level and the record level.
