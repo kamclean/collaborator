@@ -3,8 +3,13 @@ title: "Generating Missing Data Reports"
 author: "Kenneth McLean"
 date: "`r Sys.Date()`"
 output:
-  md_document:
-    variant: markdown_github
+  md_document: default
+  html_document: default
+always_allow_html: true
+vignette: >
+  %\VignetteIndexEntry{predict}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include = FALSE}
@@ -54,8 +59,10 @@ Example of a record level report of missing data. This not only quantifies the m
 ```{r, warning=FALSE, message=FALSE}
 collaborator::report_miss(redcap_project_uri = Sys.getenv("collaborator_test_uri"),
                           redcap_project_token = Sys.getenv("collaborator_test_token"))$record %>%
+  View()
   head(15) %>% # first 15 records
   knitr::kable()
+
 
 ```
 

@@ -3,10 +3,11 @@ title: "Generating Authorship Lists"
 author: "Kenneth McLean"
 date: "`r Sys.Date()`"
 output:
-  md_document:
-    variant: markdown_github
+  md_document: default
+  html_document: default
+always_allow_html: true
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{predict}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

@@ -123,9 +123,9 @@ The `email_body()` function will perform a mailmerge using a specified rmarkdown
   - "code" - The html code for the mailmerged html document produced. *Note: at present, GmailR does not allow allow html files to be directly attached as the email body. Therefore, html_output should always include "code" and this should be used as the email body in `email_send()`*.
 
 ```{r, warning=FALSE, message=FALSE}
-df_email <- collaborator::email_body(df_email, group = "group",
-                                 html_output = "code", 
-                                 rmd_file = here::here("vignettes/vignette_email_body.Rmd"))
+df_email <- collaborator::email_body(df_email, 
+                                     html_output = "code", 
+                                     rmd_file = here::here("vignettes/vignette_email_body.Rmd"))
 
 tibble::as_tibble(df_email)
 

@@ -1,0 +1,174 @@
+---
+title: "Redcap User Management"
+author: "Kenneth McLean"
+output:
+  md_document: default
+  html_document: default
+always_allow_html: true
+vignette: >
+  %\VignetteIndexEntry{predict}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = FALSE)
+library(collaborator);library(dplyr)
+```
+
+# Collaborator: Redcap User Management
+
+Management of user rights in REDCap becomes increasingly laborious as the scale of the research project expands (e.g. with the number of users, and the number of data access groups). Here are a series of functions to understand and manage users on a project
+
+For a user to be able to use a REDCap project, there are two prerequisites they must have:
+
+1. **User account** - This username allows the user to log onto the REDCap instance.
+
+2. **User rights** - This is required to access a specific REDCap project, and determines the capabilities the user has (e.g. to access certain forms, to be restricted to a specific data access group, to import/export data, etc)
+
+
+## Create REDCap Accounts
+
+REDCap user accounts cannot be generated via R at present, and need to be manually uploaded at present (however there is capability to bulk upload via a csv file). This function can be used to generate the csv file in the exact format required for direct upload via the control centre.
+
+It requires a dataframe of at least 4 mandatory columns (corresponding to: username, first name, last name, and email address) and 4 optional columns (corresponding to: institution, sponsor, expiration, comments). All optional columns will be blank unless otherwise specified.
+
+```{r, warning=FALSE, message=FALSE}
+library(collaborator);library(dplyr)
+
+# Create example of new users output from user_role()
+collaborator::user_role(redcap_project_uri = Sys.getenv("collaborator_test_uri"),
+                        redcap_project_token = Sys.getenv("collaborator_test_token"),
+                        remove_id = F)$all %>%
+  dplyr::filter(role_name=="collaborator") %>% head(10) %>%
+  dplyr::select(username, email, firstname, lastname, data_access_group) %>%
+  
+  # Format these new users to allow account creation
+  collaborator::user_import(username = "username", first_name = "firstname", last_name = "lastname",
+                            email = "email", institution = "data_access_group") %>%
+  
+  knitr::kable()
+
+```
+
+## View Project Users and Data Access Groups (DAGs)
+
+Use `user_role()` to count the number of unique user "roles" within the REDCap Project (e.g. the number of unique combinations of user rights). The users without an allocated data access group or role will be listed as `NA`. Please note those without an assigned role will have the minimum user righst by default, but those without an assigned data access group will have access to ALL data on the project. 
+
+The output from `user_role()` is a nested dataframe of:
+
+**1). $all:** A dataframe of all users and their allocated role on the redcap project.
+
+- By default the user name and emails are not provided (however this can be by changing "remove_id" to FALSE)
+
+```{r, warning=FALSE, message=FALSE}
+# Example output from user_role()
+# please note all names are randomly generated
+user_role <- collaborator::user_role(redcap_project_uri = Sys.getenv("collaborator_test_uri"),
+                                     redcap_project_token = Sys.getenv("collaborator_test_token"))
+
+knitr::kable(user_role$all)
+
+```
+
+
+**ii). $sum:** A dataframe of each role on REDCap, alongside the total and list of usernames with those rights. These can be used in later functions to assign or change user roles.
+
+- By default the exact rights these roles have are not shown (however this can be by changing "show_rights" to TRUE)
+
+```{r, warning=FALSE, message=FALSE}
+knitr::kable(user_role$sum)
+```
+
+
+## Manage Project Data Access Groups (DAGs) and Project Users
+
+The automatic management of users and data access groups (DAGs) has several important advantages over the manual method:
+
+- Once set-up, it involves a fraction of the time and labour (compared to doing so manually), and can be easily repeated using R.  This enables multicentre research using REDCap to become easily scalable irrespective of the number of users and number of data access groups.
+
+- It significantly reduces allocation errors (e.g. users being allocated to incorrect DAGs).
+
+
+### `dag_manage()`
+
+Effective management of DAGs is essential to ensure access to data is restricted to only appropriate users - this can be done using `dag_manage()`. 
+
+If you simply want to view the current DAGs on the project, just enter the URL and TOKEN. However, if you wish to add or remove DAGs, use the `import` and `remove` arguments. **It is highly recommended you keep the DAG name limited to 18 characters, with no special characters or spaces to avoid issues with duplicate or altered DAG names on the REDCap project**. 
+
+- When importing, the "data_access_group_name" will be the DAG imported, and "unique_group_name" the automatically generated REDCap name.
+
+
+```{r}
+dag_manage(redcap_project_uri = Sys.getenv("collaborator_test_uri"),
+           redcap_project_token = Sys.getenv("collaborator_test_token"),
+           import = "hospital_n", remove = "hospital_w")
+```
+
+The `dag_manage()` function output provides a list of all DAGs with a breakdown of the outcome:
+
+- The outcome of the DAGs will be displayed ("status") - either unchanged ("-"), "removed" or "added".
+
+
+### `user_manage()` 
+
+Effective management of users is essential to ensure users have the user rights and data access appropriate to them - this can be done using `user_manage()`. 
+
+Usernames to manage can be supplied to the `users` argument as a vector or as a tibble with at least 1 column ("username"). If you simply want to view the current users on the project, just enter the URL and TOKEN and you will be shown the output from `user_role()`.
+
+```{r}
+newuser <- tibble::tibble("username" = "gs2s1005789")
+
+knitr::kable(newuser)
+```
+
+
+There are 2 main ways to manage users:
+
+##### 1.  **Add or amend users**: 
+
+The role and/or DAG can be specified for ALL users supplied to `users` ("role" and "dag"), or for individual users by adding a "role" and/or "dag" column to `users` with the appropriate value for each username. If present, the information from the columns will take precedence.
+
+- `role`: This must exactly match either a role name or ID, or a username with the appropriate role (see the output from `user_role()`)
+
+- `dag`: This must exactly match the "unique_group_name" of an existing DAG (see the output from `dag_manage()`)
+
+In order to prevent errors due to users not being assigned to specific roles and DAGs, there will be an error message if either of these are listed as `NA`. If you want a user to not have a specific role or DAG, then these must be explicitly listed as "none". 
+
+```{r}
+add_outcome <- user_manage(redcap_project_uri = Sys.getenv("collaborator_test_uri"),
+                           redcap_project_token = Sys.getenv("collaborator_test_token"),
+                           users = newuser %>% mutate("role" = "manager", "dag" = "none"))
+```
+
+This function output provides a breakdown of the outcome for each username in `users`:
+
+1. `correct`: Users who have been allocated correctly according to the information provided, and provides details on this change.
+
+```{r}
+knitr::kable(add_outcome$correct)
+```
+
+
+
+2. `error`: Users who have NOT been allocated correctly according to the information provided, and provides details on what the current status of that user is / what the outcome should have been according to the information supplied. This may be an incorrect specification of the username, role, or DAG.
+
+```{r}
+knitr::kable(add_outcome$error)
+```
+
+
+##### 2. **Remove users**:
+
+This can be specified for ALL users supplied to `users` ("remove==T") or for individual users by adding a "remove" column to `users` with the value `TRUE` for each username wanting to be removed (this allows users to be added and removed at the same time).
+
+- If present, the information from the columns will take precedence.
+
+```{r}
+remove_outcome <- user_manage(redcap_project_uri = Sys.getenv("collaborator_test_uri"),
+                              redcap_project_token = Sys.getenv("collaborator_test_token"),
+                              users = newuser$username, remove = T)
+
+knitr::kable(remove_outcome$correct)
+```
+
