@@ -7,7 +7,7 @@
 user_manage(
   redcap_project_uri,
   redcap_project_token,
-  users,
+  users = NULL,
   role = NULL,
   dag = NULL,
   remove = FALSE

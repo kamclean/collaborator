@@ -18,7 +18,7 @@
 #' @export
 
 # Function:
-user_manage <- function(redcap_project_uri, redcap_project_token, users,
+user_manage <- function(redcap_project_uri, redcap_project_token, users = NULL,
                         role = NULL, dag = NULL, remove = FALSE){
 
   # Load required functions
@@ -34,12 +34,8 @@ user_manage <- function(redcap_project_uri, redcap_project_token, users,
   dag_current <- c(collaborator::dag_manage(redcap_project_uri=redcap_project_uri,
                                             redcap_project_token = redcap_project_token)$unique_group_name, "none")
 
-  is.defined <- function(sym) {
-    sym <- deparse(substitute(sym))
-    env <- parent.frame()
-    exists(sym, env)}
 
-  if(is.defined("users")==T){
+  if(is.null("users")==F){
 
     if(is.vector(users)){users <- users %>%
       tibble::enframe(name=NULL, value = "username") %>%
@@ -218,7 +214,7 @@ user_manage <- function(redcap_project_uri, redcap_project_token, users,
 
     return(list("correct" = correct, "error" = error))}
 
-  if(is.defined("users")==F){return(user_current)}}
+  if(is.null("users")==T){return(user_current)}}
 
 
 
