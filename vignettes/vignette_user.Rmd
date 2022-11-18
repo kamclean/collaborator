@@ -102,7 +102,8 @@ If you simply want to view the current DAGs on the project, just enter the URL a
 ```{r}
 dag_manage(redcap_project_uri = Sys.getenv("collaborator_test_uri"),
            redcap_project_token = Sys.getenv("collaborator_test_token"),
-           import = "hospital_n", remove = "hospital_w")
+           import = "hospital_n", remove = "hospital_w") %>%
+  knitr::kable()
 ```
 
 The `dag_manage()` function output provides a list of all DAGs with a breakdown of the outcome:

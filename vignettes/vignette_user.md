@@ -1099,26 +1099,191 @@ project**.
 
     dag_manage(redcap_project_uri = Sys.getenv("collaborator_test_uri"),
                redcap_project_token = Sys.getenv("collaborator_test_token"),
-               import = "hospital_n", remove = "hospital_w")
+               import = "hospital_n", remove = "hospital_w") %>%
+      knitr::kable()
 
-    ## # A tibble: 15 × 3
-    ##    data_access_group_name unique_group_name status
-    ##    <chr>                  <chr>             <chr> 
-    ##  1 hospital m             hospital_m        -     
-    ##  2 hospital_a             hospital_a        -     
-    ##  3 hospital_b             hospital_b        -     
-    ##  4 hospital_c             hospital_c        -     
-    ##  5 hospital_d             hospital_d        -     
-    ##  6 hospital_e             hospital_e        -     
-    ##  7 hospital_f             hospital_f        -     
-    ##  8 hospital_g             hospital_g        -     
-    ##  9 hospital_h             hospital_h        -     
-    ## 10 hospital_i             hospital_i        -     
-    ## 11 hospital_j             hospital_j        -     
-    ## 12 hospital_k             hospital_k        -     
-    ## 13 hospital_l             hospital_l        -     
-    ## 14 hospital_m             hospital_mb       -     
-    ## 15 hospital_n             hospital_n        -
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+data\_access\_group\_name
+</th>
+<th style="text-align:left;">
+unique\_group\_name
+</th>
+<th style="text-align:left;">
+status
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+hospital m
+</td>
+<td style="text-align:left;">
+hospital\_m
+</td>
+<td style="text-align:left;">
+
+-   </td>
+    </tr>
+    <tr>
+    <td style="text-align:left;">
+    hospital\_a
+    </td>
+    <td style="text-align:left;">
+    hospital\_a
+    </td>
+    <td style="text-align:left;">
+
+    -   </td>
+        </tr>
+        <tr>
+        <td style="text-align:left;">
+        hospital\_b
+        </td>
+        <td style="text-align:left;">
+        hospital\_b
+        </td>
+        <td style="text-align:left;">
+
+        -   </td>
+            </tr>
+            <tr>
+            <td style="text-align:left;">
+            hospital\_c
+            </td>
+            <td style="text-align:left;">
+            hospital\_c
+            </td>
+            <td style="text-align:left;">
+
+            -   </td>
+                </tr>
+                <tr>
+                <td style="text-align:left;">
+                hospital\_d
+                </td>
+                <td style="text-align:left;">
+                hospital\_d
+                </td>
+                <td style="text-align:left;">
+
+                -   </td>
+                    </tr>
+                    <tr>
+                    <td style="text-align:left;">
+                    hospital\_e
+                    </td>
+                    <td style="text-align:left;">
+                    hospital\_e
+                    </td>
+                    <td style="text-align:left;">
+
+                    -   </td>
+                        </tr>
+                        <tr>
+                        <td style="text-align:left;">
+                        hospital\_f
+                        </td>
+                        <td style="text-align:left;">
+                        hospital\_f
+                        </td>
+                        <td style="text-align:left;">
+
+                        -   </td>
+                            </tr>
+                            <tr>
+                            <td style="text-align:left;">
+                            hospital\_g
+                            </td>
+                            <td style="text-align:left;">
+                            hospital\_g
+                            </td>
+                            <td style="text-align:left;">
+
+                            -   </td>
+                                </tr>
+                                <tr>
+                                <td style="text-align:left;">
+                                hospital\_h
+                                </td>
+                                <td style="text-align:left;">
+                                hospital\_h
+                                </td>
+                                <td style="text-align:left;">
+
+                                -   </td>
+                                    </tr>
+                                    <tr>
+                                    <td style="text-align:left;">
+                                    hospital\_i
+                                    </td>
+                                    <td style="text-align:left;">
+                                    hospital\_i
+                                    </td>
+                                    <td style="text-align:left;">
+
+                                    -   </td>
+                                        </tr>
+                                        <tr>
+                                        <td style="text-align:left;">
+                                        hospital\_j
+                                        </td>
+                                        <td style="text-align:left;">
+                                        hospital\_j
+                                        </td>
+                                        <td style="text-align:left;">
+
+                                        -   </td>
+                                            </tr>
+                                            <tr>
+                                            <td style="text-align:left;">
+                                            hospital\_k
+                                            </td>
+                                            <td style="text-align:left;">
+                                            hospital\_k
+                                            </td>
+                                            <td style="text-align:left;">
+
+                                            -   </td>
+                                                </tr>
+                                                <tr>
+                                                <td style="text-align:left;">
+                                                hospital\_l
+                                                </td>
+                                                <td style="text-align:left;">
+                                                hospital\_l
+                                                </td>
+                                                <td style="text-align:left;">
+
+                                                -   </td>
+                                                    </tr>
+                                                    <tr>
+                                                    <td style="text-align:left;">
+                                                    hospital\_m
+                                                    </td>
+                                                    <td style="text-align:left;">
+                                                    hospital\_mb
+                                                    </td>
+                                                    <td style="text-align:left;">
+
+                                                    -   </td>
+                                                        </tr>
+                                                        <tr>
+                                                        <td style="text-align:left;">
+                                                        hospital\_n
+                                                        </td>
+                                                        <td style="text-align:left;">
+                                                        hospital\_n
+                                                        </td>
+                                                        <td style="text-align:left;">
+
+                                                        -   </td>
+                                                            </tr>
+                                                            </tbody>
+                                                            </table>
 
 The `dag_manage()` function output provides a list of all DAGs with a
 breakdown of the outcome:
