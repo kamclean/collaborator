@@ -14,6 +14,7 @@
 #' @importFrom readr read_csv
 #' @importFrom tibble enframe
 #' @importFrom tidyr pivot_wider
+#' @importFrom stringr str_detect
 #' @return Nested tibbles of the outcome (1) "correct" users with the correct allocation specified (2) "error" users with an allocation unable to be completed. User acccounts are still required to be entered manually.
 #' @export
 
@@ -22,8 +23,6 @@ user_manage <- function(redcap_project_uri, redcap_project_token, users = NULL,
                         role = NULL, dag = NULL, remove = FALSE){
 
   # Load required functions
-  require(dplyr);require(httr);require(readr);require(tidyr)
-
 
   user_current <- collaborator::user_role(redcap_project_uri=redcap_project_uri,
                                           redcap_project_token = redcap_project_token)
@@ -200,9 +199,9 @@ user_manage <- function(redcap_project_uri, redcap_project_token, users = NULL,
                                     action=="absent" ~ NA_character_,
                                     action=="unchanged" & dag_old==dag_new ~ dag_old,
                                     action=="unchanged" & dag_old!=dag_new ~ paste0(dag_old, " --> ",dag_new)),
-                    action = case_when(action=="unchanged"&str_detect(role, "-->")==T&str_detect(dag, "-->")==T ~ "change (dag/role)",
-                                       action=="unchanged"&str_detect(role, "-->")==F&str_detect(dag, "-->")==T ~ "change (dag)",
-                                       action=="unchanged"&str_detect(role, "-->")==T&str_detect(dag, "-->")==F ~ "change (role)",
+                    action = case_when(action=="unchanged"&stringr::str_detect(role, "-->")==T&stringr::str_detect(dag, "-->")==T ~ "change (dag/role)",
+                                       action=="unchanged"&stringr::str_detect(role, "-->")==F&stringr::str_detect(dag, "-->")==T ~ "change (dag)",
+                                       action=="unchanged"&stringr::str_detect(role, "-->")==T&stringr::str_detect(dag, "-->")==F ~ "change (role)",
                                        TRUE ~ action))
     correct <- out %>%
       filter(role_correct=="Yes"&dag_correct=="Yes"&status_correct=="Yes") %>%
