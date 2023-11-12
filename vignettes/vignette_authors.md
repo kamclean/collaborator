@@ -8,7 +8,9 @@ Generating and formatting authorship lists for multi-centre research
 projects can be a challenging data wrangling task. In the case of
 collaborative research projects, there can be thousands of collaborators
 across hundreds of sites with a variety of
-[roles](https://doi.org/10.1016/j.ijsu.2017.12.019). \## ORCID
+[roles](https://doi.org/10.1016/j.ijsu.2017.12.019).
+
+## ORCID
 
 ORCID provides a persistent digital identifier (an ORCID iD) that each
 individual own and control, and that distinguishes them from every other
