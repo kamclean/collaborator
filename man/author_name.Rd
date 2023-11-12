@@ -9,7 +9,8 @@ author_name(
   first_name = "first_name",
   last_name = "last_name",
   initial = T,
-  position = "right"
+  position = "right",
+  initial_max = 3
 )
 }
 \arguments{

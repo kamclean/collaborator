@@ -15,7 +15,7 @@
 #' @importFrom Hmisc capitalize
 #' @export
 
-author_name <- function(data, first_name = "first_name", last_name = "last_name", initial=T, position = "right"){
+author_name <- function(data, first_name = "first_name", last_name = "last_name", initial=T, position = "right", initial_max=3){
   require(dplyr);require(purrr); require(stringr); require(Hmisc)
 
   output <- data %>%
@@ -32,9 +32,9 @@ author_name <- function(data, first_name = "first_name", last_name = "last_name"
     dplyr::mutate(initial_name = toupper(initial_name),
                   name_yn = ifelse(is.na(first_name)==T|is.na(last_name)==T, "No", "Yes"))
 
-  if(initial==T&position == "right"){output <- output %>% dplyr::mutate(full_name = ifelse(name_yn=="Yes", paste0(last_name, " ", initial_name), NA))}
-  if(initial==F&position == "right"){output <- output %>% dplyr::mutate(full_name = ifelse(name_yn=="Yes", paste0(last_name, " ", first_name), NA))}
-  if(initial==T&position == "left"){output <- output %>% dplyr::mutate(full_name = ifelse(name_yn=="Yes", paste0(initial_name, " ", last_name), NA))}
-  if(initial==F&position == "left"){output <- output %>% dplyr::mutate(full_name = ifelse(name_yn=="Yes", paste0(first_name, " ", last_name), NA))}
+  if(initial==T&position == "right"){output <- output %>% dplyr::mutate(author_name = ifelse(name_yn=="Yes", paste0(last_name, " ", initial_name), NA))}
+  if(initial==F&position == "right"){output <- output %>% dplyr::mutate(author_name = ifelse(name_yn=="Yes", paste0(last_name, " ", first_name), NA))}
+  if(initial==T&position == "left"){output <- output %>% dplyr::mutate(author_name = ifelse(name_yn=="Yes", paste0(initial_name, " ", last_name), NA))}
+  if(initial==F&position == "left"){output <- output %>% dplyr::mutate(author_name = ifelse(name_yn=="Yes", paste0(first_name, " ", last_name), NA))}
 
-  return(output$full_name)}
+  return(output %>% select(-initial_name, -name_yn, -first_name, -last_name))}

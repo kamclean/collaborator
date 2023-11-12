@@ -60,13 +60,13 @@ orcid_name <- function(data, orcid = "orcid", reason = FALSE, na.rm = FALSE){
                                                                                       NA, x$name$`credit-name`$value))}}) %>%
     dplyr::mutate(orcid_name_credit = ifelse(is.na(orcid_name_credit)==T&(is.na(orcid_name_first)==F&is.na(orcid_name_last)==F),
                                              paste0(orcid_name_first, " ", orcid_name_last), orcid_name_credit),
-                  orcid_name_credit_first = stringr::str_remove(orcid_name_credit, orcid_name_last) %>% stringr::str_trim()) %>%
-    dplyr::select(orcid, everything())
+                  orcid_name_credit_first = stringr::str_remove(orcid_name_credit, orcid_name_last) %>% stringr::str_trim())
 
 
   final <- data %>%
     dplyr::select(-any_of(names(output)[! names(output) %in% c("orcid")])) %>%
-    dplyr::left_join(output, by = c(orcid = "orcid")) %>%
+    dplyr::left_join(output, by = c("orcid_valid"="orcid")) %>%
+    dplyr::select(orcid, everything())  %>%
     dplyr::mutate(orcid_check_access = ifelse(is.na(orcid_check_access)==T, "No", orcid_check_access)) %>%
 
     # Check if name extracted
@@ -78,7 +78,8 @@ orcid_name <- function(data, orcid = "orcid", reason = FALSE, na.rm = FALSE){
                                               "No first or last name recorded", orcid_valid_reason),
                   orcid_valid_reason = ifelse(is.na(orcid_check_access)==T&orcid_check_access=="No",
                                               "Unable to access orcid record", orcid_valid_reason)) %>%
-    dplyr::select(everything(), orcid, orcid_valid, starts_with("orcid_name_"), starts_with("orcid_valid_"), starts_with("orcid_check_"))
+    dplyr::select(any_of(names(data)[stringr::str_detect(names(data), "orcid")==F]),
+                  orcid, orcid_valid, starts_with("orcid_name_"), starts_with("orcid_valid_"), starts_with("orcid_check_"))
 
   if(na.rm==T){final <- final %>% dplyr::filter(is.na(orcid_name_first)==F&is.na(orcid_name_last)==F)}
 
