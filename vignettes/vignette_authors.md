@@ -191,9 +191,6 @@ given names are converted into initials).
       orcid_name(orcid = "orcid_valid", reason = F) %>%
       knitr::kable()
 
-    ## Warning in if (na.rm == T) {: the condition has length > 1
-    ## and only the first element will be used
-
 <table>
 <colgroup>
 <col style="width: 2%" />
@@ -257,18 +254,55 @@ after the last name. This is shown in the “author\_name” column below.
       collaborator::orcid_valid(data, orcid = "orcid", reason = F) %>%
       collaborator::orcid_name(orcid = "orcid_valid", reason = F) %>%
       collaborator::author_name(first_name = "orcid_name_first", last_name = "orcid_name_last",position = "left", initial_max=3) %>%
-      dplyr::select(n:orcid_valid, orcid_name_first:orcid_name_last, author_name)
+      dplyr::select(n:orcid_valid, orcid_name_first:orcid_name_last, author_name)%>%
+      knitr::kable()
 
-    ## Warning in if (na.rm == T) {: the condition has length > 1
-    ## and only the first element will be used
-
-    ## # A tibble: 3 × 6
-    ##       n orcid     orcid_valid orcid_name_first orcid_name_last
-    ##   <int> <chr>     <chr>       <chr>            <chr>          
-    ## 1     1 0000-000… 0000-0001-… Kenneth A        McLean         
-    ## 2     2 00000002… 0000-0002-… Ewen             Harrison       
-    ## 3     3 0000-000… 0000-0002-… Riinu            Pius           
-    ## # ℹ 1 more variable: author_name <chr>
+<table>
+<colgroup>
+<col style="width: 3%" />
+<col style="width: 22%" />
+<col style="width: 22%" />
+<col style="width: 19%" />
+<col style="width: 18%" />
+<col style="width: 13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">n</th>
+<th style="text-align: left;">orcid</th>
+<th style="text-align: left;">orcid_valid</th>
+<th style="text-align: left;">orcid_name_first</th>
+<th style="text-align: left;">orcid_name_last</th>
+<th style="text-align: left;">author_name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">0000-0001-6482-9086</td>
+<td style="text-align: left;">0000-0001-6482-9086</td>
+<td style="text-align: left;">Kenneth A</td>
+<td style="text-align: left;">McLean</td>
+<td style="text-align: left;">KA McLean</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">0000000250183066</td>
+<td style="text-align: left;">0000-0002-5018-3066</td>
+<td style="text-align: left;">Ewen</td>
+<td style="text-align: left;">Harrison</td>
+<td style="text-align: left;">E Harrison</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">0000-0002-8738-4902</td>
+<td style="text-align: left;">0000-0002-8738-4902</td>
+<td style="text-align: left;">Riinu</td>
+<td style="text-align: left;">Pius</td>
+<td style="text-align: left;">R Pius</td>
+</tr>
+</tbody>
+</table>
 
 ## Generating the formatted authorship list
 

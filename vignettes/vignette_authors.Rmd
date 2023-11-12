@@ -12,8 +12,8 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r setup, include = FALSE, warning=F, message=F}
-knitr::opts_chunk$set(collapse = FALSE)
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = FALSE, warning=F, message=F)
 library(dplyr);library(collaborator);library(knitr)
   
 ```
@@ -84,7 +84,8 @@ data %>%
   collaborator::orcid_valid(data, orcid = "orcid", reason = F) %>%
   collaborator::orcid_name(orcid = "orcid_valid", reason = F) %>%
   collaborator::author_name(first_name = "orcid_name_first", last_name = "orcid_name_last",position = "left", initial_max=3) %>%
-  dplyr::select(n:orcid_valid, orcid_name_first:orcid_name_last, author_name)
+  dplyr::select(n:orcid_valid, orcid_name_first:orcid_name_last, author_name)%>%
+  knitr::kable()
 ```
 
 
