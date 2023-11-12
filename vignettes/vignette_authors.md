@@ -1,16 +1,12 @@
 # Collaborator: Generating Authorship Lists
 
-## Author name extraction using ORCID
-
-### Validation of ORCID
-
 Generating and formatting authorship lists for multi-centre research
 projects can be a challenging data wrangling task. In the case of
 collaborative research projects, there can be thousands of collaborators
 across hundreds of sites with a variety of
 [roles](https://doi.org/10.1016/j.ijsu.2017.12.019).
 
-## ORCID
+## Author name extraction using ORCID
 
 ORCID provides a persistent digital identifier (an ORCID iD) that each
 individual own and control, and that distinguishes them from every other
@@ -19,6 +15,8 @@ collaborators to specify how their name should appear in publications.
 When working with 1000s collaborators, this provides a simple route to
 ensure accuate display of names on an authorship list and can be simply
 extracted from the ORCID website using the ORCID.
+
+### Validation of ORCID
 
 ORCIDs follow a specific format of 16 characters in the format of
 “XXXX-XXXX-XXXX-XXXX” (16 characters in groups of 4 and separated by a
@@ -32,12 +30,6 @@ investigate whether the ORCIDs on record are valid or not to use.
 
     collaborator::orcid_valid(data, orcid = "orcid", reason = T) %>%
       knitr::kable()
-
-    ## Loading required package: tibble
-
-    ## Loading required package: tidyr
-
-    ## Loading required package: stringr
 
 <table style="width:100%;">
 <colgroup>
@@ -199,28 +191,8 @@ given names are converted into initials).
       orcid_name(orcid = "orcid_valid", reason = F) %>%
       knitr::kable()
 
-    ## Loading required package: furrr
-
-    ## Loading required package: future
-
-    ## Loading required package: httr
-
-    ## 
-    ## Attaching package: 'magrittr'
-
-    ## The following object is masked from 'package:tidyr':
-    ## 
-    ##     extract
-
     ## Warning in if (na.rm == T) {: the condition has length > 1
     ## and only the first element will be used
-
-    ## 
-    ## Attaching package: 'purrr'
-
-    ## The following object is masked from 'package:magrittr':
-    ## 
-    ##     set_names
 
 <table>
 <colgroup>
@@ -286,19 +258,6 @@ after the last name. This is shown in the “author\_name” column below.
       collaborator::orcid_name(orcid = "orcid_valid", reason = F) %>%
       collaborator::author_name(first_name = "orcid_name_first", last_name = "orcid_name_last",position = "left", initial_max=3) %>%
       dplyr::select(n:orcid_valid, orcid_name_first:orcid_name_last, author_name)
-
-    ## Loading required package: Hmisc
-
-    ## 
-    ## Attaching package: 'Hmisc'
-
-    ## The following objects are masked from 'package:dplyr':
-    ## 
-    ##     src, summarize
-
-    ## The following objects are masked from 'package:base':
-    ## 
-    ##     format.pval, units
 
     ## Warning in if (na.rm == T) {: the condition has length > 1
     ## and only the first element will be used
