@@ -9,7 +9,9 @@ redcap_data(
   redcap_project_token,
   checkbox_value = "label",
   include_original = F,
-  repeat_format = "long"
+  include_complete = F,
+  repeat_format = "long",
+  include_surveyfield = F
 )
 }
 \arguments{
@@ -20,6 +22,8 @@ redcap_data(
 \item{checkbox_value}{Determine if output checkbox variables should be unchanged from the REDCap record export ("raw") or labelled ("label"). Default = "raw".}
 
 \item{include_original}{Logical value to determine whether original data should be provided too (default = FALSE).}
+
+\item{include_complete}{Logical value to determine whether columns specifiying if forms are complete should be retained.}
 
 \item{repeat_format}{The format the repeating instrument data should be provided in. Options include "long" (default), "wide" (each instance a separate column), or "list" (nested instances).}
 }

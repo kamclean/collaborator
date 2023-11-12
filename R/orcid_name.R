@@ -12,89 +12,61 @@
 #' @import tibble
 #' @import xml2
 #' @import stringr
-#' @importFrom furrr future_map2 future_map_dfr
-#' @importFrom httr GET
+#' @importFrom furrr future_map future_map_dfr
+#' @importFrom httr GET content
 #' @export
 
 orcid_name <- function(data, orcid = "orcid", reason = FALSE, na.rm = FALSE){
   # Packages / Functions
-  require(dplyr);require(furrr);require(xml2);require(dplyr);
+  require(dplyr);require(furrr);require(httr);require(dplyr);
   require(tibble);require(tidyr);require(stringr);library(magrittr)
 
-  # Check orcid valid
-  if("orcid_valid_yn" %in% names(data)){
-    data <- data %>%
-      dplyr::mutate(orcid = dplyr::pull(., orcid)) %>%
-      dplyr::select(orcid, starts_with("orcid_valid"), starts_with("orcid_check_"))}else{
-        data <- data %>%
-          collaborator::orcid_valid(orcid = orcid, reason = T, na.rm = na.rm) %>%
-          dplyr::mutate("orcid" = orcid_valid)}
+  data <- data %>%
+    dplyr::mutate(orcid = pull(., orcid)) %>%
+    dplyr::select(-starts_with("orcid_check_"),-starts_with("orcid_valid"), -starts_with("orcid_name_")) %>%
+    collaborator::orcid_valid(orcid = orcid, reason = T, na.rm = F)
 
   # Check extract name from valid orcids
   input_orcid <- data %>%
-    dplyr::filter(is.na(orcid)==F) %>%
-    dplyr::distinct(orcid) %>%
-    dplyr::pull(orcid)
+    dplyr::filter(is.na(orcid_valid)==F) %>%
+    dplyr::distinct(orcid_valid) %>%
+    dplyr::pull(orcid_valid)
 
+  # https://info.orcid.org/documentation/api-tutorials/api-tutorial-searching-the-orcid-registry/
   output <- input_orcid %>%
-    furrr::future_map2(.x = .,
-                       .y = seq_along(1:length(.)),
-                       function(.x,.y){
-                         print(.y)
-
-                         tryCatch(xml2::read_xml(httr::GET(url = paste0("https://pub.orcid.org/v3.0/",
-                                                                        .x,
-                                                                        "/personal-details"))),
-                                  error = function(e){NA})})
+    furrr::future_map(function(x){
+      tryCatch(
+        httr::GET(url = paste0("https://pub.orcid.org/v3.0/",
+                               x,
+                               "/personal-details")) %>%
+          httr::content(as = "parsed", encoding = "UTF-8"),
 
 
-  output <- output %>%
-    furrr::future_map2_dfr(.x =.,
-                           .y = seq_along(1:length(.)),
-                           function(.x, .y){
-                             print(.y)
+        error = function(e){NA})}) %>%
+    furrr::future_map_dfr(function(x){
 
-                             if(is.na(.x)==T){out <- tibble::tibble(orcid_check_access = "No",
-                                                                    "orcid_name_first" = NA,
-                                                                    "orcid_name_last" = NA,
-                                                                    "orcid_name_credit" = NA)
+      if(is.null(x$name$path)==T){out <- tibble::tibble(orcid_check_access = "No",
+                                                        "orcid_name_first" = NA,
+                                                        "orcid_name_last" = NA,
+                                                        "orcid_name_credit" = NA)}
 
-                             }else{
-                               if(length(.x %>% xml2::xml_find_all("personal-details:name"))==0){
-                                 out <- tibble::tibble(orcid_check_access = "No",
-                                                       "orcid_name_first" = NA,
-                                                       "orcid_name_last" = NA,
-                                                       "orcid_name_credit" = NA)
-                               }else{
-                                 out <- suppressWarnings(.x %>%
-                                                           xml2::xml_find_all("personal-details:name") %>%
-                                                           xml2::xml_find_all("personal-details:given-names|personal-details:family-name|personal-details:credit-name") %$%
-                                                           tibble::tibble("name" = xml2::xml_name(.),
-                                                                          "value" = xml2::as_list(.) %>% unlist()) %>%
-                                                           dplyr::right_join(tibble::tibble("name" = c("given-names", "family-name", "credit-name")), by="name") %>%
-                                                           tidyr::pivot_wider(names_from = "name",
-                                                                              values_from = "value") %>%
-                                                           dplyr::mutate(orcid_check_access = "Yes") %>%
-                                                           dplyr::select(orcid_check_access,
-                                                                         "orcid_name_first" = `given-names`,
-                                                                         "orcid_name_last" = `family-name`,
-                                                                         "orcid_name_credit" = `credit-name`))}}
-
-                             return(out)}) %>%
-    dplyr::mutate(orcid = input_orcid,
+      if(is.null(x$name$path)==F){out <-  tibble::tibble(orcid = x$name$path,
+                                                         orcid_check_access = "Yes",
+                                                         "orcid_name_first" = ifelse(is.null(x$name$`given-names`$value)==T,
+                                                                                     NA, x$name$`given-names`$value),
+                                                         "orcid_name_last" = ifelse(is.null(x$name$`family-name`$value)==T,
+                                                                                    NA, x$name$`family-name`$value),
+                                                         "orcid_name_credit" = ifelse(is.null(x$name$`credit-name`$value)==T,
+                                                                                      NA, x$name$`credit-name`$value))}}) %>%
+    dplyr::mutate(orcid_name_credit = ifelse(is.na(orcid_name_credit)==T&(is.na(orcid_name_first)==F&is.na(orcid_name_last)==F),
+                                             paste0(orcid_name_first, " ", orcid_name_last), orcid_name_credit),
                   orcid_name_credit_first = stringr::str_remove(orcid_name_credit, orcid_name_last) %>% stringr::str_trim()) %>%
     dplyr::select(orcid, everything())
 
 
-
-  final <- dplyr::left_join(data %>%
-                              dplyr::select(-any_of(names(output)[! names(output) %in% c("orcid")])),
-                            output %>%
-                              dplyr::select(orcid,
-                                            starts_with("orcid_name_"),
-                                            starts_with("orcid_valid_"),
-                                            starts_with("orcid_check_")),
-                            by = c(orcid = "orcid")) %>%
+  final <- data %>%
+    dplyr::select(-any_of(names(output)[! names(output) %in% c("orcid")])) %>%
+    dplyr::left_join(output, by = c(orcid = "orcid")) %>%
     dplyr::mutate(orcid_check_access = ifelse(is.na(orcid_check_access)==T, "No", orcid_check_access)) %>%
 
     # Check if name extracted
@@ -105,10 +77,11 @@ orcid_name <- function(data, orcid = "orcid", reason = FALSE, na.rm = FALSE){
     dplyr::mutate(orcid_valid_reason = ifelse(is.na(orcid_valid_reason)==T&orcid_check_name=="No",
                                               "No first or last name recorded", orcid_valid_reason),
                   orcid_valid_reason = ifelse(is.na(orcid_check_access)==T&orcid_check_access=="No",
-                                              "Unable to access orcid record", orcid_valid_reason))
-
-  if(reason==F){final <- final %>% dplyr::select(-starts_with("orcid_check_"),-starts_with("orcid_valid_"))}
+                                              "Unable to access orcid record", orcid_valid_reason)) %>%
+    dplyr::select(everything(), orcid, orcid_valid, starts_with("orcid_name_"), starts_with("orcid_valid_"), starts_with("orcid_check_"))
 
   if(na.rm==T){final <- final %>% dplyr::filter(is.na(orcid_name_first)==F&is.na(orcid_name_last)==F)}
+
+  if(na.rm==F&reason==F){final <- final %>% dplyr::select(-starts_with("orcid_check_"),-starts_with("orcid_valid_"))}
 
   return(final)}
