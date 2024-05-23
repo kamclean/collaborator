@@ -45,262 +45,138 @@ All optional columns will be blank unless otherwise specified.
       knitr::kable()
 
 <table>
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 10%" />
+<col style="width: 9%" />
+<col style="width: 20%" />
+<col style="width: 14%" />
+<col style="width: 15%" />
+<col style="width: 10%" />
+<col style="width: 8%" />
+</colgroup>
 <thead>
-<tr>
-<th style="text-align:left;">
-Username
-</th>
-<th style="text-align:left;">
-First name
-</th>
-<th style="text-align:left;">
-Last name
-</th>
-<th style="text-align:left;">
-Email address
-</th>
-<th style="text-align:left;">
-Institution ID
-</th>
-<th style="text-align:left;">
-Sponsor username
-</th>
-<th style="text-align:left;">
-Expiration
-</th>
-<th style="text-align:left;">
-Comments
-</th>
+<tr class="header">
+<th style="text-align: left;">Username</th>
+<th style="text-align: left;">First name</th>
+<th style="text-align: left;">Last name</th>
+<th style="text-align: left;">Email address</th>
+<th style="text-align: left;">Institution ID</th>
+<th style="text-align: left;">Sponsor username</th>
+<th style="text-align: left;">Expiration</th>
+<th style="text-align: left;">Comments</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-a\_barker
-</td>
-<td style="text-align:left;">
-Aleesha
-</td>
-<td style="text-align:left;">
-Barker
-</td>
-<td style="text-align:left;">
-<a_barker@email.com>
-</td>
-<td style="text-align:left;">
-hospital\_a
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
+<tr class="odd">
+<td style="text-align: left;">a_barker</td>
+<td style="text-align: left;">Aleesha</td>
+<td style="text-align: left;">Barker</td>
+<td style="text-align: left;"><a href="mailto:a_barker@email.com"
+class="email">a_barker@email.com</a></td>
+<td style="text-align: left;">hospital_a</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
 </tr>
-<tr>
-<td style="text-align:left;">
-a\_hanna
-</td>
-<td style="text-align:left;">
-Aleesha
-</td>
-<td style="text-align:left;">
-Hanna
-</td>
-<td style="text-align:left;">
-<a_hanna@email.com>
-</td>
-<td style="text-align:left;">
-hospital\_d
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
+<tr class="even">
+<td style="text-align: left;">a_hanna</td>
+<td style="text-align: left;">Aleesha</td>
+<td style="text-align: left;">Hanna</td>
+<td style="text-align: left;"><a href="mailto:a_hanna@email.com"
+class="email">a_hanna@email.com</a></td>
+<td style="text-align: left;">hospital_d</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
 </tr>
-<tr>
-<td style="text-align:left;">
-a\_hicks
-</td>
-<td style="text-align:left;">
-Alyssa
-</td>
-<td style="text-align:left;">
-Hicks
-</td>
-<td style="text-align:left;">
-<a_hicks@email.com>
-</td>
-<td style="text-align:left;">
-hospital\_e
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
+<tr class="odd">
+<td style="text-align: left;">a_hicks</td>
+<td style="text-align: left;">Alyssa</td>
+<td style="text-align: left;">Hicks</td>
+<td style="text-align: left;"><a href="mailto:a_hicks@email.com"
+class="email">a_hicks@email.com</a></td>
+<td style="text-align: left;">hospital_e</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
 </tr>
-<tr>
-<td style="text-align:left;">
-a\_lees
-</td>
-<td style="text-align:left;">
-Aleesha
-</td>
-<td style="text-align:left;">
-Lees
-</td>
-<td style="text-align:left;">
-<a_lees@email.com>
-</td>
-<td style="text-align:left;">
-hospital\_h
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
+<tr class="even">
+<td style="text-align: left;">a_lees</td>
+<td style="text-align: left;">Aleesha</td>
+<td style="text-align: left;">Lees</td>
+<td style="text-align: left;"><a href="mailto:a_lees@email.com"
+class="email">a_lees@email.com</a></td>
+<td style="text-align: left;">hospital_h</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
 </tr>
-<tr>
-<td style="text-align:left;">
-a\_nicholson
-</td>
-<td style="text-align:left;">
-Alyssa
-</td>
-<td style="text-align:left;">
-Nicholson
-</td>
-<td style="text-align:left;">
-<a_nicholson@email.com>
-</td>
-<td style="text-align:left;">
-hospital\_i
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
+<tr class="odd">
+<td style="text-align: left;">a_nicholson</td>
+<td style="text-align: left;">Alyssa</td>
+<td style="text-align: left;">Nicholson</td>
+<td style="text-align: left;"><a href="mailto:a_nicholson@email.com"
+class="email">a_nicholson@email.com</a></td>
+<td style="text-align: left;">hospital_i</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
 </tr>
-<tr>
-<td style="text-align:left;">
-c\_avila
-</td>
-<td style="text-align:left;">
-Chanice
-</td>
-<td style="text-align:left;">
-Avila
-</td>
-<td style="text-align:left;">
-<c_avila@email.com>
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
+<tr class="even">
+<td style="text-align: left;">c_avila</td>
+<td style="text-align: left;">Chanice</td>
+<td style="text-align: left;">Avila</td>
+<td style="text-align: left;"><a href="mailto:c_avila@email.com"
+class="email">c_avila@email.com</a></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
 </tr>
-<tr>
-<td style="text-align:left;">
-c\_gould
-</td>
-<td style="text-align:left;">
-Chanice
-</td>
-<td style="text-align:left;">
-Gould
-</td>
-<td style="text-align:left;">
-<c_gould@email.com>
-</td>
-<td style="text-align:left;">
-hospital\_b
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
+<tr class="odd">
+<td style="text-align: left;">c_gould</td>
+<td style="text-align: left;">Chanice</td>
+<td style="text-align: left;">Gould</td>
+<td style="text-align: left;"><a href="mailto:c_gould@email.com"
+class="email">c_gould@email.com</a></td>
+<td style="text-align: left;">hospital_b</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
 </tr>
-<tr>
-<td style="text-align:left;">
-c\_kent
-</td>
-<td style="text-align:left;">
-Chanice
-</td>
-<td style="text-align:left;">
-Kent
-</td>
-<td style="text-align:left;">
-<c_kent@email.com>
-</td>
-<td style="text-align:left;">
-hospital\_f
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
+<tr class="even">
+<td style="text-align: left;">c_kent</td>
+<td style="text-align: left;">Chanice</td>
+<td style="text-align: left;">Kent</td>
+<td style="text-align: left;"><a href="mailto:c_kent@email.com"
+class="email">c_kent@email.com</a></td>
+<td style="text-align: left;">hospital_f</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
 </tr>
-<tr>
-<td style="text-align:left;">
-c\_michael
-</td>
-<td style="text-align:left;">
-Chanice
-</td>
-<td style="text-align:left;">
-Michael
-</td>
-<td style="text-align:left;">
-<c_michael@email.com>
-</td>
-<td style="text-align:left;">
-hospital\_h
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
+<tr class="odd">
+<td style="text-align: left;">c_michael</td>
+<td style="text-align: left;">Chanice</td>
+<td style="text-align: left;">Michael</td>
+<td style="text-align: left;"><a href="mailto:c_michael@email.com"
+class="email">c_michael@email.com</a></td>
+<td style="text-align: left;">hospital_h</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
 </tr>
-<tr>
-<td style="text-align:left;">
-f\_almond
-</td>
-<td style="text-align:left;">
-Fleur
-</td>
-<td style="text-align:left;">
-Almond
-</td>
-<td style="text-align:left;">
-<f_almond@email.com>
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
+<tr class="even">
+<td style="text-align: left;">f_almond</td>
+<td style="text-align: left;">Fleur</td>
+<td style="text-align: left;">Almond</td>
+<td style="text-align: left;"><a href="mailto:f_almond@email.com"
+class="email">f_almond@email.com</a></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
 </tr>
 </tbody>
 </table>
@@ -332,654 +208,281 @@ redcap project.
     knitr::kable(user_role$all)
 
 <table>
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 23%" />
+<col style="width: 26%" />
+</colgroup>
 <thead>
-<tr>
-<th style="text-align:left;">
-role\_name
-</th>
-<th style="text-align:left;">
-role\_id
-</th>
-<th style="text-align:left;">
-username
-</th>
-<th style="text-align:left;">
-data\_access\_group
-</th>
-<th style="text-align:right;">
-data\_access\_group\_id
-</th>
+<tr class="header">
+<th style="text-align: left;">role_name</th>
+<th style="text-align: left;">role_id</th>
+<th style="text-align: left;">username</th>
+<th style="text-align: left;">data_access_group</th>
+<th style="text-align: right;">data_access_group_id</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-admin
-</td>
-<td style="text-align:left;">
-U-82337CEWAF
-</td>
-<td style="text-align:left;">
-kmclean
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
+<tr class="odd">
+<td style="text-align: left;">admin</td>
+<td style="text-align: left;">U-82337CEWAF</td>
+<td style="text-align: left;">kmclean</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">NA</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-collaborator
-</td>
-<td style="text-align:left;">
-U-3319YWM9ND
-</td>
-<td style="text-align:left;">
-a\_barker
-</td>
-<td style="text-align:left;">
-hospital\_a
-</td>
-<td style="text-align:right;">
-4117
-</td>
+<tr class="even">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">U-3319YWM9ND</td>
+<td style="text-align: left;">a_barker</td>
+<td style="text-align: left;">hospital_a</td>
+<td style="text-align: right;">4117</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-collaborator
-</td>
-<td style="text-align:left;">
-U-3319YWM9ND
-</td>
-<td style="text-align:left;">
-a\_hanna
-</td>
-<td style="text-align:left;">
-hospital\_d
-</td>
-<td style="text-align:right;">
-4120
-</td>
+<tr class="odd">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">U-3319YWM9ND</td>
+<td style="text-align: left;">a_hanna</td>
+<td style="text-align: left;">hospital_d</td>
+<td style="text-align: right;">4120</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-collaborator
-</td>
-<td style="text-align:left;">
-U-3319YWM9ND
-</td>
-<td style="text-align:left;">
-a\_hicks
-</td>
-<td style="text-align:left;">
-hospital\_e
-</td>
-<td style="text-align:right;">
-4121
-</td>
+<tr class="even">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">U-3319YWM9ND</td>
+<td style="text-align: left;">a_hicks</td>
+<td style="text-align: left;">hospital_e</td>
+<td style="text-align: right;">4121</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-collaborator
-</td>
-<td style="text-align:left;">
-U-3319YWM9ND
-</td>
-<td style="text-align:left;">
-a\_lees
-</td>
-<td style="text-align:left;">
-hospital\_h
-</td>
-<td style="text-align:right;">
-4124
-</td>
+<tr class="odd">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">U-3319YWM9ND</td>
+<td style="text-align: left;">a_lees</td>
+<td style="text-align: left;">hospital_h</td>
+<td style="text-align: right;">4124</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-collaborator
-</td>
-<td style="text-align:left;">
-U-3319YWM9ND
-</td>
-<td style="text-align:left;">
-a\_nicholson
-</td>
-<td style="text-align:left;">
-hospital\_i
-</td>
-<td style="text-align:right;">
-4125
-</td>
+<tr class="even">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">U-3319YWM9ND</td>
+<td style="text-align: left;">a_nicholson</td>
+<td style="text-align: left;">hospital_i</td>
+<td style="text-align: right;">4125</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-collaborator
-</td>
-<td style="text-align:left;">
-U-3319YWM9ND
-</td>
-<td style="text-align:left;">
-c\_avila
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
+<tr class="odd">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">U-3319YWM9ND</td>
+<td style="text-align: left;">c_avila</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">NA</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-collaborator
-</td>
-<td style="text-align:left;">
-U-3319YWM9ND
-</td>
-<td style="text-align:left;">
-c\_gould
-</td>
-<td style="text-align:left;">
-hospital\_b
-</td>
-<td style="text-align:right;">
-4118
-</td>
+<tr class="even">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">U-3319YWM9ND</td>
+<td style="text-align: left;">c_gould</td>
+<td style="text-align: left;">hospital_b</td>
+<td style="text-align: right;">4118</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-collaborator
-</td>
-<td style="text-align:left;">
-U-3319YWM9ND
-</td>
-<td style="text-align:left;">
-c\_kent
-</td>
-<td style="text-align:left;">
-hospital\_f
-</td>
-<td style="text-align:right;">
-4122
-</td>
+<tr class="odd">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">U-3319YWM9ND</td>
+<td style="text-align: left;">c_kent</td>
+<td style="text-align: left;">hospital_f</td>
+<td style="text-align: right;">4122</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-collaborator
-</td>
-<td style="text-align:left;">
-U-3319YWM9ND
-</td>
-<td style="text-align:left;">
-c\_michael
-</td>
-<td style="text-align:left;">
-hospital\_h
-</td>
-<td style="text-align:right;">
-4124
-</td>
+<tr class="even">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">U-3319YWM9ND</td>
+<td style="text-align: left;">c_michael</td>
+<td style="text-align: left;">hospital_h</td>
+<td style="text-align: right;">4124</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-collaborator
-</td>
-<td style="text-align:left;">
-U-3319YWM9ND
-</td>
-<td style="text-align:left;">
-f\_almond
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
+<tr class="odd">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">U-3319YWM9ND</td>
+<td style="text-align: left;">f_almond</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">NA</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-collaborator
-</td>
-<td style="text-align:left;">
-U-3319YWM9ND
-</td>
-<td style="text-align:left;">
-f\_galindo
-</td>
-<td style="text-align:left;">
-hospital\_a
-</td>
-<td style="text-align:right;">
-4117
-</td>
+<tr class="even">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">U-3319YWM9ND</td>
+<td style="text-align: left;">f_galindo</td>
+<td style="text-align: left;">hospital_a</td>
+<td style="text-align: right;">4117</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-collaborator
-</td>
-<td style="text-align:left;">
-U-3319YWM9ND
-</td>
-<td style="text-align:left;">
-f\_livingston
-</td>
-<td style="text-align:left;">
-hospital\_g
-</td>
-<td style="text-align:right;">
-4123
-</td>
+<tr class="odd">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">U-3319YWM9ND</td>
+<td style="text-align: left;">f_livingston</td>
+<td style="text-align: left;">hospital_g</td>
+<td style="text-align: right;">4123</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-collaborator
-</td>
-<td style="text-align:left;">
-U-3319YWM9ND
-</td>
-<td style="text-align:left;">
-h\_herman
-</td>
-<td style="text-align:left;">
-hospital\_d
-</td>
-<td style="text-align:right;">
-4120
-</td>
+<tr class="even">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">U-3319YWM9ND</td>
+<td style="text-align: left;">h_herman</td>
+<td style="text-align: left;">hospital_d</td>
+<td style="text-align: right;">4120</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-collaborator
-</td>
-<td style="text-align:left;">
-U-3319YWM9ND
-</td>
-<td style="text-align:left;">
-h\_mustafa
-</td>
-<td style="text-align:left;">
-hospital\_i
-</td>
-<td style="text-align:right;">
-4125
-</td>
+<tr class="odd">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">U-3319YWM9ND</td>
+<td style="text-align: left;">h_mustafa</td>
+<td style="text-align: left;">hospital_i</td>
+<td style="text-align: right;">4125</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-collaborator
-</td>
-<td style="text-align:left;">
-U-3319YWM9ND
-</td>
-<td style="text-align:left;">
-k\_ashton
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
+<tr class="even">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">U-3319YWM9ND</td>
+<td style="text-align: left;">k_ashton</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">NA</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-collaborator
-</td>
-<td style="text-align:left;">
-U-3319YWM9ND
-</td>
-<td style="text-align:left;">
-k\_gibbons
-</td>
-<td style="text-align:left;">
-hospital\_b
-</td>
-<td style="text-align:right;">
-4118
-</td>
+<tr class="odd">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">U-3319YWM9ND</td>
+<td style="text-align: left;">k_gibbons</td>
+<td style="text-align: left;">hospital_b</td>
+<td style="text-align: right;">4118</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-collaborator
-</td>
-<td style="text-align:left;">
-U-3319YWM9ND
-</td>
-<td style="text-align:left;">
-k\_marks
-</td>
-<td style="text-align:left;">
-hospital\_h
-</td>
-<td style="text-align:right;">
-4124
-</td>
+<tr class="even">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">U-3319YWM9ND</td>
+<td style="text-align: left;">k_marks</td>
+<td style="text-align: left;">hospital_h</td>
+<td style="text-align: right;">4124</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-collaborator
-</td>
-<td style="text-align:left;">
-U-3319YWM9ND
-</td>
-<td style="text-align:left;">
-l\_cervantes
-</td>
-<td style="text-align:left;">
-hospital\_a
-</td>
-<td style="text-align:right;">
-4117
-</td>
+<tr class="odd">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">U-3319YWM9ND</td>
+<td style="text-align: left;">l_cervantes</td>
+<td style="text-align: left;">hospital_a</td>
+<td style="text-align: right;">4117</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-collaborator
-</td>
-<td style="text-align:left;">
-U-3319YWM9ND
-</td>
-<td style="text-align:left;">
-l\_jensen
-</td>
-<td style="text-align:left;">
-hospital\_e
-</td>
-<td style="text-align:right;">
-4121
-</td>
+<tr class="even">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">U-3319YWM9ND</td>
+<td style="text-align: left;">l_jensen</td>
+<td style="text-align: left;">hospital_e</td>
+<td style="text-align: right;">4121</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-collaborator
-</td>
-<td style="text-align:left;">
-U-3319YWM9ND
-</td>
-<td style="text-align:left;">
-l\_paine
-</td>
-<td style="text-align:left;">
-hospital\_j
-</td>
-<td style="text-align:right;">
-4126
-</td>
+<tr class="odd">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">U-3319YWM9ND</td>
+<td style="text-align: left;">l_paine</td>
+<td style="text-align: left;">hospital_j</td>
+<td style="text-align: right;">4126</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-collaborator
-</td>
-<td style="text-align:left;">
-U-3319YWM9ND
-</td>
-<td style="text-align:left;">
-m\_owens
-</td>
-<td style="text-align:left;">
-hospital\_j
-</td>
-<td style="text-align:right;">
-4126
-</td>
+<tr class="even">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">U-3319YWM9ND</td>
+<td style="text-align: left;">m_owens</td>
+<td style="text-align: left;">hospital_j</td>
+<td style="text-align: right;">4126</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-collaborator
-</td>
-<td style="text-align:left;">
-U-3319YWM9ND
-</td>
-<td style="text-align:left;">
-r\_bradford
-</td>
-<td style="text-align:left;">
-hospital\_c
-</td>
-<td style="text-align:right;">
-4119
-</td>
+<tr class="odd">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">U-3319YWM9ND</td>
+<td style="text-align: left;">r_bradford</td>
+<td style="text-align: left;">hospital_c</td>
+<td style="text-align: right;">4119</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-collaborator
-</td>
-<td style="text-align:left;">
-U-3319YWM9ND
-</td>
-<td style="text-align:left;">
-r\_hodge
-</td>
-<td style="text-align:left;">
-hospital\_i
-</td>
-<td style="text-align:right;">
-4125
-</td>
+<tr class="even">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">U-3319YWM9ND</td>
+<td style="text-align: left;">r_hodge</td>
+<td style="text-align: left;">hospital_i</td>
+<td style="text-align: right;">4125</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-collaborator
-</td>
-<td style="text-align:left;">
-U-3319YWM9ND
-</td>
-<td style="text-align:left;">
-r\_ochoa
-</td>
-<td style="text-align:left;">
-hospital\_i
-</td>
-<td style="text-align:right;">
-4125
-</td>
+<tr class="odd">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">U-3319YWM9ND</td>
+<td style="text-align: left;">r_ochoa</td>
+<td style="text-align: left;">hospital_i</td>
+<td style="text-align: right;">4125</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-collaborator
-</td>
-<td style="text-align:left;">
-U-3319YWM9ND
-</td>
-<td style="text-align:left;">
-s\_ayala
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
+<tr class="even">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">U-3319YWM9ND</td>
+<td style="text-align: left;">s_ayala</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">NA</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-collaborator
-</td>
-<td style="text-align:left;">
-U-3319YWM9ND
-</td>
-<td style="text-align:left;">
-s\_beech
-</td>
-<td style="text-align:left;">
-hospital\_b
-</td>
-<td style="text-align:right;">
-4118
-</td>
+<tr class="odd">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">U-3319YWM9ND</td>
+<td style="text-align: left;">s_beech</td>
+<td style="text-align: left;">hospital_b</td>
+<td style="text-align: right;">4118</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-collaborator
-</td>
-<td style="text-align:left;">
-U-3319YWM9ND
-</td>
-<td style="text-align:left;">
-s\_hardy
-</td>
-<td style="text-align:left;">
-hospital\_e
-</td>
-<td style="text-align:right;">
-4121
-</td>
+<tr class="even">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">U-3319YWM9ND</td>
+<td style="text-align: left;">s_hardy</td>
+<td style="text-align: left;">hospital_e</td>
+<td style="text-align: right;">4121</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-collaborator
-</td>
-<td style="text-align:left;">
-U-3319YWM9ND
-</td>
-<td style="text-align:left;">
-s\_knights
-</td>
-<td style="text-align:left;">
-hospital\_f
-</td>
-<td style="text-align:right;">
-4122
-</td>
+<tr class="odd">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">U-3319YWM9ND</td>
+<td style="text-align: left;">s_knights</td>
+<td style="text-align: left;">hospital_f</td>
+<td style="text-align: right;">4122</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-collaborator
-</td>
-<td style="text-align:left;">
-U-3319YWM9ND
-</td>
-<td style="text-align:left;">
-s\_moses
-</td>
-<td style="text-align:left;">
-hospital\_h
-</td>
-<td style="text-align:right;">
-4124
-</td>
+<tr class="even">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">U-3319YWM9ND</td>
+<td style="text-align: left;">s_moses</td>
+<td style="text-align: left;">hospital_h</td>
+<td style="text-align: right;">4124</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-collaborator
-</td>
-<td style="text-align:left;">
-U-3319YWM9ND
-</td>
-<td style="text-align:left;">
-tdrake
-</td>
-<td style="text-align:left;">
-hospital\_d
-</td>
-<td style="text-align:right;">
-4120
-</td>
+<tr class="odd">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">U-3319YWM9ND</td>
+<td style="text-align: left;">tdrake</td>
+<td style="text-align: left;">hospital_d</td>
+<td style="text-align: right;">4120</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-collaborator
-</td>
-<td style="text-align:left;">
-U-3319YWM9ND
-</td>
-<td style="text-align:left;">
-y\_andersen
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
+<tr class="even">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">U-3319YWM9ND</td>
+<td style="text-align: left;">y_andersen</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">NA</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-collaborator
-</td>
-<td style="text-align:left;">
-U-3319YWM9ND
-</td>
-<td style="text-align:left;">
-y\_cameron
-</td>
-<td style="text-align:left;">
-hospital\_d
-</td>
-<td style="text-align:right;">
-4120
-</td>
+<tr class="odd">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">U-3319YWM9ND</td>
+<td style="text-align: left;">y_cameron</td>
+<td style="text-align: left;">hospital_d</td>
+<td style="text-align: right;">4120</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-collaborator
-</td>
-<td style="text-align:left;">
-U-3319YWM9ND
-</td>
-<td style="text-align:left;">
-y\_holder
-</td>
-<td style="text-align:left;">
-hospital\_e
-</td>
-<td style="text-align:right;">
-4121
-</td>
+<tr class="even">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">U-3319YWM9ND</td>
+<td style="text-align: left;">y_holder</td>
+<td style="text-align: left;">hospital_e</td>
+<td style="text-align: right;">4121</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-collaborator
-</td>
-<td style="text-align:left;">
-U-3319YWM9ND
-</td>
-<td style="text-align:left;">
-y\_mackie
-</td>
-<td style="text-align:left;">
-hospital\_g
-</td>
-<td style="text-align:right;">
-4123
-</td>
+<tr class="odd">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">U-3319YWM9ND</td>
+<td style="text-align: left;">y_mackie</td>
+<td style="text-align: left;">hospital_g</td>
+<td style="text-align: right;">4123</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-collaborator
-</td>
-<td style="text-align:left;">
-U-3319YWM9ND
-</td>
-<td style="text-align:left;">
-y\_odoherty
-</td>
-<td style="text-align:left;">
-hospital\_j
-</td>
-<td style="text-align:right;">
-4126
-</td>
+<tr class="even">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">U-3319YWM9ND</td>
+<td style="text-align: left;">y_odoherty</td>
+<td style="text-align: left;">hospital_j</td>
+<td style="text-align: right;">4126</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-manager
-</td>
-<td style="text-align:left;">
-U-591P8EWTJY
-</td>
-<td style="text-align:left;">
-eharrison
-</td>
-<td style="text-align:left;">
-hospital\_c
-</td>
-<td style="text-align:right;">
-4119
-</td>
+<tr class="odd">
+<td style="text-align: left;">manager</td>
+<td style="text-align: left;">U-591P8EWTJY</td>
+<td style="text-align: left;">eharrison</td>
+<td style="text-align: left;">hospital_c</td>
+<td style="text-align: right;">4119</td>
 </tr>
 </tbody>
 </table>
@@ -996,70 +499,43 @@ functions to assign or change user roles.
     knitr::kable(user_role$sum)
 
 <table>
+<colgroup>
+<col style="width: 2%" />
+<col style="width: 2%" />
+<col style="width: 0%" />
+<col style="width: 94%" />
+</colgroup>
 <thead>
-<tr>
-<th style="text-align:left;">
-role\_name
-</th>
-<th style="text-align:left;">
-role\_id
-</th>
-<th style="text-align:right;">
-n
-</th>
-<th style="text-align:left;">
-username
-</th>
+<tr class="header">
+<th style="text-align: left;">role_name</th>
+<th style="text-align: left;">role_id</th>
+<th style="text-align: right;">n</th>
+<th style="text-align: left;">username</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-admin
-</td>
-<td style="text-align:left;">
-U-82337CEWAF
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-kmclean
-</td>
+<tr class="odd">
+<td style="text-align: left;">admin</td>
+<td style="text-align: left;">U-82337CEWAF</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">kmclean</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-collaborator
-</td>
-<td style="text-align:left;">
-U-3319YWM9ND
-</td>
-<td style="text-align:right;">
-35
-</td>
-<td style="text-align:left;">
-a\_barker , a\_hanna , a\_hicks , a\_lees , a\_nicholson , c\_avila ,
-c\_gould , c\_kent , c\_michael , f\_almond , f\_galindo ,
-f\_livingston, h\_herman , h\_mustafa , k\_ashton , k\_gibbons ,
-k\_marks , l\_cervantes , l\_jensen , l\_paine , m\_owens , r\_bradford
-, r\_hodge , r\_ochoa , s\_ayala , s\_beech , s\_hardy , s\_knights ,
-s\_moses , tdrake , y\_andersen , y\_cameron , y\_holder , y\_mackie ,
-y\_odoherty
-</td>
+<tr class="even">
+<td style="text-align: left;">collaborator</td>
+<td style="text-align: left;">U-3319YWM9ND</td>
+<td style="text-align: right;">35</td>
+<td style="text-align: left;">a_barker , a_hanna , a_hicks , a_lees ,
+a_nicholson , c_avila , c_gould , c_kent , c_michael , f_almond ,
+f_galindo , f_livingston, h_herman , h_mustafa , k_ashton , k_gibbons ,
+k_marks , l_cervantes , l_jensen , l_paine , m_owens , r_bradford ,
+r_hodge , r_ochoa , s_ayala , s_beech , s_hardy , s_knights , s_moses ,
+tdrake , y_andersen , y_cameron , y_holder , y_mackie , y_odoherty</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-manager
-</td>
-<td style="text-align:left;">
-U-591P8EWTJY
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-eharrison
-</td>
+<tr class="odd">
+<td style="text-align: left;">manager</td>
+<td style="text-align: left;">U-591P8EWTJY</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">eharrison</td>
 </tr>
 </tbody>
 </table>
@@ -1102,188 +578,133 @@ project**.
                import = "hospital_n", remove = "hospital_w") %>%
       knitr::kable()
 
+    ## Loading required package: tibble
+
 <table>
+<colgroup>
+<col style="width: 24%" />
+<col style="width: 19%" />
+<col style="width: 24%" />
+<col style="width: 24%" />
+<col style="width: 7%" />
+</colgroup>
 <thead>
-<tr>
-<th style="text-align:left;">
-data\_access\_group\_name
-</th>
-<th style="text-align:left;">
-unique\_group\_name
-</th>
-<th style="text-align:left;">
-status
-</th>
+<tr class="header">
+<th style="text-align: left;">data_access_group_name</th>
+<th style="text-align: left;">unique_group_name</th>
+<th style="text-align: right;">data_access_group_id.x</th>
+<th style="text-align: right;">data_access_group_id.y</th>
+<th style="text-align: left;">status</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-hospital m
-</td>
-<td style="text-align:left;">
-hospital\_m
-</td>
-<td style="text-align:left;">
-
--   </td>
-    </tr>
-    <tr>
-    <td style="text-align:left;">
-    hospital\_a
-    </td>
-    <td style="text-align:left;">
-    hospital\_a
-    </td>
-    <td style="text-align:left;">
-
-    -   </td>
-        </tr>
-        <tr>
-        <td style="text-align:left;">
-        hospital\_b
-        </td>
-        <td style="text-align:left;">
-        hospital\_b
-        </td>
-        <td style="text-align:left;">
-
-        -   </td>
-            </tr>
-            <tr>
-            <td style="text-align:left;">
-            hospital\_c
-            </td>
-            <td style="text-align:left;">
-            hospital\_c
-            </td>
-            <td style="text-align:left;">
-
-            -   </td>
-                </tr>
-                <tr>
-                <td style="text-align:left;">
-                hospital\_d
-                </td>
-                <td style="text-align:left;">
-                hospital\_d
-                </td>
-                <td style="text-align:left;">
-
-                -   </td>
-                    </tr>
-                    <tr>
-                    <td style="text-align:left;">
-                    hospital\_e
-                    </td>
-                    <td style="text-align:left;">
-                    hospital\_e
-                    </td>
-                    <td style="text-align:left;">
-
-                    -   </td>
-                        </tr>
-                        <tr>
-                        <td style="text-align:left;">
-                        hospital\_f
-                        </td>
-                        <td style="text-align:left;">
-                        hospital\_f
-                        </td>
-                        <td style="text-align:left;">
-
-                        -   </td>
-                            </tr>
-                            <tr>
-                            <td style="text-align:left;">
-                            hospital\_g
-                            </td>
-                            <td style="text-align:left;">
-                            hospital\_g
-                            </td>
-                            <td style="text-align:left;">
-
-                            -   </td>
-                                </tr>
-                                <tr>
-                                <td style="text-align:left;">
-                                hospital\_h
-                                </td>
-                                <td style="text-align:left;">
-                                hospital\_h
-                                </td>
-                                <td style="text-align:left;">
-
-                                -   </td>
-                                    </tr>
-                                    <tr>
-                                    <td style="text-align:left;">
-                                    hospital\_i
-                                    </td>
-                                    <td style="text-align:left;">
-                                    hospital\_i
-                                    </td>
-                                    <td style="text-align:left;">
-
-                                    -   </td>
-                                        </tr>
-                                        <tr>
-                                        <td style="text-align:left;">
-                                        hospital\_j
-                                        </td>
-                                        <td style="text-align:left;">
-                                        hospital\_j
-                                        </td>
-                                        <td style="text-align:left;">
-
-                                        -   </td>
-                                            </tr>
-                                            <tr>
-                                            <td style="text-align:left;">
-                                            hospital\_k
-                                            </td>
-                                            <td style="text-align:left;">
-                                            hospital\_k
-                                            </td>
-                                            <td style="text-align:left;">
-
-                                            -   </td>
-                                                </tr>
-                                                <tr>
-                                                <td style="text-align:left;">
-                                                hospital\_l
-                                                </td>
-                                                <td style="text-align:left;">
-                                                hospital\_l
-                                                </td>
-                                                <td style="text-align:left;">
-
-                                                -   </td>
-                                                    </tr>
-                                                    <tr>
-                                                    <td style="text-align:left;">
-                                                    hospital\_m
-                                                    </td>
-                                                    <td style="text-align:left;">
-                                                    hospital\_mb
-                                                    </td>
-                                                    <td style="text-align:left;">
-
-                                                    -   </td>
-                                                        </tr>
-                                                        <tr>
-                                                        <td style="text-align:left;">
-                                                        hospital\_n
-                                                        </td>
-                                                        <td style="text-align:left;">
-                                                        hospital\_n
-                                                        </td>
-                                                        <td style="text-align:left;">
-
-                                                        -   </td>
-                                                            </tr>
-                                                            </tbody>
-                                                            </table>
+<tr class="odd">
+<td style="text-align: left;">hospital m</td>
+<td style="text-align: left;">hospital_m</td>
+<td style="text-align: right;">4664</td>
+<td style="text-align: right;">4664</td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hospital_a</td>
+<td style="text-align: left;">hospital_a</td>
+<td style="text-align: right;">4117</td>
+<td style="text-align: right;">4117</td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hospital_b</td>
+<td style="text-align: left;">hospital_b</td>
+<td style="text-align: right;">4118</td>
+<td style="text-align: right;">4118</td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hospital_c</td>
+<td style="text-align: left;">hospital_c</td>
+<td style="text-align: right;">4119</td>
+<td style="text-align: right;">4119</td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hospital_d</td>
+<td style="text-align: left;">hospital_d</td>
+<td style="text-align: right;">4120</td>
+<td style="text-align: right;">4120</td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hospital_e</td>
+<td style="text-align: left;">hospital_e</td>
+<td style="text-align: right;">4121</td>
+<td style="text-align: right;">4121</td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hospital_f</td>
+<td style="text-align: left;">hospital_f</td>
+<td style="text-align: right;">4122</td>
+<td style="text-align: right;">4122</td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hospital_g</td>
+<td style="text-align: left;">hospital_g</td>
+<td style="text-align: right;">4123</td>
+<td style="text-align: right;">4123</td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hospital_h</td>
+<td style="text-align: left;">hospital_h</td>
+<td style="text-align: right;">4124</td>
+<td style="text-align: right;">4124</td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hospital_i</td>
+<td style="text-align: left;">hospital_i</td>
+<td style="text-align: right;">4125</td>
+<td style="text-align: right;">4125</td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hospital_j</td>
+<td style="text-align: left;">hospital_j</td>
+<td style="text-align: right;">4126</td>
+<td style="text-align: right;">4126</td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hospital_k</td>
+<td style="text-align: left;">hospital_k</td>
+<td style="text-align: right;">4661</td>
+<td style="text-align: right;">4661</td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hospital_l</td>
+<td style="text-align: left;">hospital_l</td>
+<td style="text-align: right;">4662</td>
+<td style="text-align: right;">4662</td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hospital_m</td>
+<td style="text-align: left;">hospital_mb</td>
+<td style="text-align: right;">4663</td>
+<td style="text-align: right;">4663</td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hospital_n</td>
+<td style="text-align: left;">hospital_n</td>
+<td style="text-align: right;">4665</td>
+<td style="text-align: right;">4665</td>
+<td style="text-align: left;">-</td>
+</tr>
+</tbody>
+</table>
 
 The `dag_manage()` function output provides a list of all DAGs with a
 breakdown of the outcome:
@@ -1308,17 +729,13 @@ and you will be shown the output from `user_role()`.
 
 <table>
 <thead>
-<tr>
-<th style="text-align:left;">
-username
-</th>
+<tr class="header">
+<th style="text-align: left;">username</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-gs2s1005789
-</td>
+<tr class="odd">
+<td style="text-align: left;">gs2s1005789</td>
 </tr>
 </tbody>
 </table>
@@ -1360,35 +777,19 @@ username in `users`:
 
 <table>
 <thead>
-<tr>
-<th style="text-align:left;">
-username
-</th>
-<th style="text-align:left;">
-action
-</th>
-<th style="text-align:left;">
-role
-</th>
-<th style="text-align:left;">
-dag
-</th>
+<tr class="header">
+<th style="text-align: left;">username</th>
+<th style="text-align: left;">action</th>
+<th style="text-align: left;">role</th>
+<th style="text-align: left;">dag</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-gs2s1005789
-</td>
-<td style="text-align:left;">
-add
-</td>
-<td style="text-align:left;">
-NA –&gt; manager
-</td>
-<td style="text-align:left;">
-NA –&gt; none
-</td>
+<tr class="odd">
+<td style="text-align: left;">gs2s1005789</td>
+<td style="text-align: left;">add</td>
+<td style="text-align: left;">NA –&gt; manager</td>
+<td style="text-align: left;">NA –&gt; none</td>
 </tr>
 </tbody>
 </table>
@@ -1404,34 +805,27 @@ NA –&gt; none
     knitr::kable(add_outcome$error)
 
 <table>
+<colgroup>
+<col style="width: 13%" />
+<col style="width: 10%" />
+<col style="width: 23%" />
+<col style="width: 7%" />
+<col style="width: 20%" />
+<col style="width: 5%" />
+<col style="width: 19%" />
+</colgroup>
 <thead>
-<tr>
-<th style="text-align:left;">
-username
-</th>
-<th style="text-align:left;">
-action
-</th>
-<th style="text-align:left;">
-status\_intended
-</th>
-<th style="text-align:left;">
-role
-</th>
-<th style="text-align:left;">
-role\_intended
-</th>
-<th style="text-align:left;">
-dag
-</th>
-<th style="text-align:left;">
-dag\_intended
-</th>
+<tr class="header">
+<th style="text-align: left;">username</th>
+<th style="text-align: left;">action</th>
+<th style="text-align: left;">status_intended</th>
+<th style="text-align: left;">role</th>
+<th style="text-align: left;">role_intended</th>
+<th style="text-align: left;">dag</th>
+<th style="text-align: left;">dag_intended</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-</tr>
 </tbody>
 </table>
 
@@ -1454,35 +848,19 @@ to be added and removed at the same time).
 
 <table>
 <thead>
-<tr>
-<th style="text-align:left;">
-username
-</th>
-<th style="text-align:left;">
-action
-</th>
-<th style="text-align:left;">
-role
-</th>
-<th style="text-align:left;">
-dag
-</th>
+<tr class="header">
+<th style="text-align: left;">username</th>
+<th style="text-align: left;">action</th>
+<th style="text-align: left;">role</th>
+<th style="text-align: left;">dag</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-gs2s1005789
-</td>
-<td style="text-align:left;">
-remove
-</td>
-<td style="text-align:left;">
-manager –&gt; NA
-</td>
-<td style="text-align:left;">
-none –&gt; NA
-</td>
+<tr class="odd">
+<td style="text-align: left;">gs2s1005789</td>
+<td style="text-align: left;">remove</td>
+<td style="text-align: left;">manager –&gt; NA</td>
+<td style="text-align: left;">none –&gt; NA</td>
 </tr>
 </tbody>
 </table>
