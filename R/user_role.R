@@ -12,24 +12,12 @@
 #' @return Dataframe of all users by unique role
 #' @export
 
+
 # Function:
 user_role <- function(redcap_project_uri, redcap_project_token, user_exclude = NULL, remove_id = T, show_rights = F){
   require(httr); require(dplyr)
 
-  role <- httr::POST(url=redcap_project_uri,
-                     body = list("token"= redcap_project_token, content='userRole',
-                                 action='export', format='csv')) %>%
-    httr::content(show_col_types = FALSE)  %>%
-    dplyr::select("role_id" = unique_role_name, "role_name" = role_label)
-
-  user_role <- httr::POST(url=redcap_project_uri,
-                          body = list("token"= redcap_project_token, content='userRoleMapping',
-                                      action='export', format='csv')) %>%
-    httr::content(show_col_types = FALSE) %>%
-    dplyr::rename("role_id" = unique_role_name) %>%
-    full_join(role, by = "role_id") %>%
-    dplyr::select(role_name, role_id,username)
-
+  # PULL users
   user_current <- httr::POST(url=redcap_project_uri,
                              body = list("token"= redcap_project_token, content='user',
                                          action='export', format='csv')) %>%
@@ -37,16 +25,42 @@ user_role <- function(redcap_project_uri, redcap_project_token, user_exclude = N
 
 
   user_rights <- user_current%>%
-    dplyr::select(-any_of(c("email","firstname","lastname","expiration","data_access_group","data_access_group_id"))) %>%
+    dplyr::select(-any_of(c("email","firstname","lastname","expiration",
+                            "data_access_group","data_access_group_id"))) %>%
     dplyr::rename_with(function(x){paste0("right_", x)}) %>%
     dplyr::rename("username" = "right_username")
 
-  all <- user_role %>%
-    dplyr::mutate(role_name = factor(role_name)) %>%
-    dplyr::arrange(role_name) %>%
-    left_join(user_current %>% dplyr::select(username:data_access_group_id), by = "username") %>%
-    dplyr::ungroup()  %>%
-    filter(is.na(username)==F)
+  # Add user role (if used)
+
+  pull_role <- httr::POST(url=redcap_project_uri,
+                          body = list("token"= redcap_project_token, content='userRole',
+                                      action='export', format='csv')) %>%
+    httr::content(show_col_types = FALSE)
+
+  role = tibble::tibble("role_id" = NA, "role_name" = NA)
+  user_role = tibble::tibble("role_id" = NA, "role_name" = NA, "username" = NA)
+
+  if(is.null(pull_role)==F){
+    role <- pull_role  %>%
+      dplyr::select( "role_name" = role_label,"role_id" = unique_role_name)
+
+    user_role <- httr::POST(url=redcap_project_uri,
+                            body = list("token"= redcap_project_token, content='userRoleMapping',
+                                        action='export', format='csv')) %>%
+      httr::content(show_col_types = FALSE) %>%
+      dplyr::rename("role_id" = unique_role_name) %>%
+      full_join(role, by = "role_id") %>%
+      dplyr::select(role_name, role_id,username)}
+
+
+  all <- user_current %>%
+    dplyr::select(username:data_access_group_id)  %>%
+    filter(is.na(username)==F) %>%
+    left_join(user_role %>%
+                dplyr::mutate(role_name = factor(role_name)) %>%
+                dplyr::arrange(role_name), by = "username") %>%
+    dplyr::ungroup()
+
 
   if(remove_id==T){
     all <- all %>%
