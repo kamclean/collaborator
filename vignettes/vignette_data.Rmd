@@ -24,8 +24,8 @@ The `redcap_data()` function provides a simple way to export, clean, and format 
 
 ```{r}
 redcap <- collaborator::redcap_data(redcap_project_uri = Sys.getenv("collaborator_test_uri"),
-                          redcap_project_token = Sys.getenv("collaborator_test_token"),
-                          include_original = T)
+                                    redcap_project_token = Sys.getenv("collaborator_test_token"),
+                                    include_original = T)
 
 ```
 
@@ -54,9 +54,9 @@ You may note above that the structure of `redcap$data` and `redcap$original` are
 
 The default for both the original and formatted data is to provide the data in a "long" format - one row per repeating instrument:
 
- - Data which is not part of a repeating instrument is copied across all repeating rows.
- 
- - Data which is part of a repeating instrument is shown to the right of the "redcap_repeat_instance" column (it indicates which instrument each row belongs to).
+- Data which is not part of a repeating instrument is copied across all repeating rows.
+
+- Data which is part of a repeating instrument is shown to the right of the "redcap_repeat_instance" column (it indicates which instrument each row belongs to).
 
 ```{r}
 knitr::kable(redcap$data %>% dplyr::select(record_id,pt_age:pt_sex, redcap_repeat_instance:last_col())%>% head(5))
@@ -108,7 +108,7 @@ data <- redcap$data %>% redcap_format_repeat(format = "wide")
 
 data_dict(data) %>%
   knitr::kable()
-  
+
 ```
 
 Through summarising the variables, data will not necessarily be linkable to individual patients (bar in the circumstance where variable(s) contain a direct patient identifier e.g. Community Health Index (CHI) Number, hospital numbers, etc).

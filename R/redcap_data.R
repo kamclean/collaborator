@@ -4,7 +4,9 @@
 #' @description Export the REDCap dataset, and use the metadata to classify the variables and label the columns.
 #' @param redcap_project_uri URI (Uniform Resource Identifier) for the REDCap instance.
 #' @param redcap_project_token API (Application Programming Interface) for the REDCap project.
-#' @param forms A list of forms wanted to be extracted, rather the the full dataset (default = all). This MUST align with the form_name as per redcap_metadata().
+#' @param forms A list of forms wanted to be extracted, rather the the full dataset (default = "all"). This MUST align with the form_name as per redcap_metadata().
+#' @param report_id A specific REDCap report ID wanted to be extracted, rather the the full dataset (default = NULL).
+#' @param filterlogic Filter wished to be applied to the redcap project prior to pulling. MUST be in REDCap format not R format (default = NULL).
 #' @param checkbox_value Determine if output checkbox variables should be unchanged from the REDCap record export ("raw") or labelled ("label"). Default = "raw".
 #' @param include_original Logical value to determine whether original data should be provided too (default = FALSE).
 #' @param include_complete Logical value to determine whether columns specifiying if forms are complete should be retained.
@@ -21,17 +23,18 @@
 #' @export
 
 # Function:
-redcap_data <- function(redcap_project_uri, redcap_project_token, forms = "all", checkbox_value = "label",
-                        include_original = F, include_complete = F, include_surveyfield = F, include_label = F,
-                        repeat_format = "long"){
+redcap_data <- function(redcap_project_uri, redcap_project_token, forms = "all", report_id = NULL, filterlogic = NULL,
+                        checkbox_value = "label", repeat_format = "long",
+                        include_original = F, include_complete = F, include_surveyfield = F, include_label = F){
 
   require(dplyr);require(httr);require(readr);require(lubridate); require(tidyselect);require(tibble)
 
   # Load required data--------------------
 
   # Project metadata
-  metadata <-  collaborator::redcap_metadata(redcap_project_uri = redcap_project_uri,
-                                             redcap_project_token = redcap_project_token)
+  metadata <-  redcap_metadata(redcap_project_uri = redcap_project_uri,
+                               redcap_project_token = redcap_project_token)
+
 
   var_admin = c("record_id", "redcap_data_access_group", "redcap_repeat_instrument", "redcap_repeat_instance")
 
@@ -39,27 +42,59 @@ redcap_data <- function(redcap_project_uri, redcap_project_token, forms = "all",
     metadata <- metadata %>%
       filter(form_name %in% forms | variable_name %in% var_admin)}
 
+  altrecord_id <- metadata %>%
+    filter(variable_name=="record_id") %>%
+    pull(altrecord_id)
+
+  if(is.na(altrecord_id)==T){altrecord_id=NULL}
 
   # Project data
   include_surveyfield = ifelse(include_surveyfield==T, "true", "false")
 
   if(paste0(forms, collapse = "")=="all"){
-    data <- httr::POST(url = redcap_project_uri,
-                       body = list("token"=redcap_project_token,
-                                   content='record',
-                                   action='export',
-                                   format='csv',
-                                   type='flat',
-                                   csvDelimiter='',
-                                   rawOrLabel='raw',
-                                   rawOrLabelHeaders='raw',
-                                   exportCheckboxLabel='false',
-                                   exportSurveyFields=include_surveyfield,
-                                   exportDataAccessGroups='true',
-                                   returnFormat='json'),
-                       encode = "form") %>%
-      httr::content(type = "text/csv",show_col_types = FALSE,
-                    guess_max = 100000, encoding = "UTF-8")}
+    if(is.null(filterlogic)==T){filterlogic=""}
+
+    if(is.null(report_id)==T){
+      data <- httr::POST(url = redcap_project_uri,
+                         body = list("token"=redcap_project_token,
+                                     content='record',
+                                     action='export',
+                                     format='csv',
+                                     type='flat',
+                                     csvDelimiter='',
+                                     rawOrLabel='raw',
+                                     rawOrLabelHeaders='raw',
+                                     filterLogic=filterlogic,
+                                     exportCheckboxLabel='false',
+                                     exportSurveyFields=include_surveyfield,
+                                     exportDataAccessGroups='true',
+                                     returnFormat='json'),
+                         encode = "form") %>%
+        httr::content(type = "text/csv",show_col_types = FALSE,
+                      guess_max = 100000, encoding = "UTF-8")}
+
+    if(is.null(report_id)==F){
+      data <- httr::POST(url = redcap_project_uri,
+                         body = list("token"=redcap_project_token,
+                                     content='report',
+                                     format='csv',
+                                     report_id = report_id,
+                                     type='flat',
+                                     csvDelimiter='',
+                                     filterLogic=filterlogic,
+                                     rawOrLabel='raw',
+                                     rawOrLabelHeaders='raw',
+                                     exportCheckboxLabel='false',
+                                     exportSurveyFields=include_surveyfield,
+                                     exportDataAccessGroups='true',
+                                     returnFormat='json'),
+                         encode = "form") %>%
+        httr::content(type = "text/csv",show_col_types = FALSE,
+                      guess_max = 100000, encoding = "UTF-8")
+
+      # metadata contains only data in report
+      metadata <- metadata %>%
+        filter(variable_name %in% c(names(data), altrecord_id))}}
 
 
   if(paste0(forms, collapse = "")!="all"){
@@ -69,13 +104,18 @@ redcap_data <- function(redcap_project_uri, redcap_project_token, forms = "all",
       select(-n) %>% tidyr::pivot_wider(names_from = "formname", values_from = "forms") %>%
       as.list()
 
+    if(is.null(filterlogic)==T){filterlogic=""}
+
+    if(is.null(altrecord_id)==T){recordidexport = list("fields[0]" = "record_id")}
+    if(is.null(altrecord_id)==F){recordidexport = list("fields[0]" = altrecord_id)}
+
     data <- httr::POST(url = redcap_project_uri,
                        body = c(list("token"=redcap_project_token,
                                      content='record',
                                      action='export',
                                      format='csv',
                                      type='flat',
-                                     "fields[0]"="record_id",
+                                     filterLogic=filterlogic,
                                      csvDelimiter='',
                                      rawOrLabel='raw',
                                      rawOrLabelHeaders='raw',
@@ -83,15 +123,18 @@ redcap_data <- function(redcap_project_uri, redcap_project_token, forms = "all",
                                      exportSurveyFields=include_surveyfield,
                                      exportDataAccessGroups='true',
                                      returnFormat='json'),
-                                formlist),
+                                formlist,
+                                recordidexport),
                        encode = "form") %>%
       httr::content(type = "text/csv",show_col_types = FALSE,
-                    guess_max = 100000, encoding = "UTF-8") %>%
-      select(any_of(var_admin), everything())}
+                    guess_max = 100000, encoding = "UTF-8")}
 
+  # rename alternative record_id to record_id
+  if(is.null(altrecord_id)==F){data <- data %>%
+    rename("record_id" = all_of(altrecord_id))}
 
-
-
+data <- data %>%
+  select(any_of(var_admin), everything())
 
   var_complete <- NULL
   if(include_complete==T){var_complete <- data %>% dplyr::select(ends_with("_complete")) %>% names()
@@ -304,7 +347,9 @@ redcap_data <- function(redcap_project_uri, redcap_project_token, forms = "all",
 
 
   if(include_original==F){return(list("data" = data_labelled, "metadata" = metadata))}
-  if(include_original==T){return(list("data" = data_labelled, "metadata" = metadata,"original" = data))}}
+  if(include_original==T){return(list("data" = data_labelled, "metadata" = metadata,"original" = data))}
+
+}
 
 
 

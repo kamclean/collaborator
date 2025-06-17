@@ -7,11 +7,15 @@
 redcap_data(
   redcap_project_uri,
   redcap_project_token,
+  forms = "all",
+  report_id = NULL,
+  filterlogic = NULL,
   checkbox_value = "label",
+  repeat_format = "long",
   include_original = F,
   include_complete = F,
-  repeat_format = "long",
-  include_surveyfield = F
+  include_surveyfield = F,
+  include_label = F
 )
 }
 \arguments{
@@ -19,13 +23,23 @@ redcap_data(
 
 \item{redcap_project_token}{API (Application Programming Interface) for the REDCap project.}
 
+\item{forms}{A list of forms wanted to be extracted, rather the the full dataset (default = "all"). This MUST align with the form_name as per redcap_metadata().}
+
+\item{report_id}{A specific REDCap report ID wanted to be extracted, rather the the full dataset (default = NULL).}
+
+\item{filterlogic}{Filter wished to be applied to the redcap project prior to pulling. MUST be in REDCap format not R format (default = NULL).}
+
 \item{checkbox_value}{Determine if output checkbox variables should be unchanged from the REDCap record export ("raw") or labelled ("label"). Default = "raw".}
+
+\item{repeat_format}{The format the repeating instrument data should be provided in. Options include "long" (default), "wide" (each instance a separate column), or "list" (nested instances).}
 
 \item{include_original}{Logical value to determine whether original data should be provided too (default = FALSE).}
 
 \item{include_complete}{Logical value to determine whether columns specifiying if forms are complete should be retained.}
 
-\item{repeat_format}{The format the repeating instrument data should be provided in. Options include "long" (default), "wide" (each instance a separate column), or "list" (nested instances).}
+\item{include_surveyfield}{Logical value to determine whether survey fields are extracted (e.g. timestamps)}
+
+\item{include_label}{Logical value to determine whether ff_label should be used to apply the (human readable) label from REDCap to columns}
 }
 \value{
 Three nested tibbles: (1) "exported": REDcap record export (unchanged) (2) labelled": REDcap record export with variables classified and columns labelled as specified via column_name and column_attr (3) "metadata": Cleaned metadata file for the REDCap dataset.

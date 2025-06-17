@@ -39,7 +39,12 @@ redcap_metadata <- function(redcap_project_uri, redcap_project_token, descriptiv
     # remove any html coding from text
     dplyr::mutate(variable_label = ifelse(variable_type=="descriptive", variable_label, gsub("<.*?>", "", variable_label))) %>%
     dplyr::mutate(variable_identifier = ifelse(variable_identifier=="y"&is.na(variable_identifier)==F, "Yes", "No"),
-                  variable_required = ifelse(variable_required=="y"&is.na(variable_required)==F, "Yes", "No")) %>%
+                  variable_required = ifelse(variable_required=="y"&is.na(variable_required)==F, "Yes", "No"),
+                  n = 1:n(),
+                  altrecord_id = case_when(n==1&variable_name!="record_id" ~ variable_name,
+                                           TRUE ~ NA),
+                  variable_name = case_when(n==1&variable_name!="record_id" ~ "record_id",
+                                            TRUE ~ variable_name)) %>%
     dplyr::filter(! variable_type %in% var_descriptive)
 
   # add in checkbox variables
