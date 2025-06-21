@@ -23,6 +23,7 @@
 #' @export
 
 # Function:
+
 redcap_data <- function(redcap_project_uri, redcap_project_token, forms = "all", report_id = NULL, filterlogic = NULL,
                         checkbox_value = "label", repeat_format = "long",
                         include_original = F, include_complete = F, include_surveyfield = F, include_label = F){
@@ -32,8 +33,9 @@ redcap_data <- function(redcap_project_uri, redcap_project_token, forms = "all",
   # Load required data--------------------
 
   # Project metadata
-  metadata <-  redcap_metadata(redcap_project_uri = redcap_project_uri,
-                               redcap_project_token = redcap_project_token)
+  metadata <-  collaborator::redcap_metadata(redcap_project_uri = redcap_project_uri,
+                                             redcap_project_token = redcap_project_token) %>%
+    dplyr::filter(variable_type!="descriptive")
 
 
   var_admin = c("record_id", "redcap_data_access_group", "redcap_repeat_instrument", "redcap_repeat_instance")
@@ -133,11 +135,15 @@ redcap_data <- function(redcap_project_uri, redcap_project_token, forms = "all",
   if(is.null(altrecord_id)==F){data <- data %>%
     rename("record_id" = all_of(altrecord_id))}
 
-data <- data %>%
-  select(any_of(var_admin), everything())
+  data <- data %>%
+    select(any_of(var_admin), everything())
+
 
   var_complete <- NULL
-  if(include_complete==T){var_complete <- data %>% dplyr::select(ends_with("_complete")) %>% names()
+  if(include_complete==F){data <- data %>% select(-ends_with("_complete"))}
+  if(include_complete==T){
+    var_complete <- data %>%
+      dplyr::select(ends_with("_complete")) %>% names()
 
   metadata <- metadata %>%
     bind_rows(tibble::tibble(variable_name = var_complete)) %>%
@@ -158,7 +164,7 @@ data <- data %>%
                   factor_label = ifelse(variable_name %in% var_complete,
                                         list(c("Incomplete","Unverified","Complete")),
                                         factor_label)) %>%
-    dplyr::group_by(form_name) %>%
+    dplyr::group_by(form_name) %>% View()
     tidyr::fill(arm, redcap_event_name, .direction = "down") %>%
     dplyr::ungroup()}
 
@@ -217,7 +223,6 @@ data <- data %>%
       dplyr::mutate(factor_level = ifelse(variable_type=="checkbox", list(c(0,1)),factor_level),
                     factor_label = ifelse(variable_type=="checkbox", list(c("Unchecked", select_choices_or_calculations)),factor_label)) %>%
       dplyr::ungroup()}
-
 
   var_new <- names(data_labelled)[! (names(data_labelled) %in% metadata$variable_name)]
   if(length(var_new)>0){
@@ -316,11 +321,11 @@ data <- data %>%
         dplyr::mutate_at(dplyr::vars(any_of(meta_character$variable_name[[i]])),
                          function(x){as.character(x)})}}
 
-
   metadata = tibble::tibble(variable_name = colnames(data)) %>%
     dplyr::left_join(metadata, by = 'variable_name') %>%
     dplyr::mutate(class = ifelse(variable_name %in% c('redcap_data_access_group', var_complete), "factor", class),
                   form_name = ifelse(variable_name %in% var_complete, gsub("_complete", "", var_complete), form_name),
+                  form_name = ifelse(variable_name=="redcap_data_access_group", lag(form_name,1), form_name),
                   variable_label = ifelse(variable_name == 'redcap_data_access_group', 'REDCap Data Access Group', variable_label)) %>%
     dplyr::mutate(variable_label = ifelse(is.na(variable_label), variable_name, variable_label))
 
@@ -350,6 +355,3 @@ data <- data %>%
   if(include_original==T){return(list("data" = data_labelled, "metadata" = metadata,"original" = data))}
 
 }
-
-
-
