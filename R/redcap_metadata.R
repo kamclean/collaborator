@@ -119,7 +119,7 @@ redcap_metadata <- function(redcap_project_uri, redcap_project_token, descriptiv
 
   # Other variable types
   output <- df_meta %>%
-    dplyr::mutate(class = ifelse(variable_type %in% c("slider", "calc")|(variable_type=="text" & variable_validation %in% "number"),
+    dplyr::mutate(class = ifelse(variable_type %in% c("slider", "calc")|(variable_type=="text" & variable_validation %in% c("number", "integer")),
                                  "numeric", class),
                   class = ifelse(variable_type == "text" & grepl("date_", variable_validation), "date", class),
                   class = ifelse(variable_type == "text" & grepl("datetime_", variable_validation), "datetime", class),
