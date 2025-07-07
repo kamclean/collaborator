@@ -164,7 +164,7 @@ redcap_data <- function(redcap_project_uri, redcap_project_token, forms = "all",
                   factor_label = ifelse(variable_name %in% var_complete,
                                         list(c("Incomplete","Unverified","Complete")),
                                         factor_label)) %>%
-    dplyr::group_by(form_name) %>% View()
+    dplyr::group_by(form_name) %>%
     tidyr::fill(arm, redcap_event_name, .direction = "down") %>%
     dplyr::ungroup()}
 
