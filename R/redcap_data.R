@@ -140,8 +140,7 @@ redcap_data <- function(redcap_project_uri, redcap_project_token, forms = "all",
   var_complete <- NULL
   if(include_complete==F){data <- data %>% select(-ends_with("_complete"))}
   if(include_complete==T){
-    var_complete <- data %>%
-      dplyr::select(ends_with("_complete")) %>% names()
+    var_complete <- data %>% dplyr::select(ends_with("_complete")) %>% names()
 
   metadata <- metadata %>%
     bind_rows(tibble::tibble(variable_name = var_complete)) %>%
@@ -155,10 +154,10 @@ redcap_data <- function(redcap_project_uri, redcap_project_token, forms = "all",
                   variable_label = ifelse(variable_name %in% var_complete, variable_name, variable_label),
                   select_choices_or_calculations = ifelse(variable_name %in% var_complete,
                                                           c("0, Incomplete | 1, Unverified | 2, Complete"),
-                                                          factor_label),
+                                                          select_choices_or_calculations),
                   factor_level = ifelse(variable_name %in% var_complete,
                                         list(c(0, 1, 2)),
-                                        factor_label),
+                                        factor_level),
                   factor_label = ifelse(variable_name %in% var_complete,
                                         list(c("Incomplete","Unverified","Complete")),
                                         factor_label)) %>%
