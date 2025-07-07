@@ -98,7 +98,6 @@ redcap_data <- function(redcap_project_uri, redcap_project_token, forms = "all",
       metadata <- metadata %>%
         filter(variable_name %in% c(names(data), altrecord_id))}}
 
-
   if(paste0(forms, collapse = "")!="all"){
     formlist = tibble(forms) %>%
       mutate(n = 1:n()-1,
@@ -132,8 +131,7 @@ redcap_data <- function(redcap_project_uri, redcap_project_token, forms = "all",
                     guess_max = 100000, encoding = "UTF-8")}
 
   # rename alternative record_id to record_id
-  if(is.null(altrecord_id)==F){data <- data %>%
-    rename("record_id" = all_of(altrecord_id))}
+  if(is.null(altrecord_id)==F){data <- data %>%rename("record_id" = all_of(altrecord_id))}
 
   data <- data %>%
     select(any_of(var_admin), everything())

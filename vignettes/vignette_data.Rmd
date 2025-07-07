@@ -25,8 +25,7 @@ The `redcap_data()` function provides a simple way to export, clean, and format 
 ```{r}
 redcap <- collaborator::redcap_data(redcap_project_uri = Sys.getenv("collaborator_test_uri"),
                                     redcap_project_token = Sys.getenv("collaborator_test_token"),
-                                    include_original = T)
-
+                                    include_original = T, include_complete = T)
 ```
 
 There are 3 potential outputs from this function:
