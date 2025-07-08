@@ -125,8 +125,18 @@ redcap_metadata <- function(redcap_project_uri, redcap_project_token, descriptiv
                   class = ifelse(variable_type == "text" & grepl("datetime_", variable_validation), "datetime", class),
                   class = ifelse(variable_type %in% "truefalse", "logical", class),
                   class = ifelse(variable_type == "file", "file", class),
-                  class = ifelse(is.na(class), "character", class))
+                  class = ifelse(is.na(class), "character", class)) %>%
 
+    # have sliders have a variable_validation_min and variable_validation_max
+    # (not directly exported - have to rely on labels from select_choices_or_calculations)
+    mutate(slidersplit =ifelse(variable_type=="slider", str_split(select_choices_or_calculations, " \\| "), NA),
+           variable_validation_min = ifelse(is.na(slidersplit)==F, map_chr(slidersplit, function(x){head(x, 1)}), variable_validation_min),
+           variable_validation_max = ifelse(is.na(slidersplit)==F, map_chr(slidersplit, function(x){tail(x, 1)}), variable_validation_max)) %>%
+
+    mutate(across(variable_validation_min:variable_validation_max,
+                  function(x){case_when(class=="date"&x=="today" ~ as.character(Sys.Date()),
+                                        class=="datetime"&x=="today" ~ paste0(Sys.Date(), " 23:59:59"),
+                                        TRUE ~ x)}))
 
   # Get event / arm data
   df_event <- tryCatch(httr::POST(url = redcap_project_uri,
