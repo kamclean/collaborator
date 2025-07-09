@@ -25,9 +25,7 @@ data_dict <- function(df, var_include = NULL, var_exclude=NULL, label = FALSE){
   if(is.null(var_include)==F){df <- df %>% dplyr::select(all_of(var_include))}
 
   dict <- df %>%
-    purrr::map(function(x){class(x) %>%
-        paste(collapse="") %>%
-        gsub("labelled", "", .)}) %>%
+    purrr::map(function(x){class(x) %>% paste(collapse="") %>% str_replace("labelled", "")}) %>%
     tibble::enframe(name ="variable", value = "class") %>%
     dplyr::mutate(n_na = purrr::map(df, function(x){is.na(x) %>% sum()})) %>%
     tidyr::unnest(cols = c(class, n_na)) %>%
@@ -35,6 +33,7 @@ data_dict <- function(df, var_include = NULL, var_exclude=NULL, label = FALSE){
 
   # Create numeric values
   value_num   <- NULL
+
   if(nrow(dplyr::filter(dict, class=="numeric"|class=="integer"))>0){
     value_num <- df %>%
       dplyr::select_if(function(x){is.numeric(x)|is.integer(x)}) %>%
@@ -104,7 +103,7 @@ data_dict <- function(df, var_include = NULL, var_exclude=NULL, label = FALSE){
       dplyr::select(variable, value)}
 
 
-  class_supported <- c("factor", "character", "String", "Date", "numeric", "logical", "orderedfactor")
+  class_supported <- c("factor", "character", "String", "Date", "numeric","integer", "logical", "orderedfactor")
 
   dict_full <- dplyr::bind_rows(value_factor, value_char, value_logic, value_date, value_num) %>%
     dplyr::left_join(dict, by = "variable") %>%
