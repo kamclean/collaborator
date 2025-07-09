@@ -302,14 +302,14 @@ if(nrow(meta_logical)>0){
   for(i in c(1:nrow(meta_logical))){
     data_labelled <- data_labelled %>%
       dplyr::mutate_at(dplyr::vars(any_of(meta_logical$variable_name[[i]])),
-                       function(x){as.logical(x)})}}
+                       function(x){factor(ifelse(x==T, 1, 0), levels = c(0,1), labels = c(FALSE, TRUE))})}}
 
 # File
 if(nrow(meta_file)>0){
   for(i in c(1:nrow(meta_file))){
     data_labelled <- data_labelled %>%
       dplyr::mutate_at(dplyr::vars(any_of(meta_file$variable_name[[i]])),
-                       function(x){ifelse(is.na(x)==T, FALSE, TRUE)})}}
+                       function(x){factor(ifelse(is.na(x)==F, 1, 0), levels = c(0,1), labels = c(FALSE, TRUE))})}}
 
 # Characters
 if(nrow(meta_character)>0){

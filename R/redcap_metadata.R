@@ -46,7 +46,7 @@ redcap_metadata <- function(redcap_project_uri, redcap_project_token, descriptiv
                   variable_name = case_when(n==1&variable_name!="record_id" ~ "record_id",
                                             TRUE ~ variable_name)) %>%
     dplyr::filter(! variable_type %in% var_descriptive) %>%
-    mutate(select_choices_or_calculations = ifelse(variable_type=="truefalse", "0, FALSE | 1, TRUE", select_choices_or_calculations))
+    mutate(select_choices_or_calculations = ifelse(variable_type %in% c("truefalse", "file"), "0, FALSE | 1, TRUE", select_choices_or_calculations))
 
   # Add in any data access groups
 
@@ -119,9 +119,9 @@ redcap_metadata <- function(redcap_project_uri, redcap_project_token, descriptiv
                     factor_label = rep(list(c("No", "Yes")),nrow(.))) %>%
       dplyr::select(variable_name, factor_level, factor_label)}
 
-  if("radio" %in% df_meta$variable_type| "dropdown" %in% df_meta$variable_type| "truefalse" %in% df_meta$variable_type){
+  if("radio" %in% df_meta$variable_type| "dropdown" %in% df_meta$variable_type| "truefalse" %in% df_meta$variable_type| "file" %in% df_meta$variable_type){
     factor_other <- df_meta %>%
-      dplyr::filter(variable_type %in% c("radio", "dropdown", "truefalse")) %>%
+      dplyr::filter(variable_type %in% c("radio", "dropdown", "truefalse","file")) %>%
       tidyr::separate_rows(select_choices_or_calculations, sep = "\\|") %>%
       dplyr::mutate(select_choices_or_calculations = str_trim(select_choices_or_calculations)) %>%
       dplyr::mutate(factor_level = stringr::str_split_fixed(select_choices_or_calculations, ", ", 2)[,1],
@@ -164,8 +164,7 @@ redcap_metadata <- function(redcap_project_uri, redcap_project_token, descriptiv
                                     variable_type == "text" & str_detect(variable_validation, "date_") ~ "date",
                                     variable_type == "text" & str_detect(variable_validation, "datetime_") ~ "datetime",
                                     variable_type %in% c("radio", "dropdown") ~ "factor",
-                                    variable_type %in% c("yesno", "checkbox", "truefalse") ~ "factor",
-                                    variable_type == "file" ~ "file",
+                                    variable_type %in% c("yesno", "checkbox", "truefalse","file") ~ "factor",
                                     TRUE ~ "character")) %>%
 
     # have sliders have a variable_validation_min and variable_validation_max
