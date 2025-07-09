@@ -154,8 +154,7 @@ redcap_metadata <- function(redcap_project_uri, redcap_project_token, descriptiv
                                                   returnFormat='csv'),
                                       encode = "form") %>%
     httr::content(type = "text/csv",show_col_types = FALSE,
-                  guess_max = 100000, encoding = "UTF-8") %>%
-    pull(form_name)
+                  guess_max = 100000, encoding = "UTF-8")
 
   # Other variable types
   output <- df_meta %>%
@@ -177,7 +176,7 @@ redcap_metadata <- function(redcap_project_uri, redcap_project_token, descriptiv
                   function(x){case_when(class=="date"&x%in% c("today", "now") ~ as.character(Sys.Date()),
                                         class=="datetime"&x%in% c("today", "now") ~ paste0(Sys.Date(), " 12:00:00"),
                                         TRUE ~ x)})) %>%
-    mutate(form_repeat = ifelse(form_name %in% repeating_instruments, "Yes", "No") %>% factor())
+    mutate(form_repeat = ifelse(form_name %in% repeating_instruments$form_name, "Yes", "No") %>% factor())
 
   # Get event / arm data
   df_event <- tryCatch(httr::POST(url = redcap_project_uri,
