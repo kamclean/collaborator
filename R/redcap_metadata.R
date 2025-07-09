@@ -156,6 +156,9 @@ redcap_metadata <- function(redcap_project_uri, redcap_project_token, descriptiv
     httr::content(type = "text/csv",show_col_types = FALSE,
                   guess_max = 100000, encoding = "UTF-8")
 
+  if(nrow(repeating_instruments)==0){repeating_instruments_form <- NA}
+  if(nrow(repeating_instruments)>0){repeating_instruments_form <- repeating_instruments$form_name}
+
   # Other variable types
   output <- df_meta %>%
     dplyr::mutate(class = case_when(variable_type %in% c("slider", "calc") ~ "numeric",
@@ -175,11 +178,8 @@ redcap_metadata <- function(redcap_project_uri, redcap_project_token, descriptiv
     mutate(across(variable_validation_min:variable_validation_max,
                   function(x){case_when(class=="date"&x%in% c("today", "now") ~ as.character(Sys.Date()),
                                         class=="datetime"&x%in% c("today", "now") ~ paste0(Sys.Date(), " 12:00:00"),
-                                        TRUE ~ x)}))
-
-  if("form_name" %in% names(repeating_instruments)){
-  output %>%
-    mutate(form_repeat = ifelse(form_name %in% repeating_instruments$form_name, "Yes", "No") %>% factor())}
+                                        TRUE ~ x)})) %>%
+    mutate(form_repeat = ifelse(form_name %in% repeating_instruments_form, "Yes", "No") %>% factor())
 
   # Get event / arm data
   df_event <- tryCatch(httr::POST(url = redcap_project_uri,
