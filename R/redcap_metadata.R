@@ -172,6 +172,7 @@ redcap_metadata <- function(redcap_project_uri, redcap_project_token, descriptiv
     # have sliders have a variable_validation_min and variable_validation_max
     # (not directly exported - have to rely on labels from select_choices_or_calculations)
     mutate(slidersplit =ifelse(variable_type=="slider", str_split(select_choices_or_calculations, " \\| "), NA),
+           slidersplit = map(slidersplit, function(x){stringr::str_remove_all(x, "[^0-9]") %>% str_trim()}),
            variable_validation_min = ifelse(is.na(slidersplit)==F, map_chr(slidersplit, function(x){head(x, 1)}), variable_validation_min),
            variable_validation_max = ifelse(is.na(slidersplit)==F, map_chr(slidersplit, function(x){tail(x, 1)}), variable_validation_max)) %>%
     select(-slidersplit) %>%
