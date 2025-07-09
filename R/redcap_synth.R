@@ -1,4 +1,4 @@
-# redcap_syth--------------------------------
+# redcap_synth--------------------------------
 # Documentation
 #' Simulate data from REDCap metadata
 #' @description Used to generate simulated data from REDCap metadata, incorporating repeating instruments, validation and branching logic (where present).
@@ -20,7 +20,7 @@
 #' @export
 #'
 
-redcap_syth <- function(redcap_project_uri, redcap_project_token, nrecords = 100, propmiss = 0.10, sampledist = "normal"){
+redcap_synth <- function(redcap_project_uri, redcap_project_token, nrecords = 100, propmiss = 0.10, sampledist = "normal"){
   require(dplyr); require(httr); require(tidyr); require(stringr); require(purrr); require(stringi); require(rlang); require(lubridate)
 
   metadata <- redcap_metadata(redcap_project_uri = redcap_project_uri,
