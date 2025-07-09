@@ -169,9 +169,6 @@ redcap_data <- function(redcap_project_uri, redcap_project_token, forms = "all",
 
   # Format-------------------
   # Data access groups
-  if("redcap_data_access_group" %in% names(data_labelled)){data_labelled <- data_labelled %>%
-    dplyr::mutate(redcap_data_access_group= factor(redcap_data_access_group, levels=sort(unique(redcap_data_access_group))))}
-
   if(!("redcap_data_access_group" %in% names(data_labelled))){data_labelled <- data_labelled %>%
     dplyr::mutate(redcap_data_access_group= factor(NA))}
 

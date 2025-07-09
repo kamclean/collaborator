@@ -45,7 +45,36 @@ redcap_metadata <- function(redcap_project_uri, redcap_project_token, descriptiv
                                            TRUE ~ NA),
                   variable_name = case_when(n==1&variable_name!="record_id" ~ "record_id",
                                             TRUE ~ variable_name)) %>%
-    dplyr::filter(! variable_type %in% var_descriptive)
+    dplyr::filter(! variable_type %in% var_descriptive) %>%
+    mutate(select_choices_or_calculations = ifelse(variable_type=="truefalse", "0, FALSE | 1, TRUE", select_choices_or_calculations))
+
+  # Add in any data access groups
+
+  df_dag <- httr::POST(url = redcap_project_uri,
+                       body = list("token"=redcap_project_token,
+                                   content='dag',
+                                   action='export',
+                                   format='csv',
+                                   returnFormat='csv'),
+                       encode = "form") %>%
+    httr::content(type = "text/csv",show_col_types = FALSE,
+                  guess_max = 100000, encoding = "UTF-8")
+
+  if(nrow(df_dag)>0){
+
+    rowdag <- df_dag%>%
+      select("factor_level" = unique_group_name, "factor_label" = data_access_group_name) %>%
+      summarise(select_choices_or_calculations = paste(paste0(factor_level, ", ", factor_label), collapse = " | ")) %>%
+      mutate(form_name = head(df_meta$form_name,1),
+             variable_type = "radio",
+             variable_identifier = "No",
+             variable_required = "No",
+             variable_name = "redcap_data_access_group",
+             variable_label = "REDCap data access group (DAG)")
+
+    df_meta <- bind_rows(df_meta, rowdag)}
+
+
 
   # add in checkbox variables
   if("checkbox" %in% df_meta$variable_type){
@@ -90,11 +119,11 @@ redcap_metadata <- function(redcap_project_uri, redcap_project_token, descriptiv
                     factor_label = rep(list(c("No", "Yes")),nrow(.))) %>%
       dplyr::select(variable_name, factor_level, factor_label)}
 
-  if("radio" %in% df_meta$variable_type| "dropdown" %in% df_meta$variable_type){
+  if("radio" %in% df_meta$variable_type| "dropdown" %in% df_meta$variable_type| "truefalse" %in% df_meta$variable_type){
     factor_other <- df_meta %>%
-      dplyr::filter(variable_type %in% c("radio", "dropdown")) %>%
+      dplyr::filter(variable_type %in% c("radio", "dropdown", "truefalse")) %>%
       tidyr::separate_rows(select_choices_or_calculations, sep = "\\|") %>%
-      dplyr::mutate(select_choices_or_calculations = trimws(select_choices_or_calculations)) %>%
+      dplyr::mutate(select_choices_or_calculations = str_trim(select_choices_or_calculations)) %>%
       dplyr::mutate(factor_level = stringr::str_split_fixed(select_choices_or_calculations, ", ", 2)[,1],
                     factor_label = stringr::str_split_fixed(select_choices_or_calculations, ", ", 2)[,2]) %>%
       dplyr::group_by(variable_name, factor_label) %>%
@@ -117,26 +146,39 @@ redcap_metadata <- function(redcap_project_uri, redcap_project_token, descriptiv
         dplyr::mutate(class = NA, factor_level = NA, factor_label = NA) %>%
         dplyr::select(class, everything())}
 
+  # Get repeating instruments
+  repeating_instruments <- httr::POST(url = redcap_project_uri,
+                                      body = list("token"=redcap_project_token,
+                                                  content='repeatingFormsEvents',
+                                                  format='csv',
+                                                  returnFormat='csv'),
+                                      encode = "form") %>%
+    httr::content(type = "text/csv",show_col_types = FALSE,
+                  guess_max = 100000, encoding = "UTF-8") %>%
+    pull(form_name)
+
   # Other variable types
   output <- df_meta %>%
-    dplyr::mutate(class = ifelse(variable_type %in% c("slider", "calc")|(variable_type=="text" & variable_validation %in% c("number", "integer")),
-                                 "numeric", class),
-                  class = ifelse(variable_type == "text" & grepl("date_", variable_validation), "date", class),
-                  class = ifelse(variable_type == "text" & grepl("datetime_", variable_validation), "datetime", class),
-                  class = ifelse(variable_type %in% "truefalse", "logical", class),
-                  class = ifelse(variable_type == "file", "file", class),
-                  class = ifelse(is.na(class), "character", class)) %>%
+    dplyr::mutate(class = case_when(variable_type %in% c("slider", "calc") ~ "numeric",
+                                    variable_type=="text" & variable_validation %in% c("number", "integer") ~ "numeric",
+                                    variable_type == "text" & str_detect(variable_validation, "date_") ~ "date",
+                                    variable_type == "text" & str_detect(variable_validation, "datetime_") ~ "datetime",
+                                    variable_type %in% c("radio", "dropdown") ~ "factor",
+                                    variable_type %in% c("yesno", "checkbox", "truefalse") ~ "factor",
+                                    variable_type == "file" ~ "file",
+                                    TRUE ~ "character")) %>%
 
     # have sliders have a variable_validation_min and variable_validation_max
     # (not directly exported - have to rely on labels from select_choices_or_calculations)
     mutate(slidersplit =ifelse(variable_type=="slider", str_split(select_choices_or_calculations, " \\| "), NA),
            variable_validation_min = ifelse(is.na(slidersplit)==F, map_chr(slidersplit, function(x){head(x, 1)}), variable_validation_min),
            variable_validation_max = ifelse(is.na(slidersplit)==F, map_chr(slidersplit, function(x){tail(x, 1)}), variable_validation_max)) %>%
-
+    select(-slidersplit) %>%
     mutate(across(variable_validation_min:variable_validation_max,
-                  function(x){case_when(class=="date"&x=="today" ~ as.character(Sys.Date()),
-                                        class=="datetime"&x=="today" ~ paste0(Sys.Date(), " 23:59:59"),
-                                        TRUE ~ x)}))
+                  function(x){case_when(class=="date"&x%in% c("today", "now") ~ as.character(Sys.Date()),
+                                        class=="datetime"&x%in% c("today", "now") ~ paste0(Sys.Date(), " 12:00:00"),
+                                        TRUE ~ x)})) %>%
+    mutate(form_repeat = ifelse(form_name %in% repeating_instruments, "Yes", "No") %>% factor())
 
   # Get event / arm data
   df_event <- tryCatch(httr::POST(url = redcap_project_uri,
@@ -161,4 +203,4 @@ redcap_metadata <- function(redcap_project_uri, redcap_project_token, descriptiv
       dplyr::left_join(df_event,by = "form_name") %>%
       dplyr::select(form_name, variable_name, matrix_name, class, everything())}else{output <- output %>% dplyr::mutate(arm = list(NA), redcap_event_name = list(NA))}
 
-  return(output)}
+    return(output)}
