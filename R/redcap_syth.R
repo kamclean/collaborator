@@ -1,4 +1,4 @@
-# redcap_sim--------------------------------
+# redcap_syth--------------------------------
 # Documentation
 #' Simulate data from REDCap metadata
 #' @description Used to generate simulated data from REDCap metadata, incorporating repeating instruments, validation and branching logic (where present).
@@ -20,7 +20,7 @@
 #' @export
 #'
 
-redcap_sim <- function(redcap_project_uri, redcap_project_token, nrecords = 100, propmiss = 0.10, sampledist = "normal"){
+redcap_syth <- function(redcap_project_uri, redcap_project_token, nrecords = 100, propmiss = 0.10, sampledist = "normal"){
   require(dplyr); require(httr); require(tidyr); require(stringr); require(purrr); require(stringi); require(rlang); require(lubridate)
 
   metadata <- redcap_metadata(redcap_project_uri = redcap_project_uri,
@@ -164,10 +164,10 @@ redcap_sim <- function(redcap_project_uri, redcap_project_token, nrecords = 100,
     # simulate repeating instrument data
     rpt <- metadata %>%
       filter(form_repeat=="Yes") %>%
-      simulation(nrecords=nrow(df)*9, propmiss = propmiss, sampledist = sampledist) %>%
-      mutate(record_id = sample(df$record_id, 9*nrow(df), replace=T),
+      simulation(nrecords=nrow(df)*10, propmiss = propmiss, sampledist = sampledist) %>%
+      mutate(record_id = sample(df$record_id, 10*nrow(df), replace=T),
              redcap_repeat_instrument = sample(metadata %>% filter(form_repeat=="Yes") %>% pull(form_name) %>% unique(),
-                                               9*nrow(df), replace=T))  %>%
+                                               10*nrow(df), replace=T))  %>%
       group_by(record_id, redcap_repeat_instrument) %>%
       dplyr::mutate(redcap_repeat_instance = 1:n()) %>%
       dplyr::arrange(record_id, redcap_repeat_instrument, redcap_repeat_instance)
