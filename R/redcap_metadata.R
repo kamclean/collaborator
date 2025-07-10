@@ -147,14 +147,14 @@ redcap_metadata <- function(redcap_project_uri, redcap_project_token, descriptiv
         dplyr::select(class, everything())}
 
   # Get repeating instruments
-  repeating_instruments <- httr::POST(url = redcap_project_uri,
+  suppressWarnings(repeating_instruments <- httr::POST(url = redcap_project_uri,
                                       body = list("token"=redcap_project_token,
                                                   content='repeatingFormsEvents',
                                                   format='csv',
                                                   returnFormat='csv'),
                                       encode = "form") %>%
     httr::content(type = "text/csv",show_col_types = FALSE,
-                  guess_max = 100000, encoding = "UTF-8")
+                  guess_max = 100000, encoding = "UTF-8"))
 
   if(nrow(repeating_instruments)==0){repeating_instruments_form <- NA}
   if(nrow(repeating_instruments)>0){repeating_instruments_form <- repeating_instruments$form_name}
