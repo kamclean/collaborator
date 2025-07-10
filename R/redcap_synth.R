@@ -27,6 +27,8 @@ redcap_synth <- function(redcap_project_uri, redcap_project_token, nrecords = 10
                               redcap_project_token = redcap_project_token) %>%
     select(-n)
 
+
+
   # v2 idea - separately set skew for each variable? (if wanted)
   simulation <- function(metadata, nrecords, propmiss, sampledist){
 
@@ -35,7 +37,8 @@ redcap_synth <- function(redcap_project_uri, redcap_project_token, nrecords = 10
     var_factor = metadata %>% filter(class=="factor") %>% pull(variable_name)
     var_numeric = metadata %>% filter(class=="numeric") %>% pull(variable_name)
     var_date = metadata %>% filter(class=="date") %>% pull(variable_name)
-    var_datetime = metadata %>% filter(class=="datetime") %>% pull(variable_name)
+    var_datetime_hm = metadata %>% filter(class=="datetime_hm") %>% pull(variable_name)
+    var_datetime_hms = metadata %>% filter(class=="datetime_hms") %>% pull(variable_name)
 
     metadata_character <- metadata %>%
       dplyr::filter(variable_name %in% var_character) %>%
@@ -68,7 +71,7 @@ redcap_synth <- function(redcap_project_uri, redcap_project_token, nrecords = 10
 
     # https://stackoverflow.com/questions/19343133/setting-upper-and-lower-limits-in-rnorm
 
-    metadata_numeric <-metadata %>%
+    metadata_numeric <- metadata %>%
       dplyr::filter(variable_name %in% c(var_numeric)) %>%
       dplyr::select(-factor_level) %>%
       dplyr::mutate(variable_validation_min = ifelse(is.na(variable_validation_min)==T,-10000, variable_validation_min),
@@ -115,13 +118,40 @@ redcap_synth <- function(redcap_project_uri, redcap_project_token, nrecords = 10
                                                                     sampledist=="rskew" ~ sort(rtnorm(n=length(range))^5))}))}),
                     value = purrr::map(value, function(x){case_when(1:nrecords %in% sample(1:nrecords, nrecords*propmiss, replace=F) ~ NA_Date_, TRUE ~ x)}))
 
-    metadata_datetime <- metadata %>%
-      dplyr::filter(variable_name %in% var_datetime) %>%
+    metadata_datetime_hm <- metadata %>%
+      dplyr::filter(variable_name %in% var_datetime_hm) %>%
       dplyr::select(-factor_level) %>%
       dplyr::mutate(variable_validation_min = case_when(is.na(variable_validation_min)==T ~ Sys.Date()-years(125),
-                                                        TRUE ~ lubridate::as_date(variable_validation_min)),
+                                                        TRUE ~ lubridate::as_date(variable_validation_min,format="%Y-%m-%d %H:%M")),
                     variable_validation_max = case_when(is.na(variable_validation_max)==T ~ Sys.Date()+years(125),
-                                                        TRUE~ lubridate::as_date(variable_validation_max))) %>%
+                                                        TRUE~ lubridate::as_date(variable_validation_max,format="%Y-%m-%d %H:%M"))) %>%
+      dplyr::group_by(variable_name) %>%
+      # simulate factor levels
+      dplyr::mutate(value = purrr::map(variable_name,
+                                       function(x){
+                                         range = variable_validation_min:variable_validation_max
+
+                                         sample(range,nrecords, replace=TRUE,
+
+                                                prob = if(sampledist =="equal"){NULL}else{
+                                                  case_when(sampledist=="normal" ~ c(sort(rtnorm(n=floor(length(range)/2))),
+                                                                                     rev(sort(rtnorm(n=ceiling(length(range)/2))))),
+
+                                                            sampledist=="lskew" ~ rev(sort(rtnorm(n=length(range))^5)),
+
+                                                            sampledist=="rskew" ~ sort(rtnorm(n=length(range))^5))})}),
+                    value = purrr::map(value, function(x){as_datetime(paste0(as_date(x)," ",
+                                                                             sample(0:23, nrecords,replace=TRUE),":",sample(0:59, nrecords,replace=TRUE),
+                                                                             sample(0:59, nrecords,replace=TRUE)),format="%Y-%m-%d %H:%M:%S")}),
+                    value = purrr::map(value, function(x){case_when(1:nrecords %in% sample(1:nrecords, nrecords*propmiss, replace=F) ~ NA_Date_, TRUE ~ x)}))
+
+    metadata_datetime_hms <- metadata %>%
+      dplyr::filter(variable_name %in% var_datetime_hms) %>%
+      dplyr::select(-factor_level) %>%
+      dplyr::mutate(variable_validation_min = case_when(is.na(variable_validation_min)==T ~ Sys.Date()-years(125),
+                                                        TRUE ~ lubridate::as_date(variable_validation_min,format="%Y-%m-%d %H:%M:%S")),
+                    variable_validation_max = case_when(is.na(variable_validation_max)==T ~ Sys.Date()+years(125),
+                                                        TRUE~ lubridate::as_date(variable_validation_max,format="%Y-%m-%d %H:%M:%S"))) %>%
       dplyr::group_by(variable_name) %>%
       # simulate factor levels
       dplyr::mutate(value = purrr::map(variable_name,
@@ -139,14 +169,15 @@ redcap_synth <- function(redcap_project_uri, redcap_project_token, nrecords = 10
                                                             sampledist=="rskew" ~ sort(rtnorm(n=length(range))^5))})}),
                     value = purrr::map(value, function(x){as_datetime(paste0(as_date(x)," ",
                                                                              sample(0:23, nrecords,replace=TRUE),":",sample(0:59, nrecords,replace=TRUE),":",
-                                                                             sample(0:59, nrecords,replace=TRUE)))}),
+                                                                             sample(0:59, nrecords,replace=TRUE)),format="%Y-%m-%d %H:%M:%S")}),
                     value = purrr::map(value, function(x){case_when(1:nrecords %in% sample(1:nrecords, nrecords*propmiss, replace=F) ~ NA_Date_, TRUE ~ x)}))
 
     output <- bind_rows(metadata_character %>% select(variable_name, value),
                         metadata_factor %>% select(variable_name, value),
                         metadata_numeric %>% select(variable_name, value),
                         metadata_date %>% select(variable_name, value),
-                        metadata_datetime %>% select(variable_name, value)) %>%
+                        metadata_datetime_hm %>% select(variable_name, value),
+                        metadata_datetime_hms %>% select(variable_name, value)) %>%
       pivot_wider(names_from = "variable_name", values_from = "value") %>%
       tidyr::unnest(everything()) %>%
       select(any_of(metadata$variable_name))
@@ -158,7 +189,7 @@ redcap_synth <- function(redcap_project_uri, redcap_project_token, nrecords = 10
     simulation(nrecords=nrecords, propmiss = propmiss, sampledist = sampledist) %>%
     mutate(record_id= paste0("SIM-", 1:n())) %>%
     select(any_of(c("record_id", "redcap_data_access_group")), everything())
-
+View(df)
   # Incorporate repeating instruments if present
   if(nrow(metadata %>% filter(form_repeat=="Yes"))>0){
     # simulate repeating instrument data

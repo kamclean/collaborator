@@ -164,7 +164,8 @@ redcap_metadata <- function(redcap_project_uri, redcap_project_token, descriptiv
     dplyr::mutate(class = case_when(variable_type %in% c("slider", "calc") ~ "numeric",
                                     variable_type=="text" & variable_validation %in% c("number", "integer") ~ "numeric",
                                     variable_type == "text" & str_detect(variable_validation, "date_") ~ "date",
-                                    variable_type == "text" & str_detect(variable_validation, "datetime_") ~ "datetime",
+                                    variable_type == "text" & str_detect(variable_validation, "datetime_seconds") ~ "datetime_hms",
+                                    variable_type == "text" & str_detect(variable_validation, "datetime_") ~ "datetime_hm",
                                     variable_type %in% c("radio", "dropdown") ~ "factor",
                                     variable_type %in% c("yesno", "checkbox", "truefalse","file") ~ "factor",
                                     TRUE ~ "character")) %>%
@@ -178,7 +179,8 @@ redcap_metadata <- function(redcap_project_uri, redcap_project_token, descriptiv
     select(-slidersplit) %>%
     mutate(across(variable_validation_min:variable_validation_max,
                   function(x){case_when(class=="date"&x%in% c("today", "now") ~ as.character(Sys.Date()),
-                                        class=="datetime"&x%in% c("today", "now") ~ paste0(Sys.Date(), " 12:00:00"),
+                                        class=="datetime_hms"&x%in% c("today", "now") ~ paste0(Sys.Date(), " 12:00:00"),
+                                        class=="datetime_hm"&x%in% c("today", "now") ~ paste0(Sys.Date(), " 12:00"),
                                         TRUE ~ x)})) %>%
     mutate(form_repeat = ifelse(form_name %in% repeating_instruments_form, "Yes", "No") %>% factor())
 
