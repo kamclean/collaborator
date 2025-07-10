@@ -74,15 +74,18 @@ redcap_synth <- function(redcap_project_uri, redcap_project_token, nrecords = 10
     metadata_numeric <- metadata %>%
       dplyr::filter(variable_name %in% c(var_numeric)) %>%
       dplyr::select(-factor_level) %>%
-      dplyr::mutate(variable_validation_min = ifelse(is.na(variable_validation_min)==T,-10000, variable_validation_min),
-                    variable_validation_max = ifelse(is.na(variable_validation_max)==T,10000, variable_validation_max),
+      dplyr::mutate(variable_validation_min = ifelse(is.na(variable_validation_min)==T,-10000, variable_validation_min) %>% as.numeric(),
+                    variable_validation_max = ifelse(is.na(variable_validation_max)==T,10000, variable_validation_max) %>% as.numeric(),
                     sampledist = sampledist) %>%
       select(variable_name, variable_validation_min, variable_validation_max, sampledist) %>%
       dplyr::group_by(variable_name) %>%
-      # simulate factor levels
       dplyr::mutate(value = purrr::map(variable_name,
                                        function(x){
                                          range = variable_validation_min:variable_validation_max
+                                         if(length(range)==1){
+                                           diff = (variable_validation_max-variable_validation_min)/100
+                                           range = seq(variable_validation_min,variable_validation_max, by = diff)}
+
                                          sample(range, nrecords, replace=TRUE,
 
                                                 prob = if(sampledist =="equal"){NULL}else{
@@ -141,8 +144,9 @@ redcap_synth <- function(redcap_project_uri, redcap_project_token, nrecords = 10
 
                                                             sampledist=="rskew" ~ sort(rtnorm(n=length(range))^5))})}),
                     value = purrr::map(value, function(x){as_datetime(paste0(as_date(x)," ",
-                                                                             sample(0:23, nrecords,replace=TRUE),":",sample(0:59, nrecords,replace=TRUE),
-                                                                             sample(0:59, nrecords,replace=TRUE)),format="%Y-%m-%d %H:%M:%S")}),
+                                                                             sample(0:23, nrecords,replace=TRUE),":",
+                                                                             sample(0:59, nrecords,replace=TRUE),":00"),
+                                                                      format="%Y-%m-%d %H:%M:%S")}),
                     value = purrr::map(value, function(x){case_when(1:nrecords %in% sample(1:nrecords, nrecords*propmiss, replace=F) ~ NA_Date_, TRUE ~ x)}))
 
     metadata_datetime_hms <- metadata %>%
