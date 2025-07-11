@@ -296,8 +296,9 @@ redcap_data <- function(redcap_project_uri, redcap_project_token, forms = "all",
   if(nrow(meta_datetime)>0){
     for(i in c(1:nrow(meta_datetime))){
       data_labelled <- data_labelled %>%
-        dplyr::mutate_at(dplyr::vars(any_of(meta_datetime[[i]])),
-                         function(x){format(lubridate::as_datetime(x),format="%Y-%m-%d %H:%M:%S")})}}
+        dplyr::mutate(across(any_of(meta_datetime$variable_name),
+                             function(x){if(is.character(x)){as_datetime(x, format = "%Y-%m-%d %H:%M:%S")}else{x}}))}}
+
 
   # Logical
   if(nrow(meta_logical)>0){
