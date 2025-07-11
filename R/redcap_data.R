@@ -162,7 +162,7 @@ redcap_data <- function(redcap_project_uri, redcap_project_token, forms = "all",
                                           list(c("Incomplete","Unverified","Complete")),
                                           factor_label)) %>%
       dplyr::group_by(form_name) %>%
-      tidyr::fill(arm, redcap_event_name, .direction = "down") %>%
+      tidyr::fill(arm, redcap_event_name, form_repeat, .direction = "downup") %>%
       dplyr::ungroup()}
 
   data_labelled <- data %>% dplyr::select(-ends_with("___"))
@@ -178,22 +178,16 @@ redcap_data <- function(redcap_project_uri, redcap_project_token, forms = "all",
 
   if(("redcap_repeat_instance" %in% names(data_labelled))==T){
 
-    form_repeat <- data_labelled %>%
-      filter(is.na(redcap_repeat_instrument)==F) %>%
-      pull(redcap_repeat_instrument) %>% unique()
-
     record_repeat <- data_labelled %>%
       filter(is.na(redcap_repeat_instrument)==F) %>%
       pull(record_id) %>% unique()
 
     var_norepeat <- metadata %>%
-      dplyr::mutate(form_repeat = ifelse(form_name %in% form_repeat, "Yes", "No"))%>%
       filter(form_repeat=="No") %>%
       filter(! variable_name %in% c("record_id","redcap_data_access_group")) %>%
       dplyr::pull(variable_name)
 
     var_repeat <- metadata %>%
-      dplyr::mutate(form_repeat = ifelse(form_name %in% form_repeat, "Yes", "No"))%>%
       filter(form_repeat=="Yes") %>%
       dplyr::pull(variable_name)
 
@@ -210,8 +204,7 @@ redcap_data <- function(redcap_project_uri, redcap_project_token, forms = "all",
       dplyr::mutate(redcap_repeat_instance = ifelse(record_id %in% record_repeat, redcap_repeat_instance, 1)) %>%
       filter(redcap_repeat_instance!=0) %>%
       dplyr::distinct() %>%
-      dplyr::arrange(record_id, redcap_data_access_group,redcap_repeat_instance)}
-
+      dplyr::arrange(record_id, redcap_data_access_group,redcap_repeat_instrument, redcap_repeat_instance)}
 
   # Format checkbox variables
   if(checkbox_value=="label"){
