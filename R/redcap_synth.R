@@ -28,7 +28,6 @@ redcap_synth <- function(redcap_project_uri, redcap_project_token, nrecords = 10
     select(-n)
 
 
-
   # v2 idea - separately set skew for each variable? (if wanted)
   simulation <- function(metadata, nrecords, propmiss, sampledist){
 
@@ -193,7 +192,7 @@ redcap_synth <- function(redcap_project_uri, redcap_project_token, nrecords = 10
     simulation(nrecords=nrecords, propmiss = propmiss, sampledist = sampledist) %>%
     mutate(record_id= paste0("SIM-", 1:n())) %>%
     select(any_of(c("record_id", "redcap_data_access_group")), everything())
-View(df)
+
   # Incorporate repeating instruments if present
   if(nrow(metadata %>% filter(form_repeat=="Yes"))>0){
     # simulate repeating instrument data
@@ -275,4 +274,3 @@ View(df)
                                                         labels = unlist(df_factor$factor_label[i]))}))})}
 
   return(df)}
-
